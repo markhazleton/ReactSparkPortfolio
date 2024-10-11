@@ -1,60 +1,50 @@
-# ReactSparkPortfolio
-This is my first React Portfolio site used to learn react and vite
+# React + TypeScript + Vite
 
-**ReactSparkPortfolio** is a personal portfolio built with React and Vite, showcasing projects and skills developed by [Mark Hazleton](https://markhazleton.com). This portfolio serves as a hub for sharing web development projects, coding insights, and technology expertise.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## Features
+Currently, two official plugins are available:
 
-- Responsive design using Bootstrap 5
-- Dynamic routing for smooth navigation between sections
-- Interactive project carousel for showcasing work
-- Hosted on [Azure Static Web Apps](https://azure.microsoft.com/en-us/services/app-service/static/)
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Getting Started
+## Expanding the ESLint configuration
 
-To get a local copy of the project up and running, follow these simple steps.
+If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
 
-### Prerequisites
+- Configure the top-level `parserOptions` property like this:
 
-Make sure you have the following installed:
+```js
+export default tseslint.config({
+  languageOptions: {
+    // other options...
+    parserOptions: {
+      project: ['./tsconfig.node.json', './tsconfig.app.json'],
+      tsconfigRootDir: import.meta.dirname,
+    },
+  },
+})
+```
 
-- [Node.js](https://nodejs.org/) (v14+)
-- [npm](https://www.npmjs.com/) (v6+)
+- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
+- Optionally add `...tseslint.configs.stylisticTypeChecked`
+- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
 
-### Installation
+```js
+// eslint.config.js
+import react from 'eslint-plugin-react'
 
-1. Clone the repo
-2. Navigate into the directory
-3. Install dependencies
-4. Run the development server
-
-This will launch the project locally. Open your browser and navigate to `http://localhost:3000`.
-
-### Build for Production
-
-To create a production build of the app, run the build script. The production-ready files will be located in the `dist` folder.
-
-### Deploying to Azure
-
-This app is designed to be deployed to **Azure Static Web Apps**. See the deployment guide for more details.
-
-## Contributing
-
-If you'd like to contribute to **ReactSpark**, please follow these steps:
-
-1. Fork the repository.
-2. Create your feature branch.
-3. Commit your changes.
-4. Push to the branch.
-5. Open a pull request.
-
-## License
-
-Distributed under the MIT License. See `LICENSE` for more information.
-
----
-
-### Author
-
-**Mark Hazleton**  
-[markhazleton.com](https://markhazleton.com)
+export default tseslint.config({
+  // Set the react version
+  settings: { react: { version: '18.3' } },
+  plugins: {
+    // Add the react plugin
+    react,
+  },
+  rules: {
+    // other rules...
+    // Enable its recommended rules
+    ...react.configs.recommended.rules,
+    ...react.configs['jsx-runtime'].rules,
+  },
+})
+```

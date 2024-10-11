@@ -1,0 +1,23 @@
+{
+  "name": "Mark Hazleton",
+  "profession": "Solution Architect",
+  "introduction": "Hi, my name is Mark Hazleton and I specialize in full-stack development.",
+  "ctaText": "View My Work",
+  "ctaLink": "https://markhazleton.com",
+  "about": "Mark Hazleton is a full-stack developer with over 10 years of experience. He has worked with a variety of technologies and has a passion for building scalable applications.",
+  "skills": [
+    "JavaScript",
+    "TypeScript",
+    "React",
+    "Vue",
+    "Node.js",
+    "Express",
+    "MongoDB",
+    "PostgreSQL",
+    "Docker",
+    "Kubernetes",
+    "AWS",
+    "Azure",
+    "GCP"
+  ]
+}

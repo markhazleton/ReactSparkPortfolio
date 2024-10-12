@@ -1,15 +1,14 @@
+// src/components/Projects.tsx
 import React from 'react';
-import projects from '../data/projects.json'; // Adjust the path according to your project structure
-
-interface Project {
-  id: number;
-  image: string;
-  p: string; // Title
-  d: string; // Description
-  h: string; // Link (href)
-}
+import Project from '../models/Project';
 
 function Projects() {
+  const projects = Project.loadProjects(); // Load projects using the class method
+
+  if (projects.length === 0) {
+    return <p>No projects available at the moment.</p>;
+  }
+
   return (
     <section id="projects" className="py-5">
       <div className="container">
@@ -18,11 +17,11 @@ function Projects() {
           <div className="carousel-inner">
             {projects.map((project: Project, index: number) => (
               <div className={`carousel-item ${index === 0 ? 'active' : ''}`} key={project.id}>
-                <img src={project.image} className="d-block w-100" alt={project.p} />
+                <img src={project.image} className="d-block w-100" alt={project.formatTitle()} />
                 <div className="carousel-caption d-none d-md-block">
-                  <h5>{project.p}</h5>
-                  <p>{project.d}</p>
-                  <a href={project.h} className="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                  <h5>{project.formatTitle()}</h5>
+                  <p>{project.formatDescription()}</p>
+                  <a href={project.formatLink()} className="btn btn-primary" target="_blank" rel="noopener noreferrer">
                     View Project
                   </a>
                 </div>

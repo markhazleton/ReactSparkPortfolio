@@ -59,14 +59,5 @@
     "institution": "University of Texas",
     "duration": "July 2024 - April 2025"
   },
-  "certifications": [
-    {
-      "name": "Microsoft Certified: Azure Solutions Architect Expert",
-      "link": "https://www.microsoft.com/en-us/learning/azure-solutions-architect.aspx"
-    },
-    {
-      "name": "AWS Certified Solutions Architect",
-      "link": "https://aws.amazon.com/certification/certified-solutions-architect-associate/"
-    }
-  ]
+  "certifications": []
 }

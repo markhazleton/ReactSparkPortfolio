@@ -7,6 +7,7 @@ import Hero from './components/Hero';
 import About from './components/About';
 import Projects from './components/Projects';
 import Contact from './components/Contact';
+import Articles from './components/Articles'; // Import the Articles component
 import Footer from './components/Footer';
 const App = () => {
     // State to keep track of which section is active
@@ -15,6 +16,6 @@ const App = () => {
     const handleSectionChange = (section) => {
         setActiveSection(section);
     };
-    return (_jsxs("div", { className: "d-flex flex-column min-vh-100", children: [_jsx(Header, { onSectionChange: handleSectionChange }), _jsx("main", { className: "flex-grow-1 pt-5 mt-5 container", children: _jsx("div", { className: "row justify-content-center", children: _jsxs("div", { className: "col-md-10", children: [activeSection === 'home' && _jsx(Hero, {}), activeSection === 'about' && _jsx(About, {}), activeSection === 'projects' && _jsx(Projects, {}), activeSection === 'contact' && _jsx(Contact, {})] }) }) }), _jsx(Footer, {})] }));
+    return (_jsxs("div", { className: "d-flex flex-column min-vh-100", children: [_jsx(Header, { onSectionChange: handleSectionChange }), _jsx("main", { className: "flex-grow-1 pt-5 mt-5 container", children: _jsx("div", { className: "row justify-content-center", children: _jsxs("div", { className: "col-md-10", children: [activeSection === 'home' && _jsx(Hero, {}), activeSection === 'about' && _jsx(About, {}), activeSection === 'projects' && _jsx(Projects, {}), activeSection === 'contact' && _jsx(Contact, {}), activeSection === 'articles' && _jsx(Articles, {})] }) }) }), _jsx(Footer, {})] }));
 };
 export default App;

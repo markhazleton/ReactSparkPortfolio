@@ -8,9 +8,17 @@ const Header: React.FC<HeaderProps> = ({ onSectionChange }) => {
       <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top">
         <div className="container-fluid">
           <a className="navbar-brand" href="#" onClick={() => onSectionChange('home')}>
-            My Portfolio
+            Mark Hazleton
           </a>
-          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarNav">
@@ -28,6 +36,11 @@ const Header: React.FC<HeaderProps> = ({ onSectionChange }) => {
               <li className="nav-item">
                 <a className="nav-link" href="#" onClick={() => onSectionChange('projects')}>
                   Projects
+                </a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="#" onClick={() => onSectionChange('articles')}>
+                  Articles
                 </a>
               </li>
               <li className="nav-item">

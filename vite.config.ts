@@ -11,10 +11,11 @@ export default defineConfig({
   server: {
     port: 3000,
     proxy: {
-      "/api": {
-        target: "http://localhost:3000",
+      "/rss-feed": {
+        target: "https://markhazleton.com", // Target RSS feed domain
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ""),
+        rewrite: (path) => path.replace(/^\/rss-feed/, "/rss.xml"), // Rewrite to the RSS path
+        secure: true, // Set to true if you are using https
       },
     },
   },

@@ -8,7 +8,10 @@
     "esModuleInterop": true,
     "moduleResolution": "node",
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "incremental": true, // Enables faster builds with incremental compilation
+    "noEmit": true // Prevents emitting files during 'npm run dev'
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"] // Ensure dist is excluded
 }

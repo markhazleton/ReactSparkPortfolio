@@ -6,7 +6,7 @@ const About: React.FC = () => {
     <section id="about" className="py-5">
       <div className="container">
         {/* About Me Section */}
-        <h2 className="mb-4">About Me</h2>
+        <h2 className="mb-4">About Mark Hazleton</h2>
         <p>{profile.about}</p>
 
         {/* Skills Section */}
@@ -43,20 +43,6 @@ const About: React.FC = () => {
             <strong>Institution:</strong> {profile.education.institution} <br />
             <strong>Duration:</strong> {profile.education.duration}
           </p>
-        </div>
-
-        {/* Certifications Section */}
-        <div className="mt-5">
-          <h3>Certifications</h3>
-          <ul className="list-unstyled">
-            {profile.certifications.map((cert: any, index: number) => (
-              <li key={index} className="mb-2">
-                <a href={cert.link} target="_blank" rel="noopener noreferrer" className="text-decoration-none">
-                  {cert.name}
-                </a>
-              </li>
-            ))}
-          </ul>
         </div>
       </div>
     </section>

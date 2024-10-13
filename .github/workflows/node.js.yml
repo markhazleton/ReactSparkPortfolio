@@ -21,9 +21,7 @@ jobs:
         run: npm install
 
       - name: Build the project
-        run: |
-          npm run build
-          mv build docs
+        run: npm run build  # No need to move the folder since it's already output to docs
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3

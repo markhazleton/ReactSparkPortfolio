@@ -9,6 +9,7 @@ import Projects from './components/Projects';
 import Contact from './components/Contact';
 import Articles from './components/Articles';   // Import the Articles component
 import Footer from './components/Footer';
+import Joke from './components/Joke';   // Import the Joke component
 
 const App: React.FC = () => {
   // State to keep track of which section is active
@@ -37,8 +38,8 @@ const App: React.FC = () => {
             {/* Show the Projects section only if "projects" is active */}
             {activeSection === 'projects' && <Projects />}
 
-            {/* Show the Contact section only if "contact" is active */}
-            {activeSection === 'contact' && <Contact />}
+            {/* Show the Joke section only if "joke" is active */}
+            {activeSection === 'joke' && <Joke />}
 
             {/* Show the Articles section only if "articles" is active */}
             {activeSection === 'articles' && <Articles />}

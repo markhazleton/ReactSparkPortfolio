@@ -44,8 +44,8 @@ const Header: React.FC<HeaderProps> = ({ onSectionChange }) => {
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#" onClick={() => onSectionChange('contact')}>
-                  Contact
+                <a className="nav-link" href="#" onClick={() => onSectionChange('joke')}>
+                  Joke
                 </a>
               </li>
             </ul>

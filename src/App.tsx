@@ -1,55 +1,44 @@
 import 'bootstrap/dist/css/bootstrap.min.css';   // Import Bootstrap CSS
-import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // Import Bootstrap JS (for components like modals, dropdowns, etc.)
+import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // Import Bootstrap JS (required for dropdowns, modals, etc.)
 
-import React, { useState } from 'react';
+
+import { HashRouter, Route, Routes, Navigate } from 'react-router-dom';
 import Header from './components/Header';
-import Hero from './components/Hero';
-import About from './components/About';
-import Projects from './components/Projects';
-import Contact from './components/Contact';
-import Articles from './components/Articles';   // Import the Articles component
 import Footer from './components/Footer';
-import Joke from './components/Joke';   // Import the Joke component
+import { lazy, Suspense } from 'react';
+
+const Hero = lazy(() => import('./components/Hero'));
+const About = lazy(() => import('./components/About'));
+const Projects = lazy(() => import('./components/Projects'));
+const Articles = lazy(() => import('./components/Articles'));
+const Joke = lazy(() => import('./components/Joke'));
 
 const App: React.FC = () => {
-  // State to keep track of which section is active
-  const [activeSection, setActiveSection] = useState<string>('home');
-
-  // Handler to update the active section based on navigation clicks
-  const handleSectionChange = (section: string) => {
-    setActiveSection(section);
-  };
-
   return (
-    <div className="d-flex flex-column min-vh-100">
-      {/* Header section */}
-      <Header onSectionChange={handleSectionChange} />
+    <HashRouter>
+      <div className="d-flex flex-column min-vh-100">
+        <Header  />
 
-      {/* Main content area */}
-      <main className="flex-grow-1 pt-5 mt-5 container">
-        <div className="row justify-content-center">
-          <div className="col-md-10">
-            {/* Show the Hero section only if "home" is active */}
-            {activeSection === 'home' && <Hero />}
-
-            {/* Show the About section only if "about" is active */}
-            {activeSection === 'about' && <About />}
-
-            {/* Show the Projects section only if "projects" is active */}
-            {activeSection === 'projects' && <Projects />}
-
-            {/* Show the Joke section only if "joke" is active */}
-            {activeSection === 'joke' && <Joke />}
-
-            {/* Show the Articles section only if "articles" is active */}
-            {activeSection === 'articles' && <Articles />}
+        <main className="flex-grow-1 pt-5 mt-5 container">
+          <div className="row justify-content-center">
+            <div className="col-md-10">
+              <Suspense fallback={<div>Loading...</div>}>
+                <Routes>
+                  <Route path="/" element={<Hero />} />
+                  <Route path="/about" element={<About />} />
+                  <Route path="/projects" element={<Projects />} />
+                  <Route path="/joke" element={<Joke />} />
+                  <Route path="/articles" element={<Articles />} />
+                  <Route path="*" element={<Navigate to="/" />} />
+                </Routes>
+              </Suspense>
+            </div>
           </div>
-        </div>
-      </main>
+        </main>
 
-      {/* Footer section */}
-      <Footer />
-    </div>
+        <Footer />
+      </div>
+    </HashRouter>
   );
 };
 

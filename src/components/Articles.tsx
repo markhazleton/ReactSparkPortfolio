@@ -15,7 +15,7 @@ const Articles: React.FC = () => {
     const fetchRSSFeed = async () => {
       try {
         // Fetch the RSS file from the public folder
-        const response = await fetch('/rss.xml');
+        const response = await fetch(`${import.meta.env.BASE_URL}rss.xml`);
         const rssData = await response.text();
 
         // Log the raw XML data to ensure it's loaded correctly

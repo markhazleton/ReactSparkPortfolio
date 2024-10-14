@@ -1,15 +1,13 @@
-interface HeaderProps {
-  onSectionChange: (section: string) => void; // Function to change the active section
-}
+import { Link } from 'react-router-dom';
 
-const Header: React.FC<HeaderProps> = ({ onSectionChange }) => {
+const Header: React.FC = () => {
   return (
     <header>
       <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top">
         <div className="container-fluid">
-          <a className="navbar-brand" href="#" onClick={() => onSectionChange('home')}>
+          <Link className="navbar-brand" to="/">
             Mark Hazleton
-          </a>
+          </Link>
           <button
             className="navbar-toggler"
             type="button"
@@ -24,29 +22,29 @@ const Header: React.FC<HeaderProps> = ({ onSectionChange }) => {
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav">
               <li className="nav-item">
-                <a className="nav-link active" href="#" onClick={() => onSectionChange('home')}>
+                <Link className="nav-link active" to="/">
                   Home
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#" onClick={() => onSectionChange('about')}>
+                <Link className="nav-link" to="/about">
                   About
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#" onClick={() => onSectionChange('projects')}>
+                <Link className="nav-link" to="/projects">
                   Projects
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#" onClick={() => onSectionChange('articles')}>
+                <Link className="nav-link" to="/articles">
                   Articles
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#" onClick={() => onSectionChange('joke')}>
+                <Link className="nav-link" to="/joke">
                   Joke
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

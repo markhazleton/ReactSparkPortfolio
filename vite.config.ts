@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
 import * as dotenv from "dotenv";
+import { viteStaticCopy } from "vite-plugin-static-copy";
 
 // Load environment variables based on the current NODE_ENV or default to `.env`
 const envFileName = `.env.${process.env.NODE_ENV || "development"}`;
@@ -23,9 +24,20 @@ export default defineConfig({
   resolve: {
     alias: {
       "react-native": "react-native-web", // Alias for react-native-web
+      '@webfonts': '/webfonts', // Alias for webfonts
     },
   },
-  plugins: [react()],
+  plugins: [
+    react(),
+    viteStaticCopy({
+      targets: [
+        {
+          src: "node_modules/fontawesome-free/webfonts/*", // Update this to the correct path for your fonts
+          dest: "webfonts", // This will copy to 'dist/webfonts'
+        },
+      ],
+    }),
+  ],
   server: {
     port: 3000,
     proxy: {

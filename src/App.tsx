@@ -1,11 +1,10 @@
-import 'bootstrap/dist/css/bootstrap.min.css';   // Import Bootstrap CSS
-import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // Import Bootstrap JS (required for dropdowns, modals, etc.)
-
-
 import { HashRouter, Route, Routes, Navigate } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import { lazy, Suspense } from 'react';
+
+import './css/styles.css'; // Import the CSS includes bootstrap as part of scss
+import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // Import Bootstrap JavaScript bundle
 
 const Hero = lazy(() => import('./components/Hero'));
 const About = lazy(() => import('./components/About'));

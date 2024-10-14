@@ -1,5 +1,6 @@
 import React from 'react';
-import defaultProfile from '../data/profile.json'; // Adjust the path according to where you place profile.json
+import { ArrowRightCircle } from 'react-bootstrap-icons'; // Import Bootstrap Icons
+import defaultProfile from '../data/profile.json'; // Adjust the path according to your project structure
 
 interface Profile {
   name: string;
@@ -14,7 +15,7 @@ const renderHero = (profileData?: Profile) => {
   // Check if profile is null or empty
   if (!profile || Object.keys(profile).length === 0) {
     return (
-      <section id="hero" className="bg-secondary text-white text-center py-5">
+      <section id="hero" className="bg-danger text-white text-center py-5">
         <div className="container">
           <div className="row justify-content-center">
             <div className="col-md-8">
@@ -26,15 +27,16 @@ const renderHero = (profileData?: Profile) => {
       </section>
     );
   }
+
   return (
-    <section id="hero" className="bg-secondary text-white text-center py-5">
+    <section id="hero" className="bg-primary text-white text-center py-5">
       <div className="container">
-        <div className="row justify-content-center">
+        <div className="row justify-content-center align-items-center">
           <div className="col-md-8">
-            <h1 className="display-4">{profile.name}</h1>
-            <p className="lead">{profile.introduction}</p>
-            <a href={profile.ctaLink} className="btn btn-primary btn-lg mt-4">
-              {profile.ctaText}
+            <h1 className="display-3 text-white fw-bold">{profile.name}</h1>
+            <p className="lead fs-4">{profile.introduction}</p>
+            <a href={profile.ctaLink} className="btn btn-info btn-lg mt-4 d-inline-flex align-items-center">
+              {profile.ctaText} <ArrowRightCircle className="ms-2" size={24} />
             </a>
           </div>
         </div>

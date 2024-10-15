@@ -7,7 +7,7 @@ const buildDate = __BUILD_DATE__;
 const Footer: React.FC = () => {
   return (
     <View style={{ padding: 10 }}>
-      <Text>© 2025 Mark Hazleton. All rights reserved.</Text>
+      <Text>© 2024 Mark Hazleton. All rights reserved.</Text>
       <Text>Last Build: {buildDate}</Text>
     </View>
   );

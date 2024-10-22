@@ -17,9 +17,13 @@ const App: React.FC = () => {
   return (
     <HashRouter>
       <div className="d-flex flex-column min-vh-100">
-        <Header  />
+        {/* Sticky Header */}
+        <header className="sticky-top">
+          <Header />
+        </header>
 
-        <main className="flex-grow-1 pt-5 mt-5 container">
+        {/* Main Content */}
+        <main className="flex-grow-1 pt-5 container-fluid">
           <div className="row justify-content-center">
             <div className="col-md-10">
               <Suspense fallback={<div>Loading...</div>}>
@@ -37,7 +41,10 @@ const App: React.FC = () => {
           </div>
         </main>
 
-        <Footer />
+        {/* Fixed Footer */}
+        <footer className="fixed-bottom">
+          <Footer />
+        </footer>
       </div>
     </HashRouter>
   );

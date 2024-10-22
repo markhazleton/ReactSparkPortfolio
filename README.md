@@ -1,5 +1,13 @@
 # React + TypeScript + Vite
 
+**Hosted On GitHub Pages**
+[https://markhazleton.github.io/ReactSparkPortfolio/](https://markhazleton.github.io/ReactSparkPortfolio/)
+
+**Blog Posts About This Repository**
+- [Adding Weather to My Profile Application](https://markhazleton.com/articles/adding-weather-component-a-typescript-learning-journey.html)
+- [Building My First React Site Using Vite and GitHub](https://markhazleton.com/articles/building-my-first-react-site-using-vite.html)
+
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:

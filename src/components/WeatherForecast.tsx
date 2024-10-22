@@ -9,6 +9,8 @@ const WeatherForecast: React.FC = () => {
   const [error, setError] = useState<string>('');
 
   const fetchWeather = async () => {
+    if (!city) return;
+
     setLoading(true);
     setError('');  // Reset error message before fetching
     setWeatherData(null);  // Clear previous weather data
@@ -17,6 +19,10 @@ const WeatherForecast: React.FC = () => {
       const response = await fetch(
         `https://webspark.markhazleton.com/api/asyncspark/openweatherapi/weather?location=${city}`
       );
+
+      if (response.status === 429) {
+        throw new Error('429');  // Specifically handle the 429 Too Many Requests error
+      }
 
       if (!response.ok) {
         throw new Error(`Error: ${response.status} ${response.statusText}`);
@@ -30,9 +36,20 @@ const WeatherForecast: React.FC = () => {
         setError('Failed to fetch weather data. Please try again.');
       }
     } catch (err: any) {
-      setError(`Failed to fetch weather data: ${err.message}`);
+      if (err.message === '429') {
+        setError('Maximum request limit reached. Please try again later.');
+      } else {
+        setError(`Failed to fetch weather data: ${err.message}`);
+      }
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      fetchWeather();
     }
   };
 
@@ -47,6 +64,7 @@ const WeatherForecast: React.FC = () => {
               placeholder="Enter city" 
               value={city} 
               onChange={(e) => setCity(e.target.value)} 
+              onKeyDown={handleKeyDown} // Detects Enter key press
             />
           </Col>
           <Col md={4}>
@@ -76,40 +94,38 @@ const WeatherForecast: React.FC = () => {
             <Card.Body className="bg-light">
               <Row>
                 <Col md={6}>
-                <Row>
-                <Col md={6}>
-                  <p><strong>Temperature:</strong> {weatherData.currentConditions.temperature.toFixed(1)}°F</p>
-                  <p><strong>Conditions:</strong> {weatherData.currentConditions.conditionsDescription}</p>
-                  <p><strong>Humidity:</strong> {weatherData.currentConditions.humidity}%</p>
+                  <Row>
+                    <Col md={6}>
+                      <p><strong>Temperature:</strong> {weatherData.currentConditions.temperature.toFixed(1)}°F</p>
+                      <p><strong>Conditions:</strong> {weatherData.currentConditions.conditionsDescription}</p>
+                      <p><strong>Humidity:</strong> {weatherData.currentConditions.humidity}%</p>
+                    </Col>
+                    <Col md={6}>
+                      <p><strong>Pressure:</strong> {weatherData.currentConditions.pressure.toFixed(2)} hPa</p>
+                      <p><strong>Wind:</strong> {weatherData.currentConditions.windSpeed.toFixed(1)} mph, {weatherData.currentConditions.windDirection.name}</p>
+                      <p><strong>Visibility:</strong> {weatherData.currentConditions.visibility.toFixed(1)} miles</p>
+                    </Col>
+                  </Row>
+                  <Row className="mt-3">
+                    <Col>
+                      <p><strong>Cloud Cover:</strong> {weatherData.currentConditions.cloudCover}%</p>
+                      <p><strong>Last Observed:</strong> {new Date(weatherData.observationTimeUtc).toLocaleTimeString()} UTC</p>
+                    </Col>
+                  </Row>
                 </Col>
                 <Col md={6}>
-                  <p><strong>Pressure:</strong> {weatherData.currentConditions.pressure.toFixed(2)} hPa</p>
-                  <p><strong>Wind:</strong> {weatherData.currentConditions.windSpeed.toFixed(1)} mph, {weatherData.currentConditions.windDirection.name}</p>
-                  <p><strong>Visibility:</strong> {weatherData.currentConditions.visibility.toFixed(1)} miles</p>
+                  <h5>Location Map</h5>
+                  <MapComponent 
+                    latitude={weatherData.location.latitude} 
+                    longitude={weatherData.location.longitude} 
+                  />
                 </Col>
               </Row>
-              <Row className="mt-3">
-                <Col>
-                  <p><strong>Cloud Cover:</strong> {weatherData.currentConditions.cloudCover}%</p>
-                  <p><strong>Last Observed:</strong> {new Date(weatherData.observationTimeUtc).toLocaleTimeString()} UTC</p>
-                </Col>
-              </Row>
-                </Col>
-                <Col md={6}>
-                <h5>Location Map</h5>
-                <MapComponent 
-                  latitude={weatherData.location.latitude} 
-                  longitude={weatherData.location.longitude}   />
-                </Col>
-              </Row>
-
-
             </Card.Body>
             <Card.Footer className="text-muted">
               Data fetched at {new Date(weatherData.fetchTime).toLocaleString()}
             </Card.Footer>
           </Card>
-
         </>
       )}
     </Container>

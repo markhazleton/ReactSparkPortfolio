@@ -27748,6 +27748,7 @@ pre[class*=language-] {
 body {
   padding-top: 3.375rem;
   color: #6c757d;
+  padding-bottom: 60px; /* Height of the footer */
 }
 
 @media (min-width: 992px) {

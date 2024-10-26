@@ -51,6 +51,11 @@ const Header: React.FC = () => {
                   Weather
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/variant">
+                  PromptSpark
+                </Link>
+              </li>
             </ul>
           </div>
         </div>

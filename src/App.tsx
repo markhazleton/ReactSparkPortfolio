@@ -12,6 +12,7 @@ const Projects = lazy(() => import('./components/Projects'));
 const Articles = lazy(() => import('./components/Articles'));
 const Joke = lazy(() => import('./components/Joke'));
 const WeatherForecast = lazy(() => import('./components/WeatherForecast'));
+const VariantList = lazy(() => import('./components/VariantList'));
 
 const App: React.FC = () => {
   return (
@@ -34,6 +35,7 @@ const App: React.FC = () => {
                   <Route path="/joke" element={<Joke />} />
                   <Route path="/articles" element={<Articles />} />
                   <Route path="/weather" element={<WeatherForecast />} />
+                  <Route path="/variant" element={<VariantList />} />
                   <Route path="*" element={<Navigate to="/" />} />
                 </Routes>
               </Suspense>

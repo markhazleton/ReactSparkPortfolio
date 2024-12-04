@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, TextInput, FlatList, StyleSheet, Text, NativeSyntheticEvent, TextInputKeyPressEventData } from 'react-native';
+import { View, TextInput, FlatList, StyleSheet, Text, NativeSyntheticEvent, TextInputKeyPressEventData, ActivityIndicator } from 'react-native';
 import ReactMarkdown from 'react-markdown';
 import * as signalR from '@microsoft/signalr';
 import { Button } from 'react-bootstrap';
@@ -8,109 +8,123 @@ interface Message {
   id: string;
   user: string;
   content: string;
+  timestamp: string;
 }
 
 interface ChatProps {
   variantName: string;
-  initialMessage?: string; // Initial joke message
+  initialMessage?: string; // Initial message to send
 }
 
-const Chat: React.FC<ChatProps> = ({ variantName, initialMessage }) => {
+const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = '' }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [userName, setUserName] = useState('');
   const [userInput, setUserInput] = useState('');
   const [chatInput, setChatInput] = useState('');
-  const streamingBuffer = useRef(''); // Accumulated bot response chunks
+  const [isBotTyping, setIsBotTyping] = useState(false);
+  const [isConnecting, setIsConnecting] = useState(true);
+
+  const streamingBuffer = useRef('');
   const conversationId = useRef<string>(new Date().getTime().toString());
   const connection = useRef<signalR.HubConnection | null>(null);
-  const initialMessageSent = useRef(false); // Flag to check if the initial message is already sent
-  const streamingTimeoutRef = useRef<NodeJS.Timeout | null>(null); // Timeout for message completion detection
-  const isFirstChunk = useRef(true); // Track if this is the first chunk of the bot response
+  const streamingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const isFirstChunk = useRef(true);
 
   useEffect(() => {
-    // Set up connection to SignalR
-    connection.current = new signalR.HubConnectionBuilder()
-      .withUrl('https://webspark.markhazleton.com/chatHub')
-      .build();
+    const setupSignalRConnection = async () => {
+      try {
+        connection.current = new signalR.HubConnectionBuilder()
+          .withUrl('https://webspark.markhazleton.com/chatHub')
+          .build();
 
-    connection.current.start()
-      .then(() => {
+        await connection.current.start();
+        setIsConnecting(false);
         console.log('Connected to SignalR hub');
-      })
-      .catch(error => console.error('Connection failed: ', error));
 
-    // Handle receiving new messages from the server
-    connection.current.on('ReceiveMessage', (user: string, messageChunk: string) => {
-      console.log(`Received chunk from ${user}:`, messageChunk); // Log each chunk received
-
-      if (user === variantName) {
-        // Append each chunk to the streaming buffer
-        streamingBuffer.current += messageChunk;
-
-        // Clear and reset the timer for handling message completion
-        if (streamingTimeoutRef.current) clearTimeout(streamingTimeoutRef.current);
-
-        // If it's the first chunk, add it as a new message
-        if (isFirstChunk.current) {
-          setMessages((prevMessages) => [
-            ...prevMessages,
-            { id: `${Date.now()}`, user, content: messageChunk }
-          ]);
-          isFirstChunk.current = false;
-        } else {
-          // Update the last message with the new chunk for streaming effect
-          setMessages((prevMessages) => {
-            const updatedMessages = [...prevMessages];
-            const lastMessage = updatedMessages[updatedMessages.length - 1];
-            updatedMessages[updatedMessages.length - 1] = {
-              ...lastMessage,
-              content: lastMessage.content + messageChunk
-            };
-            return updatedMessages;
-          });
-        }
-
-        // Start a timeout to finalize the message after the last chunk
-        streamingTimeoutRef.current = setTimeout(() => {
-          isFirstChunk.current = true; // Reset for the next bot response
-          streamingBuffer.current = ''; // Clear buffer
-          streamingTimeoutRef.current = null;
-        }, 1000); // Adjust this delay as needed to detect end of message
-      } else {
-        // Non-streaming message (e.g., from user) – add directly
-        setMessages((prevMessages) => [
-          ...prevMessages,
-          { id: `${Date.now()}`, user, content: messageChunk }
-        ]);
+        connection.current.on('ReceiveMessage', handleReceiveMessage);
+      } catch (error) {
+        console.error('SignalR connection failed:', error);
+        setIsConnecting(false);
       }
-    });
+    };
+
+    setupSignalRConnection();
 
     return () => {
+      connection.current?.off('ReceiveMessage', handleReceiveMessage);
       connection.current?.stop();
-      if (streamingTimeoutRef.current) clearTimeout(streamingTimeoutRef.current); // Clean up timeout on unmount
+      if (streamingTimeoutRef.current) clearTimeout(streamingTimeoutRef.current);
     };
   }, [variantName]);
 
+  const handleReceiveMessage = (user: string, messageChunk: string) => {
+    if (user === variantName) {
+      setIsBotTyping(true);
+      streamingBuffer.current += sanitizeInput(messageChunk);
+
+      if (streamingTimeoutRef.current) clearTimeout(streamingTimeoutRef.current);
+
+      if (isFirstChunk.current) {
+        addNewMessage(messageChunk, user, true);
+        isFirstChunk.current = false;
+      } else {
+        updateLastMessage(messageChunk);
+      }
+
+      streamingTimeoutRef.current = setTimeout(() => {
+        isFirstChunk.current = true;
+        streamingBuffer.current = '';
+        setIsBotTyping(false);
+      }, 1000);
+    } else {
+      addNewMessage(messageChunk, user, false);
+    }
+  };
+
+  const addNewMessage = (content: string, user: string, isBot: boolean) => {
+    const sanitizedContent = sanitizeInput(content);
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      {
+        id: `${Date.now()}`,
+        user,
+        content: sanitizedContent,
+        timestamp: new Date().toLocaleTimeString(),
+      },
+    ]);
+    if (!isBot) setIsBotTyping(false);
+  };
+
+  const updateLastMessage = (chunk: string) => {
+    setMessages((prevMessages) => {
+      const updatedMessages = [...prevMessages];
+      const lastMessage = updatedMessages[updatedMessages.length - 1];
+      updatedMessages[updatedMessages.length - 1] = {
+        ...lastMessage,
+        content: lastMessage.content + chunk,
+      };
+      return updatedMessages;
+    });
+  };
+
+  const sanitizeInput = (input: string): string => {
+    return input.replace(/<\/?[^>]+(>|$)/g, ''); // Strips HTML tags
+  };
+
   const handleJoinChat = () => {
     if (userInput.trim()) {
-      setUserName(userInput);
+      setUserName(userInput.trim());
       setUserInput('');
-
-      // Send the initial joke message once the user has joined
-      if (initialMessage && !initialMessageSent.current) {
-        initialMessageSent.current = true; // Mark as sent
-        connection.current?.invoke('SendMessage', userInput, initialMessage, conversationId.current, variantName)
-          .catch(error => console.error('SendMessage failed: ', error));
+      if (initialMessage) {
+        connection.current?.invoke('SendMessage', userInput, initialMessage, conversationId.current, variantName).catch(console.error);
       }
     }
   };
 
   const handleSendMessage = () => {
-    if (userName && chatInput) {
-      // Only send the message to SignalR; do not add directly to `messages`
-      connection.current?.invoke('SendMessage', userName, chatInput, conversationId.current, variantName)
-        .catch(error => console.error('SendMessage failed: ', error));
-      setChatInput(''); // Clear the input field
+    if (userName && chatInput.trim()) {
+      connection.current?.invoke('SendMessage', userName, chatInput.trim(), conversationId.current, variantName).catch(console.error);
+      setChatInput('');
     }
   };
 
@@ -122,21 +136,25 @@ const Chat: React.FC<ChatProps> = ({ variantName, initialMessage }) => {
 
   const renderMessage = ({ item }: { item: Message }) => (
     <View style={[styles.messageContainer, item.user === variantName ? styles.botMessage : styles.userMessage]}>
-      <Text style={styles.user}>{item.user}:</Text>
+      <Text style={styles.user}>
+        {item.user} ({item.timestamp}):
+      </Text>
       <ReactMarkdown>{item.content}</ReactMarkdown>
     </View>
   );
 
   return (
     <View style={styles.container}>
-      {!userName ? (
+      {isConnecting ? (
+        <ActivityIndicator size="large" color="#0000ff" />
+      ) : !userName ? (
         <View style={styles.joinContainer}>
           <TextInput
             style={styles.input}
             placeholder="Enter your name"
             value={userInput}
-            onChangeText={(text) => setUserInput(text)}
-            onKeyPress={handleKeyPress} // Handle Enter key press
+            onChangeText={setUserInput}
+            onKeyPress={handleKeyPress}
           />
           <Button variant="primary" onClick={handleJoinChat}>
             Join Chat
@@ -150,12 +168,13 @@ const Chat: React.FC<ChatProps> = ({ variantName, initialMessage }) => {
             keyExtractor={(item) => item.id}
             contentContainerStyle={{ paddingBottom: 20 }}
           />
+          {isBotTyping && <Text style={styles.typingIndicator}>Bot is typing...</Text>}
           <View style={styles.inputGroup}>
             <TextInput
               style={styles.input}
               placeholder="Type your message..."
               value={chatInput}
-              onChangeText={(text) => setChatInput(text)}
+              onChangeText={setChatInput}
               onSubmitEditing={handleSendMessage}
             />
             <Button variant="primary" onClick={handleSendMessage}>
@@ -179,8 +198,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   chatContainer: {
-    height: '90vh', // 90% of the viewport height
-    overflow: 'scroll', // Enables scrolling within the chat container
     flex: 1,
   },
   inputGroup: {
@@ -211,6 +228,11 @@ const styles = StyleSheet.create({
   },
   user: {
     fontWeight: 'bold',
+  },
+  typingIndicator: {
+    fontStyle: 'italic',
+    textAlign: 'center',
+    marginVertical: 10,
   },
 });
 

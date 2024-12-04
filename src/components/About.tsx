@@ -58,7 +58,6 @@ const About: React.FC = () => {
               <p>
                 <strong>Program:</strong> {profile.education.program} <br />
                 <strong>Institution:</strong> {profile.education.institution} <br />
-                <strong>Duration:</strong> {profile.education.duration}
               </p>
             </div>
           </div>

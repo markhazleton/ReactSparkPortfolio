@@ -1,1 +1,0 @@
-import{b as t,g as e,r as o,j as m}from"./index-CuYwp3nq.js";import{c}from"./Button-ftxIvV4f.js";var i=t();const p=e(i),l=a=>o.forwardRef((s,r)=>m.jsx("div",{...s,ref:r,className:c(s.className,a)}));export{p as R,l as d,i as r};

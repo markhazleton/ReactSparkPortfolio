@@ -1,11 +1,12 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Modal, Button, Spinner, Card, Dropdown, DropdownButton, Alert } from 'react-bootstrap';
 import Chat from './Chat';
 
 interface Variant {
   id: string;
   name: string;
-  description: string;
+  description?: string;
 }
 
 const VariantList: React.FC = () => {
@@ -20,12 +21,11 @@ const VariantList: React.FC = () => {
         const response = await axios.get<Variant[]>('https://webspark.markhazleton.com/api/PromptSpark/Variant');
         setVariants(response.data);
       } catch (err) {
-        if (axios.isAxiosError(err) && err.response) {
-          setError(err.response.data?.message || 'Failed to load variants');
-        } else {
-          setError('Failed to load variants');
-        }
-        console.error("Error fetching variants:", err);
+        const message = axios.isAxiosError(err) && err.response
+          ? err.response.data?.message || 'Failed to load variants'
+          : 'An unexpected error occurred';
+        setError(message);
+        console.error('Error fetching variants:', err);
       } finally {
         setLoading(false);
       }
@@ -34,71 +34,101 @@ const VariantList: React.FC = () => {
     fetchVariants();
   }, []);
 
-  const handleVariantClick = useCallback((e: React.MouseEvent, variant: Variant) => {
-    e.preventDefault();
+  const handleSelectVariant = (variant: Variant) => {
     setSelectedVariant(variant);
-  }, []);
+  };
 
   const handleCloseModal = () => {
     setSelectedVariant(null);
   };
 
-  if (loading) return <div className="text-center my-4">Loading...</div>;
-  if (error) return <div className="alert alert-danger">{error}</div>;
-
   return (
     <div className="container">
-      <h2 className="mb-4">Variants List <i className="bi bi-card-list"></i></h2>
-      <ul className="list-group">
-        {variants.map((variant) => (
-          <li key={variant.id} className="list-group-item d-flex justify-content-between align-items-center" >
-            <a href="#" className="link-primary" onClick={(e) => handleVariantClick(e, variant)}>
-              {variant.name}
-            </a>
-            <i className="bi bi-arrow-right-circle"></i>
-          </li>
-        ))}
-      </ul>
+      <h2 className="mb-4">PromptSpark Variants</h2>
 
-      {/* Modal for variant details and chat messages */}
-      {selectedVariant && (
-        <div
-          className="modal fade show"
-          tabIndex={-1}
-          style={{ display: 'block' }}
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="variantModalTitle"
-        >
-          <div className="modal-dialog" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="variantModalTitle">
-                  {selectedVariant.name}
-                </h5>
-                <button
-                  type="button"
-                  className="btn-close"
-                  title="close"
-                  onClick={handleCloseModal}
-                  aria-label="Close modal"
-                ></button>
-              </div>
-              <div className="modal-body">
-                <p>{selectedVariant.description || 'No description available.'}</p>
-                <Chat variantName={selectedVariant.name} /> {/* Chat component for real-time messages */}
-              </div>
-              <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" onClick={handleCloseModal}>
-                  Close
-                </button>
-              </div>
-            </div>
-          </div>
+      {/* Bootstrap Card to Explain PromptSpark and Variants */}
+      <Card className="mb-4">
+        <Card.Body>
+          <Card.Title>What is PromptSpark?</Card.Title>
+          <Card.Text>
+            PromptSpark is a tool designed to help developers optimize their prompts for large language models (LLMs). 
+            A "Variant Spark" represents a specific configuration or version of a prompt, allowing users to compare, 
+            refine, and test different prompt strategies for their applications.
+          </Card.Text>
+          <Card.Text>
+            PromptSpark is a powerful framework designed to help users optimize their usage of language models like GPT. 
+            It provides a suite of tools for managing, tracking, and experimenting with prompts to enhance productivity 
+            and ensure reliable outputs. By structuring your interactions with language models, PromptSpark helps you achieve higher efficiency and better outcomes.
+          </Card.Text>
+          <Card.Subtitle className="mt-3 mb-2">What is a Variant Spark?</Card.Subtitle>
+          <Card.Text>
+            A variant spark is a customized configuration or specialized prompt template tailored to a specific use case. 
+            Variants allow you to adapt the behavior of the model for tasks like brainstorming, summarization, 
+            data analysis, or other specialized functions. Each variant acts as a starting point for focused 
+            and efficient interactions with the model.
+          </Card.Text>          <Card.Link href="https://webspark.markhazleton.com/PromptSpark/home/learnmore" target="_blank">
+            Learn more about PromptSpark
+          </Card.Link>
+        </Card.Body>
+      </Card>
+
+      {loading && (
+        <div className="text-center my-4">
+          <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
         </div>
       )}
-      {/* Overlay for modals */}
-      {selectedVariant && <div className="modal-backdrop fade show" onClick={handleCloseModal}></div>}
+
+      {error && (
+        <Alert variant="danger" onClose={() => setError(null)} dismissible>
+          {error}
+        </Alert>
+      )}
+
+      {!loading && !error && (
+        <>
+          {/* Dropdown for Variants */}
+          <DropdownButton
+            id="variant-dropdown"
+            title={selectedVariant ? selectedVariant.name : 'Select a Variant'}
+            className="mb-4"
+          >
+            {variants.map((variant) => (
+              <Dropdown.Item key={variant.id} onClick={() => handleSelectVariant(variant)}>
+                {variant.name}
+              </Dropdown.Item>
+            ))}
+          </DropdownButton>
+
+          {/* Button to Join Chat */}
+          <Button
+            variant="primary"
+            onClick={() => setSelectedVariant(selectedVariant)}
+            disabled={!selectedVariant}
+          >
+            Join Chat
+          </Button>
+        </>
+      )}
+
+      {/* Modal for Chat */}
+      {selectedVariant && (
+        <Modal show={true} onHide={handleCloseModal} centered>
+          <Modal.Header closeButton>
+            <Modal.Title>{selectedVariant.name}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <p>{selectedVariant.description || 'No description available.'}</p>
+            <Chat variantName={selectedVariant.name} />
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleCloseModal}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      )}
     </div>
   );
 };

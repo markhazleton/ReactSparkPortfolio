@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, TextInput, FlatList, StyleSheet, Text, NativeSyntheticEvent, TextInputKeyPressEventData, ActivityIndicator } from 'react-native';
+import { View, TextInput, FlatList, StyleSheet, Text, NativeSyntheticEvent, TextInputKeyPressEventData, ActivityIndicator, KeyboardAvoidingView, Platform } from 'react-native';
 import ReactMarkdown from 'react-markdown';
 import * as signalR from '@microsoft/signalr';
 import { Button } from 'react-bootstrap';
@@ -144,7 +144,10 @@ const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = '' }) => {
   );
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+    >
       {isConnecting ? (
         <ActivityIndicator size="large" color="#0000ff" />
       ) : !userName ? (
@@ -166,7 +169,7 @@ const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = '' }) => {
             data={messages}
             renderItem={renderMessage}
             keyExtractor={(item) => item.id}
-            contentContainerStyle={{ paddingBottom: 20 }}
+            contentContainerStyle={{ paddingBottom: 80 }}
           />
           {isBotTyping && <Text style={styles.typingIndicator}>Bot is typing...</Text>}
           <View style={styles.inputGroup}>
@@ -183,14 +186,14 @@ const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = '' }) => {
           </View>
         </View>
       )}
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    backgroundColor: '#fff',
   },
   joinContainer: {
     flex: 1,
@@ -203,14 +206,18 @@ const styles = StyleSheet.create({
   inputGroup: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 10,
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    padding: 10,
+    backgroundColor: '#fff',
   },
   input: {
     flex: 1,
     borderWidth: 1,
     borderColor: '#ccc',
     padding: 10,
-    marginVertical: 10,
     borderRadius: 5,
   },
   messageContainer: {

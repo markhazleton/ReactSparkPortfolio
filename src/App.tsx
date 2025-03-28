@@ -6,6 +6,7 @@ import { lazy, Suspense } from 'react';
 import './css/styles.css'; // Import the CSS includes bootstrap as part of scss
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // Import Bootstrap JavaScript bundle
 
+// Lazy loaded components for better performance
 const Hero = lazy(() => import('./components/Hero'));
 const About = lazy(() => import('./components/About'));
 const Projects = lazy(() => import('./components/Projects'));
@@ -23,11 +24,17 @@ const App: React.FC = () => {
           <Header />
         </header>
 
-        {/* Main Content */}
-        <main className="flex-grow-1 pt-5 container-fluid">
+        {/* Main Content with padding to prevent content hiding behind footer */}
+        <main className="flex-grow-1 container-fluid py-5 mb-5">
           <div className="row justify-content-center">
-            <div className="col-md-10">
-              <Suspense fallback={<div>Loading...</div>}>
+            <div className="col-md-10 col-lg-8">
+              <Suspense fallback={
+                <div className="text-center p-5">
+                  <div className="spinner-border text-primary" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                  </div>
+                </div>
+              }>
                 <Routes>
                   <Route path="/" element={<Hero />} />
                   <Route path="/about" element={<About />} />
@@ -43,8 +50,8 @@ const App: React.FC = () => {
           </div>
         </main>
 
-        {/* Fixed Footer */}
-        <footer className="fixed-bottom">
+        {/* Footer that's not fixed to allow scrolling */}
+        <footer className="mt-auto bg-light border-top">
           <Footer />
         </footer>
       </div>

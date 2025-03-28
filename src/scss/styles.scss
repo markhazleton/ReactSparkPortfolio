@@ -14,6 +14,11 @@
 
 @import "leaflet/dist/leaflet.css";
 
+// Import custom styles
+@import "./custom.scss";
+
+// Import utilities
+@import "./utilities/custom-utilities.scss";
 
 // Global CSS
 @import "./global.scss";

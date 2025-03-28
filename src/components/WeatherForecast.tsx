@@ -1,27 +1,57 @@
-import React, { useState } from 'react';
-import { Container, Form, Button, Card, Row, Col, Spinner } from 'react-bootstrap';
-import MapComponent from './MapComponent';  // Import the MapComponent
+import React, { useState, useEffect } from 'react';
+import { 
+  GeoAlt, 
+  Thermometer, 
+  Droplet, 
+  Wind, 
+  Eye, 
+  CloudFill, 
+  Calendar3, 
+  Clock, 
+  Search,
+  ExclamationTriangle,
+  ArrowClockwise
+} from 'react-bootstrap-icons';
+import MapComponent from './MapComponent';
 
 const WeatherForecast: React.FC = () => {
   const [city, setCity] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [weatherData, setWeatherData] = useState<any>(null);
   const [error, setError] = useState<string>('');
+  const [recentSearches, setRecentSearches] = useState<string[]>([]);
 
-  const fetchWeather = async () => {
-    if (!city) return;
+  // Load recent searches from localStorage on component mount
+  useEffect(() => {
+    const savedSearches = localStorage.getItem('weatherSearches');
+    if (savedSearches) {
+      setRecentSearches(JSON.parse(savedSearches));
+    }
+  }, []);
+
+  // Save recent searches to localStorage
+  const saveSearch = (location: string) => {
+    if (!location || recentSearches.includes(location)) return;
+    
+    const updatedSearches = [location, ...recentSearches.slice(0, 4)];
+    setRecentSearches(updatedSearches);
+    localStorage.setItem('weatherSearches', JSON.stringify(updatedSearches));
+  };
+
+  const fetchWeather = async (searchCity: string = city) => {
+    if (!searchCity) return;
 
     setLoading(true);
-    setError('');  // Reset error message before fetching
-    setWeatherData(null);  // Clear previous weather data
+    setError('');
+    setWeatherData(null);
 
     try {
       const response = await fetch(
-        `https://webspark.markhazleton.com/api/asyncspark/openweatherapi/weather?location=${city}`
+        `https://webspark.markhazleton.com/api/asyncspark/openweatherapi/weather?location=${searchCity}`
       );
 
       if (response.status === 429) {
-        throw new Error('429');  // Specifically handle the 429 Too Many Requests error
+        throw new Error('429');
       }
 
       if (!response.ok) {
@@ -32,6 +62,7 @@ const WeatherForecast: React.FC = () => {
 
       if (data.success) {
         setWeatherData(data);
+        saveSearch(searchCity);
       } else {
         setError('Failed to fetch weather data. Please try again.');
       }
@@ -53,82 +84,179 @@ const WeatherForecast: React.FC = () => {
     }
   };
 
+  const handleRecentSearch = (location: string) => {
+    setCity(location);
+    fetchWeather(location);
+  };
+
   return (
-    <Container className="mt-5">
-      <h1 className="text-center mb-4">Weather Forecast</h1>
-      <Form>
-        <Row className="mb-3">
-          <Col md={8}>
-            <Form.Control 
-              type="text" 
-              placeholder="Enter city" 
-              value={city} 
-              onChange={(e) => setCity(e.target.value)} 
-              onKeyDown={handleKeyDown} // Detects Enter key press
-            />
-          </Col>
-          <Col md={4}>
-            <Button 
-              variant="primary" 
-              onClick={fetchWeather}
-              disabled={!city || loading}
-            >
-              {loading ? <Spinner animation="border" size="sm" /> : 'Get Forecast'}
-            </Button>
-          </Col>
-        </Row>
-      </Form>
-
-      {/* Error message */}
-      {error && <div className="alert alert-danger">{error}</div>}
-
-      {/* Weather data */}
-      {weatherData && (
-        <>
-          <Card className="mt-4 shadow border-primary">
-            <Card.Header className="bg-primary text-white">
-              <h5 className="mb-0 text-white">
-                <i className="bi bi-geo-alt-fill"></i> Weather in {weatherData.location.name}
-              </h5>
-            </Card.Header>
-            <Card.Body className="bg-light">
-              <Row>
-                <Col md={6}>
-                  <Row>
-                    <Col md={6}>
-                      <p><strong>Temperature:</strong> {weatherData.currentConditions.temperature.toFixed(1)}°F</p>
-                      <p><strong>Conditions:</strong> {weatherData.currentConditions.conditionsDescription}</p>
-                      <p><strong>Humidity:</strong> {weatherData.currentConditions.humidity}%</p>
-                    </Col>
-                    <Col md={6}>
-                      <p><strong>Pressure:</strong> {weatherData.currentConditions.pressure.toFixed(2)} hPa</p>
-                      <p><strong>Wind:</strong> {weatherData.currentConditions.windSpeed.toFixed(1)} mph, {weatherData.currentConditions.windDirection.name}</p>
-                      <p><strong>Visibility:</strong> {weatherData.currentConditions.visibility.toFixed(1)} miles</p>
-                    </Col>
-                  </Row>
-                  <Row className="mt-3">
-                    <Col>
-                      <p><strong>Cloud Cover:</strong> {weatherData.currentConditions.cloudCover}%</p>
-                      <p><strong>Last Observed:</strong> {new Date(weatherData.observationTimeUtc).toLocaleTimeString()} UTC</p>
-                    </Col>
-                  </Row>
-                </Col>
-                <Col md={6}>
-                  <h5>Location Map</h5>
-                  <MapComponent 
-                    latitude={weatherData.location.latitude} 
-                    longitude={weatherData.location.longitude} 
+    <div className="container py-4">
+      <div className="row">
+        <div className="col-lg-8 mx-auto">
+          <div className="card shadow-sm mb-4">
+            <div className="card-header bg-primary text-white">
+              <h2 className="h4 mb-0">
+                <Thermometer className="me-2" /> Weather Forecast
+              </h2>
+            </div>
+            <div className="card-body">
+              <form>
+                <div className="input-group mb-3">
+                  <span className="input-group-text bg-light">
+                    <Search />
+                  </span>
+                  <input
+                    type="text"
+                    className="form-control form-control-lg"
+                    placeholder="Enter city or zip code"
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
+                    onKeyDown={handleKeyDown}
                   />
-                </Col>
-              </Row>
-            </Card.Body>
-            <Card.Footer className="text-muted">
-              Data fetched at {new Date(weatherData.fetchTime).toLocaleString()}
-            </Card.Footer>
-          </Card>
-        </>
-      )}
-    </Container>
+                  <button
+                    className="btn btn-primary"
+                    type="button"
+                    onClick={() => fetchWeather()}
+                    disabled={!city || loading}
+                  >
+                    {loading ? (
+                      <>
+                        <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                        Loading...
+                      </>
+                    ) : (
+                      <>Get Forecast</>
+                    )}
+                  </button>
+                </div>
+              </form>
+              
+              {/* Recent searches */}
+              {recentSearches.length > 0 && (
+                <div className="mb-4">
+                  <small className="text-muted d-block mb-2">Recent searches:</small>
+                  <div className="d-flex flex-wrap gap-2">
+                    {recentSearches.map((location, index) => (
+                      <button
+                        key={index}
+                        className="btn btn-sm btn-outline-secondary"
+                        onClick={() => handleRecentSearch(location)}
+                      >
+                        {location}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Error message */}
+              {error && (
+                <div className="alert alert-danger d-flex align-items-center" role="alert">
+                  <ExclamationTriangle className="me-2 flex-shrink-0" />
+                  <div>{error}</div>
+                </div>
+              )}
+
+              {/* Weather data */}
+              {weatherData && (
+                <div className="mt-4">
+                  <div className="card border-primary mb-4">
+                    <div className="card-header bg-primary text-white">
+                      <h3 className="h5 mb-0 d-flex align-items-center">
+                        <GeoAlt className="me-2" />
+                        Weather in {weatherData.location.name}
+                      </h3>
+                    </div>
+                    <div className="card-body">
+                      <div className="row">
+                        <div className="col-md-6 mb-4 mb-md-0">
+                          <div className="d-flex align-items-center mb-4">
+                            <div className="display-4 me-3">
+                              {weatherData.currentConditions.temperature.toFixed(1)}°F
+                            </div>
+                            <div>
+                              <div className="h5">{weatherData.currentConditions.conditionsDescription}</div>
+                              <div className="text-muted">
+                                Feels like {weatherData.currentConditions.feelsLike?.toFixed(1) || '--'}°F
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="row g-3">
+                            <div className="col-6">
+                              <div className="d-flex align-items-center">
+                                <Droplet className="text-primary me-2" />
+                                <div>
+                                  <div className="text-muted small">Humidity</div>
+                                  <div>{weatherData.currentConditions.humidity}%</div>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="col-6">
+                              <div className="d-flex align-items-center">
+                                <CloudFill className="text-primary me-2" />
+                                <div>
+                                  <div className="text-muted small">Cloud Cover</div>
+                                  <div>{weatherData.currentConditions.cloudCover}%</div>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="col-6">
+                              <div className="d-flex align-items-center">
+                                <Wind className="text-primary me-2" />
+                                <div>
+                                  <div className="text-muted small">Wind</div>
+                                  <div>
+                                    {weatherData.currentConditions.windSpeed.toFixed(1)} mph
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="col-6">
+                              <div className="d-flex align-items-center">
+                                <Eye className="text-primary me-2" />
+                                <div>
+                                  <div className="text-muted small">Visibility</div>
+                                  <div>
+                                    {weatherData.currentConditions.visibility.toFixed(1)} mi
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="col-md-6">
+                          <div className="rounded overflow-hidden shadow-sm" style={{ height: '250px' }}>
+                            <MapComponent
+                              latitude={weatherData.location.latitude}
+                              longitude={weatherData.location.longitude}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="card-footer bg-white text-muted small">
+                      <div className="d-flex justify-content-between align-items-center">
+                        <div>
+                          <Calendar3 className="me-1" /> 
+                          Last updated: {new Date(weatherData.fetchTime).toLocaleString()}
+                        </div>
+                        <button 
+                          className="btn btn-sm btn-outline-secondary d-flex align-items-center"
+                          onClick={() => fetchWeather(weatherData.location.name)}
+                        >
+                          <ArrowClockwise className="me-1" /> Refresh
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 

@@ -50,7 +50,7 @@ const Hero: React.FC<{ profileData?: Profile }> = ({ profileData }) => {
       <div className="container">
         <div className="row align-items-center">
           <div className="col-lg-6 mb-4 mb-lg-0">
-            <div className="bg-primary text-white rounded-3 p-4 p-md-5 shadow-lg position-relative">
+            <div className="bg-information text-white rounded-3 p-4 p-md-5 shadow-lg position-relative">
               {/* Background overlay for better text contrast */}
               <div className="position-absolute top-0 start-0 end-0 bottom-0 bg-overlay rounded-3"></div>
               
@@ -96,19 +96,19 @@ const Hero: React.FC<{ profileData?: Profile }> = ({ profileData }) => {
                 <h3 className="card-title h4 mb-3">Quick Links</h3>
                 <div className="list-group list-group-flush">
                   <a href="/about" className="list-group-item list-group-item-action d-flex align-items-center border-0">
-                    <span className="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3 icon-circle">
+                    <span className="bg-information text-white rounded-circle d-flex align-items-center justify-content-center me-3 icon-circle">
                       <i className="bi bi-person"></i>
                     </span>
                     Learn more about me
                   </a>
                   <a href="/projects" className="list-group-item list-group-item-action d-flex align-items-center border-0">
-                    <span className="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3 icon-circle">
+                    <span className="bg-information text-white rounded-circle d-flex align-items-center justify-content-center me-3 icon-circle">
                       <i className="bi bi-briefcase"></i>
                     </span>
                     View my projects
                   </a>
                   <a href="/articles" className="list-group-item list-group-item-action d-flex align-items-center border-0">
-                    <span className="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3 icon-circle">
+                    <span className="bg-information text-white rounded-circle d-flex align-items-center justify-content-center me-3 icon-circle">
                       <i className="bi bi-journal-text"></i>
                     </span>
                     Read my articles
@@ -124,7 +124,7 @@ const Hero: React.FC<{ profileData?: Profile }> = ({ profileData }) => {
                 <p className="text-muted mb-3">This portfolio is built using modern web technologies:</p>
                 
                 <div className="d-flex flex-wrap gap-2 mb-3">
-                  <span className="badge bg-primary d-flex align-items-center p-2">
+                  <span className="badge bg-information d-flex align-items-center p-2">
                     <Braces className="me-1" /> React 19
                   </span>
                   <span className="badge bg-info text-dark d-flex align-items-center p-2">

@@ -87,7 +87,7 @@ const About: React.FC = () => {
                       <GeoAlt className="text-primary me-2" size={20} />
                       <h6 className="mb-0">Location</h6>
                     </div>
-                    <div className="small text-body-secondary">Dallas, TX</div>
+                    <div className="small text-body-secondary">Wichita, KS</div>
                   </div>
                 </div>
               </div>

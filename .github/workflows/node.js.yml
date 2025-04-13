@@ -19,7 +19,7 @@ jobs:
           node-version: '20'  # Updated to use Node.js 20
 
       - name: Install dependencies
-        run: npm install
+        run: npm install npm install --legacy-peer-deps
 
       - name: Clean the project
         run: npm run clean  # Added step to clean the project

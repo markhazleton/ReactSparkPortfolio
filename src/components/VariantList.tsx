@@ -187,13 +187,13 @@ const VariantList: React.FC = () => {
                     background: activeCategory === category
                       ? isDark 
                         ? 'linear-gradient(135deg, #2c7be5 0%, #1a68d1 100%)' // Custom blue gradient for dark mode
-                        : null // Use default Bootstrap styling for light mode
-                      : null,
+                        : undefined // Use default Bootstrap styling for light mode
+                      : undefined,
                     border: activeCategory === category
                       ? isDark
                         ? '1px solid #1a5fb4'
-                        : null
-                      : null,
+                        : undefined
+                      : undefined,
                   }}
                 >
                   {category === 'all' ? 'All Assistants' : category}

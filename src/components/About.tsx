@@ -101,8 +101,8 @@ const About: React.FC = () => {
                 <h2 className="h4 mb-4 d-flex align-items-center border-bottom pb-3">
                   <BookmarkStar className="text-primary me-2" /> Biography
                 </h2>
-                <p className="lead mb-2">{profile.introduction}</p>
-                <p>{profile.about}</p>
+                <p className="lead mb-2">As a Solutions Architect and lifelong learner, I create solutions that make technology work for businesses. With a focus on tangible benefits, I avoid getting sidetracked by sizzle that does not deliver. My extensive experience spans developing solutions for both on-premises and cloud-based providers, working with organizations of all sizes to deliver successful outcomes.</p>
+                <p>I am passionate about hiking, city exploration, and culinary adventures. Exploring new surroundings broadens my perspective, while outdoor cooking allows me to experiment with smoking and grilling techniques, fostering connections through the love of food.</p>
               </div>
             </div>
             
@@ -120,13 +120,11 @@ const About: React.FC = () => {
                       <CodeSlash className="text-primary me-2" /> Development
                     </h4>
                     <div>
-                      {profile.skills
-                        .filter(skill => ['JavaScript', 'TypeScript', 'React', 'Node.js', '.NET', 'ASP.NET Core'].includes(skill))
-                        .map((skill: string, index: number) => (
-                          <span key={index} className="skill-badge">
-                            {skill}
-                          </span>
-                        ))}
+                      {['JavaScript', 'TypeScript', 'React', 'Node.js', '.NET', 'ASP.NET Core', 'Bootstrap', 'jQuery'].map((skill, index) => (
+                        <span key={index} className="skill-badge">
+                          {skill}
+                        </span>
+                      ))}
                     </div>
                   </div>
                   
@@ -135,13 +133,11 @@ const About: React.FC = () => {
                       <i className="bi bi-database text-primary me-2"></i> Database & Cloud
                     </h4>
                     <div>
-                      {profile.skills
-                        .filter(skill => ['PostgreSQL', 'Docker', 'Azure', 'Kusto', 'GitHub Actions'].includes(skill))
-                        .map((skill: string, index: number) => (
-                          <span key={index} className="skill-badge">
-                            {skill}
-                          </span>
-                        ))}
+                      {['PostgreSQL', 'Docker', 'Azure', 'Kusto', 'GitHub Actions', 'Amazon Web Services'].map((skill, index) => (
+                        <span key={index} className="skill-badge">
+                          {skill}
+                        </span>
+                      ))}
                     </div>
                   </div>
                   
@@ -150,13 +146,11 @@ const About: React.FC = () => {
                       <i className="bi bi-front text-primary me-2"></i> Frontend
                     </h4>
                     <div>
-                      {profile.skills
-                        .filter(skill => ['React', 'Vite', 'PUG', 'Static Web Apps'].includes(skill))
-                        .map((skill: string, index: number) => (
-                          <span key={index} className="skill-badge">
-                            {skill}
-                          </span>
-                        ))}
+                      {['React', 'Vite', 'PUG', 'Static Web Apps', 'HTML', 'CSS'].map((skill, index) => (
+                        <span key={index} className="skill-badge">
+                          {skill}
+                        </span>
+                      ))}
                     </div>
                   </div>
                   
@@ -165,13 +159,11 @@ const About: React.FC = () => {
                       <i className="bi bi-graph-up text-primary me-2"></i> Data Analysis
                     </h4>
                     <div>
-                      {profile.skills
-                        .filter(skill => ['Data Science', 'Polly', 'Kusto'].includes(skill))
-                        .map((skill: string, index: number) => (
-                          <span key={index} className="skill-badge">
-                            {skill}
-                          </span>
-                        ))}
+                      {['Data Science', 'Polly', 'Kusto', 'Power BI'].map((skill, index) => (
+                        <span key={index} className="skill-badge">
+                          {skill}
+                        </span>
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -185,7 +177,11 @@ const About: React.FC = () => {
                   <JournalText className="text-primary me-2" /> Featured Articles
                 </h3>
                 <div className="list-group list-group-flush">
-                  {profile.articles.map((article: any, index: number) => (
+                  {[
+                    { title: 'Pedernales Cellars Winery in Texas Hill Country', link: 'https://markhazleton.com/articles/pedernales-cellars' },
+                    { title: 'The Impact of Input Case on LLM Categorization', link: 'https://markhazleton.com/articles/llm-categorization' },
+                    { title: 'AI-Assisted Development: Claude and GitHub Copilot', link: 'https://markhazleton.com/articles/ai-assisted-development' }
+                  ].map((article, index) => (
                     <a 
                       key={index} 
                       href={article.link} 

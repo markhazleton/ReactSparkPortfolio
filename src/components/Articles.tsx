@@ -21,20 +21,13 @@ import {
 } from 'react-bootstrap-icons';
 import { format } from 'date-fns';
 import { useTheme } from '../contexts/ThemeContext';
-
-interface Article {
-  title: string;
-  link: string;
-  pubDate: string;
-  category?: string;
-  description?: string;
-}
+import { fetchRssFeed, RssArticle } from '../services/RssService';
 
 type SortDirection = 'newest' | 'oldest';
 
 const Articles: React.FC = () => {
   const { theme } = useTheme();
-  const [articles, setArticles] = useState<Article[]>([]);
+  const [articles, setArticles] = useState<RssArticle[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>('');
@@ -49,98 +42,32 @@ const Articles: React.FC = () => {
   const [sortDirection, setSortDirection] = useState<SortDirection>('newest');
 
   useEffect(() => {
-    const fetchRSSFeed = async () => {
+    const loadArticles = async () => {
       try {
         setLoading(true);
         
-        // Use the proxy endpoint defined in vite.config.ts instead of direct URL
-        const response = await fetch('/rss-feed');
+        // Use our new service to fetch RSS articles with fallback
+        const articleData = await fetchRssFeed();
         
-        if (!response.ok) {
-          throw new Error(`Failed to fetch RSS feed: ${response.statusText}`);
-        }
-        
-        const rssData = await response.text();
-
-        const parser = new DOMParser();
-        const xmlDoc = parser.parseFromString(rssData, 'application/xml');
-        
-        if (xmlDoc.getElementsByTagName('parsererror').length > 0) {
-          throw new Error('Error parsing XML');
-        }
-        
-        const items = xmlDoc.getElementsByTagName('item');
-        
-        if (items.length === 0) {
-          setArticles([]);
-          setLoading(false);
-          return;
-        }
-
-        const parsedArticles: Article[] = [];
+        // Extract unique categories
         const categorySet = new Set<string>(['all']);
-        
-        // Process all items from the RSS feed
-        for (let i = 0; i < items.length; i++) {
-          const titleElement = items[i].getElementsByTagName('title')[0];
-          const linkElement = items[i].getElementsByTagName('link')[0];
-          const pubDateElement = items[i].getElementsByTagName('pubDate')[0];
-          const categoryElements = items[i].getElementsByTagName('category');
-          const descriptionElement = items[i].getElementsByTagName('description')[0];
-          
-          const title = titleElement?.textContent?.trim() || '';
-          const link = linkElement?.textContent?.trim() || '';
-          const pubDate = pubDateElement?.textContent?.trim() || '';
-          const description = descriptionElement?.textContent?.trim() || '';
-          
-          // Extract categories
-          let mainCategory = '';
-          if (categoryElements.length > 0) {
-            mainCategory = categoryElements[0]?.textContent?.trim() || '';
-            categorySet.add(mainCategory);
+        articleData.forEach(article => {
+          if (article.category) {
+            categorySet.add(article.category);
           }
-
-          // Parse the date from RSS pubDate format (RFC 822/2822)
-          let validPubDate = new Date().toISOString(); // Default fallback to now
-          try {
-            if (pubDate) {
-              // Convert RSS pubDate to a proper Date object
-              const date = new Date(pubDate);
-              
-              // Check if the date is valid
-              if (!isNaN(date.getTime())) {
-                validPubDate = date.toISOString();
-              }
-            }
-          } catch (e) {
-            console.error('Error parsing date:', pubDate, e);
-          }
-
-          parsedArticles.push({ 
-            title, 
-            link, 
-            pubDate: validPubDate,
-            category: mainCategory,
-            description
-          });
-        }
-
-        // Sort articles by publication date (newest first)
-        parsedArticles.sort((a, b) => {
-          return new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime();
         });
-
-        setArticles(parsedArticles);
+        
+        setArticles(articleData);
         setCategories(Array.from(categorySet));
         setLoading(false);
       } catch (err) {
-        console.error('Error fetching RSS feed:', err);
-        setError('Unable to load articles from markhazleton.com. Please try again later.');
+        console.error('Error loading articles:', err);
+        setError(err instanceof Error ? err.message : 'Unknown error loading articles');
         setLoading(false);
       }
     };
 
-    fetchRSSFeed();
+    loadArticles();
   }, []);
 
   // Reset to first page when search term or filter changes

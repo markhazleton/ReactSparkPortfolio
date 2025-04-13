@@ -29,10 +29,6 @@ const Footer: React.FC = () => {
                className="link-secondary" aria-label="LinkedIn" title="LinkedIn">
               <Linkedin size={22} />
             </a>
-            <a href="mailto:contact@markhazleton.com" className="link-secondary" 
-               aria-label="Email" title="Email">
-              <EnvelopeFill size={22} />
-            </a>
           </div>
         </div>
 

@@ -173,28 +173,7 @@ const VariantList: React.FC = () => {
               <Nav.Item key={category}>
                 <Nav.Link 
                   eventKey={category}
-                  className={`text-nowrap mx-1 ${isDark && activeCategory === category ? 'custom-active-nav' : ''}`}
-                  style={{
-                    color: isDark 
-                      ? activeCategory === category 
-                        ? '#ffffff' 
-                        : 'rgba(255, 255, 255, 0.9)'
-                      : activeCategory === category
-                        ? '#ffffff' // White text for active light mode tab
-                        : '#495057', // Bootstrap default text color for light theme
-                    fontWeight: activeCategory === category ? '600' : '400',
-                    textShadow: isDark ? '0px 0px 1px rgba(0,0,0,0.5)' : 'none',
-                    background: activeCategory === category
-                      ? isDark 
-                        ? 'linear-gradient(135deg, #2c7be5 0%, #1a68d1 100%)' // Custom blue gradient for dark mode
-                        : undefined // Use default Bootstrap styling for light mode
-                      : undefined,
-                    border: activeCategory === category
-                      ? isDark
-                        ? '1px solid #1a5fb4'
-                        : undefined
-                      : undefined,
-                  }}
+                  className={`text-nowrap mx-1 ${activeCategory === category ? 'category-active' : 'category-inactive'} ${isDark && activeCategory === category ? 'category-active-dark' : ''}`}
                 >
                   {category === 'all' ? 'All Assistants' : category}
                   {category !== 'all' && (
@@ -222,8 +201,7 @@ const VariantList: React.FC = () => {
                 {featuredVariants.map(variant => (
                   <div className="col" key={variant.id}>
                     <Card 
-                      className={`h-100 border-primary shadow-sm ${isDark ? 'bg-dark text-light border-primary' : ''}`}
-                      style={{ borderWidth: '2px' }}
+                      className={`h-100 border-primary shadow-sm border-2 ${isDark ? 'bg-dark text-light border-primary' : ''}`}
                     >
                       <Card.Body>
                         <div className="d-flex justify-content-between align-items-center mb-3">

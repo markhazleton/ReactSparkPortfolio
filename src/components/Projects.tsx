@@ -206,9 +206,8 @@ function Projects() {
               <div className={`card h-100 shadow-sm hover-shadow transition ${theme === 'dark' ? 'bg-dark text-light border-secondary' : ''}`}>
                 <img 
                   src={project.image} 
-                  className="card-img-top" 
+                  className="card-img-top img-project" 
                   alt={project.formatTitle()}
-                  style={{ height: '180px', objectFit: 'cover' }}
                 />
                 <div className="card-body">
                   <h5 className="card-title">{project.formatTitle()}</h5>

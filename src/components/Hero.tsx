@@ -1,5 +1,5 @@
-import React from 'react';
-import { ArrowRightCircle, Github, Linkedin, EnvelopeFill } from 'react-bootstrap-icons';
+import React, { useEffect } from 'react';
+import { ArrowRightCircle, Github, Linkedin, EnvelopeFill, JournalText, Braces, Bootstrap } from 'react-bootstrap-icons';
 import defaultProfile from '../data/profile.json';
 import { useTheme } from '../contexts/ThemeContext';
 
@@ -14,6 +14,20 @@ interface Profile {
 const Hero: React.FC<{ profileData?: Profile }> = ({ profileData }) => {
   const profile = profileData || defaultProfile;
   const { theme } = useTheme();
+
+  // Update document title and meta description dynamically
+  useEffect(() => {
+    // Update the document title
+    const pageTitle = `${profile.name} | ${profile.profession}`;
+    document.title = pageTitle;
+    
+    // Update meta description
+    const pageDescription = `Portfolio website of ${profile.name}, a ${profile.profession.toLowerCase()}. ${profile.introduction}`;
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', pageDescription);
+    }
+  }, [profile]);
 
   // Check if profile is null or empty
   if (!profile || Object.keys(profile).length === 0) {
@@ -32,56 +46,44 @@ const Hero: React.FC<{ profileData?: Profile }> = ({ profileData }) => {
   }
 
   return (
-    <section className="py-5">
+    <section className="hero-section py-5">
       <div className="container">
         <div className="row align-items-center">
           <div className="col-lg-6 mb-4 mb-lg-0">
-            <div className="bg-primary text-white rounded-3 p-4 p-md-5 shadow-lg" style={{ position: 'relative' }}>
+            <div className="bg-primary text-white rounded-3 p-4 p-md-5 shadow-lg position-relative">
               {/* Background overlay for better text contrast */}
-              <div style={{ 
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                background: 'rgba(0, 0, 0, 0.15)',
-                borderRadius: 'inherit',
-                zIndex: 1
-              }}></div>
+              <div className="position-absolute top-0 start-0 end-0 bottom-0 bg-overlay rounded-3"></div>
               
               {/* Content with improved visibility */}
-              <div style={{ position: 'relative', zIndex: 2 }}>
-                <h1 className="display-4 fw-bold mb-3" style={{ 
-                  textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3)',
-                  letterSpacing: '0.5px'
-                }}>{profile.name}</h1>
+              <div className="position-relative z-2">
+                <h1 className="display-4 fw-bold mb-3 text-shadow">
+                  {profile.name}
+                </h1>
                 
-                <h2 className="h3 mb-3 fw-light" style={{ 
-                  textShadow: '1px 1px 3px rgba(0, 0, 0, 0.3)',
-                  letterSpacing: '0.5px'
-                }}>{profile.profession}</h2>
+                <h2 className="h3 mb-3 fw-light text-shadow-sm">
+                  {profile.profession}
+                </h2>
                 
-                <p className="lead mb-4" style={{ 
-                  textShadow: '1px 1px 2px rgba(0, 0, 0, 0.2)',
-                  fontWeight: '400',
-                  lineHeight: '1.6'
-                }}>{profile.introduction}</p>
+                <p className="lead mb-4 text-shadow-sm">
+                  {profile.introduction}
+                </p>
                 
                 <div className="d-flex flex-wrap gap-2 mb-4">
                   <a href={profile.ctaLink} 
-                    className="btn btn-light btn-lg d-inline-flex align-items-center">
+                    className="btn btn-light btn-lg d-inline-flex align-items-center"
+                    aria-label={profile.ctaText}>
                     {profile.ctaText} <ArrowRightCircle className="ms-2" />
                   </a>
                   <a href="https://github.com/markhazleton" 
-                    className="btn btn-outline-light d-inline-flex align-items-center" 
+                    className="btn btn-outline-light d-inline-flex align-items-center border-2" 
                     target="_blank" rel="noopener noreferrer"
-                    style={{ borderWidth: '2px' }}>
+                    aria-label="Visit Mark Hazleton on GitHub">
                     <Github className="me-2" /> GitHub
                   </a>
                   <a href="https://www.linkedin.com/in/markhazleton/" 
-                    className="btn btn-outline-light d-inline-flex align-items-center" 
+                    className="btn btn-outline-light d-inline-flex align-items-center border-2" 
                     target="_blank" rel="noopener noreferrer"
-                    style={{ borderWidth: '2px' }}>
+                    aria-label="Connect with Mark Hazleton on LinkedIn">
                     <Linkedin className="me-2" /> LinkedIn
                   </a>
                 </div>
@@ -94,28 +96,62 @@ const Hero: React.FC<{ profileData?: Profile }> = ({ profileData }) => {
                 <h3 className="card-title h4 mb-3">Quick Links</h3>
                 <div className="list-group list-group-flush">
                   <a href="/about" className="list-group-item list-group-item-action d-flex align-items-center border-0">
-                    <span className="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style={{ width: '32px', height: '32px' }}>
+                    <span className="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3 icon-circle">
                       <i className="bi bi-person"></i>
                     </span>
                     Learn more about me
                   </a>
                   <a href="/projects" className="list-group-item list-group-item-action d-flex align-items-center border-0">
-                    <span className="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style={{ width: '32px', height: '32px' }}>
+                    <span className="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3 icon-circle">
                       <i className="bi bi-briefcase"></i>
                     </span>
                     View my projects
                   </a>
                   <a href="/articles" className="list-group-item list-group-item-action d-flex align-items-center border-0">
-                    <span className="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style={{ width: '32px', height: '32px' }}>
+                    <span className="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3 icon-circle">
                       <i className="bi bi-journal-text"></i>
                     </span>
                     Read my articles
                   </a>
-                  <a href="mailto:contact@markhazleton.com" className="list-group-item list-group-item-action d-flex align-items-center border-0">
-                    <span className="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style={{ width: '32px', height: '32px' }}>
-                      <EnvelopeFill size={16} />
-                    </span>
-                    Contact me
+                </div>
+              </div>
+            </div>
+
+            {/* Technology Stack Section */}
+            <div className="card border shadow-sm mt-4">
+              <div className="card-body">
+                <h3 className="card-title h4 mb-3">Built With</h3>
+                <p className="text-muted mb-3">This portfolio is built using modern web technologies:</p>
+                
+                <div className="d-flex flex-wrap gap-2 mb-3">
+                  <span className="badge bg-primary d-flex align-items-center p-2">
+                    <Braces className="me-1" /> React 19
+                  </span>
+                  <span className="badge bg-info text-dark d-flex align-items-center p-2">
+                    <i className="bi bi-filetype-tsx me-1"></i> TypeScript
+                  </span>
+                  <span className="badge bg-success d-flex align-items-center p-2">
+                    <i className="bi bi-lightning-charge me-1"></i> Vite
+                  </span>
+                  <span className="badge bg-secondary d-flex align-items-center p-2">
+                    <Bootstrap className="me-1" /> Bootstrap 5
+                  </span>
+                  <span className="badge bg-warning text-dark d-flex align-items-center p-2">
+                    <i className="bi bi-cup-hot me-1"></i> SCSS
+                  </span>
+                </div>
+
+                <div className="d-flex justify-content-between align-items-center">
+                  <a href="https://markhazleton.com/articles/building-my-first-react-site-using-vite.html" 
+                    className="btn btn-sm btn-outline-primary d-inline-flex align-items-center"
+                    target="_blank" rel="noopener noreferrer">
+                    <JournalText className="me-1" /> Read About This Project
+                  </a>
+                  
+                  <a href="https://github.com/markhazleton/ReactSparkPortfolio" 
+                    className="btn btn-sm btn-outline-dark d-inline-flex align-items-center"
+                    target="_blank" rel="noopener noreferrer">
+                    <Github className="me-1" /> View Source
                   </a>
                 </div>
               </div>

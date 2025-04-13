@@ -2,51 +2,51 @@
 // Colors
 //
 // Pre-state grayscale colors used in other variables
-$gray-800: #83580b;
+$gray-800: #3c4043; // Updated to a neutral dark gray
 
 // Override Bootstrap color system
 
-$orange: #d9b650;
+$orange: #e0a458; // Warmer, less saturated orange
 
 // Override Bootstrap default state colors
 
-$primary: #0d6efd;
+$primary: #4f6d7a; // Muted teal-blue
 $secondary: #6c757d;
-$success: #198754;
-$info: #0dcaf0;
-$warning: #ffc107;
-$danger: #dc3545;
+$success: #57886c; // Muted forest green
+$info: #7a9eb1; // Muted blue
+$warning: #e0a458; // Warmer orange
+$danger: #b05f6d; // Muted red
 
 // Custom color palette for light and dark modes
 
 // Light mode colors
 $light-theme: (
-  'background': #ffffff,
-  'background-alt': #f8f9fa,
-  'foreground': #212529,
-  'foreground-alt': #495057,
-  'foreground-muted': #6c757d,
-  'border': #dee2e6,
+  'background': #f8f9fa, // Slight off-white
+  'background-alt': #eef1f4, // Very light blue-gray
+  'foreground': #2d3436, // Dark charcoal
+  'foreground-alt': #4a5568, // Medium gray
+  'foreground-muted': #718096, // Light slate gray
+  'border': #dde2e5, // Light gray border
   'border-light': #e9ecef,
   'card-bg': #ffffff,
-  'primary-light': #cfe2ff,
+  'primary-light': #e9eff2, // Very light teal
   'secondary-light': #e2e3e5,
-  'accent': #6610f2,
+  'accent': #5a6f80, // Muted blue-gray accent
 );
 
 // Dark mode colors
 $dark-theme: (
-  'background': #212529,
-  'background-alt': #343a40,
-  'foreground': #f8f9fa,
-  'foreground-alt': #e9ecef,
-  'foreground-muted': #adb5bd,
-  'border': #495057,
-  'border-light': #343a40,
-  'card-bg': #2b3035,
-  'primary-light': #084298,
-  'secondary-light': #41464b,
-  'accent': #6f42c1,
+  'background': #1e2022, // Deep charcoal
+  'background-alt': #2c3032, // Dark gray with slight blue
+  'foreground': #e2e8f0, // Off-white text
+  'foreground-alt': #cbd5e0, // Light gray text
+  'foreground-muted': #a0aec0, // Muted bluish gray
+  'border': #3a4046, // Dark border
+  'border-light': #2d3339, // Very dark border
+  'card-bg': #252a2e, // Slightly lighter than background
+  'primary-light': #344955, // Darker teal
+  'secondary-light': #3e444a, // Dark gray
+  'accent': #6b7f94, // Muted blue-gray accent
 );
 
 // Theme switching functions

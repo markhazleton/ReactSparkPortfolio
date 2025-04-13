@@ -287,7 +287,7 @@ const Joke: React.FC = () => {
                       key={index} 
                       className="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
                     >
-                      <div className="text-truncate" style={{ maxWidth: '70%' }}>
+                      <div className="text-truncate max-width-70">
                         {historyJoke.type === 'single' 
                           ? historyJoke.joke 
                           : historyJoke.setup
@@ -344,8 +344,8 @@ const Joke: React.FC = () => {
             <QuestionCircle className="me-2 text-primary" /> Joke Explainer
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body className="p-0" style={{ height: '80vh', overflow: 'hidden' }}>
-          <div style={{ height: '100%', overflow: 'auto' }}>
+        <Modal.Body className="p-0 modal-tall">
+          <div className="h-100 overflow-auto">
             <Chat
               variantName="Joke Explainer"
               initialMessage={

@@ -16,9 +16,41 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  
-  /* Hover effects */
-  .hover-lift {
+
+/* Text shadow effects */
+.text-shadow {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  letter-spacing: 0.5px;
+}
+
+.text-shadow-sm {
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+  letter-spacing: 0.2px;
+}
+
+.text-shadow-lg {
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+  letter-spacing: 0.7px;
+}
+
+/* Category navigation styling */
+.category-active {
+  color: #ffffff !important;
+  font-weight: 600 !important;
+}
+
+.category-inactive {
+  font-weight: 400 !important;
+}
+
+.category-active-dark {
+  background: linear-gradient(135deg, var(--bs-primary) 0%, #344955 100%) !important;
+  border: 1px solid #3a4046 !important;
+  text-shadow: 0px 0px 1px rgba(0,0,0,0.5) !important;
+}
+
+/* Hover effects */
+.hover-lift {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
   
@@ -166,8 +198,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     background-color: var(--bs-light);
   }
@@ -282,7 +314,7 @@
   .z-index-3 {
     z-index: 3 !important;
   }
-  
+
   /* Custom width utilities */
   .w-30 {
     width: 30% !important;
@@ -308,3 +340,60 @@
   .opacity-90 {
     opacity: 0.90 !important;
   }
+
+/* Image styles */
+.img-project {
+  height: 180px;
+  object-fit: cover;
+}
+
+/* Map container */
+.map-container {
+  height: 250px;
+}
+
+/* Map Leaflet component */
+.map-leaflet {
+  height: 300px;
+  width: 100%;
+}
+
+/* Width constraints */
+.max-width-70 {
+  max-width: 70%;
+}
+
+/* Modal styling */
+.modal-tall {
+  height: 80vh;
+  overflow: hidden;
+}
+
+/* Background overlay */
+.bg-overlay {
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 1;
+}
+
+.bg-overlay-dark {
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 1;
+}
+
+.bg-overlay-light {
+  background: rgba(255, 255, 255, 0.15);
+  z-index: 1;
+}
+
+/* Z-index utilities */
+.z-1 {
+  z-index: 1 !important;
+}
+
+.z-2 {
+  z-index: 2 !important;
+}
+
+.z-3 {
+  z-index: 3 !important;
+}

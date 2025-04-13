@@ -18,36 +18,53 @@ $warning: #e0a458; // Warmer orange
 $danger: #b05f6d; // Muted red
 
 // Custom color palette for light and dark modes
+$white: #ffffff;
 
-// Light mode colors
+$theme-colors: (
+  "light":      #e8d9be,
+  "dark":       #0e0c08,
+  "primary":    #5c3404,
+  "secondary":  #8e6139,
+  "info":       #c29748,
+  "accent1":    #843f1a,
+  "accent2":    #a45e41,
+  "accent3":    #d2b18e,
+  "success":    #52a409,
+  "warning":    #ffbf56,
+  "danger":     #f10460,
+);
+
+// Define the light theme map
 $light-theme: (
-  'background': #f8f9fa, // Slight off-white
-  'background-alt': #eef1f4, // Very light blue-gray
-  'foreground': #2d3436, // Dark charcoal
-  'foreground-alt': #4a5568, // Medium gray
-  'foreground-muted': #718096, // Light slate gray
-  'border': #dde2e5, // Light gray border
-  'border-light': #e9ecef,
-  'card-bg': #ffffff,
-  'primary-light': #e9eff2, // Very light teal
-  'secondary-light': #e2e3e5,
-  'accent': #5a6f80, // Muted blue-gray accent
+  "background": map-get($theme-colors, "light"),    // light background
+  "text":       map-get($theme-colors, "dark"),     // dark text for readability
+  "primary":    map-get($theme-colors, "primary"),
+  "secondary":  map-get($theme-colors, "secondary"),
+  "info":       map-get($theme-colors, "info"),
+  "accent1":    map-get($theme-colors, "accent1"),
+  "accent2":    map-get($theme-colors, "accent2"),
+  "accent3":    map-get($theme-colors, "accent3"),
+  "success":    map-get($theme-colors, "success"),
+  "warning":    map-get($theme-colors, "warning"),
+  "danger":     map-get($theme-colors, "danger")
 );
 
-// Dark mode colors
+// Define the dark theme map
 $dark-theme: (
-  'background': #1e2022, // Deep charcoal
-  'background-alt': #2c3032, // Dark gray with slight blue
-  'foreground': #e2e8f0, // Off-white text
-  'foreground-alt': #cbd5e0, // Light gray text
-  'foreground-muted': #a0aec0, // Muted bluish gray
-  'border': #3a4046, // Dark border
-  'border-light': #2d3339, // Very dark border
-  'card-bg': #252a2e, // Slightly lighter than background
-  'primary-light': #344955, // Darker teal
-  'secondary-light': #3e444a, // Dark gray
-  'accent': #6b7f94, // Muted blue-gray accent
+  "background": map-get($theme-colors, "dark"),     // dark background
+  "text":       $white,                             // light text using $white
+  "primary":    map-get($theme-colors, "primary"),
+  "secondary":  map-get($theme-colors, "secondary"),
+  "info":       map-get($theme-colors, "info"),
+  "accent1":    map-get($theme-colors, "accent1"),
+  "accent2":    map-get($theme-colors, "accent2"),
+  "accent3":    map-get($theme-colors, "accent3"),
+  "success":    map-get($theme-colors, "success"),
+  "warning":    map-get($theme-colors, "warning"),
+  "danger":     map-get($theme-colors, "danger")
 );
+
+
 
 // Theme switching functions
 @function theme-color($key) {

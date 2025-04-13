@@ -1,0 +1,165 @@
+/* Theme-specific styles for light and dark mode */
+
+/* Smooth transition between themes */
+:root {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Additional styles for dark mode */
+[data-bs-theme="dark"] {
+  /* Use our custom theme colors */
+  --bs-body-bg: var(--color-background);
+  --bs-body-color: var(--color-foreground);
+  --bs-border-color: var(--color-border);
+  --bs-card-bg: var(--color-card-bg);
+  --bs-secondary-color: var(--color-foreground-muted);
+  
+  /* Improve contrast for code blocks in dark mode */
+  pre.code {
+    background: rgba(131, 88, 11, 0.4);
+    color: var(--color-foreground);
+    border-color: var(--color-border);
+  }
+
+  /* Ensure blockquotes are visible in dark mode */
+  blockquote {
+    background: var(--color-background-alt);
+    border-left: 10px solid var(--color-border);
+    color: var(--color-foreground);
+  }
+
+  /* Improve card and container borders in dark mode */
+  .card, .container, .list-group-item {
+    border-color: var(--color-border);
+  }
+
+  /* Ensure text in primary cards is readable */
+  .bg-primary {
+    color: #fff !important;
+  }
+
+  /* Custom focus styles for dark mode */
+  :focus {
+    outline-color: var(--bs-primary);
+  }
+  
+  /* Adjust header styles for dark mode */
+  .navbar-brand, .nav-link {
+    color: var(--color-foreground) !important;
+  }
+  
+  .nav-link.active {
+    color: var(--bs-primary) !important;
+  }
+}
+
+/* Additional styles for light mode */
+[data-bs-theme="light"] {
+  /* Use our custom theme colors */
+  --bs-body-bg: var(--color-background);
+  --bs-body-color: var(--color-foreground);
+  --bs-border-color: var(--color-border);
+  --bs-card-bg: var(--color-card-bg);
+  --bs-secondary-color: var(--color-foreground-muted);
+  
+  /* Ensure blockquotes have good contrast */
+  blockquote {
+    background: var(--color-background-alt);
+    border-left: 10px solid var(--color-border-light);
+    color: var(--color-foreground);
+  }
+
+  /* Custom focus styles for light mode */
+  :focus {
+    outline-color: var(--bs-primary);
+  }
+  
+  /* Adjust header styles for light mode */
+  .navbar-brand, .nav-link {
+    color: var(--color-foreground) !important;
+  }
+  
+  .nav-link.active {
+    color: var(--bs-primary) !important;
+  }
+}
+
+/* Skip link that works in both themes */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--color-background-alt);
+  color: var(--color-foreground);
+  padding: 8px;
+  z-index: 9999;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* Theme toggle button transitions */
+.btn-outline-primary, .btn-outline-dark, .btn-outline-light {
+  transition: all 0.3s ease;
+}
+
+/* Ensure SVG icons are visible in both modes */
+svg {
+  fill: currentColor;
+}
+
+/* Custom card styling for both themes */
+.card {
+  background-color: var(--color-card-bg);
+  border-color: var(--color-border);
+}
+
+/* Footer styling for both themes */
+footer {
+  background-color: var(--color-background-alt);
+}
+
+/* List group styling for both themes */
+.list-group-item {
+  background-color: var(--color-card-bg);
+  color: var(--color-foreground);
+}
+
+/* Form control styling for both themes */
+.form-control, .form-select {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  border-color: var(--color-border);
+}
+
+.form-control:focus, .form-select:focus {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  border-color: var(--bs-primary);
+}
+
+/* Table styling for both themes */
+table {
+  color: var(--color-foreground);
+  border-color: var(--color-border);
+}
+
+/* Modal styling for both themes */
+.modal-content {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  border-color: var(--color-border);
+}
+
+/* Toast styling for both themes */
+.toast {
+  background-color: var(--color-card-bg);
+  color: var(--color-foreground);
+  border-color: var(--color-border);
+}
+
+/* Alert styling for both themes */
+.alert {
+  border-color: var(--color-border);
+}

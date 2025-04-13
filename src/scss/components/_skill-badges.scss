@@ -1,0 +1,25 @@
+/* Custom styles for skill badges with theme support */
+
+.skill-badge {
+  display: inline-block;
+  padding: 0.25rem 0.6rem;
+  margin: 0.25rem;
+  border-radius: 1rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  background-color: var(--color-primary-light);
+  color: var(--bs-primary);
+  border: 1px solid var(--bs-primary);
+}
+
+/* Adjust appearance in dark mode */
+[data-bs-theme="dark"] .skill-badge {
+  background-color: rgba(13, 110, 253, 0.15);
+}
+
+/* Hover effect for skill badges */
+.skill-badge:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}

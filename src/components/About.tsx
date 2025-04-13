@@ -8,7 +8,8 @@ import {
   CodeSlash,
   BookmarkStar,
   Mortarboard,
-  Calendar3
+  Calendar3,
+  PersonCircle
 } from 'react-bootstrap-icons';
 import profile from '../data/profile.json';
 
@@ -22,33 +23,44 @@ const About: React.FC = () => {
               <div className="card-body text-center">
                 <div className="mb-4">
                   <div className="position-relative d-inline-block">
-                    <div className="ratio ratio-1x1 rounded-circle overflow-hidden bg-light mb-3 mx-auto" style={{ width: '150px' }}>
-                      <img 
-                        src="/assets/img/profile.jpg" 
-                        alt="Mark Hazleton" 
-                        onError={(e) => {
-                          e.currentTarget.src = 'https://via.placeholder.com/150?text=MH';
-                        }}
-                        className="img-fluid"
-                      />
+                    <div className="ratio ratio-1x1 rounded-circle overflow-hidden bg-body-tertiary mb-3 mx-auto d-flex align-items-center justify-content-center" style={{ width: '150px' }}>
+                      <PersonCircle className="text-primary" size={120} />
                     </div>
-                    <span className="position-absolute bottom-0 end-0 badge bg-primary rounded-circle p-2 border border-white">
+                    <span className="position-absolute bottom-0 end-0 badge bg-primary rounded-circle p-2 border border-light-subtle">
                       <BriefcaseFill size={16} />
                     </span>
                   </div>
                 </div>
                 
                 <h1 className="h3 mb-1">{profile.name}</h1>
-                <p className="text-muted mb-3">{profile.profession}</p>
+                <p className="text-body-secondary mb-3">{profile.profession}</p>
                 
                 <div className="d-flex justify-content-center mb-4">
-                  <a href="https://github.com/markhazleton" className="btn btn-sm btn-outline-dark mx-1" target="_blank" rel="noopener noreferrer">
+                  <a 
+                    href="https://github.com/markhazleton" 
+                    className="btn btn-sm btn-outline-secondary mx-1 d-flex align-items-center justify-content-center" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    style={{ width: '36px', height: '36px', borderRadius: '50%' }}
+                  >
                     <i className="bi bi-github"></i>
                   </a>
-                  <a href="https://www.linkedin.com/in/markhazleton/" className="btn btn-sm btn-outline-primary mx-1" target="_blank" rel="noopener noreferrer">
+                  <a 
+                    href="https://www.linkedin.com/in/markhazleton/" 
+                    className="btn btn-sm btn-outline-primary mx-1 d-flex align-items-center justify-content-center" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    style={{ width: '36px', height: '36px', borderRadius: '50%' }}
+                  >
                     <i className="bi bi-linkedin"></i>
                   </a>
-                  <a href="https://markhazleton.com" className="btn btn-sm btn-outline-info mx-1" target="_blank" rel="noopener noreferrer">
+                  <a 
+                    href="https://markhazleton.com" 
+                    className="btn btn-sm btn-outline-info mx-1 d-flex align-items-center justify-content-center" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    style={{ width: '36px', height: '36px', borderRadius: '50%' }}
+                  >
                     <i className="bi bi-globe"></i>
                   </a>
                 </div>
@@ -60,9 +72,9 @@ const About: React.FC = () => {
                       <h6 className="mb-0">Education</h6>
                     </div>
                     <div className="ps-4">
-                      <p className="mb-0 small text-muted">{profile.education.program}</p>
+                      <p className="mb-0 small text-body-secondary">{profile.education.program}</p>
                       <p className="mb-0 small">{profile.education.institution}</p>
-                      <p className="mb-0 small text-muted d-flex align-items-center">
+                      <p className="mb-0 small text-body-secondary d-flex align-items-center">
                         <Calendar3 size={12} className="me-1" /> {profile.education.duration || "2024-2025"}
                       </p>
                     </div>
@@ -75,7 +87,7 @@ const About: React.FC = () => {
                       <GeoAlt className="text-primary me-2" size={20} />
                       <h6 className="mb-0">Location</h6>
                     </div>
-                    <div className="small text-muted">Dallas, TX</div>
+                    <div className="small text-body-secondary">Dallas, TX</div>
                   </div>
                 </div>
               </div>
@@ -187,7 +199,7 @@ const About: React.FC = () => {
                         </span>
                         <div>
                           <h5 className="h6 mb-0">{article.title}</h5>
-                          <small className="text-muted">markhazleton.com</small>
+                          <small className="text-body-secondary">markhazleton.com</small>
                         </div>
                       </div>
                       <i className="bi bi-arrow-right text-primary"></i>

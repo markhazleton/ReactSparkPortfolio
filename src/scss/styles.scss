@@ -26,6 +26,8 @@
 // Components
 @import "./components/sidenav.scss";
 @import "./components/icons.scss";
+@import "./components/theme.scss"; // Theme styles for dark/light mode
+@import "./components/skill-badges.scss"; // Skill badge styles with theme support
 
 // Sections
 @import "./sections/resume-section.scss";

@@ -12,46 +12,73 @@ export interface RssArticle {
 }
 
 /**
- * Fetches the RSS feed from the live URL with fallback to local file
+ * Fetches the RSS feed with fallback to local file
  * @returns Array of parsed RSS articles
  */
 export const fetchRssFeed = async (): Promise<RssArticle[]> => {
+  const rssSourceUrl = "https://markhazleton.com/rss.xml";
+  const proxyUrl = "/api/proxy-rss"; // This would be implemented on your server/functions
+  const localRssPath = "/data/rss.xml";
+  
   try {
-    // First attempt: Try to fetch from live URL via proxy
-    const response = await fetch("/rss-feed", {
-      headers: { "Cache-Control": "no-cache" },
-      // Short timeout to prevent long waits if the server is slow
-      signal: AbortSignal.timeout(5000),
-    });
-
-    if (!response.ok) {
-      throw new Error(`Failed to fetch live RSS feed: ${response.statusText}`);
-    }
-
-    const rssData = await response.text();
-    return parseRssData(rssData);
-  } catch (error) {
-    console.warn(
-      "Error fetching live RSS feed, falling back to local version:",
-      error
-    );
-
+    // Try using the local proxy approach first (avoids CORS)
+    let rssData: string;
+    let sourceDescription: string;
+    
     try {
-      // Second attempt: Fallback to local file
-      const response = await fetch("/src/data/rss.xml");
-
+      console.log("Attempting to fetch RSS via local proxy...");
+      
+      // Use the local path which should be handled by a proxy middleware/function
+      const response = await fetch(proxyUrl, {
+        headers: { 
+          "Cache-Control": "no-cache",
+          "X-RSS-Source": rssSourceUrl // Tell our proxy where to get the real data
+        }
+      });
+      
       if (!response.ok) {
-        throw new Error(
-          `Failed to fetch local RSS file: ${response.statusText}`
-        );
+        throw new Error(`Proxy fetch failed: ${response.status} ${response.statusText}`);
       }
-
-      const rssData = await response.text();
-      return parseRssData(rssData);
-    } catch (fallbackError) {
-      console.error("Both live and local RSS feeds failed:", fallbackError);
-      throw new Error("Unable to load articles. Please try again later.");
+      
+      rssData = await response.text();
+      sourceDescription = "proxy";
+    } catch (proxyError) {
+      console.warn("Proxy fetch failed, trying local file:", proxyError);
+      
+      // Check if we have a cached version
+      const cachedData = localStorage.getItem('cachedRssData');
+      if (cachedData) {
+        console.log("Using cached RSS data from localStorage");
+        rssData = cachedData;
+        sourceDescription = "cache";
+      } else {
+        // Last resort: use the local file
+        const localResponse = await fetch(localRssPath);
+        if (!localResponse.ok) {
+          throw new Error(`Local RSS file fetch failed: ${localResponse.status}`);
+        }
+        rssData = await localResponse.text();
+        sourceDescription = "local file";
+      }
     }
+    
+    // Parse the RSS data regardless of source
+    const articles = parseRssData(rssData);
+    
+    // Store in localStorage for future fallback
+    try {
+      localStorage.setItem('cachedRssData', rssData);
+      localStorage.setItem('rssLastUpdated', new Date().toISOString());
+      localStorage.setItem('rssArticleCount', articles.length.toString());
+      localStorage.setItem('rssSource', sourceDescription);
+    } catch (storageError) {
+      console.warn("Failed to cache RSS data:", storageError);
+    }
+    
+    return articles;
+  } catch (error) {
+    console.error("All RSS fetching methods failed:", error);
+    throw new Error("Unable to load articles. Please try again later.");
   }
 };
 

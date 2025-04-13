@@ -12,9 +12,10 @@ const NotFound: React.FC = () => {
           <p className="lead mb-5">
             The page you're looking for doesn't exist or has been moved.
           </p>
-          <Button as={Link} to="/" variant="primary">
+          {/* Changed from Button as={Link} to a Link component with button styling */}
+          <Link to="/" className="btn btn-primary">
             Return to Home
-          </Button>
+          </Link>
         </Col>
       </Row>
     </Container>

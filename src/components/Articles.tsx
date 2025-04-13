@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import { 
   Card, 
   Spinner, 
@@ -67,7 +68,41 @@ const Articles: React.FC = () => {
       }
     };
 
+    const fetchRSS = async () => {
+      try {
+        const response = await axios.get('/rss.xml'); // Attempt to fetch the RSS feed
+        const parser = new DOMParser();
+        const xml = parser.parseFromString(response.data, 'text/xml');
+        const items = Array.from(xml.querySelectorAll('item')).map((item) => ({
+          title: item.querySelector('title')?.textContent || 'No title',
+          link: item.querySelector('link')?.textContent || '#',
+          description: item.querySelector('description')?.textContent || 'No description',
+        }));
+        setArticles(items);
+      } catch (err) {
+        console.error('Error fetching RSS feed:', err);
+        setError('Failed to fetch RSS feed. Falling back to local data.');
+
+        // Fallback to local rss.xml
+        try {
+          const localResponse = await axios.get('/data/rss.xml');
+          const parser = new DOMParser();
+          const xml = parser.parseFromString(localResponse.data, 'text/xml');
+          const items = Array.from(xml.querySelectorAll('item')).map((item) => ({
+            title: item.querySelector('title')?.textContent || 'No title',
+            link: item.querySelector('link')?.textContent || '#',
+            description: item.querySelector('description')?.textContent || 'No description',
+          }));
+          setArticles(items);
+        } catch (fallbackErr) {
+          console.error('Error fetching local RSS feed:', fallbackErr);
+          setError('Failed to fetch both remote and local RSS feeds.');
+        }
+      }
+    };
+
     loadArticles();
+    fetchRSS();
   }, []);
 
   // Reset to first page when search term or filter changes

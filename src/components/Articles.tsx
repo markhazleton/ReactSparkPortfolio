@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { 
   Card, 
   Spinner, 
@@ -7,8 +6,7 @@ import {
   Badge,
   Form,
   InputGroup,
-  Pagination,
-  Dropdown
+  Pagination
 } from 'react-bootstrap';
 import { 
   JournalRichtext, 
@@ -34,6 +32,9 @@ const Articles: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [filter, setFilter] = useState<string>('all');
   const [categories, setCategories] = useState<string[]>(['all']);
+  const [lastUpdated, setLastUpdated] = useState<string | null>(null);
+  const [debugInfo, setDebugInfo] = useState<string | null>(null);
+  const [dataSource, setDataSource] = useState<string | null>(null);
   
   // Pagination state
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -46,9 +47,12 @@ const Articles: React.FC = () => {
     const loadArticles = async () => {
       try {
         setLoading(true);
+        setDebugInfo("Attempting to fetch RSS feed...");
         
-        // Use our new service to fetch RSS articles with fallback
+        // Use our service to fetch RSS articles with fallback
         const articleData = await fetchRssFeed();
+        
+        setDebugInfo(`Successfully loaded ${articleData.length} articles from RSS feed`);
         
         // Extract unique categories
         const categorySet = new Set<string>(['all']);
@@ -60,49 +64,29 @@ const Articles: React.FC = () => {
         
         setArticles(articleData);
         setCategories(Array.from(categorySet));
+        
+        // Check localStorage for metadata
+        const rssLastUpdated = localStorage.getItem('rssLastUpdated');
+        const rssSource = localStorage.getItem('rssSource');
+        
+        if (rssLastUpdated) {
+          setLastUpdated(rssLastUpdated);
+        }
+        
+        if (rssSource) {
+          setDataSource(rssSource);
+        }
+        
         setLoading(false);
       } catch (err) {
         console.error('Error loading articles:', err);
         setError(err instanceof Error ? err.message : 'Unknown error loading articles');
+        setDebugInfo(`Error loading articles: ${err instanceof Error ? err.message : 'Unknown error'}`);
         setLoading(false);
       }
     };
 
-    const fetchRSS = async () => {
-      try {
-        const response = await axios.get('/rss.xml'); // Attempt to fetch the RSS feed
-        const parser = new DOMParser();
-        const xml = parser.parseFromString(response.data, 'text/xml');
-        const items = Array.from(xml.querySelectorAll('item')).map((item) => ({
-          title: item.querySelector('title')?.textContent || 'No title',
-          link: item.querySelector('link')?.textContent || '#',
-          description: item.querySelector('description')?.textContent || 'No description',
-        }));
-        setArticles(items);
-      } catch (err) {
-        console.error('Error fetching RSS feed:', err);
-        setError('Failed to fetch RSS feed. Falling back to local data.');
-
-        // Fallback to local rss.xml
-        try {
-          const localResponse = await axios.get('/data/rss.xml');
-          const parser = new DOMParser();
-          const xml = parser.parseFromString(localResponse.data, 'text/xml');
-          const items = Array.from(xml.querySelectorAll('item')).map((item) => ({
-            title: item.querySelector('title')?.textContent || 'No title',
-            link: item.querySelector('link')?.textContent || '#',
-            description: item.querySelector('description')?.textContent || 'No description',
-          }));
-          setArticles(items);
-        } catch (fallbackErr) {
-          console.error('Error fetching local RSS feed:', fallbackErr);
-          setError('Failed to fetch both remote and local RSS feeds.');
-        }
-      }
-    };
-
     loadArticles();
-    fetchRSS();
   }, []);
 
   // Reset to first page when search term or filter changes
@@ -166,6 +150,55 @@ const Articles: React.FC = () => {
     setSortDirection(sortDirection === 'newest' ? 'oldest' : 'newest');
   };
 
+  // Force refresh the RSS feed
+  const handleRefresh = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      setDebugInfo("Refreshing RSS feed...");
+      
+      // Clear cached data to force a fresh fetch
+      localStorage.removeItem('cachedRssData');
+      localStorage.removeItem('rssLastUpdated');
+      localStorage.removeItem('rssSource');
+      localStorage.removeItem('rssArticleCount');
+      
+      const articleData = await fetchRssFeed();
+      
+      setDebugInfo(`Successfully refreshed ${articleData.length} articles from RSS feed`);
+      
+      // Extract unique categories
+      const categorySet = new Set<string>(['all']);
+      articleData.forEach(article => {
+        if (article.category) {
+          categorySet.add(article.category);
+        }
+      });
+      
+      setArticles(articleData);
+      setCategories(Array.from(categorySet));
+      
+      // Check localStorage for updated metadata
+      const rssLastUpdated = localStorage.getItem('rssLastUpdated');
+      const rssSource = localStorage.getItem('rssSource');
+      
+      if (rssLastUpdated) {
+        setLastUpdated(rssLastUpdated);
+      }
+      
+      if (rssSource) {
+        setDataSource(rssSource);
+      }
+      
+      setLoading(false);
+    } catch (err) {
+      console.error('Error refreshing articles:', err);
+      setError(err instanceof Error ? err.message : 'Unknown error refreshing articles');
+      setDebugInfo(`Error refreshing articles: ${err instanceof Error ? err.message : 'Unknown error'}`);
+      setLoading(false);
+    }
+  };
+
   return (
     <section className="py-5" id="articles-section">
       <div className="container">
@@ -177,7 +210,18 @@ const Articles: React.FC = () => {
             </h2>
             <p className="text-body-secondary mt-2">
               Explore insights from Mark's personal blog
+              {lastUpdated && (
+                <small className="ms-2">
+                  (Last updated: {formatDate(lastUpdated)})
+                </small>
+              )}
             </p>
+            {(debugInfo || dataSource) && (
+              <div className="small text-muted mt-1">
+                {debugInfo && <div><strong>Status:</strong> {debugInfo}</div>}
+                {dataSource && <div><strong>Source:</strong> {dataSource}</div>}
+              </div>
+            )}
           </div>
           <div className="col-lg-6">
             <div className="d-flex gap-2 mb-3">
@@ -203,7 +247,22 @@ const Articles: React.FC = () => {
                   <><SortUp className="me-1" /> Oldest</>
                 )}
               </button>
+              <button
+                className={`btn ${theme === 'dark' ? 'btn-outline-primary' : 'btn-primary'} d-flex align-items-center`}
+                onClick={handleRefresh}
+                disabled={loading}
+                title="Refresh articles from source"
+              >
+                {loading ? 'Refreshing...' : 'Refresh'}
+              </button>
             </div>
+            
+            {/* Display article count for better visibility */}
+            {articles.length > 0 && (
+              <small className="d-block mb-2 text-body-secondary">
+                <strong>Total articles:</strong> {articles.length}
+              </small>
+            )}
             
             {categories.length > 1 && (
               <div className="d-flex flex-wrap gap-2 mt-2">

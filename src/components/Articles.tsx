@@ -3,10 +3,11 @@ import {
   Card, 
   Spinner, 
   Alert, 
-  ListGroup, 
   Badge,
   Form,
-  InputGroup 
+  InputGroup,
+  Pagination,
+  Dropdown
 } from 'react-bootstrap';
 import { 
   JournalRichtext, 
@@ -14,30 +15,46 @@ import {
   ArrowUpRightSquare, 
   Search,
   ExclamationTriangle,
-  InfoCircle 
+  InfoCircle,
+  SortDown,
+  SortUp
 } from 'react-bootstrap-icons';
-import { format, parseISO } from 'date-fns';
+import { format } from 'date-fns';
+import { useTheme } from '../contexts/ThemeContext';
 
 interface Article {
   title: string;
   link: string;
   pubDate: string;
   category?: string;
+  description?: string;
 }
 
+type SortDirection = 'newest' | 'oldest';
+
 const Articles: React.FC = () => {
+  const { theme } = useTheme();
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [filter, setFilter] = useState<string>('all');
   const [categories, setCategories] = useState<string[]>(['all']);
+  
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const articlesPerPage = 6;
+  
+  // Sorting state
+  const [sortDirection, setSortDirection] = useState<SortDirection>('newest');
 
   useEffect(() => {
     const fetchRSSFeed = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`${import.meta.env.BASE_URL}rss.xml`);
+        
+        // Use the proxy endpoint defined in vite.config.ts instead of direct URL
+        const response = await fetch('/rss-feed');
         
         if (!response.ok) {
           throw new Error(`Failed to fetch RSS feed: ${response.statusText}`);
@@ -63,15 +80,18 @@ const Articles: React.FC = () => {
         const parsedArticles: Article[] = [];
         const categorySet = new Set<string>(['all']);
         
+        // Process all items from the RSS feed
         for (let i = 0; i < items.length; i++) {
           const titleElement = items[i].getElementsByTagName('title')[0];
           const linkElement = items[i].getElementsByTagName('link')[0];
           const pubDateElement = items[i].getElementsByTagName('pubDate')[0];
           const categoryElements = items[i].getElementsByTagName('category');
+          const descriptionElement = items[i].getElementsByTagName('description')[0];
           
           const title = titleElement?.textContent?.trim() || '';
           const link = linkElement?.textContent?.trim() || '';
           const pubDate = pubDateElement?.textContent?.trim() || '';
+          const description = descriptionElement?.textContent?.trim() || '';
           
           // Extract categories
           let mainCategory = '';
@@ -80,19 +100,28 @@ const Articles: React.FC = () => {
             categorySet.add(mainCategory);
           }
 
-          // Parse the date to ensure it's valid
-          let validPubDate = pubDate;
+          // Parse the date from RSS pubDate format (RFC 822/2822)
+          let validPubDate = new Date().toISOString(); // Default fallback to now
           try {
-            parseISO(pubDate);
+            if (pubDate) {
+              // Convert RSS pubDate to a proper Date object
+              const date = new Date(pubDate);
+              
+              // Check if the date is valid
+              if (!isNaN(date.getTime())) {
+                validPubDate = date.toISOString();
+              }
+            }
           } catch (e) {
-            validPubDate = new Date().toISOString();
+            console.error('Error parsing date:', pubDate, e);
           }
 
           parsedArticles.push({ 
             title, 
             link, 
             pubDate: validPubDate,
-            category: mainCategory 
+            category: mainCategory,
+            description
           });
         }
 
@@ -106,7 +135,7 @@ const Articles: React.FC = () => {
         setLoading(false);
       } catch (err) {
         console.error('Error fetching RSS feed:', err);
-        setError('Unable to load articles. Please try again later.');
+        setError('Unable to load articles from markhazleton.com. Please try again later.');
         setLoading(false);
       }
     };
@@ -114,11 +143,23 @@ const Articles: React.FC = () => {
     fetchRSSFeed();
   }, []);
 
+  // Reset to first page when search term or filter changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, filter]);
+
   const formatDate = (dateString: string) => {
     try {
-      const date = parseISO(dateString);
-      return format(date, 'MMMM d, yyyy');
+      const date = new Date(dateString);
+      
+      // Check if the date is valid before formatting
+      if (!isNaN(date.getTime())) {
+        return format(date, 'MMMM d, yyyy');
+      }
+      
+      return 'Unknown date';
     } catch (e) {
+      console.error('Error formatting date:', dateString, e);
       return 'Unknown date';
     }
   };
@@ -134,38 +175,82 @@ const Articles: React.FC = () => {
     return matchesSearch && matchesFilter;
   });
 
+  // Sort articles by date
+  const sortedArticles = [...filteredArticles].sort((a, b) => {
+    const dateA = new Date(a.pubDate).getTime();
+    const dateB = new Date(b.pubDate).getTime();
+    
+    return sortDirection === 'newest' ? dateB - dateA : dateA - dateB;
+  });
+
+  // Pagination logic
+  const totalPages = Math.ceil(sortedArticles.length / articlesPerPage);
+  const indexOfLastArticle = currentPage * articlesPerPage;
+  const indexOfFirstArticle = indexOfLastArticle - articlesPerPage;
+  const currentArticles = sortedArticles.slice(indexOfFirstArticle, indexOfLastArticle);
+
+  // Handle page change
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+    // Scroll to top of the articles section
+    window.scrollTo({
+      top: document.getElementById('articles-section')?.offsetTop || 0,
+      behavior: 'smooth'
+    });
+  };
+
+  // Handle sort direction change
+  const toggleSortDirection = () => {
+    setSortDirection(sortDirection === 'newest' ? 'oldest' : 'newest');
+  };
+
   return (
-    <section className="py-5">
+    <section className="py-5" id="articles-section">
       <div className="container">
         <div className="row mb-4">
           <div className="col-lg-6">
             <h2 className="mb-0 d-flex align-items-center">
               <JournalRichtext size={28} className="text-primary me-2" />
-              Latest Articles
+              Articles from MarkHazleton.com
             </h2>
-            <p className="text-muted mt-2">
-              Explore technical insights and professional articles
+            <p className="text-body-secondary mt-2">
+              Explore insights from Mark's personal blog
             </p>
           </div>
           <div className="col-lg-6">
-            <InputGroup className="mb-3">
-              <InputGroup.Text className="bg-white">
-                <Search />
-              </InputGroup.Text>
-              <Form.Control
-                placeholder="Search articles..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </InputGroup>
+            <div className="d-flex gap-2 mb-3">
+              <InputGroup className="flex-grow-1">
+                <InputGroup.Text className={theme === 'light' ? 'bg-light' : 'bg-dark'}>
+                  <Search />
+                </InputGroup.Text>
+                <Form.Control
+                  placeholder="Search articles..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className={theme === 'dark' ? 'bg-dark text-light border-secondary' : ''}
+                />
+              </InputGroup>
+              <button 
+                className={`btn ${theme === 'dark' ? 'btn-outline-light' : 'btn-outline-dark'} d-flex align-items-center`}
+                onClick={toggleSortDirection}
+                title={`Sort by ${sortDirection === 'newest' ? 'oldest' : 'newest'} first`}
+              >
+                {sortDirection === 'newest' ? (
+                  <><SortDown className="me-1" /> Newest</>
+                ) : (
+                  <><SortUp className="me-1" /> Oldest</>
+                )}
+              </button>
+            </div>
+            
             {categories.length > 1 && (
               <div className="d-flex flex-wrap gap-2 mt-2">
                 {categories.map((category, index) => (
                   <Badge 
                     key={index}
-                    bg={filter === category ? 'primary' : 'light'} 
-                    text={filter === category ? 'white' : 'dark'}
-                    className="py-2 px-3 cursor-pointer"
+                    bg={filter === category ? 'primary' : (theme === 'dark' ? 'secondary' : 'light')} 
+                    text={filter === category ? 'white' : (theme === 'dark' ? 'light' : 'dark')}
+                    className="py-2 px-3"
                     onClick={() => setFilter(category)}
                     style={{ cursor: 'pointer' }}
                   >
@@ -182,7 +267,7 @@ const Articles: React.FC = () => {
             <Spinner animation="border" variant="primary" role="status" className="mb-3">
               <span className="visually-hidden">Loading...</span>
             </Spinner>
-            <p className="text-muted">Loading articles...</p>
+            <p className="text-body-secondary">Loading articles...</p>
           </div>
         )}
         
@@ -193,52 +278,128 @@ const Articles: React.FC = () => {
           </Alert>
         )}
 
-        {!loading && !error && filteredArticles.length === 0 && (
+        {!loading && !error && sortedArticles.length === 0 && (
           <Alert variant="info" className="d-flex align-items-center">
             <InfoCircle className="me-2 flex-shrink-0" />
             <div>No articles found matching your search criteria.</div>
           </Alert>
         )}
 
-        {!loading && !error && filteredArticles.length > 0 && (
-          <div className="row row-cols-1 row-cols-md-2 g-4">
-            {filteredArticles.map((article, index) => (
-              <div className="col" key={index}>
-                <Card className="h-100 shadow-sm hover-shadow transition">
-                  <Card.Body>
-                    <Card.Title className="mb-3">
-                      <a 
-                        href={article.link} 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
-                        className="text-decoration-none text-dark stretched-link"
-                      >
-                        {article.title}
-                      </a>
-                    </Card.Title>
-                    
-                    <div className="d-flex align-items-center justify-content-between mt-3">
-                      <div className="d-flex align-items-center text-muted small">
-                        <Calendar3 className="me-1" />
-                        {formatDate(article.pubDate)}
-                      </div>
+        {!loading && !error && sortedArticles.length > 0 && (
+          <>
+            <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-4">
+              {currentArticles.map((article, index) => (
+                <div className="col" key={index}>
+                  <Card className={`h-100 shadow-sm hover-shadow transition ${theme === 'dark' ? 'bg-dark text-light border-secondary' : ''}`}>
+                    <Card.Body>
+                      <Card.Title className="mb-3">
+                        <a 
+                          href={article.link} 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          className={`text-decoration-none stretched-link ${theme === 'dark' ? 'text-light' : 'text-dark'}`}
+                        >
+                          {article.title}
+                        </a>
+                      </Card.Title>
                       
-                      {article.category && (
-                        <Badge bg="light" text="dark" className="py-1 px-2">
-                          {article.category}
-                        </Badge>
+                      {article.description && (
+                        <Card.Text className="text-body-secondary mb-3 small">
+                          {article.description.length > 150 
+                            ? `${article.description.substring(0, 150)}...` 
+                            : article.description}
+                        </Card.Text>
                       )}
-                    </div>
-                  </Card.Body>
-                  <Card.Footer className="bg-white border-top-0 text-end">
-                    <small className="text-muted d-flex align-items-center justify-content-end">
-                      Read more <ArrowUpRightSquare className="ms-1" size={12} />
-                    </small>
-                  </Card.Footer>
-                </Card>
+                      
+                      <div className="d-flex align-items-center justify-content-between mt-3">
+                        <div className="d-flex align-items-center text-body-secondary small">
+                          <Calendar3 className="me-1" />
+                          {formatDate(article.pubDate)}
+                        </div>
+                        
+                        {article.category && (
+                          <Badge 
+                            bg={theme === 'dark' ? 'secondary' : 'light'} 
+                            text={theme === 'dark' ? 'light' : 'dark'} 
+                            className="py-1 px-2"
+                          >
+                            {article.category}
+                          </Badge>
+                        )}
+                      </div>
+                    </Card.Body>
+                    <Card.Footer className={`border-top-0 text-end ${theme === 'dark' ? 'bg-dark' : 'bg-white'}`}>
+                      <small className="text-body-secondary d-flex align-items-center justify-content-end">
+                        Read more <ArrowUpRightSquare className="ms-1" size={12} />
+                      </small>
+                    </Card.Footer>
+                  </Card>
+                </div>
+              ))}
+            </div>
+            
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <div className="d-flex justify-content-center mt-4">
+                <Pagination>
+                  <Pagination.First 
+                    onClick={() => handlePageChange(1)} 
+                    disabled={currentPage === 1} 
+                  />
+                  <Pagination.Prev 
+                    onClick={() => handlePageChange(currentPage - 1)} 
+                    disabled={currentPage === 1} 
+                  />
+                  
+                  {/* Show limited page numbers for better UX */}
+                  {Array.from({ length: totalPages }).map((_, index) => {
+                    const pageNumber = index + 1;
+                    // Show current page, first page, last page, and pages around current
+                    if (
+                      pageNumber === 1 || 
+                      pageNumber === totalPages || 
+                      (pageNumber >= currentPage - 1 && pageNumber <= currentPage + 1)
+                    ) {
+                      return (
+                        <Pagination.Item 
+                          key={pageNumber} 
+                          active={pageNumber === currentPage}
+                          onClick={() => handlePageChange(pageNumber)}
+                        >
+                          {pageNumber}
+                        </Pagination.Item>
+                      );
+                    } else if (
+                      (pageNumber === currentPage - 2 && currentPage > 3) || 
+                      (pageNumber === currentPage + 2 && currentPage < totalPages - 2)
+                    ) {
+                      return <Pagination.Ellipsis key={pageNumber} />;
+                    }
+                    
+                    return null;
+                  })}
+                  
+                  <Pagination.Next 
+                    onClick={() => handlePageChange(currentPage + 1)} 
+                    disabled={currentPage === totalPages} 
+                  />
+                  <Pagination.Last 
+                    onClick={() => handlePageChange(totalPages)} 
+                    disabled={currentPage === totalPages} 
+                  />
+                </Pagination>
               </div>
-            ))}
-          </div>
+            )}
+            
+            <div className="d-flex justify-content-between align-items-center mt-3">
+              <div className="text-body-secondary small">
+                Showing {indexOfFirstArticle + 1}-{Math.min(indexOfLastArticle, sortedArticles.length)} of {sortedArticles.length} articles
+              </div>
+              <div className="text-body-secondary small">
+                Page {currentPage} of {totalPages}
+              </div>
+            </div>
+          </>
         )}
       </div>
     </section>

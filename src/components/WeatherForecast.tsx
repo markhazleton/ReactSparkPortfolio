@@ -226,7 +226,7 @@ const WeatherForecast: React.FC = () => {
                           </div>
                         </div>
                         <div className="col-md-6">
-                          <div className="rounded overflow-hidden shadow-sm" style={{ height: '250px' }}>
+                          <div className="rounded overflow-hidden shadow-sm map-container">
                             <MapComponent
                               latitude={weatherData.location.latitude}
                               longitude={weatherData.location.longitude}

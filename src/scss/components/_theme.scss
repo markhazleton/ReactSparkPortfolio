@@ -16,7 +16,7 @@
   
   /* Improve contrast for code blocks in dark mode */
   pre.code {
-    background: rgba(131, 88, 11, 0.4);
+    background: rgba(44, 48, 50, 0.6); /* Darker, more subtle background */
     color: var(--color-foreground);
     border-color: var(--color-border);
   }
@@ -24,8 +24,10 @@
   /* Ensure blockquotes are visible in dark mode */
   blockquote {
     background: var(--color-background-alt);
-    border-left: 10px solid var(--color-border);
+    border-left: 5px solid var(--bs-primary); /* Use primary color for better accent */
     color: var(--color-foreground);
+    padding: 1rem;
+    margin: 1rem 0;
   }
 
   /* Improve card and container borders in dark mode */
@@ -51,6 +53,18 @@
   .nav-link.active {
     color: var(--bs-primary) !important;
   }
+  
+  /* Hero section background in dark mode */
+  .hero-section {
+    background-color: var(--color-background-alt);
+    box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Button hover effects for dark mode */
+  .btn-primary:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: translateY(-1px);
+  }
 }
 
 /* Additional styles for light mode */
@@ -65,8 +79,10 @@
   /* Ensure blockquotes have good contrast */
   blockquote {
     background: var(--color-background-alt);
-    border-left: 10px solid var(--color-border-light);
+    border-left: 5px solid var(--bs-primary); /* Use primary color for better accent */
     color: var(--color-foreground);
+    padding: 1rem;
+    margin: 1rem 0;
   }
 
   /* Custom focus styles for light mode */
@@ -81,6 +97,18 @@
   
   .nav-link.active {
     color: var(--bs-primary) !important;
+  }
+  
+  /* Hero section background in light mode */
+  .hero-section {
+    background-color: var(--color-background-alt);
+    box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.03);
+  }
+  
+  /* Button hover effects for light mode */
+  .btn-primary:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(-1px);
   }
 }
 
@@ -113,17 +141,27 @@ svg {
 .card {
   background-color: var(--color-card-bg);
   border-color: var(--color-border);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
 }
 
 /* Footer styling for both themes */
 footer {
   background-color: var(--color-background-alt);
+  border-top: 1px solid var(--color-border);
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }
 
 /* List group styling for both themes */
 .list-group-item {
   background-color: var(--color-card-bg);
   color: var(--color-foreground);
+  border-color: var(--color-border);
 }
 
 /* Form control styling for both themes */
@@ -131,18 +169,28 @@ footer {
   background-color: var(--color-background);
   color: var(--color-foreground);
   border-color: var(--color-border);
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
 .form-control:focus, .form-select:focus {
   background-color: var(--color-background);
   color: var(--color-foreground);
   border-color: var(--bs-primary);
+  box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.25);
 }
 
 /* Table styling for both themes */
 table {
   color: var(--color-foreground);
   border-color: var(--color-border);
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) > * {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+[data-bs-theme="dark"] .table-striped > tbody > tr:nth-of-type(odd) > * {
+  background-color: rgba(255, 255, 255, 0.02);
 }
 
 /* Modal styling for both themes */

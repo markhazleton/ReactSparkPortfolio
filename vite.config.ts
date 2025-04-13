@@ -24,7 +24,7 @@ export default defineConfig({
   resolve: {
     alias: {
       "react-native": "react-native-web", // Alias for react-native-web
-      '@webfonts': '/webfonts', // Alias for webfonts
+      "@webfonts": "/webfonts", // Alias for webfonts
     },
   },
   plugins: [
@@ -34,6 +34,10 @@ export default defineConfig({
         {
           src: "node_modules/fontawesome-free/webfonts/*", // Update this to the correct path for your fonts
           dest: "webfonts", // This will copy to 'dist/webfonts'
+        },
+        {
+          src: "src/data/rss.xml",
+          dest: "src/data", // This will copy the RSS file to the build output
         },
       ],
     }),

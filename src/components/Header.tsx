@@ -22,11 +22,11 @@ const Header: React.FC = () => {
       <nav className={`navbar navbar-expand-lg navbar-${theme} bg-${theme === 'light' ? 'light' : 'dark'} border-bottom`}>
         <div className="container">
           <Link className="navbar-brand d-flex align-items-center" to="/">
-            <div className="logo-container me-2" style={{ height: '24px', width: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div className="logo-container me-2 d-flex align-items-center justify-content-center icon-circle-sm">
               <img 
                 src={logoPath}
                 alt="Logo" 
-                style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'contain' }}
+                className="img-fluid"
               />
             </div>
             <span className="fw-bold">Mark Hazleton</span>
@@ -83,11 +83,10 @@ const Header: React.FC = () => {
               </li>
               <li className="nav-item ms-2 d-flex align-items-center">
                 <button 
-                  className={`btn btn-sm ${theme === 'light' ? 'btn-outline-dark' : 'btn-outline-light'} rounded-circle d-flex align-items-center justify-content-center`}
+                  className={`btn btn-sm ${theme === 'light' ? 'btn-outline-dark' : 'btn-outline-light'} rounded-circle d-flex align-items-center justify-content-center icon-circle`}
                   onClick={toggleTheme}
                   aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
                   title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
-                  style={{ width: '34px', height: '34px' }}
                 >
                   {theme === 'light' ? <MoonFill size={16} /> : <SunFill size={16} />}
                 </button>

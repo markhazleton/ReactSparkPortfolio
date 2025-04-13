@@ -10,4 +10,125 @@ $orange: #d9b650;
 
 // Override Bootstrap default state colors
 
-$primary: #83580b;
+$primary: #0d6efd;
+$secondary: #6c757d;
+$success: #198754;
+$info: #0dcaf0;
+$warning: #ffc107;
+$danger: #dc3545;
+
+// Custom color palette for light and dark modes
+
+// Light mode colors
+$light-theme: (
+  'background': #ffffff,
+  'background-alt': #f8f9fa,
+  'foreground': #212529,
+  'foreground-alt': #495057,
+  'foreground-muted': #6c757d,
+  'border': #dee2e6,
+  'border-light': #e9ecef,
+  'card-bg': #ffffff,
+  'primary-light': #cfe2ff,
+  'secondary-light': #e2e3e5,
+  'accent': #6610f2,
+);
+
+// Dark mode colors
+$dark-theme: (
+  'background': #212529,
+  'background-alt': #343a40,
+  'foreground': #f8f9fa,
+  'foreground-alt': #e9ecef,
+  'foreground-muted': #adb5bd,
+  'border': #495057,
+  'border-light': #343a40,
+  'card-bg': #2b3035,
+  'primary-light': #084298,
+  'secondary-light': #41464b,
+  'accent': #6f42c1,
+);
+
+// Theme switching functions
+@function theme-color($key) {
+  @if (lightness(map-get($light-theme, 'background')) > 50) {
+    // light mode
+    @return map-get($light-theme, $key);
+  } @else {
+    // dark mode
+    @return map-get($dark-theme, $key);
+  }
+}
+
+// Mixins for applying theme colors
+@mixin theme-aware($property, $key) {
+  #{$property}: map-get($light-theme, $key);
+  
+  [data-bs-theme="dark"] & {
+    #{$property}: map-get($dark-theme, $key);
+  }
+}
+
+// CSS variable definitions for theme colors
+:root {
+  // Base Bootstrap colors as CSS variables
+  --bs-primary: #{$primary};
+  --bs-secondary: #{$secondary};
+  --bs-success: #{$success};
+  --bs-info: #{$info};
+  --bs-warning: #{$warning};
+  --bs-danger: #{$danger};
+  
+  // Light theme variables
+  @each $name, $color in $light-theme {
+    --color-#{$name}: #{$color};
+  }
+}
+
+// Set dark theme variables when dark mode is active
+[data-bs-theme="dark"] {
+  @each $name, $color in $dark-theme {
+    --color-#{$name}: #{$color};
+  }
+}
+
+// Utility classes for using the custom palette
+.bg-theme {
+  @include theme-aware(background-color, 'background');
+}
+
+.bg-theme-alt {
+  @include theme-aware(background-color, 'background-alt');
+}
+
+.text-theme {
+  @include theme-aware(color, 'foreground');
+}
+
+.text-theme-alt {
+  @include theme-aware(color, 'foreground-alt');
+}
+
+.text-theme-muted {
+  @include theme-aware(color, 'foreground-muted');
+}
+
+.border-theme {
+  @include theme-aware(border-color, 'border');
+}
+
+.border-theme-light {
+  @include theme-aware(border-color, 'border-light');
+}
+
+.bg-card {
+  @include theme-aware(background-color, 'card-bg');
+}
+
+.accent-color {
+  @include theme-aware(color, 'accent');
+}
+
+.accent-bg {
+  @include theme-aware(background-color, 'accent');
+}

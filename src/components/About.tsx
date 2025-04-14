@@ -1,6 +1,5 @@
 import React from 'react';
 import { 
-  Award, 
   JournalText, 
   Tools, 
   GeoAlt, 
@@ -19,6 +18,7 @@ import {
   ArrowRight
 } from 'react-bootstrap-icons';
 import profile from '../data/profile.json';
+import '../styles/About.css'; // Import the external CSS file
 
 const About: React.FC = () => {
   return (
@@ -30,7 +30,7 @@ const About: React.FC = () => {
               <div className="card-body text-center">
                 <div className="mb-4">
                   <div className="position-relative d-inline-block">
-                    <div className="ratio ratio-1x1 rounded-circle overflow-hidden bg-body-tertiary mb-3 mx-auto d-flex align-items-center justify-content-center" style={{ width: '150px' }}>
+                    <div className="ratio ratio-1x1 rounded-circle overflow-hidden bg-body-tertiary mb-3 mx-auto d-flex align-items-center justify-content-center profile-picture">
                       <PersonCircle className="text-primary" size={120} />
                     </div>
                     <span className="position-absolute bottom-0 end-0 badge bg-primary rounded-circle p-2 border border-light-subtle">
@@ -45,28 +45,28 @@ const About: React.FC = () => {
                 <div className="d-flex justify-content-center mb-4">
                   <a 
                     href="https://github.com/markhazleton" 
-                    className="btn btn-sm btn-outline-secondary mx-1 d-flex align-items-center justify-content-center" 
+                    className="btn btn-sm btn-outline-secondary mx-1 d-flex align-items-center justify-content-center btn-circle" 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    style={{ width: '36px', height: '36px', borderRadius: '50%' }}
+                    title="GitHub Profile"
                   >
                     <Github size={16} />
                   </a>
                   <a 
                     href="https://www.linkedin.com/in/markhazleton/" 
-                    className="btn btn-sm btn-outline-primary mx-1 d-flex align-items-center justify-content-center" 
+                    className="btn btn-sm btn-outline-primary mx-1 d-flex align-items-center justify-content-center btn-circle" 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    style={{ width: '36px', height: '36px', borderRadius: '50%' }}
+                    title="LinkedIn Profile"
                   >
                     <Linkedin size={16} />
                   </a>
                   <a 
                     href="https://markhazleton.com" 
-                    className="btn btn-sm btn-outline-info mx-1 d-flex align-items-center justify-content-center" 
+                    className="btn btn-sm btn-outline-info mx-1 d-flex align-items-center justify-content-center btn-circle" 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    style={{ width: '36px', height: '36px', borderRadius: '50%' }}
+                    title="Personal Website"
                   >
                     <Globe size={16} />
                   </a>
@@ -195,9 +195,10 @@ const About: React.FC = () => {
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="list-group-item list-group-item-action d-flex justify-content-between align-items-center border-0 px-0 py-3"
+                      title={article.title}
                     >
                       <div className="d-flex align-items-center">
-                        <span className="bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center me-3" style={{ width: '40px', height: '40px' }}>
+                        <span className="bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center me-3 article-number">
                           {index + 1}
                         </span>
                         <div>

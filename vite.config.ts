@@ -1,6 +1,5 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import path from "path";
 import * as dotenv from "dotenv";
 import { viteStaticCopy } from "vite-plugin-static-copy";
 import fs from "fs";
@@ -50,10 +49,6 @@ export default defineConfig({
         {
           src: "src/data/rss.xml",
           dest: "src/data", // Copy RSS file to the build output
-        },
-        {
-          src: "webfonts/*", // Include additional webfonts
-          dest: "webfonts", // Copy to 'docs/webfonts'
         },
       ],
     }),

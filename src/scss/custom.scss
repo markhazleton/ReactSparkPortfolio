@@ -279,3 +279,8 @@ html {
     text-align: center !important;
   }
 }
+
+// Updated custom styles to use theme-aware mixin
+.custom-class {
+  @include theme-aware(background-color, 'background');
+}

@@ -21,17 +21,17 @@ $danger: #b05f6d; // Muted red
 $white: #ffffff;
 
 $theme-colors: (
-  "light":      #e8d9be,
-  "dark":       #0e0c08,
-  "primary":    #5c3404,
-  "secondary":  #8e6139,
-  "info":       #c29748,
-  "accent1":    #843f1a,
-  "accent2":    #a45e41,
-  "accent3":    #d2b18e,
-  "success":    #52a409,
-  "warning":    #ffbf56,
-  "danger":     #f10460,
+  "light":      #fef6e4, // Brighter light background
+  "dark":       #1a1a1a, // Deeper dark background
+  "primary":    #5c3404, // Muted teal-blue remains
+  "secondary":  #8e6139, // Slightly darker secondary
+  "info":       #c29748, // Muted gold for info
+  "accent1":    #843f1a, // Richer accent color
+  "accent2":    #a45e41, // Slightly darker accent
+  "accent3":    #d2b18e, // Softer accent
+  "success":    #4caf50, // Brighter green for success
+  "warning":    #ff9800, // More vibrant orange for warning
+  "danger":     #e53935, // Brighter red for danger
 );
 
 // Define the light theme map

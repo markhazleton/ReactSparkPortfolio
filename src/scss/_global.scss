@@ -6,6 +6,7 @@ body {
     padding-top: $navbar-base-height;
     color: $gray-600;
     padding-bottom: 60px; /* Height of the footer */
+    @include theme-aware(background-color, 'background');
 }
 
 

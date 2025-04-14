@@ -397,3 +397,8 @@
 .z-3 {
   z-index: 3 !important;
 }
+
+// Updated utility classes to use theme-aware mixin
+.utility-class {
+  @include theme-aware(background-color, 'background');
+}

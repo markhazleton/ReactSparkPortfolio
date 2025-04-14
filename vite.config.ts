@@ -3,6 +3,7 @@ import react from "@vitejs/plugin-react";
 import * as dotenv from "dotenv";
 import { viteStaticCopy } from "vite-plugin-static-copy";
 import fs from "fs";
+import strip from '@rollup/plugin-strip';
 
 // Load environment variables based on the current NODE_ENV or default to `.env`
 const envFileName = `.env.${process.env.NODE_ENV || "development"}`;
@@ -51,6 +52,10 @@ export default defineConfig({
           dest: "src/data", // Copy RSS file to the build output
         },
       ],
+    }),
+    strip({
+      include: '**/*.js',
+      functions: ['console.*', 'assert.*'],
     }),
   ],
   server: {

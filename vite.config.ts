@@ -44,12 +44,16 @@ export default defineConfig({
     viteStaticCopy({
       targets: [
         {
-          src: "node_modules/fontawesome-free/webfonts/*", // Update this to the correct path for your fonts
-          dest: "webfonts", // This will copy to 'dist/webfonts'
+          src: "node_modules/fontawesome-free/webfonts/*", // Ensure all FontAwesome fonts are copied
+          dest: "webfonts", // Copy to 'docs/webfonts'
         },
         {
           src: "src/data/rss.xml",
-          dest: "src/data", // This will copy the RSS file to the build output
+          dest: "src/data", // Copy RSS file to the build output
+        },
+        {
+          src: "webfonts/*", // Include additional webfonts
+          dest: "webfonts", // Copy to 'docs/webfonts'
         },
       ],
     }),

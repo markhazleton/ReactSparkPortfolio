@@ -9,7 +9,14 @@ import {
   BookmarkStar,
   Mortarboard,
   Calendar3,
-  PersonCircle
+  PersonCircle,
+  Github,
+  Linkedin,
+  Globe,
+  Database,
+  Front,
+  GraphUp,
+  ArrowRight
 } from 'react-bootstrap-icons';
 import profile from '../data/profile.json';
 
@@ -43,7 +50,7 @@ const About: React.FC = () => {
                     rel="noopener noreferrer"
                     style={{ width: '36px', height: '36px', borderRadius: '50%' }}
                   >
-                    <i className="bi bi-github"></i>
+                    <Github size={16} />
                   </a>
                   <a 
                     href="https://www.linkedin.com/in/markhazleton/" 
@@ -52,7 +59,7 @@ const About: React.FC = () => {
                     rel="noopener noreferrer"
                     style={{ width: '36px', height: '36px', borderRadius: '50%' }}
                   >
-                    <i className="bi bi-linkedin"></i>
+                    <Linkedin size={16} />
                   </a>
                   <a 
                     href="https://markhazleton.com" 
@@ -61,7 +68,7 @@ const About: React.FC = () => {
                     rel="noopener noreferrer"
                     style={{ width: '36px', height: '36px', borderRadius: '50%' }}
                   >
-                    <i className="bi bi-globe"></i>
+                    <Globe size={16} />
                   </a>
                 </div>
                 
@@ -130,7 +137,7 @@ const About: React.FC = () => {
                   
                   <div className="col-md-6">
                     <h4 className="h6 mb-3 d-flex align-items-center">
-                      <i className="bi bi-database text-primary me-2"></i> Database & Cloud
+                      <Database className="text-primary me-2" /> Database & Cloud
                     </h4>
                     <div>
                       {['PostgreSQL', 'Docker', 'Azure', 'Kusto', 'GitHub Actions', 'Amazon Web Services'].map((skill, index) => (
@@ -143,7 +150,7 @@ const About: React.FC = () => {
                   
                   <div className="col-md-6">
                     <h4 className="h6 mb-3 d-flex align-items-center">
-                      <i className="bi bi-front text-primary me-2"></i> Frontend
+                      <Front className="text-primary me-2" /> Frontend
                     </h4>
                     <div>
                       {['React', 'Vite', 'PUG', 'Static Web Apps', 'HTML', 'CSS'].map((skill, index) => (
@@ -156,7 +163,7 @@ const About: React.FC = () => {
                   
                   <div className="col-md-6">
                     <h4 className="h6 mb-3 d-flex align-items-center">
-                      <i className="bi bi-graph-up text-primary me-2"></i> Data Analysis
+                      <GraphUp className="text-primary me-2" /> Data Analysis
                     </h4>
                     <div>
                       {['Data Science', 'Polly', 'Kusto', 'Power BI'].map((skill, index) => (
@@ -198,7 +205,7 @@ const About: React.FC = () => {
                           <small className="text-body-secondary">markhazleton.com</small>
                         </div>
                       </div>
-                      <i className="bi bi-arrow-right text-primary"></i>
+                      <ArrowRight className="text-primary" />
                     </a>
                   ))}
                 </div>

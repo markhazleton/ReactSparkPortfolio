@@ -10,6 +10,7 @@ section.sidetracked-section {
     padding-top: 5rem;
     padding-bottom: 5rem;
     max-width: 75rem;
+    @include theme-aware(background-color, 'background');
 
     .sidetracked-section-content {
         width: 90%;

@@ -22,6 +22,7 @@ A modern, responsive portfolio website built with React, TypeScript, and Vite. T
 - [SEO Implementation](#-seo-implementation)
 - [Blog Posts](#-blog-posts)
 - [License](#-license)
+- [Deployment](#-deployment)
 
 ## ✨ Features
 
@@ -171,6 +172,32 @@ Learn more about this project from these detailed blog posts:
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🌐 Deployment
+
+This project is deployed using **GitHub Pages**. Follow these steps to deploy your own version:
+
+1. **Build the Project**:
+
+   ```bash
+   npm run build
+   ```
+
+   This will generate the production-ready files in the `docs` folder.
+
+2. **Push to GitHub**:
+   Ensure the `docs` folder is committed and pushed to the `main` branch of your repository.
+
+3. **Enable GitHub Pages**:
+   - Go to your repository on GitHub.
+   - Navigate to **Settings** > **Pages**.
+   - Under "Source," select the `main` branch and set the folder to `/docs`.
+   - Save the changes.
+
+4. **Access Your Site**:
+   Your site will be available at `https://<your-username>.github.io/<repository-name>/`.
+
+For more details, refer to the [GitHub Pages documentation](https://docs.github.com/en/pages).
 
 ---
 

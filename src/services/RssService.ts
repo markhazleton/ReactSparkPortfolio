@@ -17,68 +17,84 @@ export interface RssArticle {
  */
 export const fetchRssFeed = async (): Promise<RssArticle[]> => {
   const rssSourceUrl = "https://markhazleton.com/rss.xml";
-  const proxyUrl = "/api/proxy-rss"; // This would be implemented on your server/functions
-  const localRssPath = "/data/rss.xml";
-  
+  const localRssPath = "/rss.xml"; // Path to the local RSS file in public folder
+
   try {
-    // Try using the local proxy approach first (avoids CORS)
     let rssData: string;
     let sourceDescription: string;
-    
+
     try {
-      console.log("Attempting to fetch RSS via local proxy...");
-      
-      // Use the local path which should be handled by a proxy middleware/function
-      const response = await fetch(proxyUrl, {
-        headers: { 
+      console.log("Attempting to fetch RSS directly from source...");
+
+      // Try direct fetch with CORS mode
+      const response = await fetch(rssSourceUrl, {
+        headers: {
+          Accept: "application/xml, text/xml, application/rss+xml, */*",
           "Cache-Control": "no-cache",
-          "X-RSS-Source": rssSourceUrl // Tell our proxy where to get the real data
-        }
+        },
+        mode: "cors",
       });
-      
+
       if (!response.ok) {
-        throw new Error(`Proxy fetch failed: ${response.status} ${response.statusText}`);
+        console.error(
+          `Direct fetch failed: ${response.status} ${response.statusText}`
+        );
+        throw new Error(
+          `Failed to fetch RSS: ${response.status} ${response.statusText}`
+        );
       }
-      
+
       rssData = await response.text();
-      sourceDescription = "proxy";
-    } catch (proxyError) {
-      console.warn("Proxy fetch failed, trying local file:", proxyError);
-      
+      sourceDescription = "remote";
+      console.log("Successfully fetched RSS data from remote source");
+    } catch (directError) {
+      console.warn("Direct fetch failed, checking cache:", directError);
+
       // Check if we have a cached version
-      const cachedData = localStorage.getItem('cachedRssData');
+      const cachedData = localStorage.getItem("cachedRssData");
       if (cachedData) {
         console.log("Using cached RSS data from localStorage");
         rssData = cachedData;
         sourceDescription = "cache";
       } else {
+        console.warn("No cache available, trying local file");
         // Last resort: use the local file
         const localResponse = await fetch(localRssPath);
         if (!localResponse.ok) {
-          throw new Error(`Local RSS file fetch failed: ${localResponse.status}`);
+          throw new Error(
+            `Local RSS file fetch failed: ${localResponse.status}`
+          );
         }
         rssData = await localResponse.text();
         sourceDescription = "local file";
+        console.log("Successfully fetched RSS data from local file");
       }
     }
-    
+
     // Parse the RSS data regardless of source
     const articles = parseRssData(rssData);
-    
+    console.log(
+      `Successfully parsed ${articles.length} articles from RSS data`
+    );
+
     // Store in localStorage for future fallback
     try {
-      localStorage.setItem('cachedRssData', rssData);
-      localStorage.setItem('rssLastUpdated', new Date().toISOString());
-      localStorage.setItem('rssArticleCount', articles.length.toString());
-      localStorage.setItem('rssSource', sourceDescription);
+      localStorage.setItem("cachedRssData", rssData);
+      localStorage.setItem("rssLastUpdated", new Date().toISOString());
+      localStorage.setItem("rssArticleCount", articles.length.toString());
+      localStorage.setItem("rssSource", sourceDescription);
     } catch (storageError) {
       console.warn("Failed to cache RSS data:", storageError);
     }
-    
+
     return articles;
   } catch (error) {
     console.error("All RSS fetching methods failed:", error);
-    throw new Error("Unable to load articles. Please try again later.");
+    throw new Error(
+      `Unable to load articles: ${
+        error instanceof Error ? error.message : "Unknown error"
+      }`
+    );
   }
 };
 
@@ -92,12 +108,17 @@ const parseRssData = (rssData: string): RssArticle[] => {
   const xmlDoc = parser.parseFromString(rssData, "application/xml");
 
   if (xmlDoc.getElementsByTagName("parsererror").length > 0) {
+    console.error(
+      "XML parser error:",
+      xmlDoc.getElementsByTagName("parsererror")[0].textContent
+    );
     throw new Error("Error parsing XML");
   }
 
   const items = xmlDoc.getElementsByTagName("item");
 
   if (items.length === 0) {
+    console.warn("No items found in RSS feed");
     return [];
   }
 

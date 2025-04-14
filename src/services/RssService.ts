@@ -17,7 +17,16 @@ export interface RssArticle {
  */
 export const fetchRssFeed = async (): Promise<RssArticle[]> => {
   const rssSourceUrl = "https://markhazleton.com/rss.xml";
-  const localRssPath = "/rss.xml"; // Path to the local RSS file in public folder
+
+  // Determine if we're running on GitHub Pages
+  const isGitHubPages =
+    window.location.hostname !== "localhost" &&
+    window.location.hostname !== "127.0.0.1";
+
+  // Use the correct path based on the deployment environment
+  const localRssPath = isGitHubPages
+    ? "/ReactSparkPortfolio/rss.xml" // GitHub Pages path
+    : "/rss.xml"; // Local development path
 
   try {
     let rssData: string;
@@ -59,6 +68,7 @@ export const fetchRssFeed = async (): Promise<RssArticle[]> => {
       } else {
         console.warn("No cache available, trying local file");
         // Last resort: use the local file
+        console.log(`Fetching from local file: ${localRssPath}`);
         const localResponse = await fetch(localRssPath);
         if (!localResponse.ok) {
           throw new Error(

@@ -8,7 +8,14 @@
   --bs-warning: #e0a458;
   --bs-danger: #b05f6d;
   --color-background: #fef6e4;
-  --color-text: #1a1a1a;
+  --color-background-alt: rgb(254.5464285714, 250.9178571429, 242.7535714286);
+  --color-foreground: #1a1a1a;
+  --color-foreground-alt: rgb(51.5, 51.5, 51.5);
+  --color-foreground-muted: rgb(102.5, 102.5, 102.5);
+  --color-border: rgba(0, 0, 0, 0.125);
+  --color-border-light: rgba(0, 0, 0, 0.05);
+  --color-card-bg: #ffffff;
+  --color-accent: #843f1a;
   --color-primary: #5c3404;
   --color-secondary: #8e6139;
   --color-info: #c29748;
@@ -22,7 +29,14 @@
 
 [data-bs-theme=dark] {
   --color-background: #1a1a1a;
-  --color-text: #ffffff;
+  --color-background-alt: rgb(38.75, 38.75, 38.75);
+  --color-foreground: #ffffff;
+  --color-foreground-alt: rgb(229.5, 229.5, 229.5);
+  --color-foreground-muted: rgb(178.5, 178.5, 178.5);
+  --color-border: rgba(255, 255, 255, 0.125);
+  --color-border-light: rgba(255, 255, 255, 0.05);
+  --color-card-bg: rgb(46.4, 46.4, 46.4);
+  --color-accent: #843f1a;
   --color-primary: #5c3404;
   --color-secondary: #8e6139;
   --color-info: #c29748;
@@ -39,6 +53,69 @@
 }
 [data-bs-theme=dark] .bg-theme {
   background-color: #1a1a1a;
+}
+
+.bg-theme-alt {
+  background-color: rgb(254.5464285714, 250.9178571429, 242.7535714286);
+}
+[data-bs-theme=dark] .bg-theme-alt {
+  background-color: rgb(38.75, 38.75, 38.75);
+}
+
+.text-theme {
+  color: #1a1a1a;
+}
+[data-bs-theme=dark] .text-theme {
+  color: #ffffff;
+}
+
+.text-theme-alt {
+  color: rgb(51.5, 51.5, 51.5);
+}
+[data-bs-theme=dark] .text-theme-alt {
+  color: rgb(229.5, 229.5, 229.5);
+}
+
+.text-theme-muted {
+  color: rgb(102.5, 102.5, 102.5);
+}
+[data-bs-theme=dark] .text-theme-muted {
+  color: rgb(178.5, 178.5, 178.5);
+}
+
+.border-theme {
+  border-color: rgba(0, 0, 0, 0.125);
+}
+[data-bs-theme=dark] .border-theme {
+  border-color: rgba(255, 255, 255, 0.125);
+}
+
+.border-theme-light {
+  border-color: rgba(0, 0, 0, 0.05);
+}
+[data-bs-theme=dark] .border-theme-light {
+  border-color: rgba(255, 255, 255, 0.05);
+}
+
+.bg-card {
+  background-color: #ffffff;
+}
+[data-bs-theme=dark] .bg-card {
+  background-color: rgb(46.4, 46.4, 46.4);
+}
+
+.accent-color {
+  color: #843f1a;
+}
+[data-bs-theme=dark] .accent-color {
+  color: #843f1a;
+}
+
+.accent-bg {
+  background-color: #843f1a;
+}
+[data-bs-theme=dark] .accent-bg {
+  background-color: #843f1a;
 }
 
 /*!
@@ -29150,6 +29227,50 @@ table {
   border-color: var(--color-border);
 }
 
+/* Enhance accessibility with high contrast focus indicators */
+a:focus, button:focus, input:focus, select:focus, textarea:focus {
+  outline: 2px solid var(--bs-primary);
+  outline-offset: 2px;
+}
+
+/* Add smooth transitions for interactive elements */
+a, button, .btn {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Improve text readability in both themes */
+p, li, h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
+  color: var(--color-foreground);
+}
+
+/* Ensure code snippets are readable in both themes */
+code {
+  background-color: var(--color-background-alt);
+  color: var(--color-accent);
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+}
+
+/* Image adjustments for both themes */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Print media query to ensure good print layout */
+@media print {
+  body {
+    background-color: white !important;
+    color: black !important;
+  }
+  a {
+    color: blue !important;
+    text-decoration: underline !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+}
 /* Custom styles for skill badges with theme support */
 .skill-badge {
   display: inline-block;
@@ -29175,338 +29296,6 @@ table {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-section.resume-section {
-  display: flex;
-  align-items: center;
-  padding-left: 1rem;
-  padding-right: 1rem;
-  padding-top: 5rem;
-  padding-bottom: 5rem;
-  max-width: 75rem;
-  background-color: #fef6e4;
-}
-[data-bs-theme=dark] section.resume-section {
-  background-color: #1a1a1a;
-}
-section.resume-section .resume-section-content {
-  width: 90%;
-}
-section.resume-section .resume-section-content h1, section.resume-section .resume-section-content .h1, section.resume-section .resume-section-content h2, section.resume-section .resume-section-content .h2 {
-  max-width: 90%;
-  font-weight: 700;
-  margin-bottom: 1rem;
-}
-
-section.resume-section-background {
-  background-image: url("/assets/img/InksLakeSunset.jpg") !important;
-  background-attachment: fixed;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-section.resume-section-background .resume-section-content {
-  width: 100%;
-  background-color: snow;
-  color: black;
-  opacity: 0.95;
-  padding: 2rem 2rem 2rem 2rem;
-}
-
-@media (min-width: 768px) {
-  section.resume-section {
-    min-height: 100vh;
-  }
-}
-@media (min-width: 992px) {
-  section.resume-section {
-    padding-left: 3rem;
-    padding-right: 3rem;
-    padding-top: 5rem;
-    padding-bottom: 5rem;
-  }
-}
-section.sidetracked-section {
-  display: flex;
-  align-items: center;
-  padding-left: 1rem;
-  padding-right: 1rem;
-  padding-top: 5rem;
-  padding-bottom: 5rem;
-  max-width: 75rem;
-  background-color: #fef6e4;
-}
-[data-bs-theme=dark] section.sidetracked-section {
-  background-color: #1a1a1a;
-}
-section.sidetracked-section .sidetracked-section-content {
-  width: 90%;
-}
-section.sidetracked-section .sidetracked-section-content h1, section.sidetracked-section .sidetracked-section-content .h1, section.sidetracked-section .sidetracked-section-content h2, section.sidetracked-section .sidetracked-section-content .h2 {
-  max-width: 90%;
-  font-weight: 700;
-  margin-bottom: 1rem;
-}
-
-section.sidetracked-section-background {
-  background-image: url("/assets/img/sardinasunset.jpg") !important;
-  background-attachment: fixed;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-section.sidetracked-section-background .sidetracked-section-content {
-  width: 100%;
-  background-color: snow;
-  color: black;
-  opacity: 0.95;
-  padding: 2rem 2rem 2rem 2rem;
-}
-
-@media (min-width: 768px) {
-  section.sidetracked-section {
-    min-height: 100vh;
-  }
-}
-@media (min-width: 992px) {
-  section.sidetracked-section {
-    padding-left: 3rem;
-    padding-right: 3rem;
-    padding-top: 5rem;
-    padding-bottom: 5rem;
-  }
-}
-section.painteddesert-section {
-  display: flex;
-  align-items: center;
-  padding-left: 1rem;
-  padding-right: 1rem;
-  padding-top: 5rem;
-  padding-bottom: 5rem;
-  max-width: 75rem;
-  margin: 0 auto;
-}
-section.painteddesert-section .painteddesert-section-content {
-  width: 90%;
-  max-width: 1140px;
-  margin: 0 auto;
-}
-section.painteddesert-section .painteddesert-section-content h1, section.painteddesert-section .painteddesert-section-content .h1 {
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-  font-size: 1.5rem;
-}
-section.painteddesert-section .painteddesert-section-content h2, section.painteddesert-section .painteddesert-section-content .h2 {
-  font-weight: 600;
-  font-size: 1.2rem;
-  margin-bottom: 1rem;
-}
-section.painteddesert-section .painteddesert-section-content span.accordion-header {
-  font-weight: 600;
-  font-size: 1.2rem;
-  margin-bottom: 0;
-}
-section.painteddesert-section .painteddesert-section-content h3, section.painteddesert-section .painteddesert-section-content .h3 {
-  font-weight: 600;
-  font-size: 1.2rem;
-  margin-bottom: 1rem;
-}
-section.painteddesert-section .painteddesert-section-content .subheading {
-  font-weight: 600;
-  font-size: 1.2rem;
-  margin-bottom: 1rem;
-}
-section.painteddesert-section .painteddesert-section-content p.lead {
-  font-size: 1.125rem;
-  font-weight: 300;
-  margin-bottom: 1.5rem;
-}
-
-.painteddesert-background {
-  background-image: url("/assets/img/painteddesert.jpg") !important;
-  background-attachment: fixed;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-section.painteddesert-section-background .painteddesert-section-content {
-  width: 100%;
-  max-width: 1140px;
-  margin: 0 auto;
-  background-color: snow;
-  color: black;
-  opacity: 0.95;
-  padding: 2rem 2rem 2rem 2rem;
-}
-
-@media (min-width: 768px) {
-  section.painteddesert-section {
-    min-height: 100vh;
-  }
-}
-@media (min-width: 992px) {
-  section.painteddesert-section {
-    padding-left: 3rem;
-    padding-right: 3rem;
-    padding-top: 5rem;
-    padding-bottom: 5rem;
-  }
-  section.painteddesert-section .painteddesert-section-content {
-    font-size: 1.2rem;
-  }
-  section.painteddesert-section .painteddesert-section-content h1, section.painteddesert-section .painteddesert-section-content .h1 {
-    font-size: 1.8rem;
-    margin-bottom: 0.75rem;
-  }
-  section.painteddesert-section .painteddesert-section-content h2, section.painteddesert-section .painteddesert-section-content .h2 {
-    font-size: 1.6rem;
-    margin-bottom: 1rem;
-  }
-  section.painteddesert-section .painteddesert-section-content span.accordion-header {
-    font-weight: 600;
-    font-size: 1.6rem;
-    margin-bottom: 0;
-  }
-  section.painteddesert-section .painteddesert-section-content h3, section.painteddesert-section .painteddesert-section-content .h3 {
-    font-size: 1.6rem;
-    margin-bottom: 1rem;
-  }
-  section.painteddesert-section .painteddesert-section-content .subheading {
-    font-size: 1.6rem;
-    margin-bottom: 1rem;
-  }
-  section.painteddesert-section .painteddesert-section-content p.lead {
-    font-size: 1.25rem;
-  }
-}
-@media (min-width: 1200px) {
-  section.painteddesert-section .painteddesert-section-content {
-    font-size: 1.2rem;
-  }
-  section.painteddesert-section .painteddesert-section-content h1, section.painteddesert-section .painteddesert-section-content .h1 {
-    font-size: 1.8rem;
-    margin-bottom: 0.75rem;
-  }
-  section.painteddesert-section .painteddesert-section-content h2, section.painteddesert-section .painteddesert-section-content .h2 {
-    font-size: 1.6rem;
-    margin-bottom: 1rem;
-  }
-  section.painteddesert-section .painteddesert-section-content span.accordion-header {
-    font-weight: 600;
-    font-size: 1.6rem;
-    margin-bottom: 0;
-  }
-  section.painteddesert-section .painteddesert-section-content h3, section.painteddesert-section .painteddesert-section-content .h3 {
-    font-size: 1.6rem;
-    margin-bottom: 1rem;
-  }
-  section.painteddesert-section .painteddesert-section-content .subheading {
-    font-size: 1.6rem;
-    margin-bottom: 1rem;
-  }
-  section.painteddesert-section .painteddesert-section-content p.lead {
-    font-size: 1.4rem;
-  }
-}
-body.projectmechanics-body {
-  padding-top: 0;
-  padding-left: 0;
-  overflow-x: hidden;
-}
-
-section.projectmechanics-section {
-  padding-right: 1rem !important;
-  padding-left: 1rem !important;
-  margin-top: 0 !important;
-  margin-bottom: 3rem !important;
-}
-section.projectmechanics-section .projectmechanics-section-content {
-  width: 90%;
-  max-width: 1140px;
-  margin: 0 auto;
-}
-section.projectmechanics-section .projectmechanics-section-content h1, section.projectmechanics-section .projectmechanics-section-content .h1 {
-  max-width: 90%;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-  font-size: 1.5rem;
-}
-section.projectmechanics-section .projectmechanics-section-content h2.subheading, section.projectmechanics-section .projectmechanics-section-content .subheading.h2 {
-  font-weight: 600;
-  font-size: 1.2rem;
-  margin-bottom: 1rem;
-}
-section.projectmechanics-section .projectmechanics-section-content p.lead {
-  font-size: 1.125rem;
-  font-weight: 300;
-  margin-bottom: 1.5rem;
-}
-
-.projectmechanics-background {
-  background-image: url("/assets/img/ArgostoliGreeceBeach.jpg") !important;
-  background-attachment: fixed;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-section.projectmechanics-section-background .projectmechanics-section-content {
-  width: 100%;
-  max-width: 1140px;
-  margin: 0 auto;
-  background-color: snow;
-  color: black;
-  opacity: 0.95;
-  padding: 1rem 1rem 1rem 1rem;
-}
-
-@media (min-width: 768px) {
-  section.projectmechanics-section {
-    min-height: 100vh;
-  }
-}
-@media (min-width: 992px) {
-  section.projectmechanics-section {
-    padding-left: 3rem;
-    padding-right: 3rem;
-    padding-top: 5rem;
-    padding-bottom: 5rem;
-  }
-  section.projectmechanics-section .projectmechanics-section-content {
-    font-size: 1.8rem;
-  }
-  section.projectmechanics-section .projectmechanics-section-content h1, section.projectmechanics-section .projectmechanics-section-content .h1 {
-    font-size: 2rem;
-    margin-bottom: 0.75rem;
-  }
-  section.projectmechanics-section .projectmechanics-section-content h2.subheading, section.projectmechanics-section .projectmechanics-section-content .subheading.h2 {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-  }
-  section.projectmechanics-section .projectmechanics-section-content p.lead {
-    font-size: 1.25rem;
-  }
-}
-@media (min-width: 1200px) {
-  section.projectmechanics-section .projectmechanics-section-content {
-    font-size: 1.2rem;
-  }
-  section.projectmechanics-section .projectmechanics-section-content h1, section.projectmechanics-section .projectmechanics-section-content .h1 {
-    font-size: 1.8rem;
-    margin-bottom: 0.75rem;
-  }
-  section.projectmechanics-section .projectmechanics-section-content h2.subheading, section.projectmechanics-section .projectmechanics-section-content .subheading.h2 {
-    font-size: 1.6rem;
-    margin-bottom: 1rem;
-  }
-  section.projectmechanics-section .projectmechanics-section-content h3, section.projectmechanics-section .projectmechanics-section-content .h3 {
-    font-size: 1.4rem;
-    margin-bottom: 0.75rem;
-  }
-  section.projectmechanics-section .projectmechanics-section-content p.lead {
-    font-size: 1.3rem;
-  }
-}
 @font-face {
   font-family: "fa-brands";
   src: url("fontawsome-free/webfonts/fa-brands-400.woff2") format("woff2"), url("fontawsome-free/webfonts/fa-brands-400.woff") format("woff"), url("fontawsome-free/webfonts/fa-brands-400.ttf") format("truetype");

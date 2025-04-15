@@ -29,11 +29,7 @@
 @import "./components/theme.scss"; // Theme styles for dark/light mode
 @import "./components/skill-badges.scss"; // Skill badge styles with theme support
 
-// Sections
-@import "./sections/resume-section.scss";
-@import "./sections/sidetracked-section.scss";
-@import "./sections/painteddesert-section.scss";
-@import "./sections/projectmechanics-section.scss";
+// Removed sections imports
 
 @font-face {
     font-family: 'fa-brands';

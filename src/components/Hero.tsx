@@ -22,7 +22,7 @@ const Hero: React.FC<{ profileData?: Profile }> = ({ profileData }) => {
     document.title = pageTitle;
     
     // Update meta description
-    const pageDescription = `Portfolio website of ${profile.name}, a ${profile.profession.toLowerCase()}. ${profile.introduction}`;
+    const pageDescription = `${profile.name} - ${profile.profession}. ${profile.introduction}`;
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
       metaDescription.setAttribute('content', pageDescription);
@@ -75,17 +75,17 @@ const Hero: React.FC<{ profileData?: Profile }> = ({ profileData }) => {
                     aria-label={profile.ctaText}>
                     {profile.ctaText} <ArrowRightCircle className="ms-2" />
                   </a>
-                  <a href="https://github.com/markhazleton" 
+                  <a href="https://github.com/markhazleton/ReactSparkPortfolio" 
                     className="btn btn-outline-light d-inline-flex align-items-center border-2" 
                     target="_blank" rel="noopener noreferrer"
-                    aria-label="Visit Mark Hazleton on GitHub">
-                    <Github className="me-2" /> GitHub
+                    aria-label="View ReactSpark on GitHub">
+                    <Github className="me-2" /> View on GitHub
                   </a>
                   <a href="https://www.linkedin.com/in/markhazleton/" 
                     className="btn btn-outline-light d-inline-flex align-items-center border-2" 
                     target="_blank" rel="noopener noreferrer"
-                    aria-label="Connect with Mark Hazleton on LinkedIn">
-                    <Linkedin className="me-2" /> LinkedIn
+                    aria-label="Connect with Mark Hazleton (Creator)">
+                    <Linkedin className="me-2" /> Connect with Creator
                   </a>
                 </div>
               </div>
@@ -107,19 +107,19 @@ const Hero: React.FC<{ profileData?: Profile }> = ({ profileData }) => {
                     <span className="bg-information text-white rounded-circle d-flex align-items-center justify-content-center me-3 icon-circle">
                       <Person />
                     </span>
-                    Learn more about me
+                    About ReactSpark
                   </a>
                   <a href="/projects" className="list-group-item list-group-item-action d-flex align-items-center border-0">
                     <span className="bg-information text-white rounded-circle d-flex align-items-center justify-content-center me-3 icon-circle">
                       <Briefcase />
                     </span>
-                    View my projects
+                    Featured Projects
                   </a>
                   <a href="/articles" className="list-group-item list-group-item-action d-flex align-items-center border-0">
                     <span className="bg-information text-white rounded-circle d-flex align-items-center justify-content-center me-3 icon-circle">
                       <JournalText />
                     </span>
-                    Read my articles
+                    Development Articles
                   </a>
                 </div>
               </div>
@@ -131,13 +131,13 @@ const Hero: React.FC<{ profileData?: Profile }> = ({ profileData }) => {
             <div className="card border shadow-sm h-100">
               <div className="card-body">
                 <h3 className="card-title h4 mb-3 d-flex align-items-center">
-                  <CodeSquare className="text-primary me-2" /> Built With
+                  <CodeSquare className="text-primary me-2" /> Frontend Stack
                 </h3>
-                <p className="text-muted mb-3">This portfolio is built using modern web technologies:</p>
+                <p className="text-muted mb-3">ReactSpark is built with modern web technologies focused on frontend excellence:</p>
                 
                 <div className="d-flex flex-wrap gap-2 mb-3">
                   <span className="badge bg-information d-flex align-items-center p-2">
-                    <Braces className="me-1" /> React 19
+                    <Braces className="me-1" /> React 18+
                   </span>
                   <span className="badge bg-info text-dark d-flex align-items-center p-2">
                     <FileEarmarkCode className="me-1" /> TypeScript
@@ -154,10 +154,10 @@ const Hero: React.FC<{ profileData?: Profile }> = ({ profileData }) => {
                 </div>
 
                 <div className="d-flex justify-content-between align-items-center">
-                  <a href="https://markhazleton.com/articles/building-my-first-react-site-using-vite.html" 
+                  <a href="https://markhazleton.com/websparkintro" 
                     className="btn btn-sm btn-outline-primary d-inline-flex align-items-center"
                     target="_blank" rel="noopener noreferrer">
-                    <JournalText className="me-1" /> Read About This Project
+                    <JournalText className="me-1" /> Explore WebSpark Suite
                   </a>
                   
                   <a href="https://github.com/markhazleton/ReactSparkPortfolio" 
@@ -171,80 +171,87 @@ const Hero: React.FC<{ profileData?: Profile }> = ({ profileData }) => {
           </div>
         </div>
         
-        {/* Row 3: GitHub Pages Deployment (Full Width) */}
+        {/* Row 3: WebSpark Ecosystem (Full Width) */}
         <div className="row">
           <div className="col-12">
             <div className="card border shadow-sm">
               <div className="card-body">
                 <h3 className="card-title h4 mb-3 d-flex align-items-center">
-                  <Github className="text-primary me-2" /> GitHub Pages Deployment Guide
+                  <CodeSquare className="text-primary me-2" /> WebSpark Ecosystem
                 </h3>
                 
                 <p className="mb-4">
-                  Deploying a React Vite application to GitHub Pages requires several specific steps to ensure
-                  it functions correctly in the GitHub.io environment. Here's a detailed guide on how this portfolio
-                  was created and deployed:
+                  ReactSpark is a key component of the WebSpark suite—a collection of interconnected web applications
+                  that demonstrate different aspects of modern web development. Each app in the suite focuses on specific technologies
+                  while sharing data and services with other components.
                 </p>
                 
                 <div className="row">
                   <div className="col-md-6">
-                    <div className="card mb-3 shadow-sm">
+                    <div className="card mb-3 shadow-sm h-100">
                       <div className="card-header bg-light d-flex align-items-center">
-                        <Gear className="text-primary me-2" /> <strong>Setup & Configuration</strong>
+                        <Gear className="text-primary me-2" /> <strong>WebSpark Components</strong>
                       </div>
                       <div className="card-body">
-                        <ol className="mb-0 ps-3 small">
-                          <li className="mb-2">
-                            <strong>Create a Vite React project:</strong>
-                            <code className="d-block mt-1 p-2 bg-light rounded">npm create vite@latest ReactSparkPortfolio --template react-ts</code>
-                          </li>
-                          <li className="mb-2">
-                            <strong>Configure the base URL in vite.config.ts:</strong>
-                            <code className="d-block mt-1 p-2 bg-light rounded">base: '/ReactSparkPortfolio/'</code>
-                          </li>
-                          <li className="mb-2">
-                            <strong>Update build output directory to 'docs':</strong>
-                            <code className="d-block mt-1 p-2 bg-light rounded">build: {`{ outDir: 'docs' }`}</code>
-                          </li>
-                          <li className="mb-2">
-                            <strong>Add dynamic path resolution:</strong>
-                            <p className="mt-1 mb-0">Implement detection of GitHub Pages environment to adjust asset paths</p>
-                          </li>
-                        </ol>
+                        <div className="list-group list-group-flush">
+                          <div className="list-group-item border-0 px-0">
+                            <h5 className="h6 mb-1">ReactSpark <span className="badge bg-primary">Frontend</span></h5>
+                            <p className="small mb-0 text-muted">Dynamic React frontend powered by WebSpark APIs</p>
+                          </div>
+                          <div className="list-group-item border-0 px-0">
+                            <h5 className="h6 mb-1">PromptSpark <span className="badge bg-info text-dark">AI</span></h5>
+                            <p className="small mb-0 text-muted">LLM prompt engineering and management system</p>
+                          </div>
+                          <div className="list-group-item border-0 px-0">
+                            <h5 className="h6 mb-1">AsyncSpark <span className="badge bg-success">Backend</span></h5>
+                            <p className="small mb-0 text-muted">Asynchronous processing system with message queues</p>
+                          </div>
+                          <div className="list-group-item border-0 px-0">
+                            <h5 className="h6 mb-1">DataSpark <span className="badge bg-warning text-dark">Data</span></h5>
+                            <p className="small mb-0 text-muted">Data analysis and transformation services</p>
+                          </div>
+                          <div className="list-group-item border-0 px-0">
+                            <h5 className="h6 mb-1">TriviaSpark <span className="badge bg-secondary">Content</span></h5>
+                            <p className="small mb-0 text-muted">Interactive quiz and trivia engine</p>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
                   
                   <div className="col-md-6">
-                    <div className="card mb-3 shadow-sm">
+                    <div className="card mb-3 shadow-sm h-100">
                       <div className="card-header bg-light d-flex align-items-center">
-                        <Github className="text-primary me-2" /> <strong>Deployment Process</strong>
+                        <Github className="text-primary me-2" /> <strong>Integration Features</strong>
                       </div>
                       <div className="card-body">
-                        <ol className="mb-0 ps-3 small">
+                        <ul className="mb-4">
                           <li className="mb-2">
-                            <strong>Build the project:</strong>
-                            <code className="d-block mt-1 p-2 bg-light rounded">npm run build</code>
-                          </li>
-                          <li className="mb-2">
-                            <strong>Configure GitHub repository:</strong>
-                            <p className="mt-1 mb-0">
-                              Set repository settings to deploy from the 'docs' folder in the main branch
+                            <strong>API-First Architecture:</strong>
+                            <p className="small mb-0 text-muted">
+                              All WebSpark components expose and consume RESTful APIs, allowing them to work together 
+                              while remaining independently deployable.
                             </p>
                           </li>
                           <li className="mb-2">
-                            <strong>Add a custom 404.html:</strong>
-                            <p className="mt-1 mb-0">
-                              Create a 404 page that redirects to index.html to support SPA routing
+                            <strong>Shared Data Models:</strong>
+                            <p className="small mb-0 text-muted">
+                              Common TypeScript interfaces and C# models ensure type safety across the frontend and backend.
                             </p>
                           </li>
                           <li className="mb-2">
-                            <strong>Fix path-specific issues:</strong>
-                            <p className="mt-1 mb-0">
-                              Update components to handle GitHub Pages subpath context for resources
+                            <strong>Unified Authentication:</strong>
+                            <p className="small mb-0 text-muted">
+                              Single sign-on across all WebSpark applications for seamless user experience.
                             </p>
                           </li>
-                        </ol>
+                          <li className="mb-2">
+                            <strong>Real-time Updates:</strong>
+                            <p className="small mb-0 text-muted">
+                              SignalR connections provide push notifications from backend services to ReactSpark.
+                            </p>
+                          </li>
+                        </ul>
                       </div>
                     </div>
                   </div>
@@ -252,41 +259,36 @@ const Hero: React.FC<{ profileData?: Profile }> = ({ profileData }) => {
                 
                 <div className="card mt-3 shadow-sm">
                   <div className="card-header bg-light d-flex align-items-center">
-                    <CodeSquare className="text-primary me-2" /> <strong>Challenges & Solutions</strong>
+                    <CodeSquare className="text-primary me-2" /> <strong>Future Roadmap</strong>
                   </div>
                   <div className="card-body">
                     <div className="row">
                       <div className="col-md-6">
-                        <h5 className="h6 mb-3">Resource Loading Issues</h5>
+                        <h5 className="h6 mb-3">Integration Enhancements</h5>
                         <ul className="small mb-4">
                           <li className="mb-2">
-                            <strong>Problem:</strong> RSS feed and static assets failing to load on GitHub Pages
+                            <strong>Support for real-time updates via SignalR</strong> leveraging WebSpark's backend infrastructure
                           </li>
                           <li className="mb-2">
-                            <strong>Solution:</strong> Implemented environment detection to use correct paths:
-                            <code className="d-block mt-1 p-2 bg-light rounded">
-                              const isGitHubPages = window.location.hostname !== 'localhost';<br/>
-                              const path = isGitHubPages ? '/ReactSparkPortfolio/asset.ext' : '/asset.ext';
-                            </code>
+                            <strong>Theming and layout switching</strong> based on user preferences stored in WebSpark APIs
+                          </li>
+                          <li className="mb-2">
+                            <strong>Admin mode for live editing</strong> of content blocks with instant previews
                           </li>
                         </ul>
                       </div>
                       
                       <div className="col-md-6">
-                        <h5 className="h6 mb-3">Icon Rendering Failures</h5>
+                        <h5 className="h6 mb-3">New Features</h5>
                         <ul className="small mb-4">
                           <li className="mb-2">
-                            <strong>Problem:</strong> Bootstrap icon fonts not loading correctly in GitHub Pages environment
+                            <strong>Integration with PromptSpark GPTs</strong> for conversational components throughout the UI
                           </li>
                           <li className="mb-2">
-                            <strong>Solution:</strong> Replaced font-based icons with React Bootstrap Icon components:
-                            <code className="d-block mt-1 p-2 bg-light rounded">
-                              // Instead of this:<br/>
-                              &lt;i className="bi bi-github"&gt;&lt;/i&gt;<br/>
-                              <br/>
-                              // Use this:<br/>
-                              &lt;Github /&gt;
-                            </code>
+                            <strong>DataSpark visualization components</strong> for displaying live data transformations
+                          </li>
+                          <li className="mb-2">
+                            <strong>TriviaSpark interactive quizzes</strong> embedded in relevant content sections
                           </li>
                         </ul>
                       </div>
@@ -295,15 +297,15 @@ const Hero: React.FC<{ profileData?: Profile }> = ({ profileData }) => {
                 </div>
                 
                 <div className="mt-4">
-                  <a href="https://github.com/markhazleton/ReactSparkPortfolio/issues" 
+                  <a href="https://markhazleton.com/webspark" 
                     className="btn btn-primary d-inline-flex align-items-center me-2"
                     target="_blank" rel="noopener noreferrer">
-                    <Github className="me-1" /> View GitHub Project
+                    <JournalText className="me-1" /> Learn About WebSpark
                   </a>
-                  <a href="https://vitejs.dev/guide/static-deploy.html#github-pages" 
+                  <a href="https://github.com/markhazleton/ReactSparkPortfolio" 
                     className="btn btn-outline-secondary d-inline-flex align-items-center"
                     target="_blank" rel="noopener noreferrer">
-                    <JournalText className="me-1" /> Vite Deployment Docs
+                    <Github className="me-1" /> View ReactSpark Source
                   </a>
                 </div>
               </div>

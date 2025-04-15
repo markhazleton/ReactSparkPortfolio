@@ -211,3 +211,50 @@ table {
 .alert {
   border-color: var(--color-border);
 }
+
+/* Enhance accessibility with high contrast focus indicators */
+a:focus, button:focus, input:focus, select:focus, textarea:focus {
+  outline: 2px solid var(--bs-primary);
+  outline-offset: 2px;
+}
+
+/* Add smooth transitions for interactive elements */
+a, button, .btn {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Improve text readability in both themes */
+p, li, h1, h2, h3, h4, h5, h6 {
+  color: var(--color-foreground);
+}
+
+/* Ensure code snippets are readable in both themes */
+code {
+  background-color: var(--color-background-alt);
+  color: var(--color-accent);
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+}
+
+/* Image adjustments for both themes */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Print media query to ensure good print layout */
+@media print {
+  body {
+    background-color: white !important;
+    color: black !important;
+  }
+  
+  a {
+    color: blue !important;
+    text-decoration: underline !important;
+  }
+  
+  .no-print {
+    display: none !important;
+  }
+}

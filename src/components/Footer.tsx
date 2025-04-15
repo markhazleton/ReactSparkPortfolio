@@ -11,7 +11,7 @@ const Footer: React.FC = () => {
         {/* Copyright and Build Date */}
         <div className="col-md-4 mb-3 mb-md-0">
           <div className="text-md-start text-center">
-            <p className="mb-0">© 2025 Mark Hazleton</p>
+            <p className="mb-0">© 2025 <a href="https://markhazleton.com" className="text-decoration-none">WebSpark</a> by Mark Hazleton</p>
             <small className="text-body-secondary d-flex align-items-center justify-content-md-start justify-content-center">
               <Calendar3 className="me-1" /> Build: {buildDate.substring(0, 10)}
             </small>

@@ -25,11 +25,14 @@ const Header: React.FC = () => {
             <div className="logo-container me-2 d-flex align-items-center justify-content-center icon-circle-sm">
               <img 
                 src={logoPath}
-                alt="Logo" 
+                alt="ReactSpark Logo" 
                 className="img-fluid"
               />
             </div>
-            <span className="fw-bold">Mark Hazleton</span>
+            <div>
+              <span className="fw-bold">ReactSpark</span>
+              <small className="d-block text-muted" style={{fontSize: '0.7rem'}}>by Mark Hazleton</small>
+            </div>
           </Link>
           
           <button

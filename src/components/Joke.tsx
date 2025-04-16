@@ -7,7 +7,9 @@ import {
   Card,
   Badge,
   Toast,
-  ToastContainer
+  ToastContainer,
+  ListGroup,
+  Accordion
 } from 'react-bootstrap';
 import { 
   EmojiLaughing, 
@@ -19,7 +21,13 @@ import {
   Heart,
   HeartFill,
   Clipboard,
-  CheckCircle
+  CheckCircle,
+  BookmarkPlus,
+  Bookmark,
+  BookmarkFill,
+  CodeSquare,
+  Info,
+  Trash
 } from 'react-bootstrap-icons';
 import Chat from './Chat';
 
@@ -49,8 +57,11 @@ const Joke: React.FC = () => {
   const [likedJokes, setLikedJokes] = useState<number[]>([]);
   const [copied, setCopied] = useState<boolean>(false);
   const [history, setHistory] = useState<Joke[]>([]);
+  const [savedJokes, setSavedJokes] = useState<Joke[]>([]);
+  const [jokeToExplain, setJokeToExplain] = useState<Joke | null>(null);
+  const [savedNotification, setSavedNotification] = useState<boolean>(false);
 
-  // Initialize liked jokes from localStorage
+  // Initialize liked jokes and saved jokes from localStorage
   useEffect(() => {
     const savedLikes = localStorage.getItem('likedJokes');
     if (savedLikes) {
@@ -60,6 +71,11 @@ const Joke: React.FC = () => {
     const savedHistory = localStorage.getItem('jokeHistory');
     if (savedHistory) {
       setHistory(JSON.parse(savedHistory));
+    }
+    
+    const userSavedJokes = localStorage.getItem('userSavedJokes');
+    if (userSavedJokes) {
+      setSavedJokes(JSON.parse(userSavedJokes));
     }
   }, []);
 
@@ -83,6 +99,25 @@ const Joke: React.FC = () => {
     const updatedHistory = [newJoke, ...history.slice(0, 9)];
     setHistory(updatedHistory);
     localStorage.setItem('jokeHistory', JSON.stringify(updatedHistory));
+  };
+
+  // Save joke to user preferences
+  const saveJoke = (jokeToSave: Joke) => {
+    // Check if joke is already saved
+    if (!savedJokes.some(savedJoke => savedJoke.id === jokeToSave.id)) {
+      const updatedSavedJokes = [...savedJokes, jokeToSave];
+      setSavedJokes(updatedSavedJokes);
+      localStorage.setItem('userSavedJokes', JSON.stringify(updatedSavedJokes));
+      setSavedNotification(true);
+      setTimeout(() => setSavedNotification(false), 3000);
+    }
+  };
+
+  // Remove joke from saved jokes
+  const removeSavedJoke = (jokeId: number) => {
+    const updatedSavedJokes = savedJokes.filter(joke => joke.id !== jokeId);
+    setSavedJokes(updatedSavedJokes);
+    localStorage.setItem('userSavedJokes', JSON.stringify(updatedSavedJokes));
   };
 
   const fetchJoke = async () => {
@@ -117,7 +152,12 @@ const Joke: React.FC = () => {
     fetchJoke();
   }, []);
 
-  const handleJokeExplainer = () => {
+  const handleJokeExplainer = (jokeToExplain: Joke | null = null) => {
+    if (jokeToExplain) {
+      setJokeToExplain(jokeToExplain);
+    } else {
+      setJokeToExplain(joke);
+    }
     setShowModal(true);
   };
 
@@ -162,6 +202,13 @@ const Joke: React.FC = () => {
   };
 
   const isJokeLiked = joke && likedJokes.includes(joke.id);
+  const isJokeSaved = joke && savedJokes.some(savedJoke => savedJoke.id === joke.id);
+
+  const getJokeText = (jokeObj: Joke) => {
+    return jokeObj.type === 'single' 
+      ? jokeObj.joke 
+      : `${jokeObj.setup} ${jokeObj.delivery}`;
+  };
 
   return (
     <div className="container py-5">
@@ -174,6 +221,14 @@ const Joke: React.FC = () => {
                 <strong className="me-auto">Success</strong>
               </Toast.Header>
               <Toast.Body>Joke copied to clipboard!</Toast.Body>
+            </Toast>
+            
+            <Toast show={savedNotification} onClose={() => setSavedNotification(false)} delay={3000} autohide>
+              <Toast.Header>
+                <BookmarkFill className="me-2 text-success" />
+                <strong className="me-auto">Success</strong>
+              </Toast.Header>
+              <Toast.Body>Joke saved to your collection!</Toast.Body>
             </Toast>
           </ToastContainer>
           
@@ -221,8 +276,8 @@ const Joke: React.FC = () => {
             </Card.Body>
             
             <Card.Footer className="bg-white border-top-0">
-              <div className="d-flex justify-content-between">
-                <div>
+              <div className="d-flex justify-content-between flex-wrap">
+                <div className="mb-2 mb-md-0">
                   <Button 
                     variant="primary" 
                     onClick={fetchJoke} 
@@ -233,8 +288,8 @@ const Joke: React.FC = () => {
                   </Button>
                   <Button 
                     variant="outline-secondary" 
-                    onClick={handleJokeExplainer}
-                    className="d-flex align-items-center"
+                    onClick={() => handleJokeExplainer()}
+                    className="d-flex align-items-center d-inline-flex"
                   >
                     <QuestionCircle className="me-2" /> Explain Joke
                   </Button>
@@ -262,10 +317,22 @@ const Joke: React.FC = () => {
                       </Button>
                       <Button 
                         variant="outline-success" 
-                        className="d-flex align-items-center"
+                        className="me-2 d-flex align-items-center"
                         onClick={shareJoke}
                       >
                         <Share className="me-2" /> Share
+                      </Button>
+                      <Button 
+                        variant="outline-info" 
+                        className="d-flex align-items-center"
+                        onClick={() => saveJoke(joke)}
+                        disabled={isJokeSaved}
+                      >
+                        {isJokeSaved ? (
+                          <><BookmarkFill className="me-2" /> Saved</>
+                        ) : (
+                          <><BookmarkPlus className="me-2" /> Save</>
+                        )}
                       </Button>
                     </>
                   )}
@@ -273,6 +340,49 @@ const Joke: React.FC = () => {
               </div>
             </Card.Footer>
           </Card>
+          
+          {/* Saved Jokes */}
+          {savedJokes.length > 0 && (
+            <Card className="shadow-sm mb-4">
+              <Card.Header className="bg-info text-white">
+                <h3 className="h5 mb-0 d-flex align-items-center">
+                  <BookmarkFill className="me-2" /> Your Saved Jokes
+                </h3>
+              </Card.Header>
+              <ListGroup variant="flush">
+                {savedJokes.map((savedJoke, index) => (
+                  <ListGroup.Item key={index} className="d-flex justify-content-between align-items-start py-3">
+                    <div className="ms-2 me-auto">
+                      <div className="fw-bold mb-1">{savedJoke.category}</div>
+                      <div className="text-truncate" style={{ maxWidth: '400px' }}>
+                        {savedJoke.type === 'single' 
+                          ? savedJoke.joke 
+                          : savedJoke.setup
+                        }
+                      </div>
+                    </div>
+                    <div className="ms-2 d-flex">
+                      <Button 
+                        variant="outline-secondary" 
+                        size="sm" 
+                        className="me-2"
+                        onClick={() => handleJokeExplainer(savedJoke)}
+                      >
+                        <QuestionCircle />
+                      </Button>
+                      <Button 
+                        variant="outline-danger" 
+                        size="sm"
+                        onClick={() => removeSavedJoke(savedJoke.id)}
+                      >
+                        <Trash />
+                      </Button>
+                    </div>
+                  </ListGroup.Item>
+                ))}
+              </ListGroup>
+            </Card>
+          )}
           
           {/* Joke History */}
           {history.length > 1 && (
@@ -309,7 +419,7 @@ const Joke: React.FC = () => {
           )}
           
           {/* Joke Explainer Video */}
-          <Card className="shadow-sm">
+          <Card className="shadow-sm mb-4">
             <Card.Header className="bg-light">
               <h3 className="h5 mb-0">Learn About Joke Explainers</h3>
             </Card.Header>
@@ -327,6 +437,97 @@ const Joke: React.FC = () => {
               <p className="text-muted small">
                 This video explains the concept of joke explainers and how they help understand humor.
               </p>
+            </Card.Body>
+          </Card>
+          
+          {/* How This Component Works */}
+          <Card className="shadow-sm mb-4">
+            <Card.Header className="bg-light">
+              <h3 className="h5 mb-0 d-flex align-items-center">
+                <CodeSquare className="me-2" /> How This Joke Component Works
+              </h3>
+            </Card.Header>
+            <Card.Body>
+              <Accordion>
+                <Accordion.Item eventKey="0">
+                  <Accordion.Header>Component Overview</Accordion.Header>
+                  <Accordion.Body>
+                    <p>
+                      The Joke component provides an interactive interface for fetching and displaying random jokes from the JokeAPI. 
+                      It's built with React and TypeScript, using React Bootstrap for UI components and React Bootstrap Icons for visual elements.
+                    </p>
+                    <p>
+                      The component demonstrates several modern React patterns including:
+                    </p>
+                    <ul>
+                      <li>State management with React hooks (useState, useEffect)</li>
+                      <li>Asynchronous data fetching with error handling</li>
+                      <li>Local storage for persistent data across sessions</li>
+                      <li>Conditional rendering based on component state</li>
+                      <li>User preference storage and retrieval</li>
+                    </ul>
+                  </Accordion.Body>
+                </Accordion.Item>
+                
+                <Accordion.Item eventKey="1">
+                  <Accordion.Header>Data Flow</Accordion.Header>
+                  <Accordion.Body>
+                    <p>
+                      This component manages several pieces of state:
+                    </p>
+                    <ul>
+                      <li><strong>joke</strong>: The current joke displayed to the user, fetched from JokeAPI</li>
+                      <li><strong>likedJokes</strong>: Array of joke IDs that the user has liked, stored in localStorage</li>
+                      <li><strong>history</strong>: Array of recently viewed jokes, stored in localStorage</li>
+                      <li><strong>savedJokes</strong>: Array of complete joke objects that the user has saved to their collection</li>
+                      <li><strong>loading</strong>: Boolean flag indicating if a joke is being fetched</li>
+                      <li><strong>error</strong>: Boolean flag for error handling</li>
+                    </ul>
+                    <p>
+                      When you interact with the component (like or save a joke), the data is immediately updated in both React state 
+                      and localStorage, ensuring your preferences persist across browser sessions.
+                    </p>
+                  </Accordion.Body>
+                </Accordion.Item>
+                
+                <Accordion.Item eventKey="2">
+                  <Accordion.Header>API Integration</Accordion.Header>
+                  <Accordion.Body>
+                    <p>
+                      The component connects to <a href="https://v2.jokeapi.dev/" target="_blank" rel="noopener noreferrer">JokeAPI</a> 
+                      to fetch random jokes. Key features of this integration include:
+                    </p>
+                    <ul>
+                      <li>Safe-mode parameter to filter out inappropriate content</li>
+                      <li>Error handling for API failures</li>
+                      <li>Support for both single and two-part joke formats</li>
+                      <li>Loading states to improve user experience</li>
+                    </ul>
+                    <p>
+                      The API response is typed using TypeScript interfaces, ensuring type safety throughout the component.
+                    </p>
+                  </Accordion.Body>
+                </Accordion.Item>
+                
+                <Accordion.Item eventKey="3">
+                  <Accordion.Header>Joke Explainer Integration</Accordion.Header>
+                  <Accordion.Body>
+                    <p>
+                      The Joke Explainer feature connects this component with the Chat component, creating an interactive 
+                      experience for understanding humor:
+                    </p>
+                    <ul>
+                      <li>When you click "Explain Joke", the current joke is passed to the Chat component as an initial message</li>
+                      <li>You can also ask for explanations of jokes saved in your collection</li>
+                      <li>The modal interface keeps the conversation focused while maintaining context</li>
+                    </ul>
+                    <p>
+                      This integration demonstrates component composition and communication in React, passing data from 
+                      the Joke component to the Chat component through props.
+                    </p>
+                  </Accordion.Body>
+                </Accordion.Item>
+              </Accordion>
             </Card.Body>
           </Card>
         </div>
@@ -349,10 +550,10 @@ const Joke: React.FC = () => {
             <Chat
               variantName="Joke Explainer"
               initialMessage={
-                joke
-                  ? joke.type === 'single'
-                    ? joke.joke
-                    : `${joke.setup} ${joke.delivery}`
+                jokeToExplain
+                  ? jokeToExplain.type === 'single'
+                    ? jokeToExplain.joke
+                    : `${jokeToExplain.setup} ${jokeToExplain.delivery}`
                   : 'No joke available to explain.'
               }
             />

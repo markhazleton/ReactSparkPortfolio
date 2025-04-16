@@ -1,8 +1,13 @@
-// Simple robots.txt generator that doesn't rely on external imports
-import fs from "node:fs";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-import { dirname } from "node:path";
+/**
+ * Simple robots.txt generator (ES modules version)
+ * This file is meant to be executed directly with Node.js
+ * Following Azure best practices for error handling and reliability
+ */
+
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { dirname } from 'node:path';
 
 // Get current file path in ES modules
 const __filename = fileURLToPath(import.meta.url);
@@ -14,10 +19,8 @@ const __dirname = dirname(__filename);
  */
 function generateRobotsTxt() {
   // Hardcode the URL to avoid import issues
-  // In production, this should be retrieved from a configuration service
-  const sitemapUrl =
-    process.env.SITE_URL || "https://reactspark.markhazleton.com";
-
+  const sitemapUrl = process.env.SITE_URL || "https://reactspark.markhazleton.com";
+  
   const robotsTxt = `User-agent: *
 Allow: /
 Disallow: /assets/
@@ -25,17 +28,19 @@ Disallow: /assets/
 Sitemap: ${sitemapUrl}/sitemap.xml`;
 
   try {
-    // Get project root
-    const projectRoot = path.resolve(__dirname, "../../");
-
+    // Get project root (1 level up from this file in scripts/)
+    const projectRoot = path.resolve(__dirname, "..");
+    
     // Target both the docs directory (build output) and public directory (dev mode)
     const targetDirs = [
       path.join(projectRoot, "docs"),
       path.join(projectRoot, "public"),
-      // Add the GitHub Actions workspace path as a fallback
-      path.join(projectRoot, "src", "public"),
+      path.join(projectRoot, "src", "public")
     ];
-
+    
+    console.log("Project root:", projectRoot);
+    console.log("Target directories:", targetDirs);
+    
     // Ensure directories exist and write files with proper error handling
     let success = false;
     for (const dir of targetDirs) {
@@ -46,31 +51,29 @@ Sitemap: ${sitemapUrl}/sitemap.xml`;
             fs.mkdirSync(dir, { recursive: true });
             console.log(`Created directory: ${dir}`);
           } catch (mkdirError) {
-            console.error(
-              `Cannot create directory ${dir}: ${mkdirError.message}`
-            );
+            console.error(`Cannot create directory ${dir}: ${mkdirError.message}`);
             continue; // Skip this directory and try the next one
           }
         }
-
+        
         // Write the file with proper error handling
         try {
           fs.writeFileSync(path.join(dir, "robots.txt"), robotsTxt);
           console.log(`robots.txt generated successfully in ${dir}`);
           success = true;
         } catch (writeError) {
-          console.error(
-            `Cannot write to ${dir}/robots.txt: ${writeError.message}`
-          );
+          console.error(`Cannot write to ${dir}/robots.txt: ${writeError.message}`);
         }
       } catch (dirError) {
         console.error(`Error processing directory ${dir}: ${dirError.message}`);
       }
     }
-
+    
     if (!success) {
       console.error("Failed to write robots.txt to any directory");
       // Don't throw to prevent build process from failing
+    } else {
+      console.log("robots.txt generation completed successfully");
     }
   } catch (error) {
     console.error(`Error generating robots.txt: ${error.message}`);
@@ -78,24 +81,8 @@ Sitemap: ${sitemapUrl}/sitemap.xml`;
   }
 }
 
-// Export the function as default export (for build scripts)
-export default generateRobotsTxt;
+// Run the function immediately
+generateRobotsTxt();
 
-// IIFE pattern to handle direct execution
-// This pattern works better with ES modules
-(async function () {
-  // Only run the function if this file is being executed directly
-  const isMainModule = import.meta.url.startsWith("file:");
-  if (isMainModule) {
-    try {
-      console.log("Starting robots.txt generation...");
-      generateRobotsTxt();
-      console.log("Robots.txt generation complete");
-    } catch (error) {
-      console.error("Fatal error during robots.txt generation:", error);
-      // Don't exit with non-zero code to avoid breaking builds
-    }
-  }
-})().catch((err) =>
-  console.error("Uncaught error in robots.txt generator:", err)
-);
+// Export for potential use in build scripts
+export default generateRobotsTxt;

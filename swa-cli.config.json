@@ -3,7 +3,7 @@
   "configurations": {
     "react-spark-portfolio": {
       "appLocation": ".",
-      "outputLocation": "dist",
+      "outputLocation": "docs",
       "appBuildCommand": "npm run build",
       "run": "npm run dev",
       "appDevserverUrl": "auto"

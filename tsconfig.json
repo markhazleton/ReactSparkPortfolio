@@ -13,5 +13,5 @@
     "noEmit": true // Prevents emitting files during 'npm run dev'
   },
   "include": ["src"],
-  "exclude": ["node_modules", "dist"] // Ensure dist is excluded
+  "exclude": ["node_modules", "docs"] // Updated to exclude docs instead of dist
 }

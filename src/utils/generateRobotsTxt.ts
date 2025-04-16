@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import AppConfig from "../config/AppConfig";
+import AppConfig from "../config/AppConfig.js";
 
 /**
  * Generates a robots.txt file with the correct domain
@@ -21,7 +21,8 @@ Sitemap: ${AppConfig.hostedUrl}/sitemap.xml`;
 // Export the function for use in build scripts
 export default generateRobotsTxt;
 
-// Run directly if this script is executed directly
-if (require.main === module) {
+// Run directly if this is the main module
+const isMainModule = import.meta.url === `file://${process.argv[1]}`;
+if (isMainModule) {
   generateRobotsTxt();
 }

@@ -1,3 +1,12 @@
 /* Placeholder styles for About component */
 
 /* Add your styles here */
+.intro-paragraph {
+  max-width: 800px;
+}
+
+.article-number-badge {
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+}

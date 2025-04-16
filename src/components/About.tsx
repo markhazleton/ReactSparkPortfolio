@@ -16,7 +16,7 @@ import { format } from 'date-fns';
 import profile from '../data/profile.json';
 import { fetchRssFeed, RssArticle } from '../services/RssService';
 import { useTheme } from '../contexts/ThemeContext';
-import { useSEO } from '../contexts/SEOContext';
+import { useSEO } from '../contexts/useSEO';
 import '../styles/About.css'; // Import the external CSS file
 
 const About: React.FC = () => {
@@ -85,7 +85,7 @@ const About: React.FC = () => {
         <div className="row mb-4">
           <div className="col-12 text-center">
             <h1 className="display-5 fw-bold mb-3">{profile.name}</h1>
-            <p className="lead text-muted mb-4 mx-auto" style={{ maxWidth: '800px' }}>
+            <p className="lead text-muted mb-4 mx-auto intro-paragraph">
               {profile.introduction}
             </p>
             <div className="d-flex justify-content-center gap-2 mb-4">
@@ -240,7 +240,7 @@ const About: React.FC = () => {
                         title={article.title}
                       >
                         <div className="d-flex align-items-center">
-                          <span className="bg-primary bg-opacity-10 text-primary rounded-circle d-inline-flex align-items-center justify-content-center me-3" style={{ width: '28px', height: '28px', minWidth: '28px' }}>
+                          <span className="bg-primary bg-opacity-10 text-primary rounded-circle d-inline-flex align-items-center justify-content-center me-3 article-number-badge">
                             {index + 1}
                           </span>
                           <div>

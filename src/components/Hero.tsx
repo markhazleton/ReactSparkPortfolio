@@ -93,71 +93,120 @@ const Hero: React.FC<{ profileData?: Profile }> = ({ profileData }) => {
           </div>
         </div>
 
-        {/* Row 2: Quick Links and Technology Stack in 2 columns */}
+        {/* Row 2: Technology Stack (Full width) */}
         <div className="row mb-5">
-          {/* Quick Links Column */}
-          <div className="col-lg-6 mb-4 mb-lg-0">
+          <div className="col-12">
             <div className="card border shadow-sm h-100">
               <div className="card-body">
                 <h3 className="card-title h4 mb-3 d-flex align-items-center">
-                  <Briefcase className="text-primary me-2" /> Quick Links
+                  <CodeSquare className="text-primary me-2" /> Frontend Stack & Cloud Architecture
                 </h3>
-                <div className="list-group list-group-flush">
-                  <a href="/about" className="list-group-item list-group-item-action d-flex align-items-center border-0">
-                    <span className="bg-information text-white rounded-circle d-flex align-items-center justify-content-center me-3 icon-circle">
-                      <Person />
-                    </span>
-                    About ReactSpark
-                  </a>
-                  <a href="/projects" className="list-group-item list-group-item-action d-flex align-items-center border-0">
-                    <span className="bg-information text-white rounded-circle d-flex align-items-center justify-content-center me-3 icon-circle">
-                      <Briefcase />
-                    </span>
-                    Featured Projects
-                  </a>
-                  <a href="/articles" className="list-group-item list-group-item-action d-flex align-items-center border-0">
-                    <span className="bg-information text-white rounded-circle d-flex align-items-center justify-content-center me-3 icon-circle">
-                      <JournalText />
-                    </span>
-                    Development Articles
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Technology Stack Column */}
-          <div className="col-lg-6">
-            <div className="card border shadow-sm h-100">
-              <div className="card-body">
-                <h3 className="card-title h4 mb-3 d-flex align-items-center">
-                  <CodeSquare className="text-primary me-2" /> Frontend Stack
-                </h3>
-                <p className="text-muted mb-3">ReactSpark is built with modern web technologies focused on frontend excellence:</p>
+                <p className="text-muted mb-3">ReactSpark is built with modern web technologies and deployed on Azure cloud infrastructure:</p>
                 
-                <div className="d-flex flex-wrap gap-2 mb-3">
-                  <span className="badge bg-information d-flex align-items-center p-2">
-                    <Braces className="me-1" /> React 18+
-                  </span>
-                  <span className="badge bg-info text-dark d-flex align-items-center p-2">
-                    <FileEarmarkCode className="me-1" /> TypeScript
-                  </span>
-                  <span className="badge bg-success d-flex align-items-center p-2">
-                    <LightningCharge className="me-1" /> Vite
-                  </span>
-                  <span className="badge bg-secondary d-flex align-items-center p-2">
-                    <Bootstrap className="me-1" /> Bootstrap 5
-                  </span>
-                  <span className="badge bg-warning text-dark d-flex align-items-center p-2">
-                    <CupHot className="me-1" /> SCSS
-                  </span>
+                <div className="row mb-4">
+                  <div className="col-md-6">
+                    <h5 className="h6 mb-2">Core Technologies</h5>
+                    <div className="d-flex flex-wrap gap-2 mb-3">
+                      <span className="badge bg-information d-flex align-items-center p-2">
+                        <Braces className="me-1" /> React 18+
+                      </span>
+                      <span className="badge bg-info text-dark d-flex align-items-center p-2">
+                        <FileEarmarkCode className="me-1" /> TypeScript
+                      </span>
+                      <span className="badge bg-success d-flex align-items-center p-2">
+                        <LightningCharge className="me-1" /> Vite
+                      </span>
+                      <span className="badge bg-secondary d-flex align-items-center p-2">
+                        <Bootstrap className="me-1" /> Bootstrap 5
+                      </span>
+                      <span className="badge bg-warning text-dark d-flex align-items-center p-2">
+                        <CupHot className="me-1" /> SCSS
+                      </span>
+                    </div>
+
+                    <ul className="list-group list-group-flush mb-3">
+                      <li className="list-group-item border-0 px-0">
+                        <strong>React 18:</strong> Utilizing the latest React features including concurrent rendering, automatic batching, and transitions
+                      </li>
+                      <li className="list-group-item border-0 px-0">
+                        <strong>TypeScript:</strong> Full type safety across the entire codebase for improved developer experience and fewer runtime errors
+                      </li>
+                      <li className="list-group-item border-0 px-0">
+                        <strong>Vite:</strong> Lightning-fast build tool with Hot Module Replacement (HMR) for rapid development cycles
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div className="col-md-6">
+                    <h5 className="h6 mb-2">Azure Deployment</h5>
+                    <div className="d-flex flex-wrap gap-2 mb-3">
+                      <span className="badge bg-primary d-flex align-items-center p-2">
+                        <Gear className="me-1" /> Azure Static Web Apps
+                      </span>
+                      <span className="badge bg-danger d-flex align-items-center p-2">
+                        <LightningCharge className="me-1" /> Azure Functions
+                      </span>
+                      <span className="badge bg-dark d-flex align-items-center p-2">
+                        <Github className="me-1" /> GitHub Actions
+                      </span>
+                    </div>
+
+                    <ul className="list-group list-group-flush mb-3">
+                      <li className="list-group-item border-0 px-0">
+                        <strong>Azure Static Web Apps:</strong> Fully managed hosting service optimized for modern web apps with global distribution via Azure CDN
+                      </li>
+                      <li className="list-group-item border-0 px-0">
+                        <strong>Built-in API Backend:</strong> Serverless Azure Functions for secure backend capabilities without managing infrastructure
+                      </li>
+                      <li className="list-group-item border-0 px-0">
+                        <strong>CI/CD Pipeline:</strong> Automated deployments through GitHub Actions triggered on code commits
+                      </li>
+                      <li className="list-group-item border-0 px-0">
+                        <strong>Authentication:</strong> Easy integration with Azure AD B2C, GitHub, or other identity providers
+                      </li>
+                    </ul>
+                  </div>
                 </div>
 
-                <div className="d-flex justify-content-between align-items-center">
-                  <a href="https://markhazleton.com/websparkintro" 
+                <div className="card bg-light">
+                  <div className="card-body">
+                    <h5 className="h6 mb-2">Azure Static Web Apps Benefits</h5>
+                    <div className="row">
+                      <div className="col-md-6">
+                        <ul className="mb-0">
+                          <li className="mb-2">
+                            <strong>Global CDN:</strong> Content delivered from edge locations closest to users
+                          </li>
+                          <li className="mb-2">
+                            <strong>Free SSL Certificates:</strong> Automatic HTTPS with managed certificates
+                          </li>
+                          <li className="mb-2">
+                            <strong>Staging Environments:</strong> Preview deployments for pull requests
+                          </li>
+                        </ul>
+                      </div>
+                      <div className="col-md-6">
+                        <ul className="mb-0">
+                          <li className="mb-2">
+                            <strong>Route Customization:</strong> Advanced routing via staticwebapp.config.json
+                          </li>
+                          <li className="mb-2">
+                            <strong>Serverless API:</strong> Easy backend integration with Azure Functions
+                          </li>
+                          <li className="mb-2">
+                            <strong>Cost Efficiency:</strong> Free tier available for personal projects
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="d-flex justify-content-between align-items-center mt-3">
+                  <a href="https://learn.microsoft.com/en-us/azure/static-web-apps/" 
                     className="btn btn-sm btn-outline-primary d-inline-flex align-items-center"
                     target="_blank" rel="noopener noreferrer">
-                    <JournalText className="me-1" /> Explore WebSpark Suite
+                    <JournalText className="me-1" /> Learn About Azure Static Web Apps
                   </a>
                   
                   <a href="https://github.com/markhazleton/ReactSparkPortfolio" 

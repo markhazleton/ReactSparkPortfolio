@@ -1,15 +1,13 @@
 # ReactSparkPortfolio
 
-[![GitHub license](https://img.shields.io/github/license/markhazleton/ReactSparkPortfolio)](https://github.com/markhazleton/ReactSparkPortfolio/blob/main/LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/markhazleton/ReactSparkPortfolio?tab=MIT-1-ov-file)
 [![GitHub stars](https://img.shields.io/github/stars/markhazleton/ReactSparkPortfolio)](https://github.com/markhazleton/ReactSparkPortfolio/stargazers)
 [![GitHub issues](https://img.shields.io/github/issues/markhazleton/ReactSparkPortfolio)](https://github.com/markhazleton/ReactSparkPortfolio/issues)
 [![Azure Static Web Apps CI/CD](https://github.com/markhazleton/ReactSparkPortfolio/workflows/Azure%20Static%20Web%20Apps%20CI/CD/badge.svg)](https://github.com/markhazleton/ReactSparkPortfolio/actions)
 
 A modern, responsive portfolio website built with React 19, TypeScript, and Vite. This project showcases a developer portfolio with various interactive components, dynamic content fetching, and a clean, professional design.
 
-**Live Demo:** [https://markhazleton.github.io/ReactSparkPortfolio/](https://markhazleton.github.io/ReactSparkPortfolio/)
-
-![ReactSparkPortfolio Screenshot](public/assets/img/project-screenshot.jpg)
+**Live Demo:** [https://reactspark.markhazleton.com/](https://reactspark.markhazleton.com/ReactSpark/)
 
 ## 📋 Table of Contents
 

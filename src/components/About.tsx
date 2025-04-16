@@ -16,6 +16,7 @@ import { format } from 'date-fns';
 import profile from '../data/profile.json';
 import { fetchRssFeed, RssArticle } from '../services/RssService';
 import { useTheme } from '../contexts/ThemeContext';
+import { useSEO } from '../contexts/SEOContext';
 import '../styles/About.css'; // Import the external CSS file
 
 const About: React.FC = () => {
@@ -23,6 +24,13 @@ const About: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const { theme } = useTheme();
+  const { setTitle, setDescription } = useSEO();
+
+  // Set page-specific SEO information
+  useEffect(() => {
+    setTitle('About | React Spark Portfolio');
+    setDescription('Learn about ReactSpark - a modern, high-performance SPA built with React, TypeScript and Vite that showcases frontend development best practices.');
+  }, [setTitle, setDescription]);
 
   useEffect(() => {
     const loadReactSparkArticles = async () => {

@@ -23,3 +23,56 @@ dist-ssr
 *.sln
 *.sw?
 .vs/*
+
+# Environment variables and secrets
+.env
+.env.*
+.env.local
+.env.development
+.env.test
+.env.production
+*.env
+
+# API keys and sensitive data
+**/config/keys.js
+**/config/secrets.js
+**/api-keys.json
+**/credentials.json
+
+# Local config files
+config.local.js
+local.settings.json
+
+# Build artifacts
+/build
+/.next
+/out
+coverage/
+
+# Sensitive Azure files
+.azure/
+azure-*.json
+azureauth.json
+
+# Dependency lock files (keep package-lock.json for reproducible builds)
+yarn.lock
+# package-lock.json - commenting out as this is often committed
+
+# Testing and debugging files
+.nyc_output/
+.coverage/
+cypress/videos/
+cypress/screenshots/
+
+# Cache and temporary files
+.cache/
+.temp/
+.tmp/
+**/.eslintcache
+**/.stylelintcache
+.rpt2_cache/
+.rts2_cache*/
+
+# System Files
+Thumbs.db
+ehthumbs.db

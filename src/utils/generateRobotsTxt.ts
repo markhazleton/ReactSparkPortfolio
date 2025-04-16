@@ -45,7 +45,9 @@ Sitemap: ${sitemapUrl}/sitemap.xml`;
           try {
             fs.mkdirSync(dir, { recursive: true });
             console.log(`Created directory: ${dir}`);
-          } catch (mkdirError) {
+          } catch (error: unknown) {
+            // Properly type the error as unknown (TypeScript best practice)
+            const mkdirError = error instanceof Error ? error : new Error(String(error));
             console.error(
               `Cannot create directory ${dir}: ${mkdirError.message}`
             );
@@ -58,12 +60,16 @@ Sitemap: ${sitemapUrl}/sitemap.xml`;
           fs.writeFileSync(path.join(dir, "robots.txt"), robotsTxt);
           console.log(`robots.txt generated successfully in ${dir}`);
           success = true;
-        } catch (writeError) {
+        } catch (error: unknown) {
+          // Properly type the error as unknown (TypeScript best practice)
+          const writeError = error instanceof Error ? error : new Error(String(error));
           console.error(
             `Cannot write to ${dir}/robots.txt: ${writeError.message}`
           );
         }
-      } catch (dirError) {
+      } catch (error: unknown) {
+        // Properly type the error as unknown (TypeScript best practice)
+        const dirError = error instanceof Error ? error : new Error(String(error));
         console.error(`Error processing directory ${dir}: ${dirError.message}`);
       }
     }
@@ -72,8 +78,10 @@ Sitemap: ${sitemapUrl}/sitemap.xml`;
       console.error("Failed to write robots.txt to any directory");
       // Don't throw to prevent build process from failing
     }
-  } catch (error) {
-    console.error(`Error generating robots.txt: ${error.message}`);
+  } catch (error: unknown) {
+    // Properly type the error as unknown (TypeScript best practice)
+    const typedError = error instanceof Error ? error : new Error(String(error));
+    console.error(`Error generating robots.txt: ${typedError.message}`);
     // Log error but don't exit process with error code
   }
 }
@@ -91,11 +99,15 @@ export default generateRobotsTxt;
       console.log("Starting robots.txt generation...");
       generateRobotsTxt();
       console.log("Robots.txt generation complete");
-    } catch (error) {
-      console.error("Fatal error during robots.txt generation:", error);
+    } catch (error: unknown) {
+      // Properly type the error as unknown
+      const fatalError = error instanceof Error ? error : new Error(String(error));
+      console.error("Fatal error during robots.txt generation:", fatalError);
       // Don't exit with non-zero code to avoid breaking builds
     }
   }
-})().catch((err) =>
-  console.error("Uncaught error in robots.txt generator:", err)
-);
+})().catch((err: unknown) => {
+  // Properly type the error as unknown
+  const uncaughtError = err instanceof Error ? err : new Error(String(err));
+  console.error("Uncaught error in robots.txt generator:", uncaughtError);
+});

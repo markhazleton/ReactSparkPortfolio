@@ -30,6 +30,7 @@ A modern, responsive portfolio website built with React 19, TypeScript, and Vite
   - [🔍 SEO Implementation](#-seo-implementation)
   - [📝 Blog Posts](#-blog-posts)
   - [📄 License](#-license)
+  - [📞 Support \& Contact](#-support--contact)
 
 ## ✨ Features
 
@@ -255,6 +256,15 @@ Learn more about this project from these detailed blog posts:
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
+## 📞 Support & Contact
+
+If you encounter any issues, have questions, or want to contribute to this project:
+
+1. **Open an Issue**: Please use the [GitHub Issues](https://github.com/markhazleton/ReactSparkPortfolio/issues) page to report bugs, request features, or ask questions.
+2. **Pull Requests**: Contributions are welcome! Please feel free to submit a Pull Request.
+
+All support requests and questions should be directed through GitHub Issues rather than through direct contact.
+
 ---
 
-Built with ❤️ by [Mark Hazleton](https://markhazleton.com)
+Built with ❤️ by the ReactSparkPortfolio community. [Report an issue](https://github.com/markhazleton/ReactSparkPortfolio/issues/new)

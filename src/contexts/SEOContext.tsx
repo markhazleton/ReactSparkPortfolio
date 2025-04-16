@@ -1,20 +1,7 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { useState, useEffect, ReactNode } from 'react';
 import { useLocation } from 'react-router-dom';
 import AppConfig from '../config/AppConfig';
-
-interface SEOContextProps {
-  setTitle: (title: string) => void;
-  setDescription: (description: string) => void;
-  setCanonicalUrl: (url: string) => void;
-}
-
-const SEOContext = createContext<SEOContextProps>({
-  setTitle: () => {},
-  setDescription: () => {},
-  setCanonicalUrl: () => {},
-});
-
-export const useSEO = () => useContext(SEOContext);
+import { SEOContext } from './SEOContextInstance';
 
 interface SEOProviderProps {
   children: ReactNode;
@@ -55,12 +42,12 @@ export const SEOProvider: React.FC<SEOProviderProps> = ({
   // Update canonical URL when canonicalUrl state or location changes
   useEffect(() => {
     const url = canonicalUrl || `${siteUrl}${location.pathname}`;
-    let linkCanonical = document.querySelector('link[rel="canonical"]');
+    let linkCanonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
     
     if (linkCanonical) {
-      linkCanonical.setAttribute('href', url);
+      linkCanonical.href = url;
     } else {
-      linkCanonical = document.createElement('link');
+      linkCanonical = document.createElement('link') as HTMLLinkElement;
       linkCanonical.rel = 'canonical';
       linkCanonical.href = url;
       document.head.appendChild(linkCanonical);

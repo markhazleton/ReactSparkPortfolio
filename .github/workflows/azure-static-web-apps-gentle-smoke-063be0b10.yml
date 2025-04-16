@@ -22,6 +22,13 @@ jobs:
         with:
           submodules: true
           lfs: false
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+          cache: "npm"
+      - name: Install dependencies
+        run: npm ci
       - name: Install OIDC Client from Core Package
         run: npm install @actions/core@1.6.0 @actions/http-client
       - name: Get Id Token
@@ -44,6 +51,8 @@ jobs:
           api_location: "api" # Api source code path - optional
           output_location: "docs" # Built app content directory - updated to match Vite's output
           app_build_command: "npm run build" # Custom build command
+          skip_app_build: false
+          skip_api_build: false
           github_id_token: ${{ steps.idtoken.outputs.result }}
           ###### End of Repository/Build Configurations ######
 

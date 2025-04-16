@@ -11,10 +11,8 @@ const Header: React.FC = () => {
     return location.pathname === path;
   };
 
-  // Determine correct path for the logo
-  const logoPath = window.location.hostname === 'localhost' 
-    ? '/PromptSpark.svg' 
-    : '/ReactSparkPortfolio/PromptSpark.svg';
+  // Updated path resolution for the logo to work both locally and on Azure
+  const logoPath = '/PromptSpark.svg';
 
   return (
     <>

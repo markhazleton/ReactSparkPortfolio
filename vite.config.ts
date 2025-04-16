@@ -25,7 +25,9 @@ const createNoJekyllFile = () => {
 };
 
 export default defineConfig({
-  base: process.env.VITE_BASE_URL || "/",
+  // Set base path explicitly to "/" for Azure Static Web Apps
+  // This ensures assets are served from the correct location
+  base: "/",
   build: {
     outDir: "docs",
   },

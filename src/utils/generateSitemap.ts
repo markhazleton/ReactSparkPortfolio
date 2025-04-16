@@ -40,8 +40,8 @@ ${routes
   .join("\n")}
 </urlset>`;
 
-  // Write to public folder
-  fs.writeFileSync(path.join(__dirname, "../public/sitemap.xml"), sitemap);
+  // Write to public folder at the root level
+  fs.writeFileSync(path.join(__dirname, "../../public/sitemap.xml"), sitemap);
 
   console.log("Sitemap generated successfully!");
 }

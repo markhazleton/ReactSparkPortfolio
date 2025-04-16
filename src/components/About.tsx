@@ -9,10 +9,9 @@ import {
   FileEarmarkCode,
   Gear,
   Calendar3,
-  Spinner,
   InfoCircle
 } from 'react-bootstrap-icons';
-import { Alert } from 'react-bootstrap';
+import { Alert, Spinner } from 'react-bootstrap';
 import { format } from 'date-fns';
 import profile from '../data/profile.json';
 import { fetchRssFeed, RssArticle } from '../services/RssService';

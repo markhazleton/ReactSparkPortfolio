@@ -1,23 +1,76 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   JournalText, 
-  Tools, 
-  CodeSlash,
   BookmarkStar,
   Github,
-  Database,
-  Front,
-  GraphUp,
   ArrowRight,
   LightningCharge,
   Braces,
   FileEarmarkCode,
-  Gear
+  Gear,
+  Calendar3,
+  Spinner,
+  InfoCircle
 } from 'react-bootstrap-icons';
+import { Alert } from 'react-bootstrap';
+import { format } from 'date-fns';
 import profile from '../data/profile.json';
+import { fetchRssFeed, RssArticle } from '../services/RssService';
+import { useTheme } from '../contexts/ThemeContext';
 import '../styles/About.css'; // Import the external CSS file
 
 const About: React.FC = () => {
+  const [reactSparkArticles, setReactSparkArticles] = useState<RssArticle[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const { theme } = useTheme();
+
+  useEffect(() => {
+    const loadReactSparkArticles = async () => {
+      try {
+        setLoading(true);
+        
+        // Fetch all articles
+        const articles = await fetchRssFeed();
+        
+        // Filter for articles with ReactSpark category
+        const filteredArticles = articles.filter(article => 
+          article.category?.toLowerCase() === 'reactspark' ||
+          article.title.toLowerCase().includes('reactspark')
+        );
+
+        // Sort by date (newest first) and take up to 3
+        const sortedArticles = filteredArticles
+          .sort((a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime())
+          .slice(0, 3);
+          
+        setReactSparkArticles(sortedArticles);
+        setLoading(false);
+      } catch (err) {
+        console.error('Error loading ReactSpark articles:', err);
+        setError(err instanceof Error ? err.message : 'Unknown error loading articles');
+        setLoading(false);
+      }
+    };
+
+    loadReactSparkArticles();
+  }, []);
+
+  const formatDate = (dateString: string) => {
+    try {
+      const date = new Date(dateString);
+      
+      if (!isNaN(date.getTime())) {
+        return format(date, 'MMMM d, yyyy');
+      }
+      
+      return 'Unknown date';
+    } catch (e) {
+      console.error('Error formatting date:', dateString, e);
+      return 'Unknown date';
+    }
+  };
+
   return (
     <section className="py-5">
       <div className="container">
@@ -130,9 +183,6 @@ const About: React.FC = () => {
                   <span className="badge bg-success d-flex align-items-center p-2">
                     <LightningCharge className="me-1" /> Vite
                   </span>
-                  <span className="badge bg-secondary d-flex align-items-center p-2">
-                    <CodeSlash className="me-1" /> API Integration
-                  </span>
                 </div>
                 
                 <div className="card bg-light mb-4">
@@ -147,34 +197,57 @@ const About: React.FC = () => {
                   </div>
                 </div>
                 
-                {/* Articles Section */}
-                <h3 className="h5 mb-3 border-top pt-4">Featured Resources</h3>
-                <div className="list-group list-group-flush">
-                  {[
-                    { title: 'Building React SPAs with .NET Backend APIs', link: 'https://markhazleton.com/articles/react-dotnet-integration' },
-                    { title: 'WebSpark: A Modern Web Development Ecosystem', link: 'https://markhazleton.com/webspark' },
-                    { title: 'API-First Architecture for Modern Web Apps', link: 'https://markhazleton.com/articles/api-first-architecture' }
-                  ].map((article, index) => (
-                    <a 
-                      key={index} 
-                      href={article.link} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="list-group-item list-group-item-action d-flex justify-content-between align-items-center border-0 px-0 py-2"
-                      title={article.title}
-                    >
-                      <div className="d-flex align-items-center">
-                        <span className="bg-primary bg-opacity-10 text-primary rounded-circle d-inline-flex align-items-center justify-content-center me-3" style={{ width: '28px', height: '28px', minWidth: '28px' }}>
-                          {index + 1}
-                        </span>
-                        <div>
-                          <h5 className="h6 mb-0 small">{article.title}</h5>
+                {/* ReactSpark Articles Section */}
+                <h3 className="h5 mb-3 border-top pt-4">Featured ReactSpark Articles</h3>
+                
+                {loading && (
+                  <div className="d-flex justify-content-center my-4">
+                    <Spinner animation="border" role="status" size="sm" className="me-2" />
+                    <span>Loading articles...</span>
+                  </div>
+                )}
+                
+                {error && (
+                  <Alert variant="warning" className="d-flex align-items-center">
+                    <InfoCircle className="me-2 flex-shrink-0" />
+                    <div className="small">Couldn't load articles: {error}</div>
+                  </Alert>
+                )}
+                
+                {!loading && !error && reactSparkArticles.length === 0 && (
+                  <Alert variant="info" className="d-flex align-items-center">
+                    <InfoCircle className="me-2 flex-shrink-0" />
+                    <div className="small">No ReactSpark articles found. Check back soon for updates!</div>
+                  </Alert>
+                )}
+                
+                {!loading && !error && reactSparkArticles.length > 0 && (
+                  <div className="list-group list-group-flush">
+                    {reactSparkArticles.map((article, index) => (
+                      <a 
+                        key={index} 
+                        href={article.link} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className={`list-group-item list-group-item-action d-flex justify-content-between align-items-center border-0 px-0 py-2 ${theme === 'dark' ? 'text-light' : ''}`}
+                        title={article.title}
+                      >
+                        <div className="d-flex align-items-center">
+                          <span className="bg-primary bg-opacity-10 text-primary rounded-circle d-inline-flex align-items-center justify-content-center me-3" style={{ width: '28px', height: '28px', minWidth: '28px' }}>
+                            {index + 1}
+                          </span>
+                          <div>
+                            <h5 className="h6 mb-0 small">{article.title}</h5>
+                            <small className="text-muted d-flex align-items-center mt-1">
+                              <Calendar3 className="me-1" size={12} /> {formatDate(article.pubDate)}
+                            </small>
+                          </div>
                         </div>
-                      </div>
-                      <ArrowRight className="text-primary" size={14} />
-                    </a>
-                  ))}
-                </div>
+                        <ArrowRight className="text-primary" size={14} />
+                      </a>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </div>

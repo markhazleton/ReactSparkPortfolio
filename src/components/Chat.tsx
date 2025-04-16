@@ -30,6 +30,14 @@ const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = '' }) => {
   const streamingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const isFirstChunk = useRef(true);
 
+  // Load username from localStorage on component mount
+  useEffect(() => {
+    const savedUserName = localStorage.getItem('chatUserName');
+    if (savedUserName) {
+      setUserName(savedUserName);
+    }
+  }, []);
+
   useEffect(() => {
     const setupSignalRConnection = async () => {
       try {
@@ -42,6 +50,14 @@ const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = '' }) => {
         console.log('Connected to SignalR hub');
 
         connection.current.on('ReceiveMessage', handleReceiveMessage);
+        
+        // If we have a username and an initial message, send it automatically
+        const savedUserName = localStorage.getItem('chatUserName');
+        if (savedUserName && initialMessage) {
+          setTimeout(() => {
+            connection.current?.invoke('SendMessage', savedUserName, initialMessage, conversationId.current, variantName).catch(console.error);
+          }, 500);
+        }
       } catch (error) {
         console.error('SignalR connection failed:', error);
         setIsConnecting(false);
@@ -55,7 +71,7 @@ const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = '' }) => {
       connection.current?.stop();
       if (streamingTimeoutRef.current) clearTimeout(streamingTimeoutRef.current);
     };
-  }, [variantName]);
+  }, [variantName, initialMessage]);
 
   const handleReceiveMessage = (user: string, messageChunk: string) => {
     if (user === variantName) {
@@ -113,10 +129,13 @@ const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = '' }) => {
 
   const handleJoinChat = () => {
     if (userInput.trim()) {
-      setUserName(userInput.trim());
+      const trimmedUserName = userInput.trim();
+      setUserName(trimmedUserName);
+      // Save username to localStorage for future sessions
+      localStorage.setItem('chatUserName', trimmedUserName);
       setUserInput('');
       if (initialMessage) {
-        connection.current?.invoke('SendMessage', userInput, initialMessage, conversationId.current, variantName).catch(console.error);
+        connection.current?.invoke('SendMessage', trimmedUserName, initialMessage, conversationId.current, variantName).catch(console.error);
       }
     }
   };

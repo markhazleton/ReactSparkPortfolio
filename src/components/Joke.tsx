@@ -188,7 +188,7 @@ const Joke: React.FC = () => {
       : `${joke.setup} ${joke.delivery}`;
       
     // Try to use the Web Share API if available
-    if (navigator.share) {
+    if (navigator.share !== undefined && navigator.share !== null) {
       navigator.share({
         title: 'Check out this joke!',
         text: textToShare,
@@ -202,8 +202,8 @@ const Joke: React.FC = () => {
     }
   };
 
-  const isJokeLiked = joke && likedJokes.includes(joke.id);
-  const isJokeSaved = joke && savedJokes.some(savedJoke => savedJoke.id === joke.id);
+  const isJokeLiked = joke ? likedJokes.includes(joke.id) : false;
+  const isJokeSaved = joke ? savedJokes.some(savedJoke => savedJoke.id === joke.id) : false;
 
   const getJokeText = (jokeObj: Joke) => {
     return jokeObj.type === 'single' 

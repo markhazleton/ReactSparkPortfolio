@@ -58,7 +58,7 @@ const Joke: React.FC = () => {
   const [copied, setCopied] = useState<boolean>(false);
   const [history, setHistory] = useState<Joke[]>([]);
   const [savedJokes, setSavedJokes] = useState<Joke[]>([]);
-  const [jokeToExplain, setJokeToExplain] = useState<Joke | null>(null);
+  const [jokeToExplain, setJokeToExplain] = useState<Joke | undefined>(undefined);
   const [savedNotification, setSavedNotification] = useState<boolean>(false);
 
   // Initialize liked jokes and saved jokes from localStorage
@@ -152,17 +152,18 @@ const Joke: React.FC = () => {
     fetchJoke();
   }, []);
 
-  const handleJokeExplainer = (jokeToExplain: Joke | null = null) => {
+  const handleJokeExplainer = (jokeToExplain: Joke | undefined = undefined) => {
     if (jokeToExplain) {
       setJokeToExplain(jokeToExplain);
     } else {
-      setJokeToExplain(joke);
+      setJokeToExplain(joke || undefined);
     }
     setShowModal(true);
   };
 
   const handleCloseModal = () => {
     setShowModal(false);
+    setJokeToExplain(undefined);
   };
 
   const copyToClipboard = () => {

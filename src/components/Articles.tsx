@@ -200,15 +200,15 @@ const Articles: React.FC = () => {
   };
 
   return (
-    <section className="py-5" id="articles-section">
+    <section className="py-5 bg-theme" id="articles-section">
       <div className="container">
         <div className="row mb-4">
           <div className="col-lg-6">
-            <h2 className="mb-0 d-flex align-items-center">
+            <h2 className="mb-0 d-flex align-items-center text-theme">
               <JournalRichtext size={28} className="text-primary me-2" />
               Articles from MarkHazleton.com
             </h2>
-            <p className="text-body-secondary mt-2">
+            <p className="text-theme-muted mt-2">
               Explore insights from Mark's personal blog
               {lastUpdated && (
                 <small className="ms-2">
@@ -217,7 +217,7 @@ const Articles: React.FC = () => {
               )}
             </p>
             {(debugInfo || dataSource) && (
-              <div className="small text-muted mt-1">
+              <div className="small text-theme-muted mt-1">
                 {debugInfo && <div><strong>Status:</strong> {debugInfo}</div>}
                 {dataSource && <div><strong>Source:</strong> {dataSource}</div>}
               </div>
@@ -226,18 +226,18 @@ const Articles: React.FC = () => {
           <div className="col-lg-6">
             <div className="d-flex gap-2 mb-3">
               <InputGroup className="flex-grow-1">
-                <InputGroup.Text className={theme === 'light' ? 'bg-light' : 'bg-dark'}>
-                  <Search />
+                <InputGroup.Text className="bg-theme-alt border-theme">
+                  <Search className="text-theme" />
                 </InputGroup.Text>
                 <Form.Control
                   placeholder="Search articles..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className={theme === 'dark' ? 'bg-dark text-light border-secondary' : ''}
+                  className="bg-theme text-theme border-theme"
                 />
               </InputGroup>
               <button 
-                className={`btn ${theme === 'dark' ? 'btn-outline-light' : 'btn-outline-dark'} d-flex align-items-center`}
+                className="btn btn-outline-primary d-flex align-items-center"
                 onClick={toggleSortDirection}
                 title={`Sort by ${sortDirection === 'newest' ? 'oldest' : 'newest'} first`}
               >
@@ -248,7 +248,7 @@ const Articles: React.FC = () => {
                 )}
               </button>
               <button
-                className={`btn ${theme === 'dark' ? 'btn-outline-primary' : 'btn-primary'} d-flex align-items-center`}
+                className="btn btn-primary d-flex align-items-center"
                 onClick={handleRefresh}
                 disabled={loading}
                 title="Refresh articles from source"
@@ -259,7 +259,7 @@ const Articles: React.FC = () => {
             
             {/* Display article count for better visibility */}
             {articles.length > 0 && (
-              <small className="d-block mb-2 text-body-secondary">
+              <small className="d-block mb-2 text-theme-muted">
                 <strong>Total articles:</strong> {articles.length}
               </small>
             )}
@@ -269,11 +269,11 @@ const Articles: React.FC = () => {
                 {categories.map((category, index) => (
                   <Badge 
                     key={index}
-                    bg={filter === category ? 'primary' : (theme === 'dark' ? 'secondary' : 'light')} 
-                    text={filter === category ? 'white' : (theme === 'dark' ? 'light' : 'dark')}
-                    className="py-2 px-3"
+                    bg={filter === category ? 'primary' : 'secondary'} 
+                    className={`py-2 px-3 ${filter !== category ? 'bg-opacity-25' : ''}`}
                     onClick={() => setFilter(category)}
-                    style={{ cursor: 'pointer' }}
+                    role="button"
+                    aria-pressed={filter === category ? 'true' : 'false'}
                   >
                     {category.charAt(0).toUpperCase() + category.slice(1)}
                   </Badge>
@@ -288,7 +288,7 @@ const Articles: React.FC = () => {
             <Spinner animation="border" variant="primary" role="status" className="mb-3">
               <span className="visually-hidden">Loading...</span>
             </Spinner>
-            <p className="text-body-secondary">Loading articles...</p>
+            <p className="text-theme-muted">Loading articles...</p>
           </div>
         )}
         
@@ -311,21 +311,21 @@ const Articles: React.FC = () => {
             <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-4">
               {currentArticles.map((article, index) => (
                 <div className="col" key={index}>
-                  <Card className={`h-100 shadow-sm hover-shadow transition ${theme === 'dark' ? 'bg-dark text-light border-secondary' : ''}`}>
-                    <Card.Body>
+                  <Card className="h-100 shadow-sm border-theme transition">
+                    <Card.Body className="bg-card">
                       <Card.Title className="mb-3">
                         <a 
                           href={article.link} 
                           target="_blank" 
                           rel="noopener noreferrer" 
-                          className={`text-decoration-none stretched-link ${theme === 'dark' ? 'text-light' : 'text-dark'}`}
+                          className="text-theme text-decoration-none stretched-link"
                         >
                           {article.title}
                         </a>
                       </Card.Title>
                       
                       {article.description && (
-                        <Card.Text className="text-body-secondary mb-3 small">
+                        <Card.Text className="text-theme-muted mb-3 small">
                           {article.description.length > 150 
                             ? `${article.description.substring(0, 150)}...` 
                             : article.description}
@@ -333,24 +333,23 @@ const Articles: React.FC = () => {
                       )}
                       
                       <div className="d-flex align-items-center justify-content-between mt-3">
-                        <div className="d-flex align-items-center text-body-secondary small">
+                        <div className="d-flex align-items-center text-theme-muted small">
                           <Calendar3 className="me-1" />
                           {formatDate(article.pubDate)}
                         </div>
                         
                         {article.category && (
                           <Badge 
-                            bg={theme === 'dark' ? 'secondary' : 'light'} 
-                            text={theme === 'dark' ? 'light' : 'dark'} 
-                            className="py-1 px-2"
+                            bg="secondary"
+                            className="bg-opacity-25 py-1 px-2 text-theme-alt"
                           >
                             {article.category}
                           </Badge>
                         )}
                       </div>
                     </Card.Body>
-                    <Card.Footer className={`border-top-0 text-end ${theme === 'dark' ? 'bg-dark' : 'bg-white'}`}>
-                      <small className="text-body-secondary d-flex align-items-center justify-content-end">
+                    <Card.Footer className="border-top border-theme bg-card">
+                      <small className="text-theme-muted d-flex align-items-center justify-content-end">
                         Read more <ArrowUpRightSquare className="ms-1" size={12} />
                       </small>
                     </Card.Footer>
@@ -362,7 +361,7 @@ const Articles: React.FC = () => {
             {/* Pagination */}
             {totalPages > 1 && (
               <div className="d-flex justify-content-center mt-4">
-                <Pagination>
+                <Pagination className="pagination-theme">
                   <Pagination.First 
                     onClick={() => handlePageChange(1)} 
                     disabled={currentPage === 1} 
@@ -413,10 +412,10 @@ const Articles: React.FC = () => {
             )}
             
             <div className="d-flex justify-content-between align-items-center mt-3">
-              <div className="text-body-secondary small">
+              <div className="text-theme-muted small">
                 Showing {indexOfFirstArticle + 1}-{Math.min(indexOfLastArticle, sortedArticles.length)} of {sortedArticles.length} articles
               </div>
-              <div className="text-body-secondary small">
+              <div className="text-theme-muted small">
                 Page {currentPage} of {totalPages}
               </div>
             </div>
@@ -425,25 +424,25 @@ const Articles: React.FC = () => {
       </div>
       
       {/* Article Component Explanation */}
-      <div className="container mt-5 pt-3 border-top">
+      <div className="container mt-5 pt-3 border-top border-theme">
         <div className="row">
           <div className="col-12">
-            <h3 className="h4 mb-4 d-flex align-items-center">
+            <h3 className="h4 mb-4 d-flex align-items-center text-theme">
               <InfoCircle className="text-primary me-2" /> 
               How This Articles Component Works
             </h3>
             
-            <div className="card shadow-sm mb-4">
-              <div className="card-header bg-light">
-                <h4 className="h5 mb-0">Component Overview</h4>
+            <div className="card shadow-sm mb-4 border-theme">
+              <div className="card-header bg-theme-alt">
+                <h4 className="h5 mb-0 text-theme">Component Overview</h4>
               </div>
-              <div className="card-body">
-                <p>This Articles component provides a dynamic, responsive interface for fetching and displaying blog posts from an RSS feed. It demonstrates several modern React patterns and techniques:</p>
+              <div className="card-body bg-card">
+                <p className="text-theme">This Articles component provides a dynamic, responsive interface for fetching and displaying blog posts from an RSS feed. It demonstrates several modern React patterns and techniques:</p>
                 
                 <div className="row">
                   <div className="col-md-6">
-                    <h5 className="h6 mb-2">Key Features:</h5>
-                    <ul className="small mb-3">
+                    <h5 className="h6 mb-2 text-theme">Key Features:</h5>
+                    <ul className="small mb-3 text-theme-alt">
                       <li>Dynamic fetching with error handling and fallback mechanisms</li>
                       <li>Client-side search functionality with instant filtering</li>
                       <li>Category filtering via interactive badges</li>
@@ -454,8 +453,8 @@ const Articles: React.FC = () => {
                     </ul>
                   </div>
                   <div className="col-md-6">
-                    <h5 className="h6 mb-2">Technologies Used:</h5>
-                    <ul className="small">
+                    <h5 className="h6 mb-2 text-theme">Technologies Used:</h5>
+                    <ul className="small text-theme-alt">
                       <li>React Hooks for state management (useState, useEffect)</li>
                       <li>Bootstrap/React Bootstrap for UI components</li>
                       <li>Fetch API for data retrieval</li>
@@ -468,25 +467,25 @@ const Articles: React.FC = () => {
               </div>
             </div>
             
-            <div className="card shadow-sm mb-4">
-              <div className="card-header bg-light">
-                <h4 className="h5 mb-0">Data Flow</h4>
+            <div className="card shadow-sm mb-4 border-theme">
+              <div className="card-header bg-theme-alt">
+                <h4 className="h5 mb-0 text-theme">Data Flow</h4>
               </div>
-              <div className="card-body">
-                <ol className="mb-3">
+              <div className="card-body bg-card">
+                <ol className="mb-3 text-theme">
                   <li className="mb-2">
-                    <strong>Fetching Data:</strong> The component loads data using the <code>fetchRssFeed()</code> service,
+                    <strong>Fetching Data:</strong> The component loads data using the <code className="bg-theme-alt text-theme-alt px-1 rounded">fetchRssFeed()</code> service,
                     which attempts to retrieve RSS feed data from the primary source, with fallbacks to secondary sources
                     and cached data if needed.
                   </li>
                   <li className="mb-2">
                     <strong>State Management:</strong> Multiple state variables track different aspects of the component:
-                    <ul className="small mt-1">
-                      <li><code>articles</code>: The main data store for all retrieved articles</li>
-                      <li><code>loading</code>: Tracks loading state for UI feedback</li>
-                      <li><code>error</code>: Captures any errors during data fetching</li>
-                      <li><code>searchTerm</code> & <code>filter</code>: Control content filtering</li>
-                      <li><code>currentPage</code> & <code>sortDirection</code>: Control content presentation</li>
+                    <ul className="small mt-1 text-theme-alt">
+                      <li><code className="bg-theme-alt text-theme-alt px-1 rounded">articles</code>: The main data store for all retrieved articles</li>
+                      <li><code className="bg-theme-alt text-theme-alt px-1 rounded">loading</code>: Tracks loading state for UI feedback</li>
+                      <li><code className="bg-theme-alt text-theme-alt px-1 rounded">error</code>: Captures any errors during data fetching</li>
+                      <li><code className="bg-theme-alt text-theme-alt px-1 rounded">searchTerm</code> & <code className="bg-theme-alt text-theme-alt px-1 rounded">filter</code>: Control content filtering</li>
+                      <li><code className="bg-theme-alt text-theme-alt px-1 rounded">currentPage</code> & <code className="bg-theme-alt text-theme-alt px-1 rounded">sortDirection</code>: Control content presentation</li>
                     </ul>
                   </li>
                   <li className="mb-2">
@@ -501,19 +500,19 @@ const Articles: React.FC = () => {
               </div>
             </div>
             
-            <div className="card shadow-sm mb-4">
-              <div className="card-header bg-light">
-                <h4 className="h5 mb-0">Behind the Scenes</h4>
+            <div className="card shadow-sm mb-4 border-theme">
+              <div className="card-header bg-theme-alt">
+                <h4 className="h5 mb-0 text-theme">Behind the Scenes</h4>
               </div>
-              <div className="card-body">
+              <div className="card-body bg-card">
                 <div className="row">
                   <div className="col-md-6">
-                    <h5 className="h6 mb-2">Caching Strategy</h5>
-                    <p className="small">
+                    <h5 className="h6 mb-2 text-theme">Caching Strategy</h5>
+                    <p className="small text-theme-alt">
                       The component implements a sophisticated caching strategy to minimize API calls and provide 
                       a smooth user experience:
                     </p>
-                    <ul className="small">
+                    <ul className="small text-theme-alt">
                       <li>RSS data is cached in localStorage after fetching</li>
                       <li>Timestamps track when data was last refreshed</li>
                       <li>Users can manually force a refresh if needed</li>
@@ -521,11 +520,11 @@ const Articles: React.FC = () => {
                     </ul>
                   </div>
                   <div className="col-md-6">
-                    <h5 className="h6 mb-2">Error Handling</h5>
-                    <p className="small">
+                    <h5 className="h6 mb-2 text-theme">Error Handling</h5>
+                    <p className="small text-theme-alt">
                       Robust error handling ensures users aren't left with a broken experience:
                     </p>
-                    <ul className="small">
+                    <ul className="small text-theme-alt">
                       <li>Multi-level fallback mechanisms for data loading</li>
                       <li>Clear error messages with friendly UI presentation</li>
                       <li>Debug information for troubleshooting</li>
@@ -536,22 +535,22 @@ const Articles: React.FC = () => {
               </div>
             </div>
             
-            <div className="card shadow-sm">
-              <div className="card-header bg-light">
-                <h4 className="h5 mb-0">Component Architecture</h4>
+            <div className="card shadow-sm border-theme">
+              <div className="card-header bg-theme-alt">
+                <h4 className="h5 mb-0 text-theme">Component Architecture</h4>
               </div>
-              <div className="card-body">
-                <p className="small">
+              <div className="card-body bg-card">
+                <p className="small text-theme">
                   This component follows several React best practices:
                 </p>
-                <ul className="small mb-3">
+                <ul className="small mb-3 text-theme-alt">
                   <li><strong>Separation of concerns:</strong> UI rendering is separated from data fetching</li>
                   <li><strong>Conditional rendering:</strong> Different UI states (loading, error, empty results) are handled elegantly</li>
                   <li><strong>Memoization:</strong> Expensive filtering and sorting operations are performed efficiently</li>
                   <li><strong>Accessibility:</strong> Proper ARIA attributes and semantic HTML structure</li>
                   <li><strong>Responsive design:</strong> Adapts to different screen sizes with Bootstrap's grid system</li>
                 </ul>
-                <p className="small">
+                <p className="small text-theme">
                   The architecture prioritizes user experience by providing immediate feedback during loading,
                   clear error messages when things go wrong, and an intuitive interface for interacting with the content.
                 </p>

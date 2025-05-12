@@ -1,5 +1,5 @@
 import React from 'react';
-import { Github, Calendar3, EnvelopeFill, Linkedin, Clock } from 'react-bootstrap-icons';
+import { Github, Calendar3, Linkedin, Clock } from 'react-bootstrap-icons';
 
 // Using the injected build date constant
 const buildDate = __BUILD_DATE__;

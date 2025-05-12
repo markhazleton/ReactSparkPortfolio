@@ -15,7 +15,6 @@ import { Alert, Spinner } from 'react-bootstrap';
 import { format } from 'date-fns';
 import profile from '../data/profile.json';
 import { fetchRssFeed, RssArticle } from '../services/RssService';
-import { useTheme } from '../contexts/ThemeContext';
 import { useSEO } from '../contexts/useSEO';
 import '../styles/About.css'; // Import the external CSS file
 
@@ -23,7 +22,6 @@ const About: React.FC = () => {
   const [reactSparkArticles, setReactSparkArticles] = useState<RssArticle[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const { theme } = useTheme();
   const { setTitle, setDescription } = useSEO();
 
   // Set page-specific SEO information

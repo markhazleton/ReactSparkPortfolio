@@ -19,13 +19,11 @@ import {
   SortUp
 } from 'react-bootstrap-icons';
 import { format } from 'date-fns';
-import { useTheme } from '../contexts/ThemeContext';
 import { fetchRssFeed, RssArticle } from '../services/RssService';
 
 type SortDirection = 'newest' | 'oldest';
 
 const Articles: React.FC = () => {
-  const { theme } = useTheme();
   const [articles, setArticles] = useState<RssArticle[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);

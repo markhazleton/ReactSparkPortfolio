@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Spinner, Alert, Modal, Button, Card, Nav, Badge, Form, InputGroup } from 'react-bootstrap';
 import { useFetchVariants } from './hooks/useFetchVariants';
 import Chat from './Chat';
 import { Variant } from './types';
 import PromptSparkInfo from './modules/PromptSparkInfo';
-import { Robot, Star, Search, InfoCircle, ChevronRight, XCircle, ChatDots } from 'react-bootstrap-icons';
+import { Robot, Star, Search, InfoCircle, XCircle, ChatDots } from 'react-bootstrap-icons';
 import { useTheme } from '../contexts/ThemeContext';
 
 // Extended variant interface with categories and featured flag

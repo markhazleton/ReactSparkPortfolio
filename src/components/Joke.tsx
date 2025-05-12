@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { 
   Button, 
   Spinner, 
@@ -16,17 +16,14 @@ import {
   ArrowRepeat, 
   QuestionCircle, 
   ExclamationTriangle,
-  XCircle,
   Share,
   Heart,
   HeartFill,
   Clipboard,
   CheckCircle,
   BookmarkPlus,
-  Bookmark,
   BookmarkFill,
   CodeSquare,
-  Info,
   Trash
 } from 'react-bootstrap-icons';
 import Chat from './Chat';
@@ -120,24 +117,20 @@ const Joke: React.FC = () => {
     localStorage.setItem('userSavedJokes', JSON.stringify(updatedSavedJokes));
   };
 
-  const fetchJoke = async () => {
+  // Wrap fetchJoke in useCallback with NO dependencies to keep it stable
+  const fetchJoke = useCallback(async () => {
     setLoading(true);
     setError(false);
     setCopied(false);
-    
     try {
       const response = await fetch('https://v2.jokeapi.dev/joke/Any?safe-mode');
-      
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      
       const data: Joke = await response.json();
-      
       if (data.error) {
         throw new Error('API returned an error');
       }
-      
       setJoke(data);
       updateHistory(data);
     } catch (e) {
@@ -146,10 +139,12 @@ const Joke: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []); // <--- empty array, not [updateHistory]
 
   useEffect(() => {
     fetchJoke();
+    // Only run on mount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleJokeExplainer = (jokeToExplain: Joke | undefined = undefined) => {
@@ -204,12 +199,6 @@ const Joke: React.FC = () => {
 
   const isJokeLiked = joke ? likedJokes.includes(joke.id) : false;
   const isJokeSaved = joke ? savedJokes.some(savedJoke => savedJoke.id === joke.id) : false;
-
-  const getJokeText = (jokeObj: Joke) => {
-    return jokeObj.type === 'single' 
-      ? jokeObj.joke 
-      : `${jokeObj.setup} ${jokeObj.delivery}`;
-  };
 
   return (
     <div className="container py-5">
@@ -355,7 +344,7 @@ const Joke: React.FC = () => {
                   <ListGroup.Item key={index} className="d-flex justify-content-between align-items-start py-3">
                     <div className="ms-2 me-auto">
                       <div className="fw-bold mb-1">{savedJoke.category}</div>
-                      <div className="text-truncate" style={{ maxWidth: '400px' }}>
+                      <div className="text-truncate joke-text-truncate">
                         {savedJoke.type === 'single' 
                           ? savedJoke.joke 
                           : savedJoke.setup

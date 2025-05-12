@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { ArrowRightCircle, Github, Linkedin, JournalText, Braces, Bootstrap, FileEarmarkCode, LightningCharge, CupHot, CodeSquare, Gear } from 'react-bootstrap-icons';
 import defaultProfile from '../data/profile.json';
-import { useTheme } from '../contexts/ThemeContext';
 
 interface Profile {
   name: string;
@@ -13,7 +12,6 @@ interface Profile {
 
 const Hero: React.FC<{ profileData?: Profile }> = ({ profileData }) => {
   const profile = profileData || defaultProfile;
-  const { theme } = useTheme();
 
   // Update document title and meta description dynamically
   useEffect(() => {

@@ -11,7 +11,7 @@
 
 **ReactSparkPortfolio** is a modern, high-performance, and accessible developer portfolio built with React 19, TypeScript, and Vite. It demonstrates best practices in frontend engineering, serverless API integration (Azure Functions), and dual deployment (Azure Static Web Apps & GitHub Pages). The project is designed as both a personal portfolio and a reference implementation for scalable, maintainable, and extensible web apps.
 
-- **Live Demo:** [reactspark.markhazleton.com](https://reactspark.markhazleton.com/ReactSpark/)
+- **Live Demo:** [reactspark.markhazleton.com](https://reactspark.markhazleton.com/)
 - **Author:** Mark Hazleton
 - **Purpose:** Showcase dynamic content, real-time features, and cloud-native deployment using modern web technologies.
 

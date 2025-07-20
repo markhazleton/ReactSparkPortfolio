@@ -180,8 +180,35 @@ npm run preview # (optional, to preview build)
 ### Azure Static Web Apps
 
 1. **Config Files**:
-   - `staticwebapp.config.json`, `swa-cli.config.json`, `.github/workflows/azure-static-web-apps-*.yml`
-2. **CI/CD**: Every push to `main` triggers GitHub Actions to build and deploy
+   - `staticwebapp.config.json`, `swa-cli.config.json`, `.github/workflows/azure-static-web-apps-gentle-smoke-063be0b10.yml`
+
+2. **CI/CD Workflow**: Automated publishing is handled by a GitHub Actions workflow:
+
+   - **Trigger:** Runs on push and pull requests to the `main` branch.
+   - **Jobs:**
+     - `build_and_deploy_job`: Builds and deploys the app and API unless the PR is closed.
+     - `close_pull_request_job`: Cleans up deployments when a PR is closed.
+
+   **Key Steps:**
+   1. **Checkout code:** Uses `actions/checkout@v3` with submodules.
+   2. **Setup Node.js:** Uses `actions/setup-node@v3` (Node 18, npm cache).
+   3. **Install dependencies:** Runs `npm ci` for clean install.
+   4. **OIDC Client:** Installs `@actions/core` and `@actions/http-client` for authentication.
+   5. **Get Id Token:** Uses `actions/github-script@v6` to retrieve an OIDC token for Azure authentication.
+   6. **Build and Deploy:** Uses `Azure/static-web-apps-deploy@v1` with these settings:
+      - `azure_static_web_apps_api_token`: Secure token from repo secrets
+      - `action`: "upload"
+      - `app_location`: `/` (root)
+      - `api_location`: `api` (serverless API)
+      - `output_location`: `docs` (Vite build output)
+      - `app_build_command`: `npm run build`
+      - `skip_app_build`/`skip_api_build`: false
+      - `github_id_token`: OIDC token for secure deployment
+
+   7. **Close PR Deployments:** When a PR is closed, the workflow runs a job to clean up preview deployments using the same Azure action.
+
+   **Reference:** See `.github/workflows/azure-static-web-apps-gentle-smoke-063be0b10.yml` for the full workflow file.
+
 3. **Local Dev**:
 
    ```pwsh

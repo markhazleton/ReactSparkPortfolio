@@ -20,13 +20,13 @@ const Header: React.FC = () => {
       <nav className={`navbar navbar-expand-lg navbar-${theme} bg-${theme === 'light' ? 'light' : 'dark'} border-bottom`}>
         <div className="container">
           <Link className="navbar-brand d-flex align-items-center" to="/">
-            <div className="logo-container me-2 d-flex align-items-center justify-content-center icon-circle-sm">
-              <img 
-                src={logoPath}
-                alt="ReactSpark Logo" 
-                className="img-fluid"
-              />
-            </div>
+            <img 
+              src={logoPath}
+              alt="ReactSpark Logo" 
+              width="24"
+              height="24"
+              className="me-2"
+            />
             <div>
               <span className="fw-bold">ReactSpark</span>
               <small className="d-block text-muted" style={{fontSize: '0.7rem'}}>by Mark Hazleton</small>

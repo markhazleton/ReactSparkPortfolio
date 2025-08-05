@@ -2,10 +2,10 @@
 // Styles
 //
 
-// Import variables
-@import "./variables.scss";
+// Import variables using modern @forward/use approach
+@use "./variables" as vars;
 
-// Import Bootstrap
+// Import Bootstrap using @import (Bootstrap internally still uses @import)
 @import "bootstrap/scss/bootstrap.scss";
 @import "fontawesome-free/css/all";
 @import "prismjs/themes/prism-okaidia";

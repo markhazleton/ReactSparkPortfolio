@@ -1,6 +1,9 @@
 // 
 // Sidenav
 // 
+@use "sass:color";
+@use "../variables/colors" as colors;
+@use "../variables/spacing" as spacing;
 
 #sideNav {
     padding-left: 1rem;
@@ -14,7 +17,7 @@
 
     .navbar-toggler {
         &:focus {
-            outline-color: lighten($primary, 15%);
+            outline-color: color.adjust(colors.$primary, $lightness: 15%);
         }
     }
 }
@@ -31,7 +34,7 @@
         display: flex;
         flex-direction: column;
 
-        width: $sidebar-base-width;
+        width: spacing.$sidebar-base-width;
         height: 100vh;
 
         .navbar-brand {

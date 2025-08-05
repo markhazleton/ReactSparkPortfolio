@@ -1,1 +1,2 @@
 - @azure Rule - Use Azure Best Practices: When generating code for Azure, running terminal commands for Azure, or performing operations related to Azure, invoke your `azure_development-get_best_practices` tool if available.
+- @documentation Rule - Use Documentation Folder: When generating or creating any .md files (except README.md in root), always place them in the `/documentation` folder to keep documentation organized and centralized.

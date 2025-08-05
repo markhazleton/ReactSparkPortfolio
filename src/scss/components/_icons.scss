@@ -1,3 +1,5 @@
+@use "../variables/colors" as colors;
+
 //
 // Icons
 //
@@ -11,8 +13,8 @@
         justify-content: center;
         height: 3.5rem;
         width: 3.5rem;
-        background-color: $gray-700;
-        color: $white;
+        background-color: colors.$gray-800;
+        color: colors.$white;
         border-radius: 100%;
         font-size: 1.5rem;
         margin-right: 1.5rem;
@@ -22,7 +24,7 @@
         }
 
         &:hover {
-            background-color: $primary;
+            background-color: colors.$primary;
         }
     }
 }

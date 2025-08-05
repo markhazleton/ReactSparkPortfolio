@@ -1,19 +1,21 @@
 //
 // Global
 //
+@use "./variables/colors" as colors;
+@use "./variables/spacing" as spacing;
 
 body {
-    padding-top: $navbar-base-height;
-    color: $gray-600;
+    padding-top: spacing.$navbar-base-height;
+    color: colors.$gray-800;
     padding-bottom: 60px; /* Height of the footer */
-    @include theme-aware(background-color, 'background');
+    @include colors.theme-aware(background-color, 'background');
 }
 
 
 @include media-breakpoint-up(lg) {
     body {
         padding-top: 0;
-        padding-left: $sidebar-base-width;
+        // Removed padding-left: $sidebar-base-width; as no sidebar is being used
     }
 }
 

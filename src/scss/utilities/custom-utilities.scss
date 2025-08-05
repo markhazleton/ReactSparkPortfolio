@@ -1,9 +1,13 @@
-/* Custom utility classes to enhance Bootstrap */
+@use "../variables/colors" as colors;
+@use "../variables/spacing" as spacing;
 
-/* Text styling */
+// Custom utility classes to enhance Bootstrap
+
+// Text styling
 .text-truncate-2 {
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    line-clamp: 2; // Modern standard property
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -12,12 +16,13 @@
   .text-truncate-3 {
     display: -webkit-box;
     -webkit-line-clamp: 3;
+    line-clamp: 3; // Modern standard property
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
-/* Text shadow effects */
+// Text shadow effects
 .text-shadow {
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
   letter-spacing: 0.5px;
@@ -33,7 +38,7 @@
   letter-spacing: 0.7px;
 }
 
-/* Category navigation styling */
+// Category navigation styling with theme awareness
 .category-active {
   color: #ffffff !important;
   font-weight: 600 !important;
@@ -49,9 +54,10 @@
   text-shadow: 0px 0px 1px rgba(0,0,0,0.5) !important;
 }
 
-/* Hover effects */
+// Hover effects with performance optimization
 .hover-lift {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    will-change: transform, box-shadow; // Performance hint
   }
   
   .hover-lift:hover {
@@ -61,6 +67,7 @@
   
   .hover-grow {
     transition: transform 0.3s ease;
+    will-change: transform;
   }
   
   .hover-grow:hover {
@@ -69,105 +76,115 @@
   
   .hover-opacity {
     transition: opacity 0.3s ease;
+    will-change: opacity;
   }
   
   .hover-opacity:hover {
     opacity: 0.8;
   }
   
-  /* Border utilities */
+  // Border utilities with logical properties
   .border-dashed {
     border-style: dashed !important;
   }
   
-  .border-top-dashed {
+  .border-top-dashed,
+  .border-block-start-dashed {
     border-top-style: dashed !important;
+    border-block-start-style: dashed !important;
   }
   
-  .border-bottom-dashed {
+  .border-bottom-dashed,
+  .border-block-end-dashed {
     border-bottom-style: dashed !important;
+    border-block-end-style: dashed !important;
   }
   
-  /* Background patterns */
+  // Background patterns with CSS custom properties
   .bg-pattern-dots {
-    background-image: radial-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px);
-    background-size: 20px 20px;
+    background-image: radial-gradient(var(--pattern-dot-color, rgba(0, 0, 0, 0.1)) 1px, transparent 1px);
+    background-size: var(--pattern-dot-size, 20px) var(--pattern-dot-size, 20px);
   }
   
   .bg-pattern-lines {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px);
-    background-size: 100% 20px;
+    background-image: linear-gradient(var(--pattern-line-color, rgba(0, 0, 0, 0.05)) 1px, transparent 1px);
+    background-size: 100% var(--pattern-line-size, 20px);
   }
   
-  /* Gradient backgrounds */
+  // Gradient backgrounds using CSS custom properties
   .bg-gradient-primary {
-    background: linear-gradient(135deg, var(--bs-primary), #0056b3);
+    background: linear-gradient(135deg, var(--bs-primary), var(--bs-primary-dark, #0056b3));
   }
   
   .bg-gradient-secondary {
-    background: linear-gradient(135deg, var(--bs-secondary), #424649);
+    background: linear-gradient(135deg, var(--bs-secondary), var(--bs-secondary-dark, #424649));
   }
   
   .bg-gradient-success {
-    background: linear-gradient(135deg, var(--bs-success), #146c43);
+    background: linear-gradient(135deg, var(--bs-success), var(--bs-success-dark, #146c43));
   }
   
   .bg-gradient-info {
-    background: linear-gradient(135deg, var(--bs-info), #087990);
+    background: linear-gradient(135deg, var(--bs-info), var(--bs-info-dark, #087990));
   }
   
-  /* Shadows */
+  // Shadow utilities with CSS custom properties
   .shadow-hover {
-    transition: box-shadow 0.3s ease;
+    transition: box-shadow var(--transition-duration, 0.3s) ease;
   }
   
   .shadow-hover:hover {
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+    box-shadow: var(--shadow-hover, 0 0.5rem 1rem rgba(0, 0, 0, 0.15)) !important;
   }
   
   .shadow-sm-hover {
-    transition: box-shadow 0.3s ease;
+    transition: box-shadow var(--transition-duration, 0.3s) ease;
   }
   
   .shadow-sm-hover:hover {
-    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+    box-shadow: var(--shadow-sm-hover, 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075)) !important;
   }
   
-  /* Card utilities */
+  // Card utilities with enhanced accessibility
   .card-hover {
-    transition: all 0.3s ease;
+    transition: all var(--transition-duration, 0.3s) ease;
     cursor: pointer;
+    
+    &:focus-visible {
+      outline: 2px solid var(--bs-primary);
+      outline-offset: 2px;
+    }
   }
   
   .card-hover:hover {
     transform: translateY(-5px);
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+    box-shadow: var(--card-hover-shadow, 0 0.5rem 1rem rgba(0, 0, 0, 0.15)) !important;
   }
   
-  /* Image utilities */
+  // Image utilities with performance optimization
   .img-grayscale {
     filter: grayscale(100%);
-    transition: filter 0.3s ease;
+    transition: filter var(--transition-duration, 0.3s) ease;
   }
   
   .img-grayscale:hover {
     filter: grayscale(0%);
   }
   
-  /* Text highlight */
+  // Text highlight with theme support
   .highlight {
-    background: linear-gradient(180deg, rgba(255,255,255,0) 65%, rgba(255, 220, 0, 0.6) 65%);
+    background: linear-gradient(180deg, rgba(255,255,255,0) 65%, var(--highlight-color, rgba(255, 220, 0, 0.6)) 65%);
     display: inline;
   }
   
   .highlight-primary {
-    background: linear-gradient(180deg, rgba(255,255,255,0) 65%, rgba(var(--bs-primary-rgb), 0.2) 65%);
+    background: linear-gradient(180deg, rgba(255,255,255,0) 65%, var(--highlight-primary, rgba(var(--bs-primary-rgb), 0.2)) 65%);
     display: inline;
   }
   
-  /* Animation utilities */
+  // Animation utilities with customizable timing
   .animate-fade-in {
-    animation: fadeIn 0.5s ease-in-out;
+    animation: fadeIn var(--animation-duration, 0.5s) var(--animation-timing, ease-in-out);
   }
   
   @keyframes fadeIn {
@@ -176,32 +193,51 @@
   }
   
   .animate-slide-up {
-    animation: slideUp 0.5s ease-in-out;
+    animation: slideUp var(--animation-duration, 0.5s) var(--animation-timing, ease-in-out);
   }
   
   @keyframes slideUp {
-    from { transform: translateY(20px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
+    from { 
+      transform: translateY(var(--slide-distance, 20px)); 
+      opacity: 0; 
+    }
+    to { 
+      transform: translateY(0); 
+      opacity: 1; 
+    }
   }
   
   .animate-slide-left {
-    animation: slideLeft 0.5s ease-in-out;
+    animation: slideLeft var(--animation-duration, 0.5s) var(--animation-timing, ease-in-out);
   }
   
   @keyframes slideLeft {
-    from { transform: translateX(20px); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
+    from { 
+      transform: translateX(var(--slide-distance, 20px)); 
+      opacity: 0; 
+    }
+    to { 
+      transform: translateX(0); 
+      opacity: 1; 
+    }
   }
   
-  /* Icon styles */
+  // Icon styles with flexible sizing
   .icon-circle {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
+    width: var(--icon-size, 32px);
+    height: var(--icon-size, 32px);
     border-radius: 50%;
     background-color: var(--bs-light);
+    overflow: hidden; // Ensure content stays within bounds
+    
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain; // Maintain aspect ratio
+    }
   }
   
   .icon-circle-primary {
@@ -209,55 +245,72 @@
     color: white;
   }
   
+  // Navbar logo specific sizing (smaller for nav)
+  .icon-circle-xs {
+    --icon-size: 20px;
+  }
+  
   .icon-circle-sm {
-    width: 30px;
-    height: 30px;
+    --icon-size: 24px;
+  }
+  
+  .icon-circle-md {
+    --icon-size: 32px;
   }
   
   .icon-circle-lg {
-    width: 50px;
-    height: 50px;
+    --icon-size: 40px;
   }
   
-  /* Badges */
+  // Badge utilities with improved contrast
   .badge-outline-primary {
     color: var(--bs-primary);
     border: 1px solid var(--bs-primary);
     background-color: transparent;
+    
+    &:hover {
+      background-color: var(--bs-primary);
+      color: var(--bs-white, white);
+    }
   }
   
   .badge-outline-secondary {
     color: var(--bs-secondary);
     border: 1px solid var(--bs-secondary);
     background-color: transparent;
+    
+    &:hover {
+      background-color: var(--bs-secondary);
+      color: var(--bs-white, white);
+    }
   }
   
-  /* Cursor styles */
+  // Cursor styles
   .cursor-pointer {
     cursor: pointer;
   }
   
-  /* Scrollbar styling */
+  // Scrollbar styling with theme support
   ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: var(--scrollbar-width, 8px);
+    height: var(--scrollbar-height, 8px);
   }
   
   ::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 10px;
+    background: var(--scrollbar-track, #f1f1f1);
+    border-radius: var(--scrollbar-radius, 10px);
   }
   
   ::-webkit-scrollbar-thumb {
-    background: #c1c1c1;
-    border-radius: 10px;
+    background: var(--scrollbar-thumb, #c1c1c1);
+    border-radius: var(--scrollbar-radius, 10px);
+    
+    &:hover {
+      background: var(--scrollbar-thumb-hover, #a8a8a8);
+    }
   }
   
-  ::-webkit-scrollbar-thumb:hover {
-    background: #a8a8a8;
-  }
-  
-  /* Responsive utilities */
+  // Responsive utilities using spacing variables
   .h-md-100 {
     height: 100% !important;
   }
@@ -268,7 +321,7 @@
     }
   }
   
-  /* Breakpoint-specific visibility */
+  // Breakpoint-specific visibility
   .visible-xs {
     display: none;
   }
@@ -279,60 +332,67 @@
     }
   }
   
-  /* Accessibility utilities */
+  // Enhanced accessibility utilities
   .focus-visible:focus-visible {
-    outline: 2px solid var(--bs-primary);
+    outline: 2px solid var(--focus-color, var(--bs-primary));
     outline-offset: 2px;
   }
   
-  /* Additional spacing utilities */
+  // Additional spacing utilities using spacing variables
   .mt-6 {
-    margin-top: 4rem !important;
+    margin-top: spacing.$navbar-base-height + 0.625rem !important; // 4rem equivalent
   }
   
   .mb-6 {
-    margin-bottom: 4rem !important;
+    margin-bottom: spacing.$navbar-base-height + 0.625rem !important;
   }
   
   .pt-6 {
-    padding-top: 4rem !important;
+    padding-top: spacing.$navbar-base-height + 0.625rem !important;
   }
   
   .pb-6 {
-    padding-bottom: 4rem !important;
+    padding-bottom: spacing.$navbar-base-height + 0.625rem !important;
   }
   
-  /* Z-index utilities */
-  .z-index-1 {
+  // Z-index utilities (consolidated to avoid duplication)
+  .z-index-1,
+  .z-1 {
     z-index: 1 !important;
   }
   
-  .z-index-2 {
+  .z-index-2,
+  .z-2 {
     z-index: 2 !important;
   }
   
-  .z-index-3 {
+  .z-index-3,
+  .z-3 {
     z-index: 3 !important;
   }
 
-  /* Custom width utilities */
+  // Custom width utilities with logical properties
   .w-30 {
     width: 30% !important;
+    inline-size: 30% !important;
   }
   
   .w-40 {
     width: 40% !important;
+    inline-size: 40% !important;
   }
   
   .w-60 {
     width: 60% !important;
+    inline-size: 60% !important;
   }
   
   .w-70 {
     width: 70% !important;
+    inline-size: 70% !important;
   }
   
-  /* Custom opacity classes */
+  // Custom opacity classes
   .opacity-85 {
     opacity: 0.85 !important;
   }
@@ -341,64 +401,71 @@
     opacity: 0.90 !important;
   }
 
-/* Image styles */
+// Component-specific styles
+// Image styles with responsive behavior
 .img-project {
   height: 180px;
   object-fit: cover;
+  
+  @media (max-width: 768px) {
+    height: 150px;
+  }
 }
 
-/* Map container */
+// Map containers with consistent sizing
 .map-container {
   height: 250px;
+  
+  @media (max-width: 768px) {
+    height: 200px;
+  }
 }
 
-/* Map Leaflet component */
 .map-leaflet {
   height: 300px;
   width: 100%;
+  
+  @media (max-width: 768px) {
+    height: 250px;
+  }
 }
 
-/* Width constraints */
+// Layout utilities
 .max-width-70 {
   max-width: 70%;
+  
+  @media (max-width: 768px) {
+    max-width: 90%;
+  }
 }
 
-/* Modal styling */
+// Modal styling
 .modal-tall {
   height: 80vh;
   overflow: hidden;
+  
+  @media (max-width: 768px) {
+    height: 90vh;
+  }
 }
 
-/* Background overlay */
+// Background overlays with theme support
 .bg-overlay {
-  background: rgba(0, 0, 0, 0.15);
+  background: var(--overlay-light, rgba(0, 0, 0, 0.15));
   z-index: 1;
 }
 
 .bg-overlay-dark {
-  background: rgba(0, 0, 0, 0.3);
+  background: var(--overlay-dark, rgba(0, 0, 0, 0.3));
   z-index: 1;
 }
 
 .bg-overlay-light {
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--overlay-light-alt, rgba(255, 255, 255, 0.15));
   z-index: 1;
 }
 
-/* Z-index utilities */
-.z-1 {
-  z-index: 1 !important;
-}
-
-.z-2 {
-  z-index: 2 !important;
-}
-
-.z-3 {
-  z-index: 3 !important;
-}
-
-// Updated utility classes to use theme-aware mixin
+// Theme-aware utility class example
 .utility-class {
-  @include theme-aware(background-color, 'background');
+  @include colors.theme-aware(background-color, 'background');
 }

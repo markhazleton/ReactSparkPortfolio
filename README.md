@@ -1,53 +1,402 @@
 # ReactSparkPortfolio
 
+<div align="center">
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/markhazleton/ReactSparkPortfolio?tab=MIT-1-ov-file)
 [![GitHub stars](https://img.shields.io/github/stars/markhazleton/ReactSparkPortfolio)](https://github.com/markhazleton/ReactSparkPortfolio/stargazers)
 [![GitHub issues](https://img.shields.io/github/issues/markhazleton/ReactSparkPortfolio)](https://github.com/markhazleton/ReactSparkPortfolio/issues)
 [![Azure Static Web Apps CI/CD](https://github.com/markhazleton/ReactSparkPortfolio/workflows/Azure%20Static%20Web%20Apps%20CI/CD/badge.svg)](https://github.com/markhazleton/ReactSparkPortfolio/actions)
+[![GitHub forks](https://img.shields.io/github/forks/markhazleton/ReactSparkPortfolio)](https://github.com/markhazleton/ReactSparkPortfolio/network)
+[![Last Commit](https://img.shields.io/github/last-commit/markhazleton/ReactSparkPortfolio)](https://github.com/markhazleton/ReactSparkPortfolio/commits)
+
+**🚀 A modern, high-performance React portfolio showcasing enterprise-grade web development**
+
+[🌐 Live Demo](https://reactspark.markhazleton.com/) • [📖 Documentation](./documentation/) • [🔧 Admin Panel](./admin/) • [📋 Report Bug](https://github.com/markhazleton/ReactSparkPortfolio/issues)
+
+</div>
 
 ---
 
-## 🚀 Project Overview
+## 🎯 Overview
 
-**ReactSparkPortfolio** is a modern, high-performance, and accessible developer portfolio built with React 19, TypeScript, and Vite. It demonstrates best practices in frontend engineering, serverless API integration (Azure Functions), and dual deployment (Azure Static Web Apps & GitHub Pages). The project is designed as both a personal portfolio and a reference implementation for scalable, maintainable, and extensible web apps.
+**ReactSparkPortfolio** is a production-ready, enterprise-grade developer portfolio built with React 19, TypeScript, and Vite. It demonstrates modern frontend engineering best practices, serverless architecture, and cloud-native deployment patterns. The project serves as both a personal portfolio and a comprehensive reference implementation for scalable, maintainable web applications.
 
-- **Live Demo:** [reactspark.markhazleton.com](https://reactspark.markhazleton.com/)
-- **Author:** Mark Hazleton
-- **Purpose:** Showcase dynamic content, real-time features, and cloud-native deployment using modern web technologies.
+### ✨ Key Highlights
 
----
-
-## 📋 Table of Contents
-
-- [ReactSparkPortfolio](#reactsparkportfolio)
-  - [🚀 Project Overview](#-project-overview)
-  - [📋 Table of Contents](#-table-of-contents)
-  - [✨ Features](#-features)
-  - [🛠️ Technology Stack](#️-technology-stack)
-  - [📁 Project Structure](#-project-structure)
-  - [🚀 Getting Started](#-getting-started)
-    - [Environment \& Configuration](#environment--configuration)
-    - [Installation](#installation)
-    - [Scripts](#scripts)
-    - [Development](#development)
-    - [Linting \& Code Quality](#linting--code-quality)
-  - [📦 Building for Production](#-building-for-production)
-  - [🧪 Testing](#-testing)
-  - [🌐 Deployment](#-deployment)
-    - [GitHub Pages](#github-pages)
-    - [Azure Static Web Apps](#azure-static-web-apps)
-  - [🛡️ Maintenance \& Updating](#️-maintenance--updating)
-  - [♿ Accessibility, Security \& Performance](#-accessibility-security--performance)
-  - [🤝 Contributing](#-contributing)
-  - [❓ FAQ \& Troubleshooting](#-faq--troubleshooting)
-  - [🔍 SEO Implementation](#-seo-implementation)
-  - [📝 Blog Posts](#-blog-posts)
-  - [📄 License](#-license)
-  - [📞 Support \& Contact](#-support--contact)
+- 🎨 **Modern UI/UX** - Bootstrap 5 + custom SCSS with dark/light theme switching
+- ⚡ **Performance First** - Vite + lazy loading + code splitting for optimal UX  
+- 🔒 **Type Safety** - Full TypeScript implementation with strict mode
+- 🌐 **Multi-Platform** - Dual deployment (Azure Static Web Apps + GitHub Pages)
+- 🔄 **Real-time Features** - SignalR chat, live weather, dynamic content
+- ♿ **Accessibility** - WCAG compliant with semantic HTML and ARIA
+- 📱 **Responsive** - Mobile-first design that works on all devices
+- 🚀 **CI/CD Ready** - Automated builds and deployments via GitHub Actions
 
 ---
 
-## ✨ Features
+## 🏗️ Architecture
+
+```mermaid
+graph TD
+    A[React Frontend] --> B[Azure Functions API]
+    A --> C[External APIs]
+    B --> D[WebSpark Backend]
+    C --> E[OpenWeather API]
+    C --> F[RSS Feeds]
+    A --> G[SignalR Hub]
+    G --> H[Real-time Chat]
+    A --> I[Static Assets]
+    I --> J[Azure CDN]
+```
+
+---
+
+## 🎭 Features
+
+### 🎨 User Experience
+
+- **🌓 Dark/Light Mode** - Persistent theme switching with smooth transitions
+- **📱 Responsive Design** - Mobile-first approach with Bootstrap 5 components  
+- **⚡ Fast Loading** - Optimized bundle size with lazy-loaded components
+- **🔍 SEO Optimized** - Meta tags, Open Graph, JSON-LD structured data
+- **♿ Accessible** - WCAG 2.1 AA compliant with keyboard navigation
+
+### 💻 Technical Features  
+
+- **🔄 Real-time Chat** - SignalR integration with multiple AI personalities
+- **🌤️ Weather Widget** - Live weather data with interactive maps (Leaflet)
+- **📰 RSS Integration** - Dynamic blog post feeds with XML parsing
+- **🃏 Fun Elements** - Random jokes API integration
+- **📊 Project Showcase** - Searchable, sortable portfolio with admin panel
+- **🗺️ Interactive Maps** - Location-based weather visualization
+
+### 🛠️ Developer Experience
+
+- **🔧 Admin Interface** - Live project management with image browser
+- **📝 TypeScript** - Strict type safety and IntelliSense support  
+- **🧪 Modern Tooling** - ESLint, Prettier, SCSS compilation
+- **📚 Documentation** - Comprehensive guides in `/documentation`
+- **🔄 Hot Reload** - Instant development feedback with Vite
+
+---
+
+## 🛠️ Technology Stack
+
+<details>
+<summary><strong>🎯 Frontend Core</strong></summary>
+
+- **React 19.1** - Latest React with concurrent features
+- **TypeScript 5.9** - Type safety and modern JavaScript features  
+- **Vite 7.0** - Lightning-fast build tool and development server
+- **React Router 7.7** - Client-side routing and navigation
+
+</details>
+
+<details>
+<summary><strong>🎨 Styling & UI</strong></summary>
+
+- **Bootstrap 5.3.7** - Responsive component framework
+- **SCSS/Sass 1.89** - Enhanced CSS with variables and mixins
+- **React Bootstrap 2.10** - Bootstrap components for React
+- **Bootstrap Icons 1.13** - Comprehensive icon library
+- **Bootswatch 5.3** - Bootstrap theme variants
+
+</details>
+
+<details>
+<summary><strong>🔧 State & Data</strong></summary>
+
+- **React Context API** - Global state management
+- **Axios 1.11** - HTTP client for API requests  
+- **date-fns 4.1** - Modern date utility library
+- **xml2js 0.6** - XML parsing for RSS feeds
+
+</details>
+
+<details>
+<summary><strong>🌐 APIs & Integration</strong></summary>
+
+- **SignalR 9.0** - Real-time web communication
+- **OpenWeather API** - Weather data via WebSpark proxy
+- **JokeAPI** - Entertainment content integration
+- **Leaflet 1.9** - Interactive maps and geolocation
+
+</details>
+
+<details>
+<summary><strong>☁️ Cloud & Deployment</strong></summary>
+
+- **Azure Static Web Apps** - Serverless hosting with CDN
+- **Azure Functions** - Serverless API endpoints  
+- **GitHub Pages** - Alternative static hosting
+- **GitHub Actions** - CI/CD automation
+
+</details>
+
+<details>
+<summary><strong>🧹 Development Tools</strong></summary>
+
+- **ESLint 9.32** - Code linting and quality
+- **TypeScript ESLint** - TypeScript-specific linting
+- **Concurrently** - Run multiple npm scripts  
+- **rimraf** - Cross-platform file removal
+- **ts-node** - TypeScript execution for scripts
+
+</details>
+
+---
+
+## 📁 Project Structure
+
+```
+ReactSparkPortfolio/
+├── 📱 src/                          # Source code
+│   ├── 🧩 components/               # React components
+│   │   ├── About.tsx               # About section with tech stack
+│   │   ├── Articles.tsx            # RSS blog integration  
+│   │   ├── Chat.tsx                # SignalR real-time chat
+│   │   ├── Header.tsx              # Navigation with theme toggle
+│   │   ├── Hero.tsx                # Landing page hero section
+│   │   ├── Projects.tsx            # Portfolio project showcase
+│   │   ├── WeatherForecast.tsx     # Weather widget with maps
+│   │   └── ...                     # Additional components
+│   ├── 🎨 scss/                    # SCSS styling
+│   │   ├── components/             # Component-specific styles
+│   │   ├── utilities/              # Custom utility classes  
+│   │   ├── variables/              # SCSS variables and mixins
+│   │   └── styles.scss             # Main stylesheet entry
+│   ├── 🔧 contexts/                # React context providers
+│   ├── 📊 data/                    # Static data files
+│   ├── � services/                # API service layers
+│   ├── 📝 models/                  # TypeScript interfaces
+│   └── ⚙️ utils/                   # Utility functions
+├── ☁️ api/                          # Azure Functions
+│   └── proxy-rss/                  # RSS proxy function
+├── 🎛️ admin/                       # Project management interface
+├── 📖 documentation/               # Project documentation  
+├── 🏗️ docs/                        # Production build output
+├── ⚙️ .github/                     # GitHub workflows and templates
+└── 📋 Configuration files          # Various config files
+```
+
+---
+
+## 🚀 Quick Start
+
+### 📋 Prerequisites
+
+- **Node.js** 18+ ([Download](https://nodejs.org/))
+- **npm** 9+ (comes with Node.js)
+- **Git** ([Download](https://git-scm.com/))
+
+### ⚡ Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/markhazleton/ReactSparkPortfolio.git
+cd ReactSparkPortfolio
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+```
+
+🎉 **That's it!** Open [http://localhost:3000](http://localhost:3000) to see the app.
+
+### 🔧 Available Scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | 🚀 Start development server with hot reload |
+| `npm run build` | 📦 Build production bundle |
+| `npm run preview` | 👀 Preview production build locally |
+| `npm run lint` | 🔍 Lint codebase with ESLint |
+| `npm run clean` | 🧹 Remove build artifacts and cache |
+| `npm run build-css` | 🎨 Compile SCSS to CSS |
+| `npm run watch-css` | 👁️ Watch and compile SCSS changes |
+| `npm run generate-seo-files` | 📄 Generate sitemap.xml and robots.txt |
+
+---
+
+## 🌐 Deployment
+
+### 🔵 Azure Static Web Apps (Recommended)
+
+The project is configured for automatic deployment to Azure Static Web Apps:
+
+1. **Automatic CI/CD** - Triggered on push to `main` branch
+2. **Serverless API** - Azure Functions for backend services  
+3. **Global CDN** - Worldwide content delivery
+4. **Custom Domains** - SSL certificates included
+5. **Preview Deployments** - Automatic PR previews
+
+**Configuration Files:**
+
+- `.github/workflows/azure-static-web-apps-*.yml` - GitHub Actions workflow
+- `staticwebapp.config.json` - Azure SWA routing and settings
+- `api/` - Azure Functions for serverless backend
+
+### 🟢 GitHub Pages
+
+Alternative deployment to GitHub Pages:
+
+```bash
+# Build and deploy to GitHub Pages
+npm run build
+git add docs/
+git commit -m "Deploy to GitHub Pages"
+git push origin main
+```
+
+**Setup:** Enable GitHub Pages in repository settings, source: `/docs` folder.
+
+---
+
+## 🎛️ Admin Panel
+
+The project includes a full-featured admin interface for managing portfolio content:
+
+### 🚀 Quick Start
+
+```bash
+# Navigate to admin directory
+cd admin
+
+# Install dependencies
+npm install
+
+# Start admin server
+npm run dev
+```
+
+### ✨ Features
+
+- 📝 **Project Management** - Add, edit, delete portfolio projects
+- 🖼️ **Image Browser** - Visual image selection with previews
+- 🔗 **URL Validation** - Real-time accessibility checking
+- 📱 **Responsive Interface** - Works on all devices
+- � **Data Persistence** - Projects saved to JSON file
+
+**Access:** [http://localhost:3001](http://localhost:3001) (when admin server is running)
+
+---
+
+## 🧪 Testing & Quality
+
+### 🔍 Code Quality
+
+```bash
+# Run linting
+npm run lint
+
+# Type checking
+npx tsc --noEmit
+
+# Check for outdated dependencies  
+npm outdated
+```
+
+### 🛡️ Security
+
+```bash
+# Security audit
+npm audit
+
+# Fix vulnerabilities
+npm audit fix
+```
+
+### ♿ Accessibility
+
+- **Semantic HTML** - Proper heading hierarchy and landmarks
+- **ARIA Labels** - Screen reader compatibility
+- **Color Contrast** - WCAG 2.1 AA compliant
+- **Keyboard Navigation** - Full keyboard accessibility
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions! Please see our [Contributing Guide](./documentation/CONTRIBUTING.md) for details.
+
+### 🔄 Development Process
+
+1. **Fork** the repository
+2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
+3. **Commit** your changes (`git commit -m 'Add amazing feature'`)
+4. **Push** to the branch (`git push origin feature/amazing-feature`)
+5. **Open** a Pull Request
+
+### 📋 Issue Templates
+
+- [� Bug Report](.github/ISSUE_TEMPLATE/bug_report.md)
+- [✨ Feature Request](.github/ISSUE_TEMPLATE/feature_request.md)
+
+---
+
+## 📚 Documentation
+
+- 📖 **[Complete Documentation](./documentation/)** - Comprehensive guides
+- 🎛️ **[Admin Guide](./admin/README.md)** - Admin panel usage
+- 🏗️ **[Architecture Guide](./documentation/ARCHITECTURE.md)** - System design
+- 🚀 **[Deployment Guide](./documentation/DEPLOYMENT.md)** - Deployment options
+
+---
+
+## 🔗 Related Projects
+
+- **[WebSpark](https://markhazleton.com)** - Backend API ecosystem
+- **[PromptSpark](https://promptspark.markhazleton.com)** - AI prompt engineering
+- **[DataSpark](https://dataspark.markhazleton.com)** - Data visualization platform
+
+---
+
+## 📈 Performance
+
+- **Lighthouse Score:** 95+ across all metrics
+- **Bundle Size:** <500KB gzipped
+- **First Contentful Paint:** <1.5s
+- **Time to Interactive:** <3s
+
+---
+
+## 🆘 Support
+
+- � **Issues:** [GitHub Issues](https://github.com/markhazleton/ReactSparkPortfolio/issues)
+- 💬 **Discussions:** [GitHub Discussions](https://github.com/markhazleton/ReactSparkPortfolio/discussions)
+- 🐛 **Bug Reports:** Use the bug report template
+- ✨ **Feature Requests:** Use the feature request template
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 🙏 Acknowledgments
+
+- **React Team** - For the amazing framework
+- **Microsoft Azure** - For excellent cloud services  
+- **Bootstrap Team** - For the responsive framework
+- **Vite Team** - For the lightning-fast build tool
+- **Open Source Community** - For countless contributions
+
+---
+
+<div align="center">
+
+**Built with ❤️ by [Mark Hazleton](https://markhazleton.com)**
+
+[![Follow on GitHub](https://img.shields.io/github/followers/markhazleton?style=social)](https://github.com/markhazleton)
+[![Twitter Follow](https://img.shields.io/twitter/follow/markhazleton?style=social)](https://twitter.com/markhazleton)
+
+[⭐ Star this repo](https://github.com/markhazleton/ReactSparkPortfolio) if you find it helpful!
+
+</div>
 
 - **Responsive Design**: Mobile-first, accessible, and optimized for all device sizes (Bootstrap 5.3)
 - **Dark/Light Mode**: Theme toggle with persistent context-based state

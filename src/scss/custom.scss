@@ -1,3 +1,6 @@
+@use "sass:color";
+@use "./variables/colors" as colors;
+
 // Custom SCSS for enhanced Bootstrap styles
 
 // Remove custom color variable overrides and use Bootstrap defaults
@@ -165,22 +168,22 @@ footer {
   
   &.alert-primary {
     background-color: rgba($primary, 0.15);
-    color: darken($primary, 20%);
+    color: color.adjust($primary, $lightness: -20%);
   }
   
   &.alert-info {
     background-color: rgba($info, 0.15);
-    color: darken($info, 20%);
+    color: color.adjust($info, $lightness: -20%);
   }
   
   &.alert-warning {
     background-color: rgba($warning, 0.15);
-    color: darken($warning, 20%);
+    color: color.adjust($warning, $lightness: -20%);
   }
   
   &.alert-danger {
     background-color: rgba($danger, 0.15);
-    color: darken($danger, 20%);
+    color: color.adjust($danger, $lightness: -20%);
   }
 }
 
@@ -282,5 +285,5 @@ html {
 
 // Updated custom styles to use theme-aware mixin
 .custom-class {
-  @include theme-aware(background-color, 'background');
+  @include colors.theme-aware(background-color, 'background');
 }

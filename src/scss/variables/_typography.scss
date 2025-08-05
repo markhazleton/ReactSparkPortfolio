@@ -1,6 +1,7 @@
 // 
 // Variables
 // 
+@use "./colors" as colors;
 
 // Override Bootstrap typography variables
 
@@ -14,7 +15,7 @@ $headings-font-family: "Saira Extra Condensed", -apple-system,
 
 $headings-font-weight: 700;
 
-$headings-color: $gray-800;
+$headings-color: colors.$gray-800;
 
 $h1-font-size: 6rem;
 $h2-font-size: 3.5rem;

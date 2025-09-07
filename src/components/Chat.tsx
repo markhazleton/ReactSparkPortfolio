@@ -23,6 +23,7 @@ const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = '' }) => {
   const [chatInput, setChatInput] = useState('');
   const [isBotTyping, setIsBotTyping] = useState(false);
   const [isConnecting, setIsConnecting] = useState(true);
+  const [connectionError, setConnectionError] = useState<string | null>(null);
 
   const streamingBuffer = useRef('');
   const conversationId = useRef<string>(new Date().getTime().toString());
@@ -39,10 +40,38 @@ const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = '' }) => {
   }, []);
 
   useEffect(() => {
+    const handleReceiveMessage = (user: string, messageChunk: string) => {
+      if (user === variantName) {
+        setIsBotTyping(true);
+        streamingBuffer.current += sanitizeInput(messageChunk);
+
+        if (streamingTimeoutRef.current) clearTimeout(streamingTimeoutRef.current);
+
+        if (isFirstChunk.current) {
+          addNewMessage(messageChunk, user, true);
+          isFirstChunk.current = false;
+        } else {
+          updateLastMessage(messageChunk);
+        }
+
+        streamingTimeoutRef.current = setTimeout(() => {
+          isFirstChunk.current = true;
+          streamingBuffer.current = '';
+          setIsBotTyping(false);
+        }, 1000);
+      } else {
+        addNewMessage(messageChunk, user, false);
+      }
+    };
+
     const setupSignalRConnection = async () => {
       try {
+        setConnectionError(null);
         connection.current = new signalR.HubConnectionBuilder()
-          .withUrl('https://webspark.markhazleton.com/chatHub')
+          .withUrl('https://webspark.markhazleton.com/chatHub', {
+            skipNegotiation: false,
+            withCredentials: false
+          })
           .build();
 
         await connection.current.start();
@@ -60,6 +89,7 @@ const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = '' }) => {
         }
       } catch (error) {
         console.error('SignalR connection failed:', error);
+        setConnectionError(error instanceof Error ? error.message : 'Connection failed');
         setIsConnecting(false);
       }
     };
@@ -72,30 +102,6 @@ const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = '' }) => {
       if (streamingTimeoutRef.current) clearTimeout(streamingTimeoutRef.current);
     };
   }, [variantName, initialMessage]);
-
-  const handleReceiveMessage = (user: string, messageChunk: string) => {
-    if (user === variantName) {
-      setIsBotTyping(true);
-      streamingBuffer.current += sanitizeInput(messageChunk);
-
-      if (streamingTimeoutRef.current) clearTimeout(streamingTimeoutRef.current);
-
-      if (isFirstChunk.current) {
-        addNewMessage(messageChunk, user, true);
-        isFirstChunk.current = false;
-      } else {
-        updateLastMessage(messageChunk);
-      }
-
-      streamingTimeoutRef.current = setTimeout(() => {
-        isFirstChunk.current = true;
-        streamingBuffer.current = '';
-        setIsBotTyping(false);
-      }, 1000);
-    } else {
-      addNewMessage(messageChunk, user, false);
-    }
-  };
 
   const addNewMessage = (content: string, user: string, isBot: boolean) => {
     const sanitizedContent = sanitizeInput(content);
@@ -168,7 +174,17 @@ const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = '' }) => {
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
       {isConnecting ? (
-        <ActivityIndicator size="large" color="#0000ff" />
+        <View style={styles.connectionContainer}>
+          <ActivityIndicator size="large" color="#0000ff" />
+          <Text>Connecting to chat...</Text>
+        </View>
+      ) : connectionError ? (
+        <View style={styles.errorContainer}>
+          <Text style={styles.errorText}>Connection failed: {connectionError}</Text>
+          <Button variant="danger" onClick={() => window.location.reload()}>
+            Retry Connection
+          </Button>
+        </View>
       ) : !userName ? (
         <View style={styles.joinContainer}>
           <TextInput
@@ -213,6 +229,22 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+  },
+  connectionContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  errorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  errorText: {
+    color: 'red',
+    textAlign: 'center',
+    marginBottom: 10,
   },
   joinContainer: {
     flex: 1,

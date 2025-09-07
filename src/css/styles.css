@@ -31739,18 +31739,14 @@ ul.dev-icons li a {
   --bs-card-bg: var(--color-card-bg);
   --bs-secondary-color: var(--color-foreground-muted);
   /* Improve contrast for code blocks in dark mode */
-  /* Ensure blockquotes are visible in dark mode */
-  /* Improve card and container borders in dark mode */
-  /* Ensure text in primary cards is readable */
-  /* Custom focus styles for dark mode */
-  /* Adjust header styles for dark mode */
-  /* Hero section background in dark mode */
-  /* Button hover effects for dark mode */
 }
 [data-bs-theme=dark] pre.code {
   background: rgba(44, 48, 50, 0.6); /* Darker, more subtle background */
   color: var(--color-foreground);
   border-color: var(--color-border);
+}
+[data-bs-theme=dark] {
+  /* Ensure blockquotes are visible in dark mode */
 }
 [data-bs-theme=dark] blockquote {
   background: var(--color-background-alt);
@@ -31759,14 +31755,26 @@ ul.dev-icons li a {
   padding: 1rem;
   margin: 1rem 0;
 }
+[data-bs-theme=dark] {
+  /* Improve card and container borders in dark mode */
+}
 [data-bs-theme=dark] .card, [data-bs-theme=dark] .container, [data-bs-theme=dark] .list-group-item {
   border-color: var(--color-border);
+}
+[data-bs-theme=dark] {
+  /* Ensure text in primary cards is readable */
 }
 [data-bs-theme=dark] .bg-primary {
   color: #fff !important;
 }
+[data-bs-theme=dark] {
+  /* Custom focus styles for dark mode */
+}
 [data-bs-theme=dark] :focus {
   outline-color: var(--bs-primary);
+}
+[data-bs-theme=dark] {
+  /* Adjust header styles for dark mode */
 }
 [data-bs-theme=dark] .navbar-brand, [data-bs-theme=dark] .nav-link {
   color: var(--color-foreground) !important;
@@ -31774,9 +31782,15 @@ ul.dev-icons li a {
 [data-bs-theme=dark] .nav-link.active {
   color: var(--bs-primary) !important;
 }
+[data-bs-theme=dark] {
+  /* Hero section background in dark mode */
+}
 [data-bs-theme=dark] .hero-section {
   background-color: var(--color-background-alt);
   box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.1);
+}
+[data-bs-theme=dark] {
+  /* Button hover effects for dark mode */
 }
 [data-bs-theme=dark] .btn-primary:hover {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -31792,10 +31806,6 @@ ul.dev-icons li a {
   --bs-card-bg: var(--color-card-bg);
   --bs-secondary-color: var(--color-foreground-muted);
   /* Ensure blockquotes have good contrast */
-  /* Custom focus styles for light mode */
-  /* Adjust header styles for light mode */
-  /* Hero section background in light mode */
-  /* Button hover effects for light mode */
 }
 [data-bs-theme=light] blockquote {
   background: var(--color-background-alt);
@@ -31804,8 +31814,14 @@ ul.dev-icons li a {
   padding: 1rem;
   margin: 1rem 0;
 }
+[data-bs-theme=light] {
+  /* Custom focus styles for light mode */
+}
 [data-bs-theme=light] :focus {
   outline-color: var(--bs-primary);
+}
+[data-bs-theme=light] {
+  /* Adjust header styles for light mode */
 }
 [data-bs-theme=light] .navbar-brand, [data-bs-theme=light] .nav-link {
   color: var(--color-foreground) !important;
@@ -31813,9 +31829,15 @@ ul.dev-icons li a {
 [data-bs-theme=light] .nav-link.active {
   color: var(--bs-primary) !important;
 }
+[data-bs-theme=light] {
+  /* Hero section background in light mode */
+}
 [data-bs-theme=light] .hero-section {
   background-color: var(--color-background-alt);
   box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.03);
+}
+[data-bs-theme=light] {
+  /* Button hover effects for light mode */
 }
 [data-bs-theme=light] .btn-primary:hover {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);

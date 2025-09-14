@@ -35,7 +35,6 @@
     "react-markdown": "^10.1.0",
     "react-native-web": "^0.21.1",
     "react-router-dom": "^7.9.1",
-    "signalr": "^2.4.3",
     "xml2js": "^0.6.2"
   },
   "devDependencies": {

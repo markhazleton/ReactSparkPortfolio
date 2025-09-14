@@ -161,9 +161,10 @@ const VariantList: React.FC = () => {
 
       {/* Display categorized variants */}
       {!loading && !error && enhancedVariants.length > 0 && (
-        <>
+        <React.Fragment>
           {/* Category Navigation */}
           <Nav 
+            key="category-nav"
             variant={isDark ? 'dark' : 'pills'} 
             className="mb-4 flex-nowrap overflow-auto pb-2"
             activeKey={activeCategory}
@@ -193,13 +194,13 @@ const VariantList: React.FC = () => {
           
           {/* Featured Variants (if selected category is 'all' and not searching) - limited to 3 */}
           {activeCategory === 'all' && !searchTerm && featuredVariants.length > 0 && (
-            <div className="mb-5">
+            <div key="featured-variants" className="mb-5">
               <h3 className="h5 mb-3 d-flex align-items-center">
                 <Star className="text-warning me-2" /> Featured Assistants
               </h3>
               <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-                {featuredVariants.map(variant => (
-                  <div className="col" key={variant.id}>
+                {featuredVariants.map((variant, index) => (
+                  <div className="col" key={`featured-${variant.id || index}`}>
                     <Card 
                       className={`h-100 border-primary shadow-sm border-2 ${isDark ? 'bg-dark text-light border-primary' : ''}`}
                     >
@@ -236,13 +237,13 @@ const VariantList: React.FC = () => {
           
           {/* PromptSpark Info section (moved between featured and full list) */}
           {activeCategory === 'all' && !searchTerm && (
-            <div className="mb-5">
+            <div key="promptspark-info" className="mb-5">
               <PromptSparkInfo />
             </div>
           )}
           
           {/* All Filtered Variants */}
-          <div className="mb-4">
+          <div key="filtered-variants" className="mb-4">
             {activeCategory !== 'all' || searchTerm ? (
               <h3 className="h5 mb-3">
                 {filteredVariants.length} {filteredVariants.length === 1 ? 'Assistant' : 'Assistants'} Found
@@ -258,8 +259,8 @@ const VariantList: React.FC = () => {
               </Alert>
             ) : (
               <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-                {filteredVariants.map(variant => (
-                  <div className="col" key={variant.id}>
+                {filteredVariants.map((variant, index) => (
+                  <div className="col" key={`filtered-${variant.id || index}`}>
                     <Card 
                       className={`h-100 shadow-sm ${isDark ? 'bg-dark text-light border-secondary' : ''}`}
                     >
@@ -282,20 +283,22 @@ const VariantList: React.FC = () => {
                         <Card.Text 
                           className={`small ${isDark ? 'text-light-emphasis' : 'text-body-secondary'}`}
                         >
-                          {variant.description && variant.description.length > 100 && showDescription !== variant.id
-                            ? `${variant.description.substring(0, 100)}... `
-                            : variant.description}
-                            
-                          {variant.description && variant.description.length > 100 && (
-                            <Button 
-                              variant="link" 
-                              size="sm" 
-                              className={`p-0 ${isDark ? 'text-light' : ''}`}
-                              onClick={() => toggleDescription(variant.id)}
-                            >
-                              {showDescription === variant.id ? 'Show less' : 'Show more'}
-                            </Button>
-                          )}
+                          <>
+                            {variant.description && variant.description.length > 100 && showDescription !== variant.id
+                              ? `${variant.description.substring(0, 100)}... `
+                              : variant.description}
+                              
+                            {variant.description && variant.description.length > 100 && (
+                              <Button 
+                                variant="link" 
+                                size="sm" 
+                                className={`p-0 ${isDark ? 'text-light' : ''}`}
+                                onClick={() => toggleDescription(variant.id)}
+                              >
+                                {showDescription === variant.id ? 'Show less' : 'Show more'}
+                              </Button>
+                            )}
+                          </>
                         </Card.Text>
                       </Card.Body>
                       <Card.Footer className={`border-top-0 ${isDark ? 'bg-dark' : 'bg-white'}`}>
@@ -313,7 +316,7 @@ const VariantList: React.FC = () => {
               </div>
             )}
           </div>
-        </>
+        </React.Fragment>
       )}
 
       {/* Fullscreen Modal for Chat */}

@@ -1,0 +1,7 @@
+.chat-name-input {
+  min-width: 300px;
+}
+
+.chat-messages-container {
+  max-height: calc(100vh - 150px);
+}

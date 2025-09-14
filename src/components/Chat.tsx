@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, TextInput, FlatList, StyleSheet, Text, NativeSyntheticEvent, TextInputKeyPressEventData, ActivityIndicator, KeyboardAvoidingView, Platform } from 'react-native';
 import ReactMarkdown from 'react-markdown';
 import * as signalR from '@microsoft/signalr';
-import { Button } from 'react-bootstrap';
+import { Button, Form, Card, Container, Spinner, Alert } from 'react-bootstrap';
+import './Chat.css';
 
 interface Message {
   id: string;
@@ -28,7 +28,7 @@ const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = '' }) => {
   const streamingBuffer = useRef('');
   const conversationId = useRef<string>(new Date().getTime().toString());
   const connection = useRef<signalR.HubConnection | null>(null);
-  const streamingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const streamingTimeoutRef = useRef<number | null>(null);
   const isFirstChunk = useRef(true);
 
   // Load username from localStorage on component mount
@@ -37,6 +37,36 @@ const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = '' }) => {
     if (savedUserName) {
       setUserName(savedUserName);
     }
+  }, []);
+
+  const sanitizeInput = React.useCallback((input: string): string => {
+    return input.replace(/<\/?[^>]+(>|$)/g, ''); // Strips HTML tags
+  }, []);
+
+  const addNewMessage = React.useCallback((content: string, user: string, isBot: boolean) => {
+    const sanitizedContent = sanitizeInput(content);
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      {
+        id: `${Date.now()}`,
+        user,
+        content: sanitizedContent,
+        timestamp: new Date().toLocaleTimeString(),
+      },
+    ]);
+    if (!isBot) setIsBotTyping(false);
+  }, [sanitizeInput]);
+
+  const updateLastMessage = React.useCallback((chunk: string) => {
+    setMessages((prevMessages) => {
+      const updatedMessages = [...prevMessages];
+      const lastMessage = updatedMessages[updatedMessages.length - 1];
+      updatedMessages[updatedMessages.length - 1] = {
+        ...lastMessage,
+        content: lastMessage.content + chunk,
+      };
+      return updatedMessages;
+    });
   }, []);
 
   useEffect(() => {
@@ -101,37 +131,7 @@ const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = '' }) => {
       connection.current?.stop();
       if (streamingTimeoutRef.current) clearTimeout(streamingTimeoutRef.current);
     };
-  }, [variantName, initialMessage]);
-
-  const addNewMessage = (content: string, user: string, isBot: boolean) => {
-    const sanitizedContent = sanitizeInput(content);
-    setMessages((prevMessages) => [
-      ...prevMessages,
-      {
-        id: `${Date.now()}`,
-        user,
-        content: sanitizedContent,
-        timestamp: new Date().toLocaleTimeString(),
-      },
-    ]);
-    if (!isBot) setIsBotTyping(false);
-  };
-
-  const updateLastMessage = (chunk: string) => {
-    setMessages((prevMessages) => {
-      const updatedMessages = [...prevMessages];
-      const lastMessage = updatedMessages[updatedMessages.length - 1];
-      updatedMessages[updatedMessages.length - 1] = {
-        ...lastMessage,
-        content: lastMessage.content + chunk,
-      };
-      return updatedMessages;
-    });
-  };
-
-  const sanitizeInput = (input: string): string => {
-    return input.replace(/<\/?[^>]+(>|$)/g, ''); // Strips HTML tags
-  };
+  }, [variantName, initialMessage, addNewMessage, sanitizeInput, updateLastMessage]);
 
   const handleJoinChat = () => {
     if (userInput.trim()) {
@@ -153,145 +153,89 @@ const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = '' }) => {
     }
   };
 
-  const handleKeyPress = (e: NativeSyntheticEvent<TextInputKeyPressEventData>) => {
-    if (e.nativeEvent.key === 'Enter') {
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
       handleJoinChat();
     }
   };
 
-  const renderMessage = ({ item }: { item: Message }) => (
-    <View style={[styles.messageContainer, item.user === variantName ? styles.botMessage : styles.userMessage]}>
-      <Text style={styles.user}>
-        {item.user} ({item.timestamp}):
-      </Text>
-      <ReactMarkdown>{item.content}</ReactMarkdown>
-    </View>
+  const renderMessage = (message: Message) => (
+    <Card key={message.id} className={`mb-2 ${message.user === variantName ? 'ms-auto bg-light' : 'me-auto bg-primary text-white'}`} style={{ maxWidth: '80%' }}>
+      <Card.Body className="py-2 px-3">
+        <small className="fw-bold">
+          {message.user} ({message.timestamp}):
+        </small>
+        <div className="mt-1">
+          <ReactMarkdown>{message.content}</ReactMarkdown>
+        </div>
+      </Card.Body>
+    </Card>
   );
 
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-    >
+    <Container fluid className="d-flex flex-column h-100 p-0">
       {isConnecting ? (
-        <View style={styles.connectionContainer}>
-          <ActivityIndicator size="large" color="#0000ff" />
-          <Text>Connecting to chat...</Text>
-        </View>
+        <div className="d-flex flex-column justify-content-center align-items-center h-100">
+          <Spinner animation="border" role="status" className="mb-3">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+          <p>Connecting to chat...</p>
+        </div>
       ) : connectionError ? (
-        <View style={styles.errorContainer}>
-          <Text style={styles.errorText}>Connection failed: {connectionError}</Text>
+        <div className="d-flex flex-column justify-content-center align-items-center h-100 text-center p-3">
+          <Alert variant="danger" className="mb-3">
+            Connection failed: {connectionError}
+          </Alert>
           <Button variant="danger" onClick={() => window.location.reload()}>
             Retry Connection
           </Button>
-        </View>
+        </div>
       ) : !userName ? (
-        <View style={styles.joinContainer}>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter your name"
-            value={userInput}
-            onChangeText={setUserInput}
-            onKeyPress={handleKeyPress}
-          />
+          <div className="d-flex flex-column justify-content-center align-items-center h-100 p-3">
+          <Form.Group className="mb-3 chat-name-input">
+            <Form.Label>Enter your name to join the chat</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter your name"
+              value={userInput}
+              onChange={(e) => setUserInput(e.target.value)}
+              onKeyPress={handleKeyPress}
+            />
+          </Form.Group>
           <Button variant="primary" onClick={handleJoinChat}>
             Join Chat
           </Button>
-        </View>
+        </div>
       ) : (
-        <View style={styles.chatContainer}>
-          <FlatList
-            data={messages}
-            renderItem={renderMessage}
-            keyExtractor={(item) => item.id}
-            contentContainerStyle={{ paddingBottom: 80 }}
-          />
-          {isBotTyping && <Text style={styles.typingIndicator}>Bot is typing...</Text>}
-          <View style={styles.inputGroup}>
-            <TextInput
-              style={styles.input}
-              placeholder="Type your message..."
-              value={chatInput}
-              onChangeText={setChatInput}
-              onSubmitEditing={handleSendMessage}
-            />
-            <Button variant="primary" onClick={handleSendMessage}>
-              Send
-            </Button>
-          </View>
-        </View>
+        <div className="d-flex flex-column h-100">
+          <div className="flex-grow-1 overflow-auto p-3 chat-messages-container">
+            {messages.map(renderMessage)}
+            {isBotTyping && (
+              <div className="text-center my-3">
+                <em className="text-muted">Bot is typing...</em>
+              </div>
+            )}
+          </div>
+          <div className="border-top p-3">
+            <Form.Group>
+              <div className="d-flex gap-2">
+                <Form.Control
+                  type="text"
+                  placeholder="Type your message..."
+                  value={chatInput}
+                  onChange={(e) => setChatInput(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                />
+                <Button variant="primary" onClick={handleSendMessage}>
+                  Send
+                </Button>
+              </div>
+            </Form.Group>
+          </div>
+        </div>
       )}
-    </KeyboardAvoidingView>
+    </Container>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  connectionContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  errorContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-  },
-  errorText: {
-    color: 'red',
-    textAlign: 'center',
-    marginBottom: 10,
-  },
-  joinContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  chatContainer: {
-    flex: 1,
-  },
-  inputGroup: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    padding: 10,
-    backgroundColor: '#fff',
-  },
-  input: {
-    flex: 1,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    padding: 10,
-    borderRadius: 5,
-  },
-  messageContainer: {
-    padding: 8,
-    borderRadius: 5,
-    marginVertical: 4,
-  },
-  userMessage: {
-    backgroundColor: '#e1ffc7',
-    alignSelf: 'flex-start',
-  },
-  botMessage: {
-    backgroundColor: '#d3d3d3',
-    alignSelf: 'flex-end',
-  },
-  user: {
-    fontWeight: 'bold',
-  },
-  typingIndicator: {
-    fontStyle: 'italic',
-    textAlign: 'center',
-    marginVertical: 10,
-  },
-});
 
 export default Chat;

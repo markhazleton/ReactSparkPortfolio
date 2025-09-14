@@ -24,6 +24,7 @@ const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = '' }) => {
   const [isBotTyping, setIsBotTyping] = useState(false);
   const [isConnecting, setIsConnecting] = useState(true);
   const [connectionError, setConnectionError] = useState<string | null>(null);
+  const [isRetrying, setIsRetrying] = useState(false);
 
   const streamingBuffer = useRef('');
   const conversationId = useRef<string>(new Date().getTime().toString());
@@ -94,18 +95,46 @@ const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = '' }) => {
       }
     };
 
-    const setupSignalRConnection = async () => {
+    const setupSignalRConnection = async (retryCount: number = 0) => {
       try {
         setConnectionError(null);
+        setIsRetrying(retryCount > 0);
+        
         connection.current = new signalR.HubConnectionBuilder()
           .withUrl('https://webspark.markhazleton.com/chatHub', {
             skipNegotiation: false,
-            withCredentials: false
+            withCredentials: false,
+            timeout: 30000, // 30 second timeout
+            transport: signalR.HttpTransportType.WebSockets | signalR.HttpTransportType.ServerSentEvents | signalR.HttpTransportType.LongPolling
           })
+          .withAutomaticReconnect([0, 2000, 10000, 30000]) // Retry at 0ms, 2s, 10s, 30s
+          .configureLogging(signalR.LogLevel.Information)
           .build();
+
+        // Handle connection events
+        connection.current.onclose((error) => {
+          console.log('SignalR connection closed:', error);
+          if (error && retryCount < 3) {
+            console.log(`Retrying connection (attempt ${retryCount + 1})...`);
+            setTimeout(() => setupSignalRConnection(retryCount + 1), Math.pow(2, retryCount) * 1000);
+          }
+        });
+
+        connection.current.onreconnecting((error) => {
+          console.log('SignalR reconnecting:', error);
+          setIsConnecting(true);
+        });
+
+        connection.current.onreconnected(() => {
+          console.log('SignalR reconnected');
+          setIsConnecting(false);
+          setConnectionError(null);
+          setIsRetrying(false);
+        });
 
         await connection.current.start();
         setIsConnecting(false);
+        setIsRetrying(false);
         console.log('Connected to SignalR hub');
 
         connection.current.on('ReceiveMessage', handleReceiveMessage);
@@ -119,8 +148,16 @@ const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = '' }) => {
         }
       } catch (error) {
         console.error('SignalR connection failed:', error);
-        setConnectionError(error instanceof Error ? error.message : 'Connection failed');
+        const errorMessage = error instanceof Error ? error.message : 'Connection failed';
+        setConnectionError(errorMessage);
         setIsConnecting(false);
+        setIsRetrying(false);
+        
+        // Retry with exponential backoff
+        if (retryCount < 3) {
+          console.log(`Retrying connection in ${Math.pow(2, retryCount)} seconds...`);
+          setTimeout(() => setupSignalRConnection(retryCount + 1), Math.pow(2, retryCount) * 1000);
+        }
       }
     };
 
@@ -132,6 +169,62 @@ const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = '' }) => {
       if (streamingTimeoutRef.current) clearTimeout(streamingTimeoutRef.current);
     };
   }, [variantName, initialMessage, addNewMessage, sanitizeInput, updateLastMessage]);
+
+  const handleRetryConnection = () => {
+    setIsConnecting(true);
+    setConnectionError(null);
+    setIsRetrying(false);
+    
+    // Create a new connection
+    const retryConnection = async () => {
+      try {
+        connection.current = new signalR.HubConnectionBuilder()
+          .withUrl('https://webspark.markhazleton.com/chatHub', {
+            skipNegotiation: false,
+            withCredentials: false,
+            timeout: 30000,
+            transport: signalR.HttpTransportType.WebSockets | signalR.HttpTransportType.ServerSentEvents | signalR.HttpTransportType.LongPolling
+          })
+          .withAutomaticReconnect([0, 2000, 10000, 30000])
+          .configureLogging(signalR.LogLevel.Information)
+          .build();
+
+        await connection.current.start();
+        setIsConnecting(false);
+        console.log('Reconnected to SignalR hub');
+
+        connection.current.on('ReceiveMessage', (user: string, messageChunk: string) => {
+          if (user === variantName) {
+            setIsBotTyping(true);
+            streamingBuffer.current += sanitizeInput(messageChunk);
+
+            if (streamingTimeoutRef.current) clearTimeout(streamingTimeoutRef.current);
+
+            if (isFirstChunk.current) {
+              addNewMessage(messageChunk, user, true);
+              isFirstChunk.current = false;
+            } else {
+              updateLastMessage(messageChunk);
+            }
+
+            streamingTimeoutRef.current = setTimeout(() => {
+              isFirstChunk.current = true;
+              streamingBuffer.current = '';
+              setIsBotTyping(false);
+            }, 1000);
+          } else {
+            addNewMessage(messageChunk, user, false);
+          }
+        });
+      } catch (error) {
+        console.error('Manual retry failed:', error);
+        setConnectionError(error instanceof Error ? error.message : 'Retry failed');
+        setIsConnecting(false);
+      }
+    };
+
+    retryConnection();
+  };
 
   const handleJoinChat = () => {
     if (userInput.trim()) {
@@ -179,16 +272,38 @@ const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = '' }) => {
           <Spinner animation="border" role="status" className="mb-3">
             <span className="visually-hidden">Loading...</span>
           </Spinner>
-          <p>Connecting to chat...</p>
+          <p>{isRetrying ? 'Retrying connection to chat...' : 'Connecting to chat...'}</p>
+          {connectionError && (
+            <small className="text-muted mt-2">Previous error: {connectionError}</small>
+          )}
         </div>
       ) : connectionError ? (
         <div className="d-flex flex-column justify-content-center align-items-center h-100 text-center p-3">
-          <Alert variant="danger" className="mb-3">
-            Connection failed: {connectionError}
+          <Alert variant="warning" className="mb-3">
+            <Alert.Heading>Connection Issue</Alert.Heading>
+            <p>{connectionError}</p>
+            {isRetrying && (
+              <div className="d-flex align-items-center justify-content-center mt-2">
+                <Spinner animation="border" size="sm" className="me-2" />
+                <span>Retrying connection...</span>
+              </div>
+            )}
           </Alert>
-          <Button variant="danger" onClick={() => window.location.reload()}>
-            Retry Connection
-          </Button>
+          <div className="d-flex gap-2">
+            <Button variant="primary" onClick={handleRetryConnection} disabled={isConnecting || isRetrying}>
+              {isConnecting || isRetrying ? (
+                <>
+                  <Spinner animation="border" size="sm" className="me-2" />
+                  {isRetrying ? 'Retrying...' : 'Connecting...'}
+                </>
+              ) : (
+                'Retry Connection'
+              )}
+            </Button>
+            <Button variant="secondary" onClick={() => window.location.reload()}>
+              Reload Page
+            </Button>
+          </div>
         </div>
       ) : !userName ? (
           <div className="d-flex flex-column justify-content-center align-items-center h-100 p-3">

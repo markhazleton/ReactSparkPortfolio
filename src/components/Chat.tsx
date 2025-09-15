@@ -29,7 +29,7 @@ const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = '' }) => {
   const streamingBuffer = useRef('');
   const conversationId = useRef<string>(new Date().getTime().toString());
   const connection = useRef<signalR.HubConnection | null>(null);
-  const streamingTimeoutRef = useRef<number | null>(null);
+  const streamingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const isFirstChunk = useRef(true);
 
   // Load username from localStorage on component mount

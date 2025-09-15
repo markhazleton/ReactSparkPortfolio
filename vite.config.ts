@@ -1,13 +1,8 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import * as dotenv from "dotenv";
 import { viteStaticCopy } from "vite-plugin-static-copy";
 import fs from "fs";
 import strip from "@rollup/plugin-strip";
-
-// Load environment variables based on the current NODE_ENV or default to `.env`
-const envFileName = `.env.${process.env.NODE_ENV || "development"}`;
-dotenv.config({ path: envFileName });
 
 // Get the current date-time during the build
 const buildDate = new Date().toISOString();
@@ -36,7 +31,6 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      "react-native": "react-native-web", // Alias for react-native-web
       "@webfonts": "/webfonts", // Alias for webfonts
     },
   },

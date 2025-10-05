@@ -1,9 +1,18 @@
 @use "sass:color";
+@use "sass:map";
 @use "./variables/colors" as colors;
+
+// Import Bootstrap mixins for media queries
+// Note: This might need adjustment depending on Bootstrap's module structure
+@import "bootstrap/scss/mixins";
 
 // Custom SCSS for enhanced Bootstrap styles
 
-// Remove custom color variable overrides and use Bootstrap defaults
+// Get theme colors from the color module
+$primary: map.get(colors.$theme-colors, "primary");
+$info: map.get(colors.$theme-colors, "info");
+$warning: map.get(colors.$theme-colors, "warning");
+$danger: map.get(colors.$theme-colors, "danger");
 
 // Add a subtle grain texture to the background
 body {

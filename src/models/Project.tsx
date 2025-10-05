@@ -1,5 +1,5 @@
 // src/models/Project.ts
-import projectsData from '../data/projects.json'; // Adjust the path accordingly
+import { fetchProjectsData, ProjectData } from '../services/ProjectService';
 
 class Project {
   id: number;
@@ -16,16 +16,23 @@ class Project {
     this.h = h;
   }
 
-  static loadProjects(): Project[] {
-    if (!projectsData || projectsData.length === 0) {
-      console.warn('Projects file is empty or not available.');
+  static async loadProjects(): Promise<Project[]> {
+    try {
+      const projectsData = await fetchProjectsData();
+      
+      if (!projectsData || projectsData.length === 0) {
+        console.warn('Projects data is empty or not available.');
+        return [];
+      }
+
+      return projectsData.map(
+        (proj: ProjectData) =>
+          new Project(proj.id, proj.image, proj.p, proj.d, proj.h)
+      );
+    } catch (error) {
+      console.error('Error loading projects:', error);
       return [];
     }
-
-    return projectsData.map(
-      (proj: { id: number; image: string; p: string; d: string; h: string }) =>
-        new Project(proj.id, proj.image, proj.p, proj.d, proj.h)
-    );
   }
 
   formatTitle(): string {

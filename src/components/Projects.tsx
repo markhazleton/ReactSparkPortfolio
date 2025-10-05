@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import Project from '../models/Project';
-import { ArrowRightCircle, Github, Search, ChevronLeft, ChevronRight } from 'react-bootstrap-icons';
+import { clearProjectsCache, getProjectsCacheInfo } from '../services/ProjectService';
+import { ArrowRightCircle, Github, Search, ChevronLeft, ChevronRight, ArrowClockwise } from 'react-bootstrap-icons';
 import { useTheme } from '../contexts/ThemeContext';
 
 type SortOption = 'name-asc' | 'name-desc' | 'id-asc' | 'id-desc';
 
 function Projects() {
   const { theme } = useTheme();
-  const projects = Project.loadProjects();
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   
   // Pagination state
@@ -16,6 +19,40 @@ function Projects() {
   
   // Sorting state
   const [sortOption, setSortOption] = useState<SortOption>('id-desc');
+  
+  // Cache info state
+  const [cacheInfo, setCacheInfo] = useState(getProjectsCacheInfo());
+
+  // Load projects data
+  const loadProjects = async (forceRefresh = false) => {
+    setLoading(true);
+    setError(null);
+    
+    try {
+      if (forceRefresh) {
+        clearProjectsCache();
+        console.log('Cache cleared, fetching fresh data...');
+      }
+      
+      const loadedProjects = await Project.loadProjects();
+      setProjects(loadedProjects);
+      setCacheInfo(getProjectsCacheInfo());
+      
+      if (loadedProjects.length === 0) {
+        setError('No projects available at the moment.');
+      }
+    } catch (err) {
+      console.error('Error loading projects:', err);
+      setError('Failed to load projects. Please try again later.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Load projects on component mount
+  useEffect(() => {
+    loadProjects();
+  }, []);
   
   // Reset to first page when search term changes
   useEffect(() => {
@@ -142,19 +179,88 @@ function Projects() {
     );
   };
 
+  // Handle refresh
+  const handleRefresh = () => {
+    loadProjects(true);
+  };
+
+  if (loading) {
+    return (
+      <section className="py-5" id="projects-section">
+        <div className="container">
+          <h2 className="text-center mb-5">My Projects</h2>
+          <div className="d-flex justify-content-center">
+            <div className="spinner-border" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className="py-5" id="projects-section">
+        <div className="container">
+          <h2 className="text-center mb-5">My Projects</h2>
+          <div className={`alert ${theme === 'dark' ? 'alert-dark' : 'alert-danger'} text-center`}>
+            <i className="bi bi-exclamation-triangle me-2"></i>
+            {error}
+            <br />
+            <button 
+              className={`btn btn-sm ${theme === 'dark' ? 'btn-outline-light' : 'btn-outline-primary'} mt-2`}
+              onClick={() => loadProjects(true)}
+            >
+              <ArrowClockwise className="me-1" /> Try Again
+            </button>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   if (projects.length === 0) {
     return (
-      <div className={`alert ${theme === 'dark' ? 'alert-dark' : 'alert-info'}`}>
-        <i className="bi bi-info-circle me-2"></i>
-        No projects available at the moment.
-      </div>
+      <section className="py-5" id="projects-section">
+        <div className="container">
+          <h2 className="text-center mb-5">My Projects</h2>
+          <div className={`alert ${theme === 'dark' ? 'alert-dark' : 'alert-info'}`}>
+            <i className="bi bi-info-circle me-2"></i>
+            No projects available at the moment.
+            <button 
+              className={`btn btn-sm ${theme === 'dark' ? 'btn-outline-light' : 'btn-outline-primary'} ms-2`}
+              onClick={() => loadProjects(true)}
+            >
+              <ArrowClockwise className="me-1" /> Refresh
+            </button>
+          </div>
+        </div>
+      </section>
     );
   }
 
   return (
     <section className="py-5" id="projects-section">
       <div className="container">
-        <h2 className="text-center mb-5">My Projects</h2>
+        <div className="d-flex justify-content-between align-items-center mb-5">
+          <h2 className="mb-0">My Projects</h2>
+          <div className="d-flex align-items-center gap-3">
+            {cacheInfo.hasCache && (
+              <small className="text-muted">
+                Last updated: {cacheInfo.lastUpdated?.toLocaleString()} 
+                ({cacheInfo.source})
+              </small>
+            )}
+            <button 
+              className={`btn btn-sm ${theme === 'dark' ? 'btn-outline-light' : 'btn-outline-primary'}`}
+              onClick={handleRefresh}
+              title="Refresh projects from server"
+            >
+              <ArrowClockwise className="me-1" /> Refresh
+            </button>
+          </div>
+        </div>
         
         {/* Search and Sort Controls */}
         <div className="row mb-4">

@@ -14,9 +14,10 @@ interface Message {
 interface ChatProps {
   variantName: string;
   initialMessage?: string; // Initial message to send
+  isInModal?: boolean; // Flag to indicate if chat is in a modal
 }
 
-const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = '' }) => {
+const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = '', isInModal = false }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [userName, setUserName] = useState('');
   const [userInput, setUserInput] = useState('');
@@ -153,6 +154,16 @@ const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = '' }) => {
         setIsConnecting(false);
         setIsRetrying(false);
         
+        // For modal usage, provide a fallback experience
+        if (isInModal) {
+          console.log('Modal mode: Using fallback chat experience');
+          setIsConnecting(false);
+          setConnectionError(null);
+          // Add a welcome message for offline mode
+          addNewMessage('Welcome to the Joke Explainer! Connection to the AI chat service is currently unavailable, but you can still view the joke above.', variantName, true);
+          return;
+        }
+        
         // Retry with exponential backoff
         if (retryCount < 3) {
           console.log(`Retrying connection in ${Math.pow(2, retryCount)} seconds...`);
@@ -168,7 +179,7 @@ const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = '' }) => {
       connection.current?.stop();
       if (streamingTimeoutRef.current) clearTimeout(streamingTimeoutRef.current);
     };
-  }, [variantName, initialMessage, addNewMessage, sanitizeInput, updateLastMessage]);
+  }, [variantName, initialMessage, addNewMessage, sanitizeInput, updateLastMessage, isInModal]);
 
   const handleRetryConnection = () => {
     setIsConnecting(true);
@@ -323,7 +334,7 @@ const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = '' }) => {
         </div>
       ) : (
         <div className="d-flex flex-column h-100">
-          <div className="flex-grow-1 overflow-auto p-3 chat-messages-container">
+          <div className={`flex-grow-1 overflow-auto p-3 ${isInModal ? 'chat-messages-container-modal' : 'chat-messages-container'}`}>
             {messages.map(renderMessage)}
             {isBotTyping && (
               <div className="text-center my-3">

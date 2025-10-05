@@ -105,7 +105,7 @@ export const fetchProjectsData = async (): Promise<ProjectData[]> => {
       throw new Error("Invalid projects data format");
     }
 
-    // Validate each project has required fields
+    // Validate each project has required fields and transform image URLs
     const validatedProjects = projectsJsonData.filter((project) => {
       if (
         typeof project.id === "number" &&
@@ -114,6 +114,14 @@ export const fetchProjectsData = async (): Promise<ProjectData[]> => {
         typeof project.d === "string" &&
         typeof project.h === "string"
       ) {
+        // Transform relative image URLs to absolute URLs pointing to markhazleton.com
+        if (project.image && !project.image.startsWith("http")) {
+          // Remove leading slash if present, then add the base URL
+          const imagePath = project.image.startsWith("/")
+            ? project.image.substring(1)
+            : project.image;
+          project.image = `https://markhazleton.com/${imagePath}`;
+        }
         return true;
       } else {
         console.warn("Invalid project data structure:", project);

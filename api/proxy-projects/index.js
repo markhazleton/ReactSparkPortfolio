@@ -43,13 +43,23 @@ module.exports = async function (context, req) {
             throw new Error('Projects data is not an array');
         }
 
-        context.log(`Successfully fetched ${response.data.length} projects`);
+        // Transform image URLs to be absolute URLs pointing to markhazleton.com
+        const transformedProjects = response.data.map(project => {
+            if (project.image && !project.image.startsWith('http')) {
+                // Remove leading slash if present, then add the base URL
+                const imagePath = project.image.startsWith('/') ? project.image.substring(1) : project.image;
+                project.image = `https://markhazleton.com/${imagePath}`;
+            }
+            return project;
+        });
 
-        // Return the projects data
+        context.log(`Successfully fetched and transformed ${transformedProjects.length} projects`);
+
+        // Return the transformed projects data
         context.res = {
             status: 200,
             headers: context.res.headers,
-            body: response.data
+            body: transformedProjects
         };
 
     } catch (error) {
@@ -59,21 +69,21 @@ module.exports = async function (context, req) {
         const fallbackProjects = [
             {
                 "id": 1,
-                "image": "assets/img/frogsfolly.png",
+                "image": "https://markhazleton.com/assets/img/frogsfolly.png",
                 "p": "Frogsfolly",
                 "d": "My first website, setup to share photos with my family but is now a 'Kitchen Sink' of demos and test ideas. The site is built with Web Project Mechanics CMS.",
                 "h": "https://frogsfolly.com"
             },
             {
                 "id": 2,
-                "image": "assets/img/travelfrogsfolly.png",
+                "image": "https://markhazleton.com/assets/img/travelfrogsfolly.png",
                 "p": "Travel Frogsfolly",
                 "d": "A website with places we have traveled with a few pictures and descriptions of the highlights. The site is built with Web Project Mechanics CMS",
                 "h": "https://travel.frogsfolly.com"
             },
             {
                 "id": 3,
-                "image": "assets/img/controlorigins.jpg",
+                "image": "https://markhazleton.com/assets/img/controlorigins.jpg",
                 "p": "Control Origins",
                 "d": "At Control Origins, our mission is to empower organizations with innovative technology solutions that drive value creation and enable them to achieve their business goals.",
                 "h": "https://controlorigins.com"

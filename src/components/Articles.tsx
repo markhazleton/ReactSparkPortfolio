@@ -42,6 +42,8 @@ const Articles: React.FC = () => {
   const [sortDirection, setSortDirection] = useState<SortDirection>('newest');
 
   useEffect(() => {
+    let isMounted = true;
+    
     const loadArticles = async () => {
       try {
         setLoading(true);
@@ -49,6 +51,9 @@ const Articles: React.FC = () => {
         
         // Use our service to fetch RSS articles with fallback
         const articleData = await fetchRssFeed();
+        
+        // Only update state if component is still mounted
+        if (!isMounted) return;
         
         setDebugInfo(`Successfully loaded ${articleData.length} articles from RSS feed`);
         
@@ -77,6 +82,9 @@ const Articles: React.FC = () => {
         
         setLoading(false);
       } catch (err) {
+        // Only update state if component is still mounted
+        if (!isMounted) return;
+        
         console.error('Error loading articles:', err);
         setError(err instanceof Error ? err.message : 'Unknown error loading articles');
         setDebugInfo(`Error loading articles: ${err instanceof Error ? err.message : 'Unknown error'}`);
@@ -85,6 +93,11 @@ const Articles: React.FC = () => {
     };
 
     loadArticles();
+    
+    // Cleanup function to prevent state updates if component unmounts
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   // Reset to first page when search term or filter changes

@@ -16,7 +16,15 @@ export interface RssArticle {
  * @returns Array of parsed RSS articles
  */
 export const fetchRssFeed = async (): Promise<RssArticle[]> => {
-  const rssSourceUrl = "https://markhazleton.com/rss.xml";
+  // Determine if we're in development mode
+  const isDevelopment =
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1";
+
+  // Use proxy in development, direct URL in production
+  const rssSourceUrl = isDevelopment
+    ? "/api/rss" // Use Vite proxy in development
+    : "https://markhazleton.com/rss.xml"; // Direct URL in production
 
   // Determine if we're running on GitHub Pages
   const isGitHubPages =
@@ -32,17 +40,41 @@ export const fetchRssFeed = async (): Promise<RssArticle[]> => {
     let rssData: string;
     let sourceDescription: string;
 
+    // Check cache first to avoid unnecessary network requests
+    const cachedData = localStorage.getItem("cachedRssData");
+    const lastUpdated = localStorage.getItem("rssLastUpdated");
+    const cacheAge = lastUpdated
+      ? Date.now() - new Date(lastUpdated).getTime()
+      : Infinity;
+    const maxCacheAge = 1000 * 60 * 30; // 30 minutes
+
+    // Use cache if it's fresh (less than 30 minutes old)
+    if (cachedData && cacheAge < maxCacheAge) {
+      console.log("Using fresh cached RSS data");
+      const articles = parseRssData(cachedData);
+      console.log(
+        `Successfully parsed ${articles.length} articles from cached data`
+      );
+      return articles;
+    }
+
     try {
       console.log("Attempting to fetch RSS directly from source...");
 
-      // Try direct fetch with CORS mode
+      // Try direct fetch with CORS mode and shorter timeout
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+
       const response = await fetch(rssSourceUrl, {
         headers: {
           Accept: "application/xml, text/xml, application/rss+xml, */*",
           "Cache-Control": "no-cache",
         },
         mode: "cors",
+        signal: controller.signal,
       });
+
+      clearTimeout(timeoutId);
 
       if (!response.ok) {
         console.error(
@@ -59,25 +91,33 @@ export const fetchRssFeed = async (): Promise<RssArticle[]> => {
     } catch (directError) {
       console.warn("Direct fetch failed, checking cache:", directError);
 
-      // Check if we have a cached version
-      const cachedData = localStorage.getItem("cachedRssData");
+      // Check if we have any cached version (even if stale)
       if (cachedData) {
-        console.log("Using cached RSS data from localStorage");
+        console.log(
+          "Using cached RSS data from localStorage (potentially stale)"
+        );
         rssData = cachedData;
         sourceDescription = "cache";
       } else {
         console.warn("No cache available, trying local file");
         // Last resort: use the local file
         console.log(`Fetching from local file: ${localRssPath}`);
-        const localResponse = await fetch(localRssPath);
-        if (!localResponse.ok) {
+        try {
+          const localResponse = await fetch(localRssPath);
+          if (!localResponse.ok) {
+            throw new Error(
+              `Local RSS file fetch failed: ${localResponse.status}`
+            );
+          }
+          rssData = await localResponse.text();
+          sourceDescription = "local file";
+          console.log("Successfully fetched RSS data from local file");
+        } catch (localError) {
+          console.error("Local file fetch also failed:", localError);
           throw new Error(
-            `Local RSS file fetch failed: ${localResponse.status}`
+            "Unable to fetch RSS data from any source (remote, cache, or local file)"
           );
         }
-        rssData = await localResponse.text();
-        sourceDescription = "local file";
-        console.log("Successfully fetched RSS data from local file");
       }
     }
 

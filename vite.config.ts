@@ -34,6 +34,15 @@ export default defineConfig({
       "@webfonts": "/webfonts", // Alias for webfonts
     },
   },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        // Allow importing from node_modules
+        includePaths: ["node_modules"],
+      },
+    },
+  },
+  assetsInclude: ["**/*.woff", "**/*.woff2", "**/*.ttf", "**/*.eot"], // Include font files as assets
   plugins: [
     react(),
     createNoJekyllFile(),
@@ -62,6 +71,77 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/rss-feed/, "/rss.xml"),
         secure: true,
+      },
+      "/api/rss": {
+        target: "https://markhazleton.com",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/rss/, "/rss.xml"),
+        secure: true,
+        configure: (proxy) => {
+          proxy.on("error", (err) => {
+            console.log("proxy error", err);
+          });
+          proxy.on("proxyReq", (proxyReq, req) => {
+            console.log("Sending Request to the Target:", req.method, req.url);
+          });
+          proxy.on("proxyRes", (proxyRes, req) => {
+            console.log(
+              "Received Response from the Target:",
+              proxyRes.statusCode,
+              req.url
+            );
+          });
+        },
+      },
+      "/api/joke": {
+        target: "https://v2.jokeapi.dev",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/joke/, "/joke/Any?safe-mode"),
+        secure: true,
+        configure: (proxy) => {
+          proxy.on("error", (err) => {
+            console.log("joke proxy error", err);
+          });
+          proxy.on("proxyReq", (proxyReq, req) => {
+            console.log(
+              "Sending Joke Request to the Target:",
+              req.method,
+              req.url
+            );
+          });
+          proxy.on("proxyRes", (proxyRes, req) => {
+            console.log(
+              "Received Joke Response from the Target:",
+              proxyRes.statusCode,
+              req.url
+            );
+          });
+        },
+      },
+      "/api/projects": {
+        target: "https://markhazleton.com",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/projects/, "/projects.json"),
+        secure: true,
+        configure: (proxy) => {
+          proxy.on("error", (err) => {
+            console.log("projects proxy error", err);
+          });
+          proxy.on("proxyReq", (proxyReq, req) => {
+            console.log(
+              "Sending Projects Request to the Target:",
+              req.method,
+              req.url
+            );
+          });
+          proxy.on("proxyRes", (proxyRes, req) => {
+            console.log(
+              "Received Projects Response from the Target:",
+              proxyRes.statusCode,
+              req.url
+            );
+          });
+        },
       },
     },
   },

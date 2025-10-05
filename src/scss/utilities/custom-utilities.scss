@@ -447,6 +447,23 @@
   @media (max-width: 768px) {
     height: 90vh;
   }
+  
+  .modal-body {
+    height: calc(80vh - 120px); // Account for header and padding
+    overflow: hidden;
+    
+    @media (max-width: 768px) {
+      height: calc(90vh - 120px);
+    }
+  }
+  
+  .chat-messages-container {
+    max-height: calc(80vh - 200px) !important; // Override the default calculation
+    
+    @media (max-width: 768px) {
+      max-height: calc(90vh - 200px) !important;
+    }
+  }
 }
 
 // Background overlays with theme support

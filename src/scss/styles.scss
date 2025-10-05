@@ -2,37 +2,23 @@
 // Styles
 //
 
-// Import variables using modern @forward/use approach
-@use "./variables" as vars;
+// All @use rules for our custom code must come first
+@use "./_variables" as vars;
+@use "sass:color";
+@use "sass:map";
 
-// Import Bootstrap using @import (Bootstrap internally still uses @import)
+// Import Bootstrap and external dependencies (these still use @import)
 @import "bootstrap/scss/bootstrap.scss";
-@import "fontawesome-free/css/all";
-
+@import "../css/fontawesome-custom.css";
 @import "leaflet/dist/leaflet.css";
 
 // Import custom styles
 @import "./custom.scss";
-
-// Import utilities
 @import "./utilities/custom-utilities.scss";
+@import "./_global.scss";
 
-// Global CSS
-@import "./global.scss";
-
-// Components
+// Import components (keeping @import for Bootstrap compatibility)
 @import "./components/sidenav.scss";
 @import "./components/icons.scss";
-@import "./components/theme.scss"; // Theme styles for dark/light mode
-@import "./components/skill-badges.scss"; // Skill badge styles with theme support
-
-// Removed sections imports
-
-@font-face {
-    font-family: 'fa-brands';
-    src: url('fontawsome-free/webfonts/fa-brands-400.woff2') format('woff2'), // Modern Browsers
-         url('fontawsome-free/webfonts/fa-brands-400.woff') format('woff'), // Modern Browsers
-         url('fontawsome-free/webfonts/fa-brands-400.ttf') format('truetype'); // Safari, Android, iOS
-    font-weight: normal;
-    font-style: normal;
-  }
+@import "./components/theme.scss";
+@import "./components/skill-badges.scss";

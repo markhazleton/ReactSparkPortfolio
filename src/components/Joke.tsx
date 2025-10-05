@@ -27,35 +27,18 @@ import {
   Trash
 } from 'react-bootstrap-icons';
 import Chat from './Chat';
-
-type Joke = {
-  error: boolean;
-  type: 'single' | 'twopart';
-  joke?: string;
-  setup?: string;
-  delivery?: string;
-  category: string;
-  flags?: {
-    nsfw: boolean;
-    religious: boolean;
-    political: boolean;
-    racist: boolean;
-    sexist: boolean;
-    explicit: boolean;
-  };
-  id: number;
-};
+import JokeService, { Joke as JokeType } from '../services/JokeService';
 
 const Joke: React.FC = () => {
-  const [joke, setJoke] = useState<Joke | null>(null);
+  const [joke, setJoke] = useState<JokeType | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [likedJokes, setLikedJokes] = useState<number[]>([]);
   const [copied, setCopied] = useState<boolean>(false);
-  const [history, setHistory] = useState<Joke[]>([]);
-  const [savedJokes, setSavedJokes] = useState<Joke[]>([]);
-  const [jokeToExplain, setJokeToExplain] = useState<Joke | undefined>(undefined);
+  const [history, setHistory] = useState<JokeType[]>([]);
+  const [savedJokes, setSavedJokes] = useState<JokeType[]>([]);
+  const [jokeToExplain, setJokeToExplain] = useState<JokeType | undefined>(undefined);
   const [savedNotification, setSavedNotification] = useState<boolean>(false);
 
   // Initialize liked jokes and saved jokes from localStorage
@@ -91,7 +74,7 @@ const Joke: React.FC = () => {
   };
 
   // Update joke history
-  const updateHistory = (newJoke: Joke) => {
+  const updateHistory = (newJoke: JokeType) => {
     // Keep only the last 10 jokes
     const updatedHistory = [newJoke, ...history.slice(0, 9)];
     setHistory(updatedHistory);
@@ -99,7 +82,7 @@ const Joke: React.FC = () => {
   };
 
   // Save joke to user preferences
-  const saveJoke = (jokeToSave: Joke) => {
+  const saveJoke = (jokeToSave: JokeType) => {
     // Check if joke is already saved
     if (!savedJokes.some(savedJoke => savedJoke.id === jokeToSave.id)) {
       const updatedSavedJokes = [...savedJokes, jokeToSave];
@@ -123,14 +106,7 @@ const Joke: React.FC = () => {
     setError(false);
     setCopied(false);
     try {
-      const response = await fetch('https://v2.jokeapi.dev/joke/Any?safe-mode');
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data: Joke = await response.json();
-      if (data.error) {
-        throw new Error('API returned an error');
-      }
+      const data = await JokeService.fetchJoke();
       setJoke(data);
       updateHistory(data);
     } catch (e) {
@@ -143,11 +119,9 @@ const Joke: React.FC = () => {
 
   useEffect(() => {
     fetchJoke();
-    // Only run on mount
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [fetchJoke]);
 
-  const handleJokeExplainer = (jokeToExplain: Joke | undefined = undefined) => {
+  const handleJokeExplainer = (jokeToExplain: JokeType | undefined = undefined) => {
     if (jokeToExplain) {
       setJokeToExplain(jokeToExplain);
     } else {
@@ -529,16 +503,18 @@ const Joke: React.FC = () => {
         onHide={handleCloseModal} 
         size="lg" 
         centered
+        className="modal-tall"
       >
         <Modal.Header closeButton>
           <Modal.Title className="d-flex align-items-center">
             <QuestionCircle className="me-2 text-primary" /> Joke Explainer
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body className="p-0 modal-tall">
-          <div className="h-100 overflow-auto">
+        <Modal.Body className="p-0">
+          <div className="h-100">
             <Chat
               variantName="Joke Explainer"
+              isInModal={true}
               initialMessage={
                 jokeToExplain
                   ? jokeToExplain.type === 'single'

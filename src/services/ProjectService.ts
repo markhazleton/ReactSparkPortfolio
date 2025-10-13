@@ -2,6 +2,7 @@
  * Service for fetching Projects data with fallback to local file
  */
 import projectsData from "../data/projects.json";
+import { addCacheBuster } from "../utils/imageUtils";
 
 // Define a type for Project items matching the JSON structure
 export interface ProjectData {
@@ -37,9 +38,10 @@ export const fetchProjectsData = async (): Promise<ProjectData[]> => {
     const cacheAge = lastUpdated
       ? Date.now() - new Date(lastUpdated).getTime()
       : Infinity;
-    const maxCacheAge = 1000 * 60 * 60; // 1 hour cache for projects
+    // Shorter cache in development for faster iteration
+    const maxCacheAge = isDevelopment ? 1000 * 60 * 5 : 1000 * 60 * 60; // 5 minutes in dev, 1 hour in prod
 
-    // Use cache if it's fresh (less than 1 hour old)
+    // Use cache if it's fresh (5 minutes in dev, 1 hour in prod)
     if (cachedData && cacheAge < maxCacheAge) {
       console.log("Using fresh cached Projects data");
       const projects = JSON.parse(cachedData);
@@ -120,7 +122,12 @@ export const fetchProjectsData = async (): Promise<ProjectData[]> => {
           const imagePath = project.image.startsWith("/")
             ? project.image.substring(1)
             : project.image;
-          project.image = `https://markhazleton.com/${imagePath}`;
+          project.image = addCacheBuster(
+            `https://markhazleton.com/${imagePath}`
+          );
+        } else if (project.image && project.image.startsWith("http")) {
+          // Add cache buster to existing full URLs
+          project.image = addCacheBuster(project.image);
         }
         return true;
       } else {

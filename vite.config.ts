@@ -25,6 +25,31 @@ export default defineConfig({
   base: "/",
   build: {
     outDir: "docs",
+    rollupOptions: {
+      output: {
+        // Add hash to all file names for cache busting
+        entryFileNames: "assets/[name]-[hash].js",
+        chunkFileNames: "assets/[name]-[hash].js",
+        assetFileNames: (assetInfo) => {
+          // Keep images in assets/img folder with hash
+          if (
+            assetInfo.name &&
+            /\.(png|jpg|jpeg|gif|svg|ico)$/.test(assetInfo.name)
+          ) {
+            return "assets/img/[name]-[hash][extname]";
+          }
+          // Keep fonts in assets/fonts folder with hash
+          if (
+            assetInfo.name &&
+            /\.(woff|woff2|eot|ttf|otf)$/.test(assetInfo.name)
+          ) {
+            return "assets/fonts/[name]-[hash][extname]";
+          }
+          // Everything else in assets folder with hash
+          return "assets/[name]-[hash][extname]";
+        },
+      },
+    },
   },
   define: {
     __BUILD_DATE__: JSON.stringify(buildDate),
@@ -38,7 +63,7 @@ export default defineConfig({
     preprocessorOptions: {
       scss: {
         // Allow importing from node_modules
-        includePaths: ["node_modules"],
+        loadPaths: ["node_modules"],
       },
     },
   },

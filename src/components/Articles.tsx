@@ -100,11 +100,6 @@ const Articles: React.FC = () => {
     };
   }, []);
 
-  // Reset to first page when search term or filter changes
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [searchTerm, filter]);
-
   const formatDate = (dateString: string) => {
     try {
       const date = new Date(dateString);
@@ -243,7 +238,10 @@ const Articles: React.FC = () => {
                 <Form.Control
                   placeholder="Search articles..."
                   value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onChange={(e) => {
+                    setSearchTerm(e.target.value);
+                    setCurrentPage(1); // Reset to page 1 when searching
+                  }}
                   className="bg-theme text-theme border-theme"
                 />
               </InputGroup>
@@ -282,7 +280,10 @@ const Articles: React.FC = () => {
                     key={index}
                     bg={filter === category ? 'primary' : 'secondary'} 
                     className={`py-2 px-3 ${filter !== category ? 'bg-opacity-25' : ''}`}
-                    onClick={() => setFilter(category)}
+                    onClick={() => {
+                      setFilter(category);
+                      setCurrentPage(1); // Reset to page 1 when filter changes
+                    }}
                     role="button"
                     aria-pressed={filter === category ? 'true' : 'false'}
                   >

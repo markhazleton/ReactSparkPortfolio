@@ -9,22 +9,22 @@ interface ThemeContextType {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  // Get saved theme from localStorage or use system preference, defaulting to 'light'
-  const getInitialTheme = (): ThemeType => {
-    const savedTheme = localStorage.getItem('theme') as ThemeType;
-    if (savedTheme && (savedTheme === 'light' || savedTheme === 'dark')) {
-      return savedTheme;
-    }
-    
-    // Use system preference if available
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      return 'dark';
-    }
-    
-    return 'light';
-  };
+// Get saved theme from localStorage or use system preference, defaulting to 'light'
+const getInitialTheme = (): ThemeType => {
+  const savedTheme = localStorage.getItem('theme') as ThemeType;
+  if (savedTheme && (savedTheme === 'light' || savedTheme === 'dark')) {
+    return savedTheme;
+  }
   
+  // Use system preference if available
+  if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    return 'dark';
+  }
+  
+  return 'light';
+};
+
+export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [theme, setTheme] = useState<ThemeType>(getInitialTheme);
   
   // Apply theme class to the document body

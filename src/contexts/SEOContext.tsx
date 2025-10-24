@@ -39,6 +39,20 @@ export const SEOProvider: React.FC<SEOProviderProps> = ({
     }
   }, [description]);
 
+  // Helper function to update or create meta tags
+  const updateOrCreateMetaTag = (property: string, content: string) => {
+    let metaTag = document.querySelector(`meta[property="${property}"]`);
+    
+    if (metaTag) {
+      metaTag.setAttribute('content', content);
+    } else {
+      metaTag = document.createElement('meta');
+      metaTag.setAttribute('property', property);
+      metaTag.setAttribute('content', content);
+      document.head.appendChild(metaTag);
+    }
+  };
+
   // Update canonical URL when canonicalUrl state or location changes
   useEffect(() => {
     const url = canonicalUrl || `${siteUrl}${location.pathname}`;
@@ -59,19 +73,6 @@ export const SEOProvider: React.FC<SEOProviderProps> = ({
     updateOrCreateMetaTag('og:url', url);
     updateOrCreateMetaTag('og:type', 'website');
   }, [canonicalUrl, location.pathname, title, description, siteUrl]);
-
-  const updateOrCreateMetaTag = (property: string, content: string) => {
-    let metaTag = document.querySelector(`meta[property="${property}"]`);
-    
-    if (metaTag) {
-      metaTag.setAttribute('content', content);
-    } else {
-      metaTag = document.createElement('meta');
-      metaTag.setAttribute('property', property);
-      metaTag.setAttribute('content', content);
-      document.head.appendChild(metaTag);
-    }
-  };
 
   return (
     <SEOContext.Provider value={{ setTitle, setDescription, setCanonicalUrl }}>

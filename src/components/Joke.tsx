@@ -74,12 +74,14 @@ const Joke: React.FC = () => {
   };
 
   // Update joke history
-  const updateHistory = (newJoke: JokeType) => {
+  const updateHistory = useCallback((newJoke: JokeType) => {
     // Keep only the last 10 jokes
-    const updatedHistory = [newJoke, ...history.slice(0, 9)];
-    setHistory(updatedHistory);
-    localStorage.setItem('jokeHistory', JSON.stringify(updatedHistory));
-  };
+    setHistory(prevHistory => {
+      const updatedHistory = [newJoke, ...prevHistory.slice(0, 9)];
+      localStorage.setItem('jokeHistory', JSON.stringify(updatedHistory));
+      return updatedHistory;
+    });
+  }, []);
 
   // Save joke to user preferences
   const saveJoke = (jokeToSave: JokeType) => {
@@ -100,7 +102,7 @@ const Joke: React.FC = () => {
     localStorage.setItem('userSavedJokes', JSON.stringify(updatedSavedJokes));
   };
 
-  // Wrap fetchJoke in useCallback with NO dependencies to keep it stable
+  // Wrap fetchJoke in useCallback with updateHistory as dependency
   const fetchJoke = useCallback(async () => {
     setLoading(true);
     setError(false);
@@ -115,7 +117,7 @@ const Joke: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  }, []); // <--- empty array, not [updateHistory]
+  }, [updateHistory]);
 
   useEffect(() => {
     fetchJoke();

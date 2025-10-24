@@ -19,7 +19,10 @@ interface ChatProps {
 
 const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = '', isInModal = false }) => {
   const [messages, setMessages] = useState<Message[]>([]);
-  const [userName, setUserName] = useState('');
+  // Initialize userName from localStorage
+  const [userName, setUserName] = useState(() => {
+    return localStorage.getItem('chatUserName') || '';
+  });
   const [userInput, setUserInput] = useState('');
   const [chatInput, setChatInput] = useState('');
   const [isBotTyping, setIsBotTyping] = useState(false);
@@ -32,14 +35,6 @@ const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = '', isInModal
   const connection = useRef<signalR.HubConnection | null>(null);
   const streamingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const isFirstChunk = useRef(true);
-
-  // Load username from localStorage on component mount
-  useEffect(() => {
-    const savedUserName = localStorage.getItem('chatUserName');
-    if (savedUserName) {
-      setUserName(savedUserName);
-    }
-  }, []);
 
   const sanitizeInput = React.useCallback((input: string): string => {
     return input.replace(/<\/?[^>]+(>|$)/g, ''); // Strips HTML tags

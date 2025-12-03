@@ -90,6 +90,10 @@ export default defineConfig({
   ],
   server: {
     port: 3000,
+    headers: {
+      "Content-Security-Policy":
+        "default-src 'self'; connect-src 'self' https://markhazleton.com https://webspark.markhazleton.com https://cdnjs.cloudflare.com https://v2.jokeapi.dev wss://webspark.markhazleton.com ws://localhost:* http://localhost:*; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; img-src 'self' data: https: http: blob:; font-src 'self' data: https:; frame-src 'none'; worker-src 'self' blob:;",
+    },
     proxy: {
       "/rss-feed": {
         target: "https://markhazleton.com",

@@ -259,7 +259,11 @@ const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = '', isInModal
   };
 
   const renderMessage = (message: Message) => (
-    <Card key={message.id} className={`mb-2 ${message.user === variantName ? 'ms-auto bg-light' : 'me-auto bg-primary text-white'}`} style={{ maxWidth: '80%' }}>
+    <Card 
+      key={message.id} 
+      className={`mb-2 ${message.user === variantName ? 'ms-auto chat-message-bot' : 'me-auto chat-message-user'}`} 
+      style={{ maxWidth: '80%' }}
+    >
       <Card.Body className="py-2 px-3">
         <small className="fw-bold">
           {message.user} ({message.timestamp}):

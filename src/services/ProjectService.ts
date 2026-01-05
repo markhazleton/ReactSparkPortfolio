@@ -35,20 +35,28 @@ export const fetchProjectsData = async (): Promise<ProjectData[]> => {
     // Check cache first to avoid unnecessary network requests
     const cachedData = localStorage.getItem("cachedProjectsData");
     const lastUpdated = localStorage.getItem("projectsLastUpdated");
+    const cachedVersion = localStorage.getItem("projectsCacheVersion");
+    const currentVersion = localStorage.getItem("app_version");
+    
     const cacheAge = lastUpdated
       ? Date.now() - new Date(lastUpdated).getTime()
       : Infinity;
     // Shorter cache in development for faster iteration
     const maxCacheAge = isDevelopment ? 1000 * 60 * 5 : 1000 * 60 * 60; // 5 minutes in dev, 1 hour in prod
+    
+    // Invalidate cache if app version changed
+    const isCacheValid = cachedVersion === currentVersion && cacheAge < maxCacheAge;
 
-    // Use cache if it's fresh (5 minutes in dev, 1 hour in prod)
-    if (cachedData && cacheAge < maxCacheAge) {
+    // Use cache if it's fresh and version matches
+    if (cachedData && isCacheValid) {
       console.log("Using fresh cached Projects data");
       const projects = JSON.parse(cachedData);
       console.log(
         `Successfully loaded ${projects.length} projects from cached data`
       );
       return projects;
+    } else if (cachedData && !isCacheValid) {
+      console.log("Cache invalidated due to version change or expiration");
     }
 
     try {
@@ -153,6 +161,7 @@ export const fetchProjectsData = async (): Promise<ProjectData[]> => {
           validatedProjects.length.toString()
         );
         localStorage.setItem("projectsSource", sourceDescription);
+        localStorage.setItem("projectsCacheVersion", currentVersion || "unknown");
       } catch (storageError) {
         console.warn("Failed to cache Projects data:", storageError);
       }
@@ -177,6 +186,7 @@ export const clearProjectsCache = (): void => {
     localStorage.removeItem("projectsLastUpdated");
     localStorage.removeItem("projectsCount");
     localStorage.removeItem("projectsSource");
+    localStorage.removeItem("projectsCacheVersion");
     console.log("Projects cache cleared successfully");
   } catch (error) {
     console.warn("Failed to clear projects cache:", error);

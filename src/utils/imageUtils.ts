@@ -5,13 +5,20 @@
 // Check if we're in development mode
 const isDevelopment = import.meta.env.DEV;
 
+// Get build date for production cache busting
+declare const __BUILD_DATE__: string;
+const APP_VERSION = typeof __BUILD_DATE__ !== "undefined" 
+  ? __BUILD_DATE__ 
+  : Date.now().toString();
+
 /**
- * Adds cache busting parameters to image URLs in development mode
+ * Adds cache busting parameters to image URLs
+ * Uses timestamp in development and build version in production
  * @param imageUrl The original image URL
- * @returns Image URL with cache busting parameter if in development
+ * @returns Image URL with cache busting parameter
  */
 export const addCacheBuster = (imageUrl: string): string => {
-  if (!isDevelopment || !imageUrl) {
+  if (!imageUrl) {
     return imageUrl;
   }
 
@@ -20,9 +27,10 @@ export const addCacheBuster = (imageUrl: string): string => {
     return imageUrl;
   }
 
-  // Add timestamp as cache buster for development
+  // Use timestamp in dev, build version in production
+  const cacheBuster = isDevelopment ? Date.now() : APP_VERSION;
   const separator = imageUrl.includes("?") ? "&" : "?";
-  return `${imageUrl}${separator}v=${Date.now()}`;
+  return `${imageUrl}${separator}v=${cacheBuster}`;
 };
 
 /**

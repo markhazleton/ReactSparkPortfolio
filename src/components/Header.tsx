@@ -29,7 +29,7 @@ const Header: React.FC = () => {
             />
             <div>
               <span className="fw-bold">ReactSpark</span>
-              <small className="d-block text-muted" style={{fontSize: '0.7rem'}}>by Mark Hazleton</small>
+              <small className="d-block text-muted header-subtitle">by Mark Hazleton</small>
             </div>
           </Link>
           

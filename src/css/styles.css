@@ -13822,4 +13822,18 @@ img {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+.header-subtitle {
+  font-size: 0.7rem;
+}
+
+.chat-message {
+  max-width: 80%;
+}
+
+.article-badge {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+}
+
 /*# sourceMappingURL=styles.css.map */

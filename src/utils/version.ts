@@ -62,17 +62,36 @@ export class VersionManager {
       // Try to fetch a fresh version from the server
       const response = await fetch("/index.html", {
         method: "HEAD",
-        cache: "no-cache",
+        cache: "no-store",
         headers: {
           "Cache-Control": "no-cache, no-store, must-revalidate",
           Pragma: "no-cache",
+          Expires: "0",
         },
       });
 
       this.markVersionChecked();
 
       if (response.ok) {
-        // Check if we have a new version
+        // Check ETag or Last-Modified headers for version changes
+        const etag = response.headers.get("ETag");
+        const lastModified = response.headers.get("Last-Modified");
+        
+        const storedETag = localStorage.getItem("app_etag");
+        const storedLastModified = localStorage.getItem("app_last_modified");
+        
+        // Store new headers
+        if (etag) localStorage.setItem("app_etag", etag);
+        if (lastModified) localStorage.setItem("app_last_modified", lastModified);
+        
+        // Check if headers indicate a new version
+        if ((etag && etag !== storedETag) || 
+            (lastModified && lastModified !== storedLastModified)) {
+          console.log("Server headers indicate new version available");
+          return true;
+        }
+        
+        // Check if we have a new version by build date
         return this.hasNewVersion();
       }
     } catch (error) {
@@ -95,9 +114,18 @@ export class VersionManager {
       });
     }
 
-    // Clear localStorage version info and projects cache
+    // Clear browser cache API
+    if ("caches" in window) {
+      caches.keys().then((names) => {
+        names.forEach((name) => caches.delete(name));
+      });
+    }
+
+    // Clear localStorage version info and caches
     localStorage.removeItem(this.VERSION_KEY);
     localStorage.removeItem(this.LAST_CHECK_KEY);
+    localStorage.removeItem("app_etag");
+    localStorage.removeItem("app_last_modified");
 
     // Clear projects cache to force fresh image loading
     localStorage.removeItem("cachedProjectsData");
@@ -105,7 +133,13 @@ export class VersionManager {
     localStorage.removeItem("projectsCount");
     localStorage.removeItem("projectsSource");
 
-    // Force hard reload
+    // Clear RSS cache
+    localStorage.removeItem("cachedRssData");
+    localStorage.removeItem("rssLastUpdated");
+    localStorage.removeItem("rssArticleCount");
+    localStorage.removeItem("rssSource");
+
+    // Force hard reload with cache bypass
     window.location.reload();
   }
 

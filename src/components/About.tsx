@@ -238,7 +238,7 @@ const About: React.FC = () => {
                         title={article.title}
                       >
                         <div className="d-flex align-items-center">
-                          <span className="bg-primary bg-opacity-10 text-primary rounded-circle d-inline-flex align-items-center justify-content-center me-3" style={{width: "32px", height: "32px", minWidth: "32px"}}>
+                          <span className="bg-primary bg-opacity-10 text-primary rounded-circle d-inline-flex align-items-center justify-content-center me-3 article-badge">
                             {index + 1}
                           </span>
                           <div>

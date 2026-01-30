@@ -1,13 +1,29 @@
 const axios = require('axios');
 
+// Whitelisted origins for CORS
+const ALLOWED_ORIGINS = [
+    'https://reactspark.markhazleton.com',
+    'https://markhazleton.github.io',
+    'http://localhost:3000',
+    'http://127.0.0.1:3000'
+];
+
+// Valid joke categories
+const VALID_CATEGORIES = ['Any', 'Programming', 'Miscellaneous', 'Dark', 'Pun', 'Spooky', 'Christmas'];
+
 module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a joke proxy request.');
 
-    // Set CORS headers
+    // Get origin from request
+    const origin = req.headers.origin || req.headers.referer;
+    const allowedOrigin = ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
+
+    // Set CORS headers with whitelist
     context.res.headers = {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+        'Access-Control-Allow-Origin': allowedOrigin,
+        'Access-Control-Allow-Methods': 'GET, OPTIONS',
         'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Credentials': 'false',
         'Content-Type': 'application/json'
     };
 
@@ -21,12 +37,21 @@ module.exports = async function (context, req) {
     }
 
     try {
-        // Extract category from query params or default to 'Any'
+        // Extract and validate category
         const category = req.query.category || 'Any';
+        if (!VALID_CATEGORIES.includes(category)) {
+            context.res = {
+                status: 400,
+                headers: context.res.headers,
+                body: { error: true, message: 'Invalid category specified' }
+            };
+            return;
+        }
+
         const safeMode = req.query.safeMode !== 'false'; // Default to true
         
         // Build the JokeAPI URL
-        const jokeApiUrl = `https://v2.jokeapi.dev/joke/${category}${safeMode ? '?safe-mode' : ''}`;
+        const jokeApiUrl = `https://v2.jokeapi.dev/joke/${encodeURIComponent(category)}${safeMode ? '?safe-mode' : ''}`;
         
         context.log(`Fetching joke from: ${jokeApiUrl}`);
 

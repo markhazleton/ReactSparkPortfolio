@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Azure Function to proxy RSS feed requests and avoid CORS issues",
   "main": "index.js",
+  "type": "commonjs",
   "dependencies": {
-    "node-fetch": "^2.6.9"
+    "node-fetch": "^2.7.0"
   }
 }

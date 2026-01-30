@@ -52,7 +52,8 @@
     "X-Content-Type-Options": "nosniff",
     "X-Frame-Options": "DENY",
     "X-XSS-Protection": "1; mode=block",
-    "Content-Security-Policy": "default-src 'self'; connect-src 'self' https://markhazleton.com https://webspark.markhazleton.com https://cdnjs.cloudflare.com https://v2.jokeapi.dev wss://webspark.markhazleton.com ws://localhost:* http://localhost:*; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; img-src 'self' data: https: http: blob: https://markhazleton.com https://webspark.markhazleton.com; font-src 'self' data: https: https://markhazleton.com https://webspark.markhazleton.com; media-src 'self' https://markhazleton.com https://webspark.markhazleton.com; frame-src 'none'; worker-src 'self' blob:;",
+    "Content-Security-Policy": "default-src 'self'; connect-src 'self' https://markhazleton.com https://*.markhazleton.com https://cdnjs.cloudflare.com https://v2.jokeapi.dev https://api.openweathermap.org wss://webspark.markhazleton.com ws://localhost:* http://localhost:*; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; img-src 'self' data: https: http: blob:; font-src 'self' data: https:; media-src 'self' https: http:; frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com; worker-src 'self' blob:;",
+    "_CSP_WARNING": "DO NOT TIGHTEN THIS CSP! Site fetches all images/data from markhazleton.com. See .github/copilot-instructions.md @csp rule before changing.",
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type, Authorization, Accept, Origin, X-Requested-With"

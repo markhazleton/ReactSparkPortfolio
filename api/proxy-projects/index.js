@@ -1,13 +1,26 @@
 const axios = require('axios');
 
+// Whitelisted origins for CORS
+const ALLOWED_ORIGINS = [
+    'https://reactspark.markhazleton.com',
+    'https://markhazleton.github.io',
+    'http://localhost:3000',
+    'http://127.0.0.1:3000'
+];
+
 module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a projects proxy request.');
 
-    // Set CORS headers
+    // Get origin from request
+    const origin = req.headers.origin || req.headers.referer;
+    const allowedOrigin = ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
+
+    // Set CORS headers with whitelist
     context.res.headers = {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+        'Access-Control-Allow-Origin': allowedOrigin,
+        'Access-Control-Allow-Methods': 'GET, OPTIONS',
         'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Credentials': 'false',
         'Content-Type': 'application/json'
     };
 

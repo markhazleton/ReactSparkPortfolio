@@ -96,8 +96,11 @@ const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = '', isInModal
         setConnectionError(null);
         setIsRetrying(retryCount > 0);
         
+        // Get SignalR hub URL from environment or use default
+        const hubUrl = import.meta.env.VITE_SIGNALR_HUB_URL || 'https://webspark.markhazleton.com/chatHub';
+        
         connection.current = new signalR.HubConnectionBuilder()
-          .withUrl('https://webspark.markhazleton.com/chatHub', {
+          .withUrl(hubUrl, {
             skipNegotiation: false,
             withCredentials: false,
             timeout: 30000, // 30 second timeout

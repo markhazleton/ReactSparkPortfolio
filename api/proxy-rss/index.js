@@ -3,11 +3,40 @@
 
 const fetch = require('node-fetch');
 
+// Whitelisted origins for CORS
+const ALLOWED_ORIGINS = [
+    'https://reactspark.markhazleton.com',
+    'https://markhazleton.github.io',
+    'http://localhost:3000',
+    'http://127.0.0.1:3000'
+];
+
+// Whitelisted RSS sources to prevent SSRF
+const ALLOWED_RSS_SOURCES = [
+    'https://markhazleton.com/rss.xml',
+    'https://markhazleton.com/feed',
+    'https://frogsfolly.com/rss.xml'
+];
+
 module.exports = async function (context, req) {
     context.log('Processing RSS proxy request');
     
-    // Get the source URL (default to Mark's blog)
+    // Get and validate the source URL
     const sourceUrl = req.headers["x-rss-source"] || "https://markhazleton.com/rss.xml";
+    
+    // Validate against whitelist to prevent SSRF attacks
+    if (!ALLOWED_RSS_SOURCES.includes(sourceUrl)) {
+        context.log.error(`Unauthorized RSS source requested: ${sourceUrl}`);
+        context.res = {
+            status: 403,
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                error: "Forbidden RSS source",
+                message: "The requested RSS source is not allowed"
+            })
+        };
+        return;
+    }
     
     context.log(`Fetching RSS from source: ${sourceUrl}`);
     
@@ -43,15 +72,20 @@ module.exports = async function (context, req) {
         
         context.log(`Successfully retrieved ${rssContent.length} bytes of RSS data`);
         
+        // Get origin from request
+        const origin = req.headers.origin || req.headers.referer;
+        const allowedOrigin = ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
+
         // Return the RSS content with appropriate headers
         context.res = {
             status: 200,
             headers: {
                 "Content-Type": "application/xml",
                 "Cache-Control": "max-age=3600", // Cache for 1 hour
-                "Access-Control-Allow-Origin": "*", // Allow any site to access this API
+                "Access-Control-Allow-Origin": allowedOrigin,
                 "Access-Control-Allow-Headers": "Content-Type, X-RSS-Source, Cache-Control",
-                "Access-Control-Allow-Methods": "GET, OPTIONS"
+                "Access-Control-Allow-Methods": "GET, OPTIONS",
+                "Access-Control-Allow-Credentials": "false"
             },
             body: rssContent
         };
@@ -60,19 +94,23 @@ module.exports = async function (context, req) {
     } catch (error) {
         context.log.error(`Error proxying RSS feed: ${error.message}`);
         
+        // Get origin from request
+        const origin = req.headers.origin || req.headers.referer;
+        const allowedOrigin = ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
+
         // Return a proper error response
         context.res = {
             status: 500,
             headers: {
                 "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Origin": allowedOrigin,
                 "Access-Control-Allow-Headers": "Content-Type, X-RSS-Source, Cache-Control",
-                "Access-Control-Allow-Methods": "GET, OPTIONS"
+                "Access-Control-Allow-Methods": "GET, OPTIONS",
+                "Access-Control-Allow-Credentials": "false"
             },
             body: JSON.stringify({
                 error: "Failed to retrieve RSS feed",
                 message: error.message,
-                source: sourceUrl,
                 timestamp: new Date().toISOString()
             })
         };

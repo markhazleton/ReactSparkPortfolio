@@ -4,6 +4,8 @@
 @use "./variables/colors" as colors;
 @use "./variables/spacing" as spacing;
 
+// Note: Bootstrap mixins and variables are available from the main styles.scss @import
+
 body {
     padding-top: spacing.$navbar-base-height;
     color: colors.$gray-800;

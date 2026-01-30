@@ -34,6 +34,20 @@
 
 ---
 
+## ⚠️ Important: Content Security Policy (CSP)
+
+**🛑 Before modifying security headers, READ THIS: [CSP_README.md](CSP_README.md)**
+
+This site uses a frontend-only architecture that pulls all content from external sources (markhazleton.com). The CSP configuration is **intentionally permissive** and required for the site to function. Tightening the CSP will break:
+- Image loading from markhazleton.com
+- Service worker functionality  
+- Development hot reload
+- External API integrations
+
+See [CSP_README.md](CSP_README.md) and [documentation/SECURITY.md](documentation/SECURITY.md) for details.
+
+---
+
 ## 🏗️ Architecture
 
 ```mermaid

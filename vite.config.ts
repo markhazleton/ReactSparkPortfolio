@@ -91,8 +91,11 @@ export default defineConfig({
   server: {
     port: 3000,
     headers: {
+      // WARNING: This CSP MUST match staticwebapp.config.json
+      // DO NOT TIGHTEN - Site pulls all images/data from markhazleton.com
+      // See .github/copilot-instructions.md @csp rule for details
       "Content-Security-Policy":
-        "default-src 'self'; connect-src 'self' https://markhazleton.com https://webspark.markhazleton.com https://cdnjs.cloudflare.com https://v2.jokeapi.dev wss://webspark.markhazleton.com ws://localhost:* http://localhost:*; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; img-src 'self' data: https: http: blob: https://markhazleton.com https://webspark.markhazleton.com; font-src 'self' data: https: https://markhazleton.com https://webspark.markhazleton.com; media-src 'self' https://markhazleton.com https://webspark.markhazleton.com; frame-src 'none'; worker-src 'self' blob:;",
+        "default-src 'self'; connect-src 'self' https://markhazleton.com https://*.markhazleton.com https://cdnjs.cloudflare.com https://v2.jokeapi.dev https://api.openweathermap.org wss://webspark.markhazleton.com ws://localhost:* http://localhost:*; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; img-src 'self' data: https: http: blob:; font-src 'self' data: https:; media-src 'self' https: http:; frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com; worker-src 'self' blob:;",
     },
     proxy: {
       "/rss-feed": {

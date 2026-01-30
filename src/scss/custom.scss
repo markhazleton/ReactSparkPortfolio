@@ -2,8 +2,7 @@
 @use "sass:map";
 @use "./variables/colors" as colors;
 
-// Import Bootstrap mixins for media queries
-// Note: This might need adjustment depending on Bootstrap's module structure
+// Import Bootstrap mixins (kept as @import for compatibility with main Bootstrap import)
 @import "bootstrap/scss/mixins";
 
 // Custom SCSS for enhanced Bootstrap styles

@@ -9,6 +9,8 @@ export interface RssArticle {
   pubDate: string;
   category?: string;
   description?: string;
+  thumbnail?: string;
+  imageUrl?: string;
 }
 
 /**
@@ -24,7 +26,7 @@ export const fetchRssFeed = async (): Promise<RssArticle[]> => {
   // Use proxy in development, direct URL in production
   const rssSourceUrl = isDevelopment
     ? "/api/rss" // Use Vite proxy in development
-    : "https://markhazleton.com/rss.xml"; // Direct URL in production
+    : "https://markhazleton.com/feed.xml"; // Direct URL in production
 
   // Determine if we're running on GitHub Pages
   const isGitHubPages =
@@ -185,12 +187,64 @@ const parseRssData = (rssData: string): RssArticle[] => {
     const title = titleElement?.textContent?.trim() || "";
     const link = linkElement?.textContent?.trim() || "";
     const pubDate = pubDateElement?.textContent?.trim() || "";
-    const description = descriptionElement?.textContent?.trim() || "";
+    const rawDescription = descriptionElement?.textContent?.trim() || "";
 
     // Extract categories
     let mainCategory = "";
     if (categoryElements.length > 0) {
       mainCategory = categoryElements[0]?.textContent?.trim() || "";
+    }
+
+    // Extract media content (thumbnail/image)
+    let thumbnail = "";
+    let imageUrl = "";
+    
+    // Try media:thumbnail first
+    const mediaThumbnails = items[i].getElementsByTagNameNS("http://search.yahoo.com/mrss/", "thumbnail");
+    if (mediaThumbnails.length > 0) {
+      thumbnail = mediaThumbnails[0].getAttribute("url") || "";
+    }
+    
+    // Try media:content as fallback
+    if (!thumbnail) {
+      const mediaContent = items[i].getElementsByTagNameNS("http://search.yahoo.com/mrss/", "content");
+      if (mediaContent.length > 0) {
+        imageUrl = mediaContent[0].getAttribute("url") || "";
+      }
+    }
+    
+    // Also check for enclosure tag as final fallback
+    if (!thumbnail && !imageUrl) {
+      const enclosures = items[i].getElementsByTagName("enclosure");
+      if (enclosures.length > 0) {
+        const enclosureUrl = enclosures[0].getAttribute("url") || "";
+        const enclosureType = enclosures[0].getAttribute("type") || "";
+        if (enclosureType.startsWith("image/")) {
+          imageUrl = enclosureUrl;
+        }
+      }
+    }
+    
+    // Parse HTML from description to extract image and clean text
+    let description = rawDescription;
+    
+    // If description contains HTML, parse it
+    if (rawDescription.includes('<')) {
+      // Create a temporary div to parse HTML
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = rawDescription;
+      
+      // Extract image if not already found
+      if (!thumbnail && !imageUrl) {
+        const imgTag = tempDiv.querySelector('img');
+        if (imgTag) {
+          imageUrl = imgTag.getAttribute('src') || '';
+        }
+      }
+      
+      // Get text content without HTML tags
+      description = tempDiv.textContent || tempDiv.innerText || '';
+      description = description.trim();
     }
 
     // Parse the date from RSS pubDate format (RFC 822/2822)
@@ -215,6 +269,8 @@ const parseRssData = (rssData: string): RssArticle[] => {
       pubDate: validPubDate,
       category: mainCategory,
       description,
+      thumbnail: thumbnail || imageUrl,
+      imageUrl: imageUrl || thumbnail,
     });
   }
 

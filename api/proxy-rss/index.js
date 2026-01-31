@@ -13,6 +13,7 @@ const ALLOWED_ORIGINS = [
 
 // Whitelisted RSS sources to prevent SSRF
 const ALLOWED_RSS_SOURCES = [
+    'https://markhazleton.com/feed.xml',
     'https://markhazleton.com/rss.xml',
     'https://markhazleton.com/feed',
     'https://frogsfolly.com/rss.xml'
@@ -22,7 +23,7 @@ module.exports = async function (context, req) {
     context.log('Processing RSS proxy request');
     
     // Get and validate the source URL
-    const sourceUrl = req.headers["x-rss-source"] || "https://markhazleton.com/rss.xml";
+    const sourceUrl = req.headers["x-rss-source"] || "https://markhazleton.com/feed.xml";
     
     // Validate against whitelist to prevent SSRF attacks
     if (!ALLOWED_RSS_SOURCES.includes(sourceUrl)) {

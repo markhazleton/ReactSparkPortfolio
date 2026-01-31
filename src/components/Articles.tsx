@@ -324,6 +324,22 @@ const Articles: React.FC = () => {
               {currentArticles.map((article, index) => (
                 <div className="col" key={index}>
                   <Card className="h-100 shadow-sm border-theme transition">
+                    {article.thumbnail && (
+                      <Card.Img 
+                        variant="top" 
+                        src={article.thumbnail} 
+                        alt={article.title}
+                        style={{ 
+                          height: '200px', 
+                          objectFit: 'cover',
+                          borderBottom: '1px solid var(--bs-border-color)'
+                        }}
+                        onError={(e) => {
+                          // Hide image if it fails to load
+                          (e.target as HTMLImageElement).style.display = 'none';
+                        }}
+                      />
+                    )}
                     <Card.Body className="bg-card">
                       <Card.Title className="mb-3">
                         <a 

@@ -101,13 +101,13 @@ export default defineConfig({
       "/rss-feed": {
         target: "https://markhazleton.com",
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/rss-feed/, "/rss.xml"),
+        rewrite: (path) => path.replace(/^\/rss-feed/, "/feed.xml"),
         secure: true,
       },
       "/api/rss": {
         target: "https://markhazleton.com",
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api\/rss/, "/rss.xml"),
+        rewrite: (path) => path.replace(/^\/api\/rss/, "/feed.xml"),
         secure: true,
         configure: (proxy) => {
           proxy.on("error", (err) => {

@@ -4,6 +4,6 @@
   "description": "Azure Function to proxy joke requests",
   "main": "index.js",
   "dependencies": {
-    "axios": "^1.13.4"
+    "axios": "^1.13.5"
   }
 }

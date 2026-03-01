@@ -23,20 +23,13 @@ export const fetchRssFeed = async (): Promise<RssArticle[]> => {
     window.location.hostname === "localhost" ||
     window.location.hostname === "127.0.0.1";
 
-  // Use proxy in development, direct URL in production
+  // Use proxy in both development and production to avoid CORS issues
   const rssSourceUrl = isDevelopment
     ? "/api/rss" // Use Vite proxy in development
-    : "https://markhazleton.com/feed.xml"; // Direct URL in production
+    : "/api/proxy-rss"; // Use Azure Function proxy in production
 
-  // Determine if we're running on GitHub Pages
-  const isGitHubPages =
-    window.location.hostname !== "localhost" &&
-    window.location.hostname !== "127.0.0.1";
-
-  // Use the correct path based on the deployment environment
-  const localRssPath = isGitHubPages
-    ? "/ReactSparkPortfolio/rss.xml" // GitHub Pages path
-    : "/rss.xml"; // Local development path
+  // Local RSS file fallback path (deployed to docs/rss.xml → served at /rss.xml)
+  const localRssPath = "/rss.xml";
 
   try {
     let rssData: string;

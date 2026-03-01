@@ -22,66 +22,94 @@ $danger: #b05f6d; // Muted red
 $white: #ffffff;
 
 $theme-colors: (
-  "light":      #fef6e4, // Brighter light background
-  "dark":       #1a1a1a, // Deeper dark background
-  "primary":    #5c3404, // Muted teal-blue remains
-  "secondary":  #8e6139, // Slightly darker secondary
-  "info":       #c29748, // Muted gold for info
-  "accent1":    #843f1a, // Richer accent color
-  "accent2":    #a45e41, // Slightly darker accent
-  "accent3":    #d2b18e, // Softer accent
-  "success":    #4caf50, // Brighter green for success
-  "warning":    #ff9800, // More vibrant orange for warning
-  "danger":     #e53935, // Brighter red for danger
+  "light": #fef6e4,
+  // Brighter light background
+  "dark": #1a1a1a,
+  // Deeper dark background
+  "primary": #5c3404,
+  // Muted teal-blue remains
+  "secondary": #8e6139,
+  // Slightly darker secondary
+  "info": #c29748,
+  // Muted gold for info
+  "accent1": #843f1a,
+  // Richer accent color
+  "accent2": #a45e41,
+  // Slightly darker accent
+  "accent3": #d2b18e,
+  // Softer accent
+  "success": #4caf50,
+  // Brighter green for success
+  "warning": #ff9800,
+  // More vibrant orange for warning
+  "danger": #e53935, // Brighter red for danger
 );
 
 // Define the light theme map with all necessary variables
 $light-theme: (
-  "background":       map.get($theme-colors, "light"),    // light background
-  "background-alt":   color.adjust(map.get($theme-colors, "light"), $lightness: 3%),  // lighter background alternate
-  "foreground":       map.get($theme-colors, "dark"),     // dark text for readability
-  "foreground-alt":   color.adjust(map.get($theme-colors, "dark"), $lightness: 10%),  // lighter foreground alternate
-  "foreground-muted": color.adjust(map.get($theme-colors, "dark"), $lightness: 30%),  // muted foreground for secondary text
-  "border":           rgba(0, 0, 0, 0.125),               // standard border color
-  "border-light":     rgba(0, 0, 0, 0.05),                // lighter border color
-  "card-bg":          #ffffff,                            // card background
-  "accent":           map.get($theme-colors, "accent1"),  // main accent color
-  "primary":          map.get($theme-colors, "primary"),
-  "secondary":        map.get($theme-colors, "secondary"),
-  "info":             map.get($theme-colors, "info"),
-  "accent1":          map.get($theme-colors, "accent1"),
-  "accent2":          map.get($theme-colors, "accent2"),
-  "accent3":          map.get($theme-colors, "accent3"),
-  "success":          map.get($theme-colors, "success"),
-  "warning":          map.get($theme-colors, "warning"),
-  "danger":           map.get($theme-colors, "danger")
+  "background": map.get($theme-colors, "light"),
+  // light background
+  "background-alt": color.adjust(map.get($theme-colors, "light"), $lightness: 3%),
+  // lighter background alternate
+  "foreground": map.get($theme-colors, "dark"),
+  // dark text for readability
+  "foreground-alt": color.adjust(map.get($theme-colors, "dark"), $lightness: 10%),
+  // lighter foreground alternate
+  "foreground-muted": color.adjust(map.get($theme-colors, "dark"), $lightness: 30%),
+  // muted foreground for secondary text
+  "border": rgba(0, 0, 0, 0.125),
+  // standard border color
+  "border-light": rgba(0, 0, 0, 0.05),
+  // lighter border color
+  "card-bg": #ffffff,
+  // card background
+  "accent": map.get($theme-colors, "accent1"),
+  // main accent color
+  "primary": map.get($theme-colors, "primary"),
+  "secondary": map.get($theme-colors, "secondary"),
+  "info": map.get($theme-colors, "info"),
+  "accent1": map.get($theme-colors, "accent1"),
+  "accent2": map.get($theme-colors, "accent2"),
+  "accent3": map.get($theme-colors, "accent3"),
+  "success": map.get($theme-colors, "success"),
+  "warning": map.get($theme-colors, "warning"),
+  "danger": map.get($theme-colors, "danger"),
 );
 
 // Define the dark theme map with all necessary variables
 $dark-theme: (
-  "background":       map.get($theme-colors, "dark"),     // dark background
-  "background-alt":   color.adjust(map.get($theme-colors, "dark"), $lightness: 5%),  // slightly lighter background alternate
-  "foreground":       $white,                             // light text using $white
-  "foreground-alt":   color.adjust($white, $lightness: -10%),                // slightly darker foreground alternate
-  "foreground-muted": color.adjust($white, $lightness: -30%),                // muted foreground for secondary text
-  "border":           rgba(255, 255, 255, 0.125),         // standard border color
-  "border-light":     rgba(255, 255, 255, 0.05),          // lighter border color
-  "card-bg":          color.adjust(map.get($theme-colors, "dark"), $lightness: 8%),  // card background
-  "accent":           map.get($theme-colors, "accent1"),  // main accent color
-  "primary":          map.get($theme-colors, "primary"),
-  "secondary":        map.get($theme-colors, "secondary"),
-  "info":             map.get($theme-colors, "info"),
-  "accent1":          map.get($theme-colors, "accent1"),
-  "accent2":          map.get($theme-colors, "accent2"),
-  "accent3":          map.get($theme-colors, "accent3"),
-  "success":          map.get($theme-colors, "success"),
-  "warning":          map.get($theme-colors, "warning"),
-  "danger":           map.get($theme-colors, "danger")
+  "background": map.get($theme-colors, "dark"),
+  // dark background
+  "background-alt": color.adjust(map.get($theme-colors, "dark"), $lightness: 5%),
+  // slightly lighter background alternate
+  "foreground": $white,
+  // light text using $white
+  "foreground-alt": color.adjust($white, $lightness: -10%),
+  // slightly darker foreground alternate
+  "foreground-muted": color.adjust($white, $lightness: -30%),
+  // muted foreground for secondary text
+  "border": rgba(255, 255, 255, 0.125),
+  // standard border color
+  "border-light": rgba(255, 255, 255, 0.05),
+  // lighter border color
+  "card-bg": color.adjust(map.get($theme-colors, "dark"), $lightness: 8%),
+  // card background
+  "accent": map.get($theme-colors, "accent1"),
+  // main accent color
+  "primary": map.get($theme-colors, "primary"),
+  "secondary": map.get($theme-colors, "secondary"),
+  "info": map.get($theme-colors, "info"),
+  "accent1": map.get($theme-colors, "accent1"),
+  "accent2": map.get($theme-colors, "accent2"),
+  "accent3": map.get($theme-colors, "accent3"),
+  "success": map.get($theme-colors, "success"),
+  "warning": map.get($theme-colors, "warning"),
+  "danger": map.get($theme-colors, "danger"),
 );
 
 // Theme switching functions
 @function theme-color($key) {
-  @if (lightness(map.get($light-theme, 'background')) > 50) {
+  @if (lightness(map.get($light-theme, "background")) > 50) {
     // light mode
     @return map.get($light-theme, $key);
   } @else {
@@ -93,7 +121,7 @@ $dark-theme: (
 // Mixins for applying theme colors
 @mixin theme-aware($property, $key) {
   #{$property}: map.get($light-theme, $key);
-  
+
   [data-bs-theme="dark"] & {
     #{$property}: map.get($dark-theme, $key);
   }
@@ -108,7 +136,7 @@ $dark-theme: (
   --bs-info: #{$info};
   --bs-warning: #{$warning};
   --bs-danger: #{$danger};
-  
+
   // Light theme variables
   @each $name, $color in $light-theme {
     --color-#{$name}: #{$color};
@@ -124,41 +152,41 @@ $dark-theme: (
 
 // Utility classes for using the custom palette
 .bg-theme {
-  @include theme-aware(background-color, 'background');
+  @include theme-aware(background-color, "background");
 }
 
 .bg-theme-alt {
-  @include theme-aware(background-color, 'background-alt');
+  @include theme-aware(background-color, "background-alt");
 }
 
 .text-theme {
-  @include theme-aware(color, 'foreground');
+  @include theme-aware(color, "foreground");
 }
 
 .text-theme-alt {
-  @include theme-aware(color, 'foreground-alt');
+  @include theme-aware(color, "foreground-alt");
 }
 
 .text-theme-muted {
-  @include theme-aware(color, 'foreground-muted');
+  @include theme-aware(color, "foreground-muted");
 }
 
 .border-theme {
-  @include theme-aware(border-color, 'border');
+  @include theme-aware(border-color, "border");
 }
 
 .border-theme-light {
-  @include theme-aware(border-color, 'border-light');
+  @include theme-aware(border-color, "border-light");
 }
 
 .bg-card {
-  @include theme-aware(background-color, 'card-bg');
+  @include theme-aware(background-color, "card-bg");
 }
 
 .accent-color {
-  @include theme-aware(color, 'accent');
+  @include theme-aware(color, "accent");
 }
 
 .accent-bg {
-  @include theme-aware(background-color, 'accent');
+  @include theme-aware(background-color, "accent");
 }

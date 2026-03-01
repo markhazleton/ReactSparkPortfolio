@@ -40,7 +40,7 @@ map.get($theme-colors, "light")
 ## Files to Update
 
 - src/scss/styles.scss
-- src/scss/variables/_colors.scss
+- src/scss/variables/\_colors.scss
 - All component SCSS files
 
 ## Timeline: High Priority (Complete within 1-2 weeks)

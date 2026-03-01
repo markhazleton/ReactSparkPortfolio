@@ -12,19 +12,19 @@
 
 ## What Will Break If You Change The CSP
 
-| If You Remove... | This Breaks... |
-|-----------------|----------------|
-| `https://*.markhazleton.com` from connect-src | ❌ Service worker can't fetch project images |
-| `https:` from img-src | ❌ External project screenshots won't display |
-| `'unsafe-inline'` from script-src | ❌ React won't render, Vite won't work |
-| `'unsafe-eval'` from script-src | ❌ Hot module reload fails in development |
-| `blob:` from worker-src | ❌ Service worker initialization fails |
+| If You Remove...                              | This Breaks...                                |
+| --------------------------------------------- | --------------------------------------------- |
+| `https://*.markhazleton.com` from connect-src | ❌ Service worker can't fetch project images  |
+| `https:` from img-src                         | ❌ External project screenshots won't display |
+| `'unsafe-inline'` from script-src             | ❌ React won't render, Vite won't work        |
+| `'unsafe-eval'` from script-src               | ❌ Hot module reload fails in development     |
+| `blob:` from worker-src                       | ❌ Service worker initialization fails        |
 
 ## Required CSP (DO NOT MODIFY)
 
 ```
-connect-src: 'self' https://markhazleton.com https://*.markhazleton.com 
-             https://api.openweathermap.org https://v2.jokeapi.dev 
+connect-src: 'self' https://markhazleton.com https://*.markhazleton.com
+             https://api.openweathermap.org https://v2.jokeapi.dev
              wss://webspark.markhazleton.com ws://localhost:* http://localhost:*
 
 img-src: 'self' data: https: http: blob:
@@ -55,6 +55,7 @@ script-src: 'self' 'unsafe-inline' 'unsafe-eval'
 **Standard Advice:** "Remove 'unsafe-inline' and 'unsafe-eval' for security"
 
 **Reality for this site:**
+
 - ✅ No user-generated content
 - ✅ No form submissions
 - ✅ No database
@@ -63,6 +64,7 @@ script-src: 'self' 'unsafe-inline' 'unsafe-eval'
 - ✅ Primary threat (XSS from user input) doesn't exist
 
 **The real security here comes from:**
+
 - No user input that could inject scripts
 - Read-only external data sources
 - No cookies or authentication

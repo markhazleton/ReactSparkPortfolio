@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
-import ReactMarkdown from 'react-markdown';
-import * as signalR from '@microsoft/signalr';
-import { Button, Form, Card, Container, Spinner, Alert } from 'react-bootstrap';
-import './Chat.css';
+import React, { useState, useEffect, useRef } from "react";
+import ReactMarkdown from "react-markdown";
+import * as signalR from "@microsoft/signalr";
+import { Button, Form, Card, Container, Spinner, Alert } from "react-bootstrap";
+import "./Chat.css";
 
 interface Message {
   id: string;
@@ -17,42 +17,45 @@ interface ChatProps {
   isInModal?: boolean; // Flag to indicate if chat is in a modal
 }
 
-const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = '', isInModal = false }) => {
+const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = "", isInModal = false }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   // Initialize userName from localStorage
   const [userName, setUserName] = useState(() => {
-    return localStorage.getItem('chatUserName') || '';
+    return localStorage.getItem("chatUserName") || "";
   });
-  const [userInput, setUserInput] = useState('');
-  const [chatInput, setChatInput] = useState('');
+  const [userInput, setUserInput] = useState("");
+  const [chatInput, setChatInput] = useState("");
   const [isBotTyping, setIsBotTyping] = useState(false);
   const [isConnecting, setIsConnecting] = useState(true);
   const [connectionError, setConnectionError] = useState<string | null>(null);
   const [isRetrying, setIsRetrying] = useState(false);
 
-  const streamingBuffer = useRef('');
+  const streamingBuffer = useRef("");
   const conversationId = useRef<string>(new Date().getTime().toString());
   const connection = useRef<signalR.HubConnection | null>(null);
   const streamingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const isFirstChunk = useRef(true);
 
   const sanitizeInput = React.useCallback((input: string): string => {
-    return input.replace(/<\/?[^>]+(>|$)/g, ''); // Strips HTML tags
+    return input.replace(/<\/?[^>]+(>|$)/g, ""); // Strips HTML tags
   }, []);
 
-  const addNewMessage = React.useCallback((content: string, user: string, isBot: boolean) => {
-    const sanitizedContent = sanitizeInput(content);
-    setMessages((prevMessages) => [
-      ...prevMessages,
-      {
-        id: `${Date.now()}`,
-        user,
-        content: sanitizedContent,
-        timestamp: new Date().toLocaleTimeString(),
-      },
-    ]);
-    if (!isBot) setIsBotTyping(false);
-  }, [sanitizeInput]);
+  const addNewMessage = React.useCallback(
+    (content: string, user: string, isBot: boolean) => {
+      const sanitizedContent = sanitizeInput(content);
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        {
+          id: `${Date.now()}`,
+          user,
+          content: sanitizedContent,
+          timestamp: new Date().toLocaleTimeString(),
+        },
+      ]);
+      if (!isBot) setIsBotTyping(false);
+    },
+    [sanitizeInput]
+  );
 
   const updateLastMessage = React.useCallback((chunk: string) => {
     setMessages((prevMessages) => {
@@ -83,7 +86,7 @@ const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = '', isInModal
 
         streamingTimeoutRef.current = setTimeout(() => {
           isFirstChunk.current = true;
-          streamingBuffer.current = '';
+          streamingBuffer.current = "";
           setIsBotTyping(false);
         }, 1000);
       } else {
@@ -95,16 +98,20 @@ const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = '', isInModal
       try {
         setConnectionError(null);
         setIsRetrying(retryCount > 0);
-        
+
         // Get SignalR hub URL from environment or use default
-        const hubUrl = import.meta.env.VITE_SIGNALR_HUB_URL || 'https://webspark.markhazleton.com/chatHub';
-        
+        const hubUrl =
+          import.meta.env.VITE_SIGNALR_HUB_URL || "https://webspark.markhazleton.com/chatHub";
+
         connection.current = new signalR.HubConnectionBuilder()
           .withUrl(hubUrl, {
             skipNegotiation: false,
             withCredentials: false,
             timeout: 30000, // 30 second timeout
-            transport: signalR.HttpTransportType.WebSockets | signalR.HttpTransportType.ServerSentEvents | signalR.HttpTransportType.LongPolling
+            transport:
+              signalR.HttpTransportType.WebSockets |
+              signalR.HttpTransportType.ServerSentEvents |
+              signalR.HttpTransportType.LongPolling,
           })
           .withAutomaticReconnect([0, 2000, 10000, 30000]) // Retry at 0ms, 2s, 10s, 30s
           .configureLogging(signalR.LogLevel.Information)
@@ -112,20 +119,23 @@ const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = '', isInModal
 
         // Handle connection events
         connection.current.onclose((error) => {
-          console.log('SignalR connection closed:', error);
+          console.log("SignalR connection closed:", error);
           if (error && retryCount < 3) {
             console.log(`Retrying connection (attempt ${retryCount + 1})...`);
-            setTimeout(() => setupSignalRConnection(retryCount + 1), Math.pow(2, retryCount) * 1000);
+            setTimeout(
+              () => setupSignalRConnection(retryCount + 1),
+              Math.pow(2, retryCount) * 1000
+            );
           }
         });
 
         connection.current.onreconnecting((error) => {
-          console.log('SignalR reconnecting:', error);
+          console.log("SignalR reconnecting:", error);
           setIsConnecting(true);
         });
 
         connection.current.onreconnected(() => {
-          console.log('SignalR reconnected');
+          console.log("SignalR reconnected");
           setIsConnecting(false);
           setConnectionError(null);
           setIsRetrying(false);
@@ -134,34 +144,46 @@ const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = '', isInModal
         await connection.current.start();
         setIsConnecting(false);
         setIsRetrying(false);
-        console.log('Connected to SignalR hub');
+        console.log("Connected to SignalR hub");
 
-        connection.current.on('ReceiveMessage', handleReceiveMessage);
-        
+        connection.current.on("ReceiveMessage", handleReceiveMessage);
+
         // If we have a username and an initial message, send it automatically
-        const savedUserName = localStorage.getItem('chatUserName');
+        const savedUserName = localStorage.getItem("chatUserName");
         if (savedUserName && initialMessage) {
           setTimeout(() => {
-            connection.current?.invoke('SendMessage', savedUserName, initialMessage, conversationId.current, variantName).catch(console.error);
+            connection.current
+              ?.invoke(
+                "SendMessage",
+                savedUserName,
+                initialMessage,
+                conversationId.current,
+                variantName
+              )
+              .catch(console.error);
           }, 500);
         }
       } catch (error) {
-        console.error('SignalR connection failed:', error);
-        const errorMessage = error instanceof Error ? error.message : 'Connection failed';
+        console.error("SignalR connection failed:", error);
+        const errorMessage = error instanceof Error ? error.message : "Connection failed";
         setConnectionError(errorMessage);
         setIsConnecting(false);
         setIsRetrying(false);
-        
+
         // For modal usage, provide a fallback experience
         if (isInModal) {
-          console.log('Modal mode: Using fallback chat experience');
+          console.log("Modal mode: Using fallback chat experience");
           setIsConnecting(false);
           setConnectionError(null);
           // Add a welcome message for offline mode
-          addNewMessage('Welcome to the Joke Explainer! Connection to the AI chat service is currently unavailable, but you can still view the joke above.', variantName, true);
+          addNewMessage(
+            "Welcome to the Joke Explainer! Connection to the AI chat service is currently unavailable, but you can still view the joke above.",
+            variantName,
+            true
+          );
           return;
         }
-        
+
         // Retry with exponential backoff
         if (retryCount < 3) {
           console.log(`Retrying connection in ${Math.pow(2, retryCount)} seconds...`);
@@ -173,7 +195,7 @@ const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = '', isInModal
     setupSignalRConnection();
 
     return () => {
-      connection.current?.off('ReceiveMessage', handleReceiveMessage);
+      connection.current?.off("ReceiveMessage", handleReceiveMessage);
       connection.current?.stop();
       if (streamingTimeoutRef.current) clearTimeout(streamingTimeoutRef.current);
     };
@@ -183,16 +205,19 @@ const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = '', isInModal
     setIsConnecting(true);
     setConnectionError(null);
     setIsRetrying(false);
-    
+
     // Create a new connection
     const retryConnection = async () => {
       try {
         connection.current = new signalR.HubConnectionBuilder()
-          .withUrl('https://webspark.markhazleton.com/chatHub', {
+          .withUrl("https://webspark.markhazleton.com/chatHub", {
             skipNegotiation: false,
             withCredentials: false,
             timeout: 30000,
-            transport: signalR.HttpTransportType.WebSockets | signalR.HttpTransportType.ServerSentEvents | signalR.HttpTransportType.LongPolling
+            transport:
+              signalR.HttpTransportType.WebSockets |
+              signalR.HttpTransportType.ServerSentEvents |
+              signalR.HttpTransportType.LongPolling,
           })
           .withAutomaticReconnect([0, 2000, 10000, 30000])
           .configureLogging(signalR.LogLevel.Information)
@@ -200,9 +225,9 @@ const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = '', isInModal
 
         await connection.current.start();
         setIsConnecting(false);
-        console.log('Reconnected to SignalR hub');
+        console.log("Reconnected to SignalR hub");
 
-        connection.current.on('ReceiveMessage', (user: string, messageChunk: string) => {
+        connection.current.on("ReceiveMessage", (user: string, messageChunk: string) => {
           if (user === variantName) {
             setIsBotTyping(true);
             streamingBuffer.current += sanitizeInput(messageChunk);
@@ -218,7 +243,7 @@ const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = '', isInModal
 
             streamingTimeoutRef.current = setTimeout(() => {
               isFirstChunk.current = true;
-              streamingBuffer.current = '';
+              streamingBuffer.current = "";
               setIsBotTyping(false);
             }, 1000);
           } else {
@@ -226,8 +251,8 @@ const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = '', isInModal
           }
         });
       } catch (error) {
-        console.error('Manual retry failed:', error);
-        setConnectionError(error instanceof Error ? error.message : 'Retry failed');
+        console.error("Manual retry failed:", error);
+        setConnectionError(error instanceof Error ? error.message : "Retry failed");
         setIsConnecting(false);
       }
     };
@@ -240,31 +265,41 @@ const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = '', isInModal
       const trimmedUserName = userInput.trim();
       setUserName(trimmedUserName);
       // Save username to localStorage for future sessions
-      localStorage.setItem('chatUserName', trimmedUserName);
-      setUserInput('');
+      localStorage.setItem("chatUserName", trimmedUserName);
+      setUserInput("");
       if (initialMessage) {
-        connection.current?.invoke('SendMessage', trimmedUserName, initialMessage, conversationId.current, variantName).catch(console.error);
+        connection.current
+          ?.invoke(
+            "SendMessage",
+            trimmedUserName,
+            initialMessage,
+            conversationId.current,
+            variantName
+          )
+          .catch(console.error);
       }
     }
   };
 
   const handleSendMessage = () => {
     if (userName && chatInput.trim()) {
-      connection.current?.invoke('SendMessage', userName, chatInput.trim(), conversationId.current, variantName).catch(console.error);
-      setChatInput('');
+      connection.current
+        ?.invoke("SendMessage", userName, chatInput.trim(), conversationId.current, variantName)
+        .catch(console.error);
+      setChatInput("");
     }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       handleJoinChat();
     }
   };
 
   const renderMessage = (message: Message) => (
-    <Card 
-      key={message.id} 
-      className={`mb-2 chat-message ${message.user === variantName ? 'ms-auto chat-message-bot' : 'me-auto chat-message-user'}`}
+    <Card
+      key={message.id}
+      className={`mb-2 chat-message ${message.user === variantName ? "ms-auto chat-message-bot" : "me-auto chat-message-user"}`}
     >
       <Card.Body className="py-2 px-3">
         <small className="fw-bold">
@@ -284,7 +319,7 @@ const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = '', isInModal
           <Spinner animation="border" role="status" className="mb-3">
             <span className="visually-hidden">Loading...</span>
           </Spinner>
-          <p>{isRetrying ? 'Retrying connection to chat...' : 'Connecting to chat...'}</p>
+          <p>{isRetrying ? "Retrying connection to chat..." : "Connecting to chat..."}</p>
           {connectionError && (
             <small className="text-muted mt-2">Previous error: {connectionError}</small>
           )}
@@ -302,14 +337,18 @@ const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = '', isInModal
             )}
           </Alert>
           <div className="d-flex gap-2">
-            <Button variant="primary" onClick={handleRetryConnection} disabled={isConnecting || isRetrying}>
+            <Button
+              variant="primary"
+              onClick={handleRetryConnection}
+              disabled={isConnecting || isRetrying}
+            >
               {isConnecting || isRetrying ? (
                 <>
                   <Spinner animation="border" size="sm" className="me-2" />
-                  {isRetrying ? 'Retrying...' : 'Connecting...'}
+                  {isRetrying ? "Retrying..." : "Connecting..."}
                 </>
               ) : (
-                'Retry Connection'
+                "Retry Connection"
               )}
             </Button>
             <Button variant="secondary" onClick={() => window.location.reload()}>
@@ -318,7 +357,7 @@ const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = '', isInModal
           </div>
         </div>
       ) : !userName ? (
-          <div className="d-flex flex-column justify-content-center align-items-center h-100 p-3">
+        <div className="d-flex flex-column justify-content-center align-items-center h-100 p-3">
           <Form.Group className="mb-3 chat-name-input">
             <Form.Label>Enter your name to join the chat</Form.Label>
             <Form.Control
@@ -335,7 +374,9 @@ const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = '', isInModal
         </div>
       ) : (
         <div className="d-flex flex-column h-100">
-          <div className={`flex-grow-1 overflow-auto p-3 ${isInModal ? 'chat-messages-container-modal' : 'chat-messages-container'}`}>
+          <div
+            className={`flex-grow-1 overflow-auto p-3 ${isInModal ? "chat-messages-container-modal" : "chat-messages-container"}`}
+          >
             {messages.map(renderMessage)}
             {isBotTyping && (
               <div className="text-center my-3">
@@ -351,7 +392,7 @@ const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = '', isInModal
                   placeholder="Type your message..."
                   value={chatInput}
                   onChange={(e) => setChatInput(e.target.value)}
-                  onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                  onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
                 />
                 <Button variant="primary" onClick={handleSendMessage}>
                   Send

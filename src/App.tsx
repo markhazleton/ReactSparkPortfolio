@@ -1,28 +1,29 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Header from './components/Header';
-import Footer from './components/Footer';
-import { lazy, Suspense } from 'react';
-import { ThemeProvider } from './contexts/ThemeContext';
-import { SEOProvider } from './contexts/SEOContext';
-import AppConfig from './config/AppConfig';
-import { UpdateNotification } from './components/UpdateNotification';
-import { useVersionCheck } from './hooks/useVersionCheck';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import ErrorBoundary from "./components/ErrorBoundary";
+import { lazy, Suspense } from "react";
+import { ThemeProvider } from "./contexts/ThemeContext";
+import { SEOProvider } from "./contexts/SEOContext";
+import AppConfig from "./config/AppConfig";
+import { UpdateNotification } from "./components/UpdateNotification";
+import { useVersionCheck } from "./hooks/useVersionCheck";
 
-import './css/styles.css'; // Import the CSS includes bootstrap as part of scss
-import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // Import Bootstrap JavaScript bundle
+import "./css/styles.css"; // Import the CSS includes bootstrap as part of scss
+import "bootstrap/dist/js/bootstrap.bundle.min.js"; // Import Bootstrap JavaScript bundle
 
 // Import image utilities for development helpers
-import './utils/imageUtils';
+import "./utils/imageUtils";
 
 // Lazy loaded components for better performance
-const Hero = lazy(() => import('./components/Hero'));
-const About = lazy(() => import('./components/About'));
-const Projects = lazy(() => import('./components/Projects'));
-const Articles = lazy(() => import('./components/Articles'));
-const Joke = lazy(() => import('./components/Joke'));
-const WeatherForecast = lazy(() => import('./components/WeatherForecast'));
-const VariantList = lazy(() => import('./components/VariantList'));
-const NotFound = lazy(() => import('./components/NotFound'));
+const Hero = lazy(() => import("./components/Hero"));
+const About = lazy(() => import("./components/About"));
+const Projects = lazy(() => import("./components/Projects"));
+const Articles = lazy(() => import("./components/Articles"));
+const Joke = lazy(() => import("./components/Joke"));
+const WeatherForecast = lazy(() => import("./components/WeatherForecast"));
+const VariantList = lazy(() => import("./components/VariantList"));
+const NotFound = lazy(() => import("./components/NotFound"));
 
 // Component to handle version checking
 const AppWithVersionCheck: React.FC = () => {
@@ -30,11 +31,7 @@ const AppWithVersionCheck: React.FC = () => {
 
   return (
     <>
-      <UpdateNotification 
-        show={hasUpdate}
-        onUpdate={handleUpdate}
-        onDismiss={dismissUpdate}
-      />
+      <UpdateNotification show={hasUpdate} onUpdate={handleUpdate} onDismiss={dismissUpdate} />
       <div className="d-flex flex-column min-vh-100">
         {/* Sticky Header */}
         <header className="sticky-top">
@@ -45,13 +42,15 @@ const AppWithVersionCheck: React.FC = () => {
         <main id="main-content" className="flex-grow-1 container-fluid py-5 mb-5">
           <div className="row justify-content-center">
             <div className="col-md-10 col-lg-8">
-              <Suspense fallback={
-                <div className="text-center p-5">
-                  <div className="spinner-border text-primary" role="status">
-                    <span className="visually-hidden">Loading...</span>
+              <Suspense
+                fallback={
+                  <div className="text-center p-5">
+                    <div className="spinner-border text-primary" role="status">
+                      <span className="visually-hidden">Loading...</span>
+                    </div>
                   </div>
-                </div>
-              }>
+                }
+              >
                 <Routes>
                   <Route path="/" element={<Hero />} />
                   <Route path="/about" element={<About />} />
@@ -78,17 +77,19 @@ const AppWithVersionCheck: React.FC = () => {
 
 const App: React.FC = () => {
   return (
-    <ThemeProvider>
-      <BrowserRouter>
-        <SEOProvider 
-          defaultTitle={AppConfig.siteTitle} 
-          defaultDescription={AppConfig.siteDescription}
-          siteUrl={AppConfig.hostedUrl}
-        >
-          <AppWithVersionCheck />
-        </SEOProvider>
-      </BrowserRouter>
-    </ThemeProvider>
+    <ErrorBoundary>
+      <ThemeProvider>
+        <BrowserRouter>
+          <SEOProvider
+            defaultTitle={AppConfig.siteTitle}
+            defaultDescription={AppConfig.siteDescription}
+            siteUrl={AppConfig.hostedUrl}
+          >
+            <AppWithVersionCheck />
+          </SEOProvider>
+        </BrowserRouter>
+      </ThemeProvider>
+    </ErrorBoundary>
   );
 };
 

@@ -1,5 +1,5 @@
-import React from 'react';
-import { Dropdown, DropdownButton } from 'react-bootstrap';
+import React from "react";
+import { Dropdown, DropdownButton } from "react-bootstrap";
 import { Variant } from "../types";
 
 interface Props {
@@ -11,7 +11,7 @@ interface Props {
 const VariantDropdown: React.FC<Props> = ({ variants, selectedVariant, onSelect }) => (
   <DropdownButton
     id="variant-dropdown"
-    title={selectedVariant ? selectedVariant.name : 'Select a Variant'}
+    title={selectedVariant ? selectedVariant.name : "Select a Variant"}
     className="mb-4"
   >
     {variants.map((variant) => (

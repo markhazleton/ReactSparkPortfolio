@@ -7,15 +7,13 @@ const isDevelopment = import.meta.env.DEV;
 export const APP_VERSION = isDevelopment
   ? `dev-${Date.now()}`
   : typeof __BUILD_DATE__ !== "undefined"
-  ? __BUILD_DATE__
-  : `prod-${Date.now()}`;
+    ? __BUILD_DATE__
+    : `prod-${Date.now()}`;
 
 export class VersionManager {
   private static readonly VERSION_KEY = "app_version";
   private static readonly LAST_CHECK_KEY = "last_version_check";
-  private static readonly CHECK_INTERVAL = isDevelopment
-    ? 30 * 1000
-    : 5 * 60 * 1000; // 30 seconds in dev, 5 minutes in prod
+  private static readonly CHECK_INTERVAL = isDevelopment ? 30 * 1000 : 5 * 60 * 1000; // 30 seconds in dev, 5 minutes in prod
 
   static getCurrentVersion(): string {
     return APP_VERSION;
@@ -76,21 +74,23 @@ export class VersionManager {
         // Check ETag or Last-Modified headers for version changes
         const etag = response.headers.get("ETag");
         const lastModified = response.headers.get("Last-Modified");
-        
+
         const storedETag = localStorage.getItem("app_etag");
         const storedLastModified = localStorage.getItem("app_last_modified");
-        
+
         // Store new headers
         if (etag) localStorage.setItem("app_etag", etag);
         if (lastModified) localStorage.setItem("app_last_modified", lastModified);
-        
+
         // Check if headers indicate a new version
-        if ((etag && etag !== storedETag) || 
-            (lastModified && lastModified !== storedLastModified)) {
+        if (
+          (etag && etag !== storedETag) ||
+          (lastModified && lastModified !== storedLastModified)
+        ) {
           console.log("Server headers indicate new version available");
           return true;
         }
-        
+
         // Check if we have a new version by build date
         return this.hasNewVersion();
       }

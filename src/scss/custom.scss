@@ -23,9 +23,11 @@ body {
 
 // Improved card styles
 .card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
   overflow: hidden;
-  
+
   &:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
@@ -43,13 +45,13 @@ body {
 // Custom button styles
 .btn {
   transition: all 0.2s ease-in-out;
-  
+
   &.btn-primary {
     &:hover {
       transform: translateY(-2px);
     }
   }
-  
+
   &.btn-outline-primary {
     &:hover {
       transform: translateY(-2px);
@@ -63,15 +65,15 @@ body {
     font-weight: 700;
     letter-spacing: 0.5px;
   }
-  
+
   .nav-link {
     position: relative;
-    
+
     &.active {
       position: relative;
       color: var(--bs-primary) !important;
     }
-    
+
     &:hover:not(.active) {
       color: var(--bs-primary) !important;
     }
@@ -85,9 +87,9 @@ body {
   border-radius: 0.5rem;
   overflow: hidden;
   position: relative;
-  
+
   &:before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     right: 0;
@@ -97,9 +99,9 @@ body {
     border-radius: 50%;
     transform: translate(150px, -150px);
   }
-  
+
   &:after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: 0;
     left: 0;
@@ -148,10 +150,10 @@ body {
 footer {
   background-color: var(--bs-light);
   border-top: 1px solid rgba(0, 0, 0, 0.1);
-  
+
   a {
     transition: all 0.2s ease;
-    
+
     &:hover {
       opacity: 0.8;
     }
@@ -163,7 +165,7 @@ footer {
   height: 0.8rem;
   border-radius: 0.8rem;
   overflow: hidden;
-  
+
   .progress-bar {
     transition: width 1s ease;
   }
@@ -173,22 +175,22 @@ footer {
 .alert {
   border: none;
   border-radius: 0.5rem;
-  
+
   &.alert-primary {
     background-color: rgba($primary, 0.15);
     color: color.adjust($primary, $lightness: -20%);
   }
-  
+
   &.alert-info {
     background-color: rgba($info, 0.15);
     color: color.adjust($info, $lightness: -20%);
   }
-  
+
   &.alert-warning {
     background-color: rgba($warning, 0.15);
     color: color.adjust($warning, $lightness: -20%);
   }
-  
+
   &.alert-danger {
     background-color: rgba($danger, 0.15);
     color: color.adjust($danger, $lightness: -20%);
@@ -206,7 +208,7 @@ footer {
   font-size: 0.875rem;
   font-weight: 500;
   transition: all 0.2s ease;
-  
+
   &:hover {
     background-color: var(--bs-primary);
     color: white;
@@ -222,14 +224,16 @@ html {
 
 // Responsive font sizes
 @include media-breakpoint-up(md) {
-  h1, .h1 {
+  h1,
+  .h1 {
     font-size: 2.5rem;
   }
-  
-  h2, .h2 {
+
+  h2,
+  .h2 {
     font-size: 2rem;
   }
-  
+
   .lead {
     font-size: 1.25rem;
   }
@@ -264,16 +268,16 @@ html {
   background: var(--bs-primary);
   color: white;
   border: none;
-  
+
   .card-title {
     font-weight: 700;
   }
-  
+
   .weather-icon {
     width: 80px;
     height: 80px;
   }
-  
+
   .temperature {
     font-size: 3rem;
     font-weight: 700;
@@ -285,7 +289,7 @@ html {
   .display-4 {
     font-size: 2.5rem;
   }
-  
+
   .text-md-start {
     text-align: center !important;
   }
@@ -293,5 +297,5 @@ html {
 
 // Updated custom styles to use theme-aware mixin
 .custom-class {
-  @include colors.theme-aware(background-color, 'background');
+  @include colors.theme-aware(background-color, "background");
 }

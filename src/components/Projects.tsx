@@ -1,25 +1,32 @@
-import React, { useState, useEffect } from 'react';
-import Project from '../models/Project';
-import { clearProjectsCache, getProjectsCacheInfo } from '../services/ProjectService';
-import { ArrowRightCircle, Github, Search, ChevronLeft, ChevronRight, ArrowClockwise } from 'react-bootstrap-icons';
-import { useTheme } from '../contexts/ThemeContext';
+import React, { useState, useEffect } from "react";
+import Project from "../models/Project";
+import { clearProjectsCache, getProjectsCacheInfo } from "../services/ProjectService";
+import {
+  ArrowRightCircle,
+  Github,
+  Search,
+  ChevronLeft,
+  ChevronRight,
+  ArrowClockwise,
+} from "react-bootstrap-icons";
+import { useTheme } from "../contexts/ThemeContext";
 
-type SortOption = 'name-asc' | 'name-desc' | 'id-asc' | 'id-desc';
+type SortOption = "name-asc" | "name-desc" | "id-asc" | "id-desc";
 
 function Projects() {
   const { theme } = useTheme();
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [searchTerm, setSearchTerm] = useState('');
-  
+  const [searchTerm, setSearchTerm] = useState("");
+
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const projectsPerPage = 6;
-  
+
   // Sorting state
-  const [sortOption, setSortOption] = useState<SortOption>('id-desc');
-  
+  const [sortOption, setSortOption] = useState<SortOption>("id-desc");
+
   // Cache info state
   const [cacheInfo, setCacheInfo] = useState(getProjectsCacheInfo());
 
@@ -27,23 +34,23 @@ function Projects() {
   const loadProjects = async (forceRefresh = false) => {
     setLoading(true);
     setError(null);
-    
+
     try {
       if (forceRefresh) {
         clearProjectsCache();
-        console.log('Cache cleared, fetching fresh data...');
+        console.log("Cache cleared, fetching fresh data...");
       }
-      
+
       const loadedProjects = await Project.loadProjects();
       setProjects(loadedProjects);
       setCacheInfo(getProjectsCacheInfo());
-      
+
       if (loadedProjects.length === 0) {
-        setError('No projects available at the moment.');
+        setError("No projects available at the moment.");
       }
     } catch (err) {
-      console.error('Error loading projects:', err);
-      setError('Failed to load projects. Please try again later.');
+      console.error("Error loading projects:", err);
+      setError("Failed to load projects. Please try again later.");
     } finally {
       setLoading(false);
     }
@@ -60,26 +67,27 @@ function Projects() {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setCurrentPage(1);
   }, [searchTerm]);
-  
+
   // Filter projects based on search term
-  const filteredProjects = projects.filter(project => {
-    const matchesSearch = searchTerm === '' || 
+  const filteredProjects = projects.filter((project) => {
+    const matchesSearch =
+      searchTerm === "" ||
       project.p.toLowerCase().includes(searchTerm.toLowerCase()) ||
       project.d.toLowerCase().includes(searchTerm.toLowerCase());
-    
+
     return matchesSearch;
   });
 
   // Sort projects based on selected sort option
   const sortedProjects = [...filteredProjects].sort((a, b) => {
     switch (sortOption) {
-      case 'name-asc':
+      case "name-asc":
         return a.p.localeCompare(b.p);
-      case 'name-desc':
+      case "name-desc":
         return b.p.localeCompare(a.p);
-      case 'id-asc':
+      case "id-asc":
         return a.id - b.id;
-      case 'id-desc':
+      case "id-desc":
         return b.id - a.id;
       default:
         return 0;
@@ -97,8 +105,8 @@ function Projects() {
     setCurrentPage(pageNumber);
     // Scroll to top of projects section
     window.scrollTo({
-      top: document.getElementById('projects-section')?.offsetTop || 0,
-      behavior: 'smooth'
+      top: document.getElementById("projects-section")?.offsetTop || 0,
+      behavior: "smooth",
     });
   };
 
@@ -110,14 +118,14 @@ function Projects() {
   // Generate pagination controls
   const renderPaginationControls = () => {
     if (totalPages <= 1) return null;
-    
+
     const pageNumbers = [];
-    
+
     // Previous button
     pageNumbers.push(
-      <li key="prev" className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-        <button 
-          className="page-link" 
+      <li key="prev" className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+        <button
+          className="page-link"
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}
           aria-label="Previous page"
@@ -126,27 +134,20 @@ function Projects() {
         </button>
       </li>
     );
-    
+
     // Page numbers
     for (let i = 1; i <= totalPages; i++) {
       // Show current page, first, last, and one page before and after current
-      if (
-        i === 1 || 
-        i === totalPages || 
-        (i >= currentPage - 1 && i <= currentPage + 1)
-      ) {
+      if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
         pageNumbers.push(
-          <li key={i} className={`page-item ${currentPage === i ? 'active' : ''}`}>
-            <button 
-              className="page-link" 
-              onClick={() => handlePageChange(i)}
-            >
+          <li key={i} className={`page-item ${currentPage === i ? "active" : ""}`}>
+            <button className="page-link" onClick={() => handlePageChange(i)}>
               {i}
             </button>
           </li>
         );
       } else if (
-        (i === currentPage - 2 && currentPage > 3) || 
+        (i === currentPage - 2 && currentPage > 3) ||
         (i === currentPage + 2 && currentPage < totalPages - 2)
       ) {
         // Add ellipsis
@@ -157,12 +158,12 @@ function Projects() {
         );
       }
     }
-    
+
     // Next button
     pageNumbers.push(
-      <li key="next" className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-        <button 
-          className="page-link" 
+      <li key="next" className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
+        <button
+          className="page-link"
           onClick={() => handlePageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
           aria-label="Next page"
@@ -171,12 +172,10 @@ function Projects() {
         </button>
       </li>
     );
-    
+
     return (
       <nav aria-label="Projects pagination" className="mt-4">
-        <ul className="pagination justify-content-center">
-          {pageNumbers}
-        </ul>
+        <ul className="pagination justify-content-center">{pageNumbers}</ul>
       </nav>
     );
   };
@@ -206,12 +205,12 @@ function Projects() {
       <section className="py-5" id="projects-section">
         <div className="container">
           <h2 className="text-center mb-5">My Projects</h2>
-          <div className={`alert ${theme === 'dark' ? 'alert-dark' : 'alert-danger'} text-center`}>
+          <div className={`alert ${theme === "dark" ? "alert-dark" : "alert-danger"} text-center`}>
             <i className="bi bi-exclamation-triangle me-2"></i>
             {error}
             <br />
-            <button 
-              className={`btn btn-sm ${theme === 'dark' ? 'btn-outline-light' : 'btn-outline-primary'} mt-2`}
+            <button
+              className={`btn btn-sm ${theme === "dark" ? "btn-outline-light" : "btn-outline-primary"} mt-2`}
               onClick={() => loadProjects(true)}
             >
               <ArrowClockwise className="me-1" /> Try Again
@@ -227,11 +226,11 @@ function Projects() {
       <section className="py-5" id="projects-section">
         <div className="container">
           <h2 className="text-center mb-5">My Projects</h2>
-          <div className={`alert ${theme === 'dark' ? 'alert-dark' : 'alert-info'}`}>
+          <div className={`alert ${theme === "dark" ? "alert-dark" : "alert-info"}`}>
             <i className="bi bi-info-circle me-2"></i>
             No projects available at the moment.
-            <button 
-              className={`btn btn-sm ${theme === 'dark' ? 'btn-outline-light' : 'btn-outline-primary'} ms-2`}
+            <button
+              className={`btn btn-sm ${theme === "dark" ? "btn-outline-light" : "btn-outline-primary"} ms-2`}
               onClick={() => loadProjects(true)}
             >
               <ArrowClockwise className="me-1" /> Refresh
@@ -250,12 +249,11 @@ function Projects() {
           <div className="d-flex align-items-center gap-3">
             {cacheInfo.hasCache && (
               <small className="text-muted">
-                Last updated: {cacheInfo.lastUpdated?.toLocaleString()} 
-                ({cacheInfo.source})
+                Last updated: {cacheInfo.lastUpdated?.toLocaleString()}({cacheInfo.source})
               </small>
             )}
-            <button 
-              className={`btn btn-sm ${theme === 'dark' ? 'btn-outline-light' : 'btn-outline-primary'}`}
+            <button
+              className={`btn btn-sm ${theme === "dark" ? "btn-outline-light" : "btn-outline-primary"}`}
               onClick={handleRefresh}
               title="Refresh projects from server"
             >
@@ -263,17 +261,19 @@ function Projects() {
             </button>
           </div>
         </div>
-        
+
         {/* Search and Sort Controls */}
         <div className="row mb-4">
           <div className="col-md-8 mb-3 mb-md-0">
             <div className="input-group">
-              <span className={`input-group-text ${theme === 'dark' ? 'bg-dark text-light border-secondary' : 'bg-light'}`}>
+              <span
+                className={`input-group-text ${theme === "dark" ? "bg-dark text-light border-secondary" : "bg-light"}`}
+              >
                 <Search />
               </span>
-              <input 
-                type="text" 
-                className={`form-control ${theme === 'dark' ? 'bg-dark text-light border-secondary' : ''}`}
+              <input
+                type="text"
+                className={`form-control ${theme === "dark" ? "bg-dark text-light border-secondary" : ""}`}
                 placeholder="Search projects..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -281,8 +281,8 @@ function Projects() {
             </div>
           </div>
           <div className="col-md-4">
-            <select 
-              className={`form-select ${theme === 'dark' ? 'bg-dark text-light border-secondary' : ''}`}
+            <select
+              className={`form-select ${theme === "dark" ? "bg-dark text-light border-secondary" : ""}`}
               value={sortOption}
               onChange={(e) => handleSortChange(e.target.value as SortOption)}
               aria-label="Sort projects"
@@ -294,11 +294,12 @@ function Projects() {
             </select>
           </div>
         </div>
-        
+
         {/* Project Stats */}
         <div className="d-flex justify-content-between align-items-center mb-3">
           <small className="text-body-secondary">
-            Showing {indexOfFirstProject + 1}-{Math.min(indexOfLastProject, sortedProjects.length)} of {sortedProjects.length} projects
+            Showing {indexOfFirstProject + 1}-{Math.min(indexOfLastProject, sortedProjects.length)}{" "}
+            of {sortedProjects.length} projects
           </small>
           {totalPages > 1 && (
             <small className="text-body-secondary">
@@ -306,37 +307,43 @@ function Projects() {
             </small>
           )}
         </div>
-        
+
         {/* Project Cards */}
         <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
           {currentProjects.map((project: Project) => (
             <div className="col" key={project.id}>
-              <div className={`card h-100 shadow-sm hover-shadow transition ${theme === 'dark' ? 'bg-dark text-light border-secondary' : ''}`}>
-                <img 
-                  src={project.image} 
-                  className="card-img-top img-project" 
+              <div
+                className={`card h-100 shadow-sm hover-shadow transition ${theme === "dark" ? "bg-dark text-light border-secondary" : ""}`}
+              >
+                <img
+                  src={project.image}
+                  className="card-img-top img-project"
                   alt={project.formatTitle()}
                 />
                 <div className="card-body">
                   <h5 className="card-title">{project.formatTitle()}</h5>
-                  <p className={`card-text small ${theme === 'dark' ? 'text-light-emphasis' : 'text-body-secondary'}`}>
+                  <p
+                    className={`card-text small ${theme === "dark" ? "text-light-emphasis" : "text-body-secondary"}`}
+                  >
                     {project.formatDescription()}
                   </p>
                 </div>
-                <div className={`card-footer border-top-0 d-flex justify-content-between ${theme === 'dark' ? 'bg-dark' : 'bg-white'}`}>
-                  <a 
-                    href={project.formatLink()} 
-                    className={`btn btn-sm ${theme === 'dark' ? 'btn-outline-light' : 'btn-outline-primary'} d-flex align-items-center`} 
-                    target="_blank" 
+                <div
+                  className={`card-footer border-top-0 d-flex justify-content-between ${theme === "dark" ? "bg-dark" : "bg-white"}`}
+                >
+                  <a
+                    href={project.formatLink()}
+                    className={`btn btn-sm ${theme === "dark" ? "btn-outline-light" : "btn-outline-primary"} d-flex align-items-center`}
+                    target="_blank"
                     rel="noopener noreferrer"
                   >
                     Visit Site <ArrowRightCircle className="ms-1" />
                   </a>
-                  {project.formatLink().includes('github.com') && (
-                    <a 
-                      href={project.formatLink()} 
-                      className={`btn btn-sm ${theme === 'dark' ? 'btn-outline-light' : 'btn-outline-dark'} d-flex align-items-center`} 
-                      target="_blank" 
+                  {project.formatLink().includes("github.com") && (
+                    <a
+                      href={project.formatLink()}
+                      className={`btn btn-sm ${theme === "dark" ? "btn-outline-light" : "btn-outline-dark"} d-flex align-items-center`}
+                      target="_blank"
                       rel="noopener noreferrer"
                     >
                       <Github className="me-1" /> Code
@@ -347,12 +354,12 @@ function Projects() {
             </div>
           ))}
         </div>
-        
+
         {/* Pagination Controls */}
         {renderPaginationControls()}
-        
+
         {sortedProjects.length === 0 && (
-          <div className={`alert ${theme === 'dark' ? 'alert-dark' : 'alert-warning'} mt-4`}>
+          <div className={`alert ${theme === "dark" ? "alert-dark" : "alert-warning"} mt-4`}>
             <i className="bi bi-exclamation-triangle me-2"></i>
             No projects match your search criteria. Try different terms.
           </div>

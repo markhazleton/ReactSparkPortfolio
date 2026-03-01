@@ -1,0 +1,22 @@
+node_modules
+docs
+dist
+build
+coverage
+.vite
+.husky
+*.log
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+.documentation
+.github
+
+# Generated files
+*.min.js
+*.min.css
+
+# Cache directories
+.cache
+.temp
+.tmp

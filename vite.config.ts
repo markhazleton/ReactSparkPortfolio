@@ -7,7 +7,6 @@ import strip from "@rollup/plugin-strip";
 // Get the current date-time during the build
 const buildDate = new Date().toISOString();
 
-
 // Function to create .nojekyll file
 const createNoJekyllFile = () => {
   return {
@@ -31,17 +30,11 @@ export default defineConfig({
         chunkFileNames: "assets/[name]-[hash].js",
         assetFileNames: (assetInfo) => {
           // Keep images in assets/img folder with hash
-          if (
-            assetInfo.name &&
-            /\.(png|jpg|jpeg|gif|svg|ico)$/.test(assetInfo.name)
-          ) {
+          if (assetInfo.name && /\.(png|jpg|jpeg|gif|svg|ico)$/.test(assetInfo.name)) {
             return "assets/img/[name]-[hash][extname]";
           }
           // Keep fonts in assets/fonts folder with hash
-          if (
-            assetInfo.name &&
-            /\.(woff|woff2|eot|ttf|otf)$/.test(assetInfo.name)
-          ) {
+          if (assetInfo.name && /\.(woff|woff2|eot|ttf|otf)$/.test(assetInfo.name)) {
             return "assets/fonts/[name]-[hash][extname]";
           }
           // Everything else in assets folder with hash
@@ -116,11 +109,7 @@ export default defineConfig({
             console.log("Sending Request to the Target:", req.method, req.url);
           });
           proxy.on("proxyRes", (proxyRes, req) => {
-            console.log(
-              "Received Response from the Target:",
-              proxyRes.statusCode,
-              req.url
-            );
+            console.log("Received Response from the Target:", proxyRes.statusCode, req.url);
           });
         },
       },
@@ -134,18 +123,10 @@ export default defineConfig({
             console.log("joke proxy error", err);
           });
           proxy.on("proxyReq", (proxyReq, req) => {
-            console.log(
-              "Sending Joke Request to the Target:",
-              req.method,
-              req.url
-            );
+            console.log("Sending Joke Request to the Target:", req.method, req.url);
           });
           proxy.on("proxyRes", (proxyRes, req) => {
-            console.log(
-              "Received Joke Response from the Target:",
-              proxyRes.statusCode,
-              req.url
-            );
+            console.log("Received Joke Response from the Target:", proxyRes.statusCode, req.url);
           });
         },
       },
@@ -159,11 +140,7 @@ export default defineConfig({
             console.log("projects proxy error", err);
           });
           proxy.on("proxyReq", (proxyReq, req) => {
-            console.log(
-              "Sending Projects Request to the Target:",
-              req.method,
-              req.url
-            );
+            console.log("Sending Projects Request to the Target:", req.method, req.url);
           });
           proxy.on("proxyRes", (proxyRes, req) => {
             console.log(

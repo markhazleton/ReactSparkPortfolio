@@ -28,7 +28,7 @@ This document outlines the improvements made to the `custom-utilities.scss` file
 // Before
 background-size: 20px 20px;
 
-// After  
+// After
 background-size: var(--pattern-dot-size, 20px) var(--pattern-dot-size, 20px);
 ```
 
@@ -62,19 +62,10 @@ background-size: var(--pattern-dot-size, 20px) var(--pattern-dot-size, 20px);
 
 ```scss
 // Animation timing
---animation-duration: 0.5s
---animation-timing: ease-in-out
---slide-distance: 20px
-
-// Theming
---focus-color: var(--bs-primary)
---highlight-color: rgba(255, 220, 0, 0.6)
---overlay-light: rgba(0, 0, 0, 0.15)
-
-// Component sizing
---icon-size: 32px
---scrollbar-width: 8px
---transition-duration: 0.3s
+--animation-duration: 0.5s --animation-timing: ease-in-out --slide-distance: 20px // Theming
+  --focus-color: var(--bs-primary) --highlight-color: rgba(255, 220, 0, 0.6)
+  --overlay-light: rgba(0, 0, 0, 0.15) // Component sizing
+  --icon-size: 32px --scrollbar-width: 8px --transition-duration: 0.3s;
 ```
 
 ### Enhanced Responsive Behavior
@@ -118,15 +109,15 @@ background-size: var(--pattern-dot-size, 20px) var(--pattern-dot-size, 20px);
 
 ## 📊 Before & After Comparison
 
-| Aspect | Before | After |
-|--------|--------|-------|
-| **Comment Style** | Mixed `/* */` and `//` | Consistent `//` style |
-| **Vendor Prefixes** | Incomplete `-webkit-` only | Complete with standards |
-| **Customization** | Hardcoded values | CSS custom properties |
-| **Responsiveness** | Fixed sizes | Adaptive breakpoints |
-| **Accessibility** | Basic focus states | Enhanced focus management |
-| **Performance** | No optimization hints | GPU acceleration hints |
-| **Code Organization** | Some duplication | DRY principles applied |
+| Aspect                | Before                     | After                     |
+| --------------------- | -------------------------- | ------------------------- |
+| **Comment Style**     | Mixed `/* */` and `//`     | Consistent `//` style     |
+| **Vendor Prefixes**   | Incomplete `-webkit-` only | Complete with standards   |
+| **Customization**     | Hardcoded values           | CSS custom properties     |
+| **Responsiveness**    | Fixed sizes                | Adaptive breakpoints      |
+| **Accessibility**     | Basic focus states         | Enhanced focus management |
+| **Performance**       | No optimization hints      | GPU acceleration hints    |
+| **Code Organization** | Some duplication           | DRY principles applied    |
 
 ## 🚀 Benefits Achieved
 
@@ -141,7 +132,7 @@ background-size: var(--pattern-dot-size, 20px) var(--pattern-dot-size, 20px);
 ## 🔄 Migration Status
 
 - ✅ **Custom Utilities**: Fully modernized
-- ✅ **Core SASS Files**: Previously updated  
+- ✅ **Core SASS Files**: Previously updated
 - ✅ **Component Files**: Previously updated
 - ✅ **Compilation**: Successful with no custom deprecation warnings
 

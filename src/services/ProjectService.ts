@@ -3,15 +3,8 @@
  */
 import projectsData from "../data/projects.json";
 import { addCacheBuster } from "../utils/imageUtils";
-
-// Define a type for Project items matching the JSON structure
-export interface ProjectData {
-  id: number;
-  image: string;
-  p: string; // Title
-  d: string; // Description
-  h: string; // Link (href)
-}
+import { ProjectData, ProjectDataArraySchema } from "../models/Project";
+import { ZodError } from "zod";
 
 /**
  * Fetches the projects data with fallback to local file
@@ -20,8 +13,7 @@ export interface ProjectData {
 export const fetchProjectsData = async (): Promise<ProjectData[]> => {
   // Determine if we're in development mode
   const isDevelopment =
-    window.location.hostname === "localhost" ||
-    window.location.hostname === "127.0.0.1";
+    window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
 
   // Use proxy in development, direct URL in production
   const projectsSourceUrl = isDevelopment
@@ -37,13 +29,11 @@ export const fetchProjectsData = async (): Promise<ProjectData[]> => {
     const lastUpdated = localStorage.getItem("projectsLastUpdated");
     const cachedVersion = localStorage.getItem("projectsCacheVersion");
     const currentVersion = localStorage.getItem("app_version");
-    
-    const cacheAge = lastUpdated
-      ? Date.now() - new Date(lastUpdated).getTime()
-      : Infinity;
+
+    const cacheAge = lastUpdated ? Date.now() - new Date(lastUpdated).getTime() : Infinity;
     // Shorter cache in development for faster iteration
     const maxCacheAge = isDevelopment ? 1000 * 60 * 5 : 1000 * 60 * 60; // 5 minutes in dev, 1 hour in prod
-    
+
     // Invalidate cache if app version changed
     const isCacheValid = cachedVersion === currentVersion && cacheAge < maxCacheAge;
 
@@ -51,9 +41,7 @@ export const fetchProjectsData = async (): Promise<ProjectData[]> => {
     if (cachedData && isCacheValid) {
       console.log("Using fresh cached Projects data");
       const projects = JSON.parse(cachedData);
-      console.log(
-        `Successfully loaded ${projects.length} projects from cached data`
-      );
+      console.log(`Successfully loaded ${projects.length} projects from cached data`);
       return projects;
     } else if (cachedData && !isCacheValid) {
       console.log("Cache invalidated due to version change or expiration");
@@ -78,12 +66,8 @@ export const fetchProjectsData = async (): Promise<ProjectData[]> => {
       clearTimeout(timeoutId);
 
       if (!response.ok) {
-        console.error(
-          `Direct fetch failed: ${response.status} ${response.statusText}`
-        );
-        throw new Error(
-          `Failed to fetch Projects: ${response.status} ${response.statusText}`
-        );
+        console.error(`Direct fetch failed: ${response.status} ${response.statusText}`);
+        throw new Error(`Failed to fetch Projects: ${response.status} ${response.statusText}`);
       }
 
       projectsJsonData = await response.json();
@@ -94,9 +78,7 @@ export const fetchProjectsData = async (): Promise<ProjectData[]> => {
 
       // Check if we have any cached version (even if stale)
       if (cachedData) {
-        console.log(
-          "Using cached Projects data from localStorage (potentially stale)"
-        );
+        console.log("Using cached Projects data from localStorage (potentially stale)");
         projectsJsonData = JSON.parse(cachedData);
         sourceDescription = "cache";
       } else {
@@ -109,57 +91,61 @@ export const fetchProjectsData = async (): Promise<ProjectData[]> => {
       }
     }
 
-    // Validate the data structure
-    if (!Array.isArray(projectsJsonData)) {
-      console.error("Projects data is not an array:", projectsJsonData);
-      throw new Error("Invalid projects data format");
-    }
+    // Validate and transform the data with Zod
+    let validatedProjects: ProjectData[];
+    try {
+      // First validate the array structure
+      if (!Array.isArray(projectsJsonData)) {
+        throw new Error("Projects data is not an array");
+      }
 
-    // Validate each project has required fields and transform image URLs
-    const validatedProjects = projectsJsonData.filter((project) => {
-      if (
-        typeof project.id === "number" &&
-        typeof project.image === "string" &&
-        typeof project.p === "string" &&
-        typeof project.d === "string" &&
-        typeof project.h === "string"
-      ) {
-        // Transform relative image URLs to absolute URLs pointing to markhazleton.com
+      // Transform image URLs before validation
+      const transformedProjects = projectsJsonData.map((project) => {
+        // Transform relative image URLs to absolute URLs
         if (project.image && !project.image.startsWith("http")) {
-          // Remove leading slash if present, then add the base URL
           const imagePath = project.image.startsWith("/")
             ? project.image.substring(1)
             : project.image;
-          project.image = addCacheBuster(
-            `https://markhazleton.com/${imagePath}`
-          );
+          project.image = addCacheBuster(`https://markhazleton.com/${imagePath}`);
         } else if (project.image && project.image.startsWith("http")) {
-          // Add cache buster to existing full URLs
           project.image = addCacheBuster(project.image);
         }
-        return true;
-      } else {
-        console.warn("Invalid project data structure:", project);
-        return false;
-      }
-    });
+        return project;
+      });
 
-    console.log(
-      `Successfully validated ${validatedProjects.length} projects from ${sourceDescription}`
-    );
+      // Validate with Zod schema
+      validatedProjects = ProjectDataArraySchema.parse(transformedProjects);
+
+      console.log(
+        `Successfully validated ${validatedProjects.length} projects from ${sourceDescription}`
+      );
+    } catch (error) {
+      if (error instanceof ZodError) {
+        // Fall back to cache if available
+        if (cachedData && sourceDescription !== "cache") {
+          console.log("Validation failed, falling back to cached data");
+          const cachedProjects = JSON.parse(cachedData);
+          try {
+            validatedProjects = ProjectDataArraySchema.parse(cachedProjects);
+          } catch {
+            // If cache is also invalid, fall back to local
+            return projectsData as ProjectData[];
+          }
+        } else {
+          // If no cache, fall back to local data
+          return projectsData as ProjectData[];
+        }
+      } else {
+        throw error;
+      }
+    }
 
     // Store in localStorage for future fallback (only if from remote source)
     if (sourceDescription === "remote") {
       try {
-        localStorage.setItem(
-          "cachedProjectsData",
-          JSON.stringify(validatedProjects)
-        );
+        localStorage.setItem("cachedProjectsData", JSON.stringify(validatedProjects));
         localStorage.setItem("projectsLastUpdated", new Date().toISOString());
-        localStorage.setItem(
-          "projectsCount",
-          validatedProjects.length.toString()
-        );
+        localStorage.setItem("projectsCount", validatedProjects.length.toString());
         localStorage.setItem("projectsSource", sourceDescription);
         localStorage.setItem("projectsCacheVersion", currentVersion || "unknown");
       } catch (storageError) {

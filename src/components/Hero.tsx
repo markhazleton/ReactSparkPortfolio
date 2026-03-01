@@ -1,6 +1,18 @@
-import React, { useEffect } from 'react';
-import { ArrowRightCircle, Github, Linkedin, JournalText, Braces, Bootstrap, FileEarmarkCode, LightningCharge, CupHot, CodeSquare, Gear } from 'react-bootstrap-icons';
-import defaultProfile from '../data/profile.json';
+import React, { useEffect } from "react";
+import {
+  ArrowRightCircle,
+  Github,
+  Linkedin,
+  JournalText,
+  Braces,
+  Bootstrap,
+  FileEarmarkCode,
+  LightningCharge,
+  CupHot,
+  CodeSquare,
+  Gear,
+} from "react-bootstrap-icons";
+import defaultProfile from "../data/profile.json";
 
 interface Profile {
   name: string;
@@ -18,12 +30,12 @@ const Hero: React.FC<{ profileData?: Profile }> = ({ profileData }) => {
     // Update the document title
     const pageTitle = `${profile.name} | ${profile.profession}`;
     document.title = pageTitle;
-    
+
     // Update meta description
     const pageDescription = `${profile.name} - ${profile.profession}. ${profile.introduction}`;
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
-      metaDescription.setAttribute('content', pageDescription);
+      metaDescription.setAttribute("content", pageDescription);
     }
   }, [profile]);
 
@@ -52,34 +64,36 @@ const Hero: React.FC<{ profileData?: Profile }> = ({ profileData }) => {
             <div className="bg-primary bg-gradient text-white rounded-3 p-4 p-md-5 shadow-lg position-relative text-center">
               {/* Content with improved visibility */}
               <div className="position-relative">
-                <h1 className="display-4 fw-bold mb-3">
-                  {profile.name}
-                </h1>
-                
-                <h2 className="h3 mb-3 fw-light">
-                  {profile.profession}
-                </h2>
-                
-                <p className="lead mb-4 mx-auto text-white-50 w-75">
-                  {profile.introduction}
-                </p>
-                
+                <h1 className="display-4 fw-bold mb-3">{profile.name}</h1>
+
+                <h2 className="h3 mb-3 fw-light">{profile.profession}</h2>
+
+                <p className="lead mb-4 mx-auto text-white-50 w-75">{profile.introduction}</p>
+
                 <div className="d-flex flex-wrap gap-2 mb-4 justify-content-center">
-                  <a href={profile.ctaLink} 
+                  <a
+                    href={profile.ctaLink}
                     className="btn btn-light btn-lg d-inline-flex align-items-center"
-                    aria-label={profile.ctaText}>
+                    aria-label={profile.ctaText}
+                  >
                     {profile.ctaText} <ArrowRightCircle className="ms-2" />
                   </a>
-                  <a href="https://github.com/markhazleton/ReactSparkPortfolio" 
-                    className="btn btn-outline-light d-inline-flex align-items-center border-2" 
-                    target="_blank" rel="noopener noreferrer"
-                    aria-label="View ReactSpark on GitHub">
+                  <a
+                    href="https://github.com/markhazleton/ReactSparkPortfolio"
+                    className="btn btn-outline-light d-inline-flex align-items-center border-2"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="View ReactSpark on GitHub"
+                  >
                     <Github className="me-2" /> View on GitHub
                   </a>
-                  <a href="https://www.linkedin.com/in/markhazleton/" 
-                    className="btn btn-outline-light d-inline-flex align-items-center border-2" 
-                    target="_blank" rel="noopener noreferrer"
-                    aria-label="Connect with Mark Hazleton (Creator)">
+                  <a
+                    href="https://www.linkedin.com/in/markhazleton/"
+                    className="btn btn-outline-light d-inline-flex align-items-center border-2"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Connect with Mark Hazleton (Creator)"
+                  >
                     <Linkedin className="me-2" /> Connect with Creator
                   </a>
                 </div>
@@ -96,8 +110,11 @@ const Hero: React.FC<{ profileData?: Profile }> = ({ profileData }) => {
                 <h3 className="card-title h4 mb-3 d-flex align-items-center border-bottom pb-2">
                   <CodeSquare className="text-primary me-2" /> Frontend Stack & Cloud Architecture
                 </h3>
-                <p className="text-theme-muted mb-3">ReactSpark is built with modern web technologies and deployed on Azure cloud infrastructure:</p>
-                
+                <p className="text-theme-muted mb-3">
+                  ReactSpark is built with modern web technologies and deployed on Azure cloud
+                  infrastructure:
+                </p>
+
                 <div className="row mb-4">
                   <div className="col-md-6">
                     <h5 className="h6 mb-2 text-theme">Core Technologies</h5>
@@ -121,13 +138,16 @@ const Hero: React.FC<{ profileData?: Profile }> = ({ profileData }) => {
 
                     <ul className="list-group list-group-flush mb-3">
                       <li className="list-group-item border-0 px-0 bg-transparent">
-                        <strong>React 18:</strong> Utilizing the latest React features including concurrent rendering, automatic batching, and transitions
+                        <strong>React 18:</strong> Utilizing the latest React features including
+                        concurrent rendering, automatic batching, and transitions
                       </li>
                       <li className="list-group-item border-0 px-0 bg-transparent">
-                        <strong>TypeScript:</strong> Full type safety across the entire codebase for improved developer experience and fewer runtime errors
+                        <strong>TypeScript:</strong> Full type safety across the entire codebase for
+                        improved developer experience and fewer runtime errors
                       </li>
                       <li className="list-group-item border-0 px-0 bg-transparent">
-                        <strong>Vite:</strong> Lightning-fast build tool with Hot Module Replacement (HMR) for rapid development cycles
+                        <strong>Vite:</strong> Lightning-fast build tool with Hot Module Replacement
+                        (HMR) for rapid development cycles
                       </li>
                     </ul>
                   </div>
@@ -148,16 +168,20 @@ const Hero: React.FC<{ profileData?: Profile }> = ({ profileData }) => {
 
                     <ul className="list-group list-group-flush mb-3">
                       <li className="list-group-item border-0 px-0 bg-transparent">
-                        <strong>Azure Static Web Apps:</strong> Fully managed hosting service optimized for modern web apps with global distribution via Azure CDN
+                        <strong>Azure Static Web Apps:</strong> Fully managed hosting service
+                        optimized for modern web apps with global distribution via Azure CDN
                       </li>
                       <li className="list-group-item border-0 px-0 bg-transparent">
-                        <strong>Built-in API Backend:</strong> Serverless Azure Functions for secure backend capabilities without managing infrastructure
+                        <strong>Built-in API Backend:</strong> Serverless Azure Functions for secure
+                        backend capabilities without managing infrastructure
                       </li>
                       <li className="list-group-item border-0 px-0 bg-transparent">
-                        <strong>CI/CD Pipeline:</strong> Automated deployments through GitHub Actions triggered on code commits
+                        <strong>CI/CD Pipeline:</strong> Automated deployments through GitHub
+                        Actions triggered on code commits
                       </li>
                       <li className="list-group-item border-0 px-0 bg-transparent">
-                        <strong>Authentication:</strong> Easy integration with Azure AD B2C, GitHub, or other identity providers
+                        <strong>Authentication:</strong> Easy integration with Azure AD B2C, GitHub,
+                        or other identity providers
                       </li>
                     </ul>
                   </div>
@@ -170,26 +194,32 @@ const Hero: React.FC<{ profileData?: Profile }> = ({ profileData }) => {
                       <div className="col-md-6">
                         <ul className="mb-0 text-theme-alt">
                           <li className="mb-2">
-                            <strong>Global CDN:</strong> Content delivered from edge locations closest to users
+                            <strong>Global CDN:</strong> Content delivered from edge locations
+                            closest to users
                           </li>
                           <li className="mb-2">
-                            <strong>Free SSL Certificates:</strong> Automatic HTTPS with managed certificates
+                            <strong>Free SSL Certificates:</strong> Automatic HTTPS with managed
+                            certificates
                           </li>
                           <li className="mb-2">
-                            <strong>Staging Environments:</strong> Preview deployments for pull requests
+                            <strong>Staging Environments:</strong> Preview deployments for pull
+                            requests
                           </li>
                         </ul>
                       </div>
                       <div className="col-md-6">
                         <ul className="mb-0 text-theme-alt">
                           <li className="mb-2">
-                            <strong>Route Customization:</strong> Advanced routing via staticwebapp.config.json
+                            <strong>Route Customization:</strong> Advanced routing via
+                            staticwebapp.config.json
                           </li>
                           <li className="mb-2">
-                            <strong>Serverless API:</strong> Easy backend integration with Azure Functions
+                            <strong>Serverless API:</strong> Easy backend integration with Azure
+                            Functions
                           </li>
                           <li className="mb-2">
-                            <strong>Cost Efficiency:</strong> Free tier available for personal projects
+                            <strong>Cost Efficiency:</strong> Free tier available for personal
+                            projects
                           </li>
                         </ul>
                       </div>
@@ -198,15 +228,21 @@ const Hero: React.FC<{ profileData?: Profile }> = ({ profileData }) => {
                 </div>
 
                 <div className="d-flex justify-content-between align-items-center mt-3">
-                  <a href="https://learn.microsoft.com/en-us/azure/static-web-apps/" 
+                  <a
+                    href="https://learn.microsoft.com/en-us/azure/static-web-apps/"
                     className="btn btn-sm btn-outline-primary d-inline-flex align-items-center"
-                    target="_blank" rel="noopener noreferrer">
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <JournalText className="me-1" /> Learn About Azure Static Web Apps
                   </a>
-                  
-                  <a href="https://github.com/markhazleton/ReactSparkPortfolio" 
+
+                  <a
+                    href="https://github.com/markhazleton/ReactSparkPortfolio"
                     className="btn btn-sm btn-outline-secondary d-inline-flex align-items-center"
-                    target="_blank" rel="noopener noreferrer">
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <Github className="me-1" /> View Source
                   </a>
                 </div>
@@ -214,7 +250,7 @@ const Hero: React.FC<{ profileData?: Profile }> = ({ profileData }) => {
             </div>
           </div>
         </div>
-        
+
         {/* Row 3: WebSpark Ecosystem (Full Width) */}
         <div className="row">
           <div className="col-12">
@@ -223,13 +259,14 @@ const Hero: React.FC<{ profileData?: Profile }> = ({ profileData }) => {
                 <h3 className="card-title h4 mb-3 d-flex align-items-center border-bottom pb-2">
                   <CodeSquare className="text-primary me-2" /> WebSpark Ecosystem
                 </h3>
-                
+
                 <p className="mb-4 text-theme">
-                  ReactSpark is a key component of the WebSpark suite—a collection of interconnected web applications
-                  that demonstrate different aspects of modern web development. Each app in the suite focuses on specific technologies
-                  while sharing data and services with other components.
+                  ReactSpark is a key component of the WebSpark suite—a collection of interconnected
+                  web applications that demonstrate different aspects of modern web development.
+                  Each app in the suite focuses on specific technologies while sharing data and
+                  services with other components.
                 </p>
-                
+
                 <div className="row">
                   <div className="col-md-6">
                     <div className="card mb-3 shadow-sm h-100 border-theme-light">
@@ -239,60 +276,84 @@ const Hero: React.FC<{ profileData?: Profile }> = ({ profileData }) => {
                       <div className="card-body">
                         <div className="list-group list-group-flush">
                           <div className="list-group-item border-0 px-0 bg-transparent">
-                            <h5 className="h6 mb-1 text-theme">ReactSpark <span className="badge bg-primary">Frontend</span></h5>
-                            <p className="small mb-0 text-theme-muted">Dynamic React frontend powered by WebSpark APIs</p>
+                            <h5 className="h6 mb-1 text-theme">
+                              ReactSpark <span className="badge bg-primary">Frontend</span>
+                            </h5>
+                            <p className="small mb-0 text-theme-muted">
+                              Dynamic React frontend powered by WebSpark APIs
+                            </p>
                           </div>
                           <div className="list-group-item border-0 px-0 bg-transparent">
-                            <h5 className="h6 mb-1 text-theme">PromptSpark <span className="badge bg-info">AI</span></h5>
-                            <p className="small mb-0 text-theme-muted">LLM prompt engineering and management system</p>
+                            <h5 className="h6 mb-1 text-theme">
+                              PromptSpark <span className="badge bg-info">AI</span>
+                            </h5>
+                            <p className="small mb-0 text-theme-muted">
+                              LLM prompt engineering and management system
+                            </p>
                           </div>
                           <div className="list-group-item border-0 px-0 bg-transparent">
-                            <h5 className="h6 mb-1 text-theme">AsyncSpark <span className="badge bg-success">Backend</span></h5>
-                            <p className="small mb-0 text-theme-muted">Asynchronous processing system with message queues</p>
+                            <h5 className="h6 mb-1 text-theme">
+                              AsyncSpark <span className="badge bg-success">Backend</span>
+                            </h5>
+                            <p className="small mb-0 text-theme-muted">
+                              Asynchronous processing system with message queues
+                            </p>
                           </div>
                           <div className="list-group-item border-0 px-0 bg-transparent">
-                            <h5 className="h6 mb-1 text-theme">DataSpark <span className="badge bg-warning">Data</span></h5>
-                            <p className="small mb-0 text-theme-muted">Data analysis and transformation services</p>
+                            <h5 className="h6 mb-1 text-theme">
+                              DataSpark <span className="badge bg-warning">Data</span>
+                            </h5>
+                            <p className="small mb-0 text-theme-muted">
+                              Data analysis and transformation services
+                            </p>
                           </div>
                           <div className="list-group-item border-0 px-0 bg-transparent">
-                            <h5 className="h6 mb-1 text-theme">TriviaSpark <span className="badge bg-secondary">Content</span></h5>
-                            <p className="small mb-0 text-theme-muted">Interactive quiz and trivia engine</p>
+                            <h5 className="h6 mb-1 text-theme">
+                              TriviaSpark <span className="badge bg-secondary">Content</span>
+                            </h5>
+                            <p className="small mb-0 text-theme-muted">
+                              Interactive quiz and trivia engine
+                            </p>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className="col-md-6">
                     <div className="card mb-3 shadow-sm h-100 border-theme-light">
                       <div className="card-header bg-theme-alt d-flex align-items-center">
-                        <Github className="text-primary me-2" /> <strong>Integration Features</strong>
+                        <Github className="text-primary me-2" />{" "}
+                        <strong>Integration Features</strong>
                       </div>
                       <div className="card-body">
                         <ul className="mb-4 text-theme">
                           <li className="mb-2">
                             <strong>API-First Architecture:</strong>
                             <p className="small mb-0 text-theme-muted">
-                              All WebSpark components expose and consume RESTful APIs, allowing them to work together 
-                              while remaining independently deployable.
+                              All WebSpark components expose and consume RESTful APIs, allowing them
+                              to work together while remaining independently deployable.
                             </p>
                           </li>
                           <li className="mb-2">
                             <strong>Shared Data Models:</strong>
                             <p className="small mb-0 text-theme-muted">
-                              Common TypeScript interfaces and C# models ensure type safety across the frontend and backend.
+                              Common TypeScript interfaces and C# models ensure type safety across
+                              the frontend and backend.
                             </p>
                           </li>
                           <li className="mb-2">
                             <strong>Unified Authentication:</strong>
                             <p className="small mb-0 text-theme-muted">
-                              Single sign-on across all WebSpark applications for seamless user experience.
+                              Single sign-on across all WebSpark applications for seamless user
+                              experience.
                             </p>
                           </li>
                           <li className="mb-2">
                             <strong>Real-time Updates:</strong>
                             <p className="small mb-0 text-theme-muted">
-                              SignalR connections provide push notifications from backend services to ReactSpark.
+                              SignalR connections provide push notifications from backend services
+                              to ReactSpark.
                             </p>
                           </li>
                         </ul>
@@ -300,7 +361,7 @@ const Hero: React.FC<{ profileData?: Profile }> = ({ profileData }) => {
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="card mt-3 shadow-sm border-theme-light">
                   <div className="card-header bg-theme-alt d-flex align-items-center">
                     <CodeSquare className="text-primary me-2" /> <strong>Future Roadmap</strong>
@@ -311,44 +372,56 @@ const Hero: React.FC<{ profileData?: Profile }> = ({ profileData }) => {
                         <h5 className="h6 mb-3 text-theme">Integration Enhancements</h5>
                         <ul className="small mb-4 text-theme-alt">
                           <li className="mb-2">
-                            <strong>Support for real-time updates via SignalR</strong> leveraging WebSpark's backend infrastructure
+                            <strong>Support for real-time updates via SignalR</strong> leveraging
+                            WebSpark's backend infrastructure
                           </li>
                           <li className="mb-2">
-                            <strong>Theming and layout switching</strong> based on user preferences stored in WebSpark APIs
+                            <strong>Theming and layout switching</strong> based on user preferences
+                            stored in WebSpark APIs
                           </li>
                           <li className="mb-2">
-                            <strong>Admin mode for live editing</strong> of content blocks with instant previews
+                            <strong>Admin mode for live editing</strong> of content blocks with
+                            instant previews
                           </li>
                         </ul>
                       </div>
-                      
+
                       <div className="col-md-6">
                         <h5 className="h6 mb-3 text-theme">New Features</h5>
                         <ul className="small mb-4 text-theme-alt">
                           <li className="mb-2">
-                            <strong>Integration with PromptSpark GPTs</strong> for conversational components throughout the UI
+                            <strong>Integration with PromptSpark GPTs</strong> for conversational
+                            components throughout the UI
                           </li>
                           <li className="mb-2">
-                            <strong>DataSpark visualization components</strong> for displaying live data transformations
+                            <strong>DataSpark visualization components</strong> for displaying live
+                            data transformations
                           </li>
                           <li className="mb-2">
-                            <strong>TriviaSpark interactive quizzes</strong> embedded in relevant content sections
+                            <strong>TriviaSpark interactive quizzes</strong> embedded in relevant
+                            content sections
                           </li>
                         </ul>
                       </div>
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="mt-4">
-                  <a href="https://markhazleton.com/webspark" 
+                  <a
+                    href="https://markhazleton.com/webspark"
                     className="btn btn-primary d-inline-flex align-items-center me-2"
-                    target="_blank" rel="noopener noreferrer">
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <JournalText className="me-1" /> Learn About WebSpark
                   </a>
-                  <a href="https://github.com/markhazleton/ReactSparkPortfolio" 
+                  <a
+                    href="https://github.com/markhazleton/ReactSparkPortfolio"
                     className="btn btn-outline-secondary d-inline-flex align-items-center"
-                    target="_blank" rel="noopener noreferrer">
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <Github className="me-1" /> View ReactSpark Source
                   </a>
                 </div>

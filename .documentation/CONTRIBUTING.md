@@ -174,7 +174,7 @@ Use the [feature request template](.github/ISSUE_TEMPLATE/feature_request.md) an
 ### Documentation
 
 - README updates
-- Documentation in `/documentation/`
+- Documentation in `/.documentation/`
 - Code comments and JSDoc
 
 ## 🔒 Security

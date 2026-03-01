@@ -13,6 +13,25 @@ import { useTheme } from "../contexts/ThemeContext";
 
 type SortOption = "name-asc" | "name-desc" | "id-asc" | "id-desc";
 
+/**
+ * Projects component displays a searchable, sortable, and paginated portfolio showcase.
+ * 
+ * Features:
+ * - Fetches project data with multi-layer caching (remote → cache → local)
+ * - Search functionality across project names and descriptions
+ * - Sorting by name or ID (ascending/descending)
+ * - Pagination with 6 projects per page
+ * - Cache management with refresh capability
+ * - Responsive card-based layout with theme support
+ * 
+ * @component
+ * @example
+ * ```tsx
+ * <Projects />
+ * ```
+ * 
+ * @returns {JSX.Element} The rendered Projects page with portfolio showcase
+ */
 function Projects() {
   const { theme } = useTheme();
   const [projects, setProjects] = useState<Project[]>([]);

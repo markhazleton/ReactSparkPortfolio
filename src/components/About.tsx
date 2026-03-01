@@ -18,6 +18,23 @@ import { fetchRssFeed, RssArticle } from "../services/RssService";
 import { useSEO } from "../contexts/useSEO";
 import "../styles/About.css"; // Import the external CSS file
 
+/**
+ * About component displays personal profile information and recent ReactSpark articles.
+ * 
+ * Features:
+ * - Displays profile information from JSON configuration
+ * - Fetches and shows up to 3 most recent ReactSpark articles from RSS feed
+ * - Handles loading and error states gracefully
+ * - Responsive design with icon-based navigation
+ * 
+ * @component
+ * @example
+ * ```tsx
+ * <About />
+ * ```
+ * 
+ * @returns {JSX.Element} The rendered About page with profile and articles
+ */
 const About: React.FC = () => {
   const [reactSparkArticles, setReactSparkArticles] = useState<RssArticle[]>([]);
   const [loading, setLoading] = useState<boolean>(true);

@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { viteStaticCopy } from "vite-plugin-static-copy";
 import fs from "fs";
+import path from "path";
 import strip from "@rollup/plugin-strip";
 
 // Get the current date-time during the build
@@ -48,6 +49,8 @@ export default defineConfig({
   },
   resolve: {
     alias: {
+      "@": path.resolve(__dirname, "./src"),
+      "@tests": path.resolve(__dirname, "./tests"),
       "@webfonts": "/webfonts", // Alias for webfonts
     },
   },

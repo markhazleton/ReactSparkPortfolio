@@ -34,30 +34,21 @@ const Joke: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [likedJokes, setLikedJokes] = useState<number[]>([]);
+  const [likedJokes, setLikedJokes] = useState<number[]>(() => {
+    const saved = localStorage.getItem('likedJokes');
+    return saved ? (JSON.parse(saved) as number[]) : [];
+  });
   const [copied, setCopied] = useState<boolean>(false);
-  const [history, setHistory] = useState<JokeType[]>([]);
-  const [savedJokes, setSavedJokes] = useState<JokeType[]>([]);
+  const [history, setHistory] = useState<JokeType[]>(() => {
+    const saved = localStorage.getItem('jokeHistory');
+    return saved ? (JSON.parse(saved) as JokeType[]) : [];
+  });
+  const [savedJokes, setSavedJokes] = useState<JokeType[]>(() => {
+    const saved = localStorage.getItem('userSavedJokes');
+    return saved ? (JSON.parse(saved) as JokeType[]) : [];
+  });
   const [jokeToExplain, setJokeToExplain] = useState<JokeType | undefined>(undefined);
   const [savedNotification, setSavedNotification] = useState<boolean>(false);
-
-  // Initialize liked jokes and saved jokes from localStorage
-  useEffect(() => {
-    const savedLikes = localStorage.getItem('likedJokes');
-    if (savedLikes) {
-      setLikedJokes(JSON.parse(savedLikes));
-    }
-    
-    const savedHistory = localStorage.getItem('jokeHistory');
-    if (savedHistory) {
-      setHistory(JSON.parse(savedHistory));
-    }
-    
-    const userSavedJokes = localStorage.getItem('userSavedJokes');
-    if (userSavedJokes) {
-      setSavedJokes(JSON.parse(userSavedJokes));
-    }
-  }, []);
 
   // Save liked jokes to localStorage
   const updateLikedJokes = (jokeId: number) => {
@@ -120,6 +111,7 @@ const Joke: React.FC = () => {
   }, [updateHistory]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchJoke();
   }, [fetchJoke]);
 

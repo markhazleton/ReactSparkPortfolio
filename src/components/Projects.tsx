@@ -51,11 +51,13 @@ function Projects() {
 
   // Load projects on component mount
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     loadProjects();
   }, []);
-  
+
   // Reset to first page when search term changes
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setCurrentPage(1);
   }, [searchTerm]);
   

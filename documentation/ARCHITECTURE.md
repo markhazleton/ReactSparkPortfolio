@@ -13,28 +13,28 @@ graph TB
         A --> C[Context API]
         A --> D[Component Library]
     end
-    
+
     subgraph "API Layer"
         E[Azure Functions] --> F[RSS Proxy]
         G[External APIs] --> H[OpenWeather]
         G --> I[JokeAPI]
         J[SignalR Hub] --> K[Real-time Chat]
     end
-    
+
     subgraph "Data Layer"
         L[Static JSON] --> M[Projects Data]
         L --> N[Profile Data]
         O[LocalStorage] --> P[User Preferences]
         O --> Q[Cache Data]
     end
-    
+
     subgraph "Infrastructure"
         R[Azure Static Web Apps] --> S[Global CDN]
         R --> T[Serverless Hosting]
         U[GitHub Pages] --> V[Alternative Hosting]
         W[GitHub Actions] --> X[CI/CD Pipeline]
     end
-    
+
     A --> E
     A --> G
     A --> J
@@ -77,7 +77,7 @@ graph LR
     C[SEOContext] --> D[Meta Tags]
     E[Component State] --> F[Local UI State]
     G[LocalStorage] --> H[Persistence]
-    
+
     A --> I[Global Theme]
     C --> I
     E --> I
@@ -161,7 +161,7 @@ graph LR
     C[Bundle Optimization] --> D[Tree Shaking]
     E[Caching] --> F[Service Worker]
     G[Image Optimization] --> H[WebP Format]
-    
+
     A --> I[Performance]
     C --> I
     E --> I

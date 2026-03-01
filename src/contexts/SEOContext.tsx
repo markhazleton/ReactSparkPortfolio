@@ -1,7 +1,7 @@
-import React, { useState, useEffect, ReactNode } from 'react';
-import { useLocation } from 'react-router-dom';
-import AppConfig from '../config/AppConfig';
-import { SEOContext } from './SEOContextInstance';
+import React, { useState, useEffect, ReactNode } from "react";
+import { useLocation } from "react-router-dom";
+import AppConfig from "../config/AppConfig";
+import { SEOContext } from "./SEOContextInstance";
 
 interface SEOProviderProps {
   children: ReactNode;
@@ -18,7 +18,7 @@ export const SEOProvider: React.FC<SEOProviderProps> = ({
 }) => {
   const [title, setTitle] = useState(defaultTitle);
   const [description, setDescription] = useState(defaultDescription);
-  const [canonicalUrl, setCanonicalUrl] = useState('');
+  const [canonicalUrl, setCanonicalUrl] = useState("");
   const location = useLocation();
 
   // Update document title when title state changes
@@ -30,10 +30,10 @@ export const SEOProvider: React.FC<SEOProviderProps> = ({
   useEffect(() => {
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
-      metaDescription.setAttribute('content', description);
+      metaDescription.setAttribute("content", description);
     } else {
-      const newMetaDescription = document.createElement('meta');
-      newMetaDescription.name = 'description';
+      const newMetaDescription = document.createElement("meta");
+      newMetaDescription.name = "description";
       newMetaDescription.content = description;
       document.head.appendChild(newMetaDescription);
     }
@@ -42,13 +42,13 @@ export const SEOProvider: React.FC<SEOProviderProps> = ({
   // Helper function to update or create meta tags
   const updateOrCreateMetaTag = (property: string, content: string) => {
     let metaTag = document.querySelector(`meta[property="${property}"]`);
-    
+
     if (metaTag) {
-      metaTag.setAttribute('content', content);
+      metaTag.setAttribute("content", content);
     } else {
-      metaTag = document.createElement('meta');
-      metaTag.setAttribute('property', property);
-      metaTag.setAttribute('content', content);
+      metaTag = document.createElement("meta");
+      metaTag.setAttribute("property", property);
+      metaTag.setAttribute("content", content);
       document.head.appendChild(metaTag);
     }
   };
@@ -57,21 +57,21 @@ export const SEOProvider: React.FC<SEOProviderProps> = ({
   useEffect(() => {
     const url = canonicalUrl || `${siteUrl}${location.pathname}`;
     let linkCanonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
-    
+
     if (linkCanonical) {
       linkCanonical.href = url;
     } else {
-      linkCanonical = document.createElement('link') as HTMLLinkElement;
-      linkCanonical.rel = 'canonical';
+      linkCanonical = document.createElement("link") as HTMLLinkElement;
+      linkCanonical.rel = "canonical";
       linkCanonical.href = url;
       document.head.appendChild(linkCanonical);
     }
 
     // Add Open Graph meta tags
-    updateOrCreateMetaTag('og:title', title);
-    updateOrCreateMetaTag('og:description', description);
-    updateOrCreateMetaTag('og:url', url);
-    updateOrCreateMetaTag('og:type', 'website');
+    updateOrCreateMetaTag("og:title", title);
+    updateOrCreateMetaTag("og:description", description);
+    updateOrCreateMetaTag("og:url", url);
+    updateOrCreateMetaTag("og:type", "website");
   }, [canonicalUrl, location.pathname, title, description, siteUrl]);
 
   return (

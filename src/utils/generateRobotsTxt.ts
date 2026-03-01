@@ -15,8 +15,7 @@ const __dirname = dirname(__filename);
 function generateRobotsTxt() {
   // Hardcode the URL to avoid import issues
   // In production, this should be retrieved from a configuration service
-  const sitemapUrl =
-    process.env.SITE_URL || "https://reactspark.markhazleton.com";
+  const sitemapUrl = process.env.SITE_URL || "https://reactspark.markhazleton.com";
 
   const robotsTxt = `User-agent: *
 Allow: /
@@ -47,11 +46,8 @@ Sitemap: ${sitemapUrl}/sitemap.xml`;
             console.log(`Created directory: ${dir}`);
           } catch (error: unknown) {
             // Properly type the error as unknown (TypeScript best practice)
-            const mkdirError =
-              error instanceof Error ? error : new Error(String(error));
-            console.error(
-              `Cannot create directory ${dir}: ${mkdirError.message}`
-            );
+            const mkdirError = error instanceof Error ? error : new Error(String(error));
+            console.error(`Cannot create directory ${dir}: ${mkdirError.message}`);
             continue; // Skip this directory and try the next one
           }
         }
@@ -63,16 +59,12 @@ Sitemap: ${sitemapUrl}/sitemap.xml`;
           success = true;
         } catch (error: unknown) {
           // Properly type the error as unknown (TypeScript best practice)
-          const writeError =
-            error instanceof Error ? error : new Error(String(error));
-          console.error(
-            `Cannot write to ${dir}/robots.txt: ${writeError.message}`
-          );
+          const writeError = error instanceof Error ? error : new Error(String(error));
+          console.error(`Cannot write to ${dir}/robots.txt: ${writeError.message}`);
         }
       } catch (error: unknown) {
         // Properly type the error as unknown (TypeScript best practice)
-        const dirError =
-          error instanceof Error ? error : new Error(String(error));
+        const dirError = error instanceof Error ? error : new Error(String(error));
         console.error(`Error processing directory ${dir}: ${dirError.message}`);
       }
     }
@@ -83,8 +75,7 @@ Sitemap: ${sitemapUrl}/sitemap.xml`;
     }
   } catch (error: unknown) {
     // Properly type the error as unknown (TypeScript best practice)
-    const typedError =
-      error instanceof Error ? error : new Error(String(error));
+    const typedError = error instanceof Error ? error : new Error(String(error));
     console.error(`Error generating robots.txt: ${typedError.message}`);
     // Log error but don't exit process with error code
   }
@@ -105,8 +96,7 @@ export default generateRobotsTxt;
       console.log("Robots.txt generation complete");
     } catch (error: unknown) {
       // Properly type the error as unknown
-      const fatalError =
-        error instanceof Error ? error : new Error(String(error));
+      const fatalError = error instanceof Error ? error : new Error(String(error));
       console.error("Fatal error during robots.txt generation:", fatalError);
       // Don't exit with non-zero code to avoid breaking builds
     }

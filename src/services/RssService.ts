@@ -1,17 +1,23 @@
 /**
  * Service for fetching RSS feed with fallback to local file
  */
+import { z } from "zod";
+
+// Zod schema for RSS Article validation
+const RssArticleSchema = z.object({
+  title: z.string().min(1, "Article title cannot be empty"),
+  link: z.string().url("Article link must be a valid URL"),
+  pubDate: z.string(),
+  category: z.string().optional(),
+  description: z.string().optional(),
+  thumbnail: z.string().optional(),
+  imageUrl: z.string().optional(),
+});
+
+const RssArticleArraySchema = z.array(RssArticleSchema);
 
 // Define a type for RSS Article items
-export interface RssArticle {
-  title: string;
-  link: string;
-  pubDate: string;
-  category?: string;
-  description?: string;
-  thumbnail?: string;
-  imageUrl?: string;
-}
+export type RssArticle = z.infer<typeof RssArticleSchema>;
 
 /**
  * Fetches the RSS feed with fallback to local file
@@ -20,8 +26,7 @@ export interface RssArticle {
 export const fetchRssFeed = async (): Promise<RssArticle[]> => {
   // Determine if we're in development mode
   const isDevelopment =
-    window.location.hostname === "localhost" ||
-    window.location.hostname === "127.0.0.1";
+    window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
 
   // Use proxy in both development and production to avoid CORS issues
   const rssSourceUrl = isDevelopment
@@ -38,18 +43,14 @@ export const fetchRssFeed = async (): Promise<RssArticle[]> => {
     // Check cache first to avoid unnecessary network requests
     const cachedData = localStorage.getItem("cachedRssData");
     const lastUpdated = localStorage.getItem("rssLastUpdated");
-    const cacheAge = lastUpdated
-      ? Date.now() - new Date(lastUpdated).getTime()
-      : Infinity;
+    const cacheAge = lastUpdated ? Date.now() - new Date(lastUpdated).getTime() : Infinity;
     const maxCacheAge = 1000 * 60 * 30; // 30 minutes
 
     // Use cache if it's fresh (less than 30 minutes old)
     if (cachedData && cacheAge < maxCacheAge) {
       console.log("Using fresh cached RSS data");
       const articles = parseRssData(cachedData);
-      console.log(
-        `Successfully parsed ${articles.length} articles from cached data`
-      );
+      console.log(`Successfully parsed ${articles.length} articles from cached data`);
       return articles;
     }
 
@@ -72,12 +73,8 @@ export const fetchRssFeed = async (): Promise<RssArticle[]> => {
       clearTimeout(timeoutId);
 
       if (!response.ok) {
-        console.error(
-          `Direct fetch failed: ${response.status} ${response.statusText}`
-        );
-        throw new Error(
-          `Failed to fetch RSS: ${response.status} ${response.statusText}`
-        );
+        console.error(`Direct fetch failed: ${response.status} ${response.statusText}`);
+        throw new Error(`Failed to fetch RSS: ${response.status} ${response.statusText}`);
       }
 
       rssData = await response.text();
@@ -88,9 +85,7 @@ export const fetchRssFeed = async (): Promise<RssArticle[]> => {
 
       // Check if we have any cached version (even if stale)
       if (cachedData) {
-        console.log(
-          "Using cached RSS data from localStorage (potentially stale)"
-        );
+        console.log("Using cached RSS data from localStorage (potentially stale)");
         rssData = cachedData;
         sourceDescription = "cache";
       } else {
@@ -100,10 +95,9 @@ export const fetchRssFeed = async (): Promise<RssArticle[]> => {
         try {
           const localResponse = await fetch(localRssPath);
           if (!localResponse.ok) {
-            throw new Error(
-              `Local RSS file fetch failed: ${localResponse.status}`,
-              { cause: directError }
-            );
+            throw new Error(`Local RSS file fetch failed: ${localResponse.status}`, {
+              cause: directError,
+            });
           }
           rssData = await localResponse.text();
           sourceDescription = "local file";
@@ -119,28 +113,32 @@ export const fetchRssFeed = async (): Promise<RssArticle[]> => {
     }
 
     // Parse the RSS data regardless of source
-    const articles = parseRssData(rssData);
-    console.log(
-      `Successfully parsed ${articles.length} articles from RSS data`
-    );
+    const parsedArticles = parseRssData(rssData);
 
-    // Store in localStorage for future fallback
+    // Validate with Zod schema
     try {
-      localStorage.setItem("cachedRssData", rssData);
-      localStorage.setItem("rssLastUpdated", new Date().toISOString());
-      localStorage.setItem("rssArticleCount", articles.length.toString());
-      localStorage.setItem("rssSource", sourceDescription);
-    } catch (storageError) {
-      console.warn("Failed to cache RSS data:", storageError);
-    }
+      const articles = RssArticleArraySchema.parse(parsedArticles);
+      console.log(`Successfully parsed ${articles.length} articles from RSS data`);
 
-    return articles;
+      // Store in localStorage for future fallback
+      try {
+        localStorage.setItem("cachedRssData", rssData);
+        localStorage.setItem("rssLastUpdated", new Date().toISOString());
+        localStorage.setItem("rssArticleCount", articles.length.toString());
+        localStorage.setItem("rssSource", sourceDescription);
+      } catch (storageError) {
+        console.warn("Failed to cache RSS data:", storageError);
+      }
+
+      return articles;
+    } catch (zodError) {
+      console.error("RSS article validation failed:", zodError);
+      throw new Error("Invalid RSS article format", { cause: zodError });
+    }
   } catch (error) {
     console.error("All RSS fetching methods failed:", error);
     throw new Error(
-      `Unable to load articles: ${
-        error instanceof Error ? error.message : "Unknown error"
-      }`,
+      `Unable to load articles: ${error instanceof Error ? error.message : "Unknown error"}`,
       { cause: error }
     );
   }
@@ -156,10 +154,7 @@ const parseRssData = (rssData: string): RssArticle[] => {
   const xmlDoc = parser.parseFromString(rssData, "application/xml");
 
   if (xmlDoc.getElementsByTagName("parsererror").length > 0) {
-    console.error(
-      "XML parser error:",
-      xmlDoc.getElementsByTagName("parsererror")[0].textContent
-    );
+    console.error("XML parser error:", xmlDoc.getElementsByTagName("parsererror")[0].textContent);
     throw new Error("Error parsing XML");
   }
 
@@ -194,21 +189,27 @@ const parseRssData = (rssData: string): RssArticle[] => {
     // Extract media content (thumbnail/image)
     let thumbnail = "";
     let imageUrl = "";
-    
+
     // Try media:thumbnail first
-    const mediaThumbnails = items[i].getElementsByTagNameNS("http://search.yahoo.com/mrss/", "thumbnail");
+    const mediaThumbnails = items[i].getElementsByTagNameNS(
+      "http://search.yahoo.com/mrss/",
+      "thumbnail"
+    );
     if (mediaThumbnails.length > 0) {
       thumbnail = mediaThumbnails[0].getAttribute("url") || "";
     }
-    
+
     // Try media:content as fallback
     if (!thumbnail) {
-      const mediaContent = items[i].getElementsByTagNameNS("http://search.yahoo.com/mrss/", "content");
+      const mediaContent = items[i].getElementsByTagNameNS(
+        "http://search.yahoo.com/mrss/",
+        "content"
+      );
       if (mediaContent.length > 0) {
         imageUrl = mediaContent[0].getAttribute("url") || "";
       }
     }
-    
+
     // Also check for enclosure tag as final fallback
     if (!thumbnail && !imageUrl) {
       const enclosures = items[i].getElementsByTagName("enclosure");
@@ -220,26 +221,26 @@ const parseRssData = (rssData: string): RssArticle[] => {
         }
       }
     }
-    
+
     // Parse HTML from description to extract image and clean text
     let description = rawDescription;
-    
+
     // If description contains HTML, parse it
-    if (rawDescription.includes('<')) {
+    if (rawDescription.includes("<")) {
       // Create a temporary div to parse HTML
-      const tempDiv = document.createElement('div');
+      const tempDiv = document.createElement("div");
       tempDiv.innerHTML = rawDescription;
-      
+
       // Extract image if not already found
       if (!thumbnail && !imageUrl) {
-        const imgTag = tempDiv.querySelector('img');
+        const imgTag = tempDiv.querySelector("img");
         if (imgTag) {
-          imageUrl = imgTag.getAttribute('src') || '';
+          imageUrl = imgTag.getAttribute("src") || "";
         }
       }
-      
+
       // Get text content without HTML tags
-      description = tempDiv.textContent || tempDiv.innerText || '';
+      description = tempDiv.textContent || tempDiv.innerText || "";
       description = description.trim();
     }
 

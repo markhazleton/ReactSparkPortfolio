@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { 
-  JournalText, 
+import React, { useState, useEffect } from "react";
+import {
+  JournalText,
   BookmarkStar,
   Github,
   ArrowRight,
@@ -9,14 +9,14 @@ import {
   FileEarmarkCode,
   Gear,
   Calendar3,
-  InfoCircle
-} from 'react-bootstrap-icons';
-import { Alert, Spinner } from 'react-bootstrap';
-import { format } from 'date-fns';
-import profile from '../data/profile.json';
-import { fetchRssFeed, RssArticle } from '../services/RssService';
-import { useSEO } from '../contexts/useSEO';
-import '../styles/About.css'; // Import the external CSS file
+  InfoCircle,
+} from "react-bootstrap-icons";
+import { Alert, Spinner } from "react-bootstrap";
+import { format } from "date-fns";
+import profile from "../data/profile.json";
+import { fetchRssFeed, RssArticle } from "../services/RssService";
+import { useSEO } from "../contexts/useSEO";
+import "../styles/About.css"; // Import the external CSS file
 
 const About: React.FC = () => {
   const [reactSparkArticles, setReactSparkArticles] = useState<RssArticle[]>([]);
@@ -26,34 +26,37 @@ const About: React.FC = () => {
 
   // Set page-specific SEO information
   useEffect(() => {
-    setTitle('About | React Spark Portfolio');
-    setDescription('Learn about ReactSpark - a modern, high-performance SPA built with React, TypeScript and Vite that showcases frontend development best practices.');
+    setTitle("About | React Spark Portfolio");
+    setDescription(
+      "Learn about ReactSpark - a modern, high-performance SPA built with React, TypeScript and Vite that showcases frontend development best practices."
+    );
   }, [setTitle, setDescription]);
 
   useEffect(() => {
     const loadReactSparkArticles = async () => {
       try {
         setLoading(true);
-        
+
         // Fetch all articles
         const articles = await fetchRssFeed();
-        
+
         // Filter for articles with ReactSpark category
-        const filteredArticles = articles.filter(article => 
-          article.category?.toLowerCase() === 'reactspark' ||
-          article.title.toLowerCase().includes('reactspark')
+        const filteredArticles = articles.filter(
+          (article) =>
+            article.category?.toLowerCase() === "reactspark" ||
+            article.title.toLowerCase().includes("reactspark")
         );
 
         // Sort by date (newest first) and take up to 3
         const sortedArticles = filteredArticles
           .sort((a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime())
           .slice(0, 3);
-          
+
         setReactSparkArticles(sortedArticles);
         setLoading(false);
       } catch (err) {
-        console.error('Error loading ReactSpark articles:', err);
-        setError(err instanceof Error ? err.message : 'Unknown error loading articles');
+        console.error("Error loading ReactSpark articles:", err);
+        setError(err instanceof Error ? err.message : "Unknown error loading articles");
         setLoading(false);
       }
     };
@@ -64,15 +67,15 @@ const About: React.FC = () => {
   const formatDate = (dateString: string) => {
     try {
       const date = new Date(dateString);
-      
+
       if (!isNaN(date.getTime())) {
-        return format(date, 'MMMM d, yyyy');
+        return format(date, "MMMM d, yyyy");
       }
-      
-      return 'Unknown date';
+
+      return "Unknown date";
     } catch (e) {
-      console.error('Error formatting date:', dateString, e);
-      return 'Unknown date';
+      console.error("Error formatting date:", dateString, e);
+      return "Unknown date";
     }
   };
 
@@ -83,18 +86,22 @@ const About: React.FC = () => {
         <div className="row mb-4">
           <div className="col-12 text-center">
             <h1 className="display-5 fw-bold mb-3">{profile.name}</h1>
-            <p className="lead mb-4 mx-auto">
-              {profile.introduction}
-            </p>
+            <p className="lead mb-4 mx-auto">{profile.introduction}</p>
             <div className="d-flex justify-content-center gap-2 mb-4">
-              <a href="https://github.com/markhazleton/ReactSparkPortfolio" 
+              <a
+                href="https://github.com/markhazleton/ReactSparkPortfolio"
                 className="btn btn-outline-primary d-inline-flex align-items-center"
-                target="_blank" rel="noopener noreferrer">
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <Github className="me-2" size={18} /> View on GitHub
               </a>
-              <a href="https://markhazleton.com/webspark" 
+              <a
+                href="https://markhazleton.com/webspark"
                 className="btn btn-outline-secondary d-inline-flex align-items-center"
-                target="_blank" rel="noopener noreferrer">
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <JournalText className="me-2" size={18} /> WebSpark Suite
               </a>
             </div>
@@ -110,14 +117,27 @@ const About: React.FC = () => {
                 <h2 className="h4 mb-4 d-flex align-items-center border-bottom pb-3">
                   <BookmarkStar className="text-primary me-2" /> About ReactSpark
                 </h2>
-                <p className="lead mb-3">ReactSpark is the latest addition to the WebSpark suite—an elegant, high-performance single-page application (SPA) built with React that showcases how dynamic web frontends can be powered by robust APIs.</p>
-                
-                <p className="mb-4">This app demonstrates how modern React development practices can be used to build dynamic, maintainable, and extensible web applications. ReactSpark consumes data and services from the existing .NET-powered WebSpark APIs, offering a seamless integration between frontend and backend technologies.</p>
-                
+                <p className="lead mb-3">
+                  ReactSpark is the latest addition to the WebSpark suite—an elegant,
+                  high-performance single-page application (SPA) built with React that showcases how
+                  dynamic web frontends can be powered by robust APIs.
+                </p>
+
+                <p className="mb-4">
+                  This app demonstrates how modern React development practices can be used to build
+                  dynamic, maintainable, and extensible web applications. ReactSpark consumes data
+                  and services from the existing .NET-powered WebSpark APIs, offering a seamless
+                  integration between frontend and backend technologies.
+                </p>
+
                 <div className="card bg-theme-alt mb-4">
                   <div className="card-body">
                     <h3 className="h5 mb-3">🔍 Purpose</h3>
-                    <p className="mb-2">ReactSpark bridges the gap between backend services and rich user experiences. While WebSpark's previous apps demonstrate server-side capabilities, ReactSpark focuses on:</p>
+                    <p className="mb-2">
+                      ReactSpark bridges the gap between backend services and rich user experiences.
+                      While WebSpark's previous apps demonstrate server-side capabilities,
+                      ReactSpark focuses on:
+                    </p>
                     <ul className="mb-0">
                       <li>Demonstrating real-time data binding and dynamic routing</li>
                       <li>Showcasing React + Vite for rapid frontend development</li>
@@ -126,23 +146,29 @@ const About: React.FC = () => {
                     </ul>
                   </div>
                 </div>
-                
+
                 <div className="card bg-theme-alt">
                   <div className="card-body">
                     <h3 className="h5 mb-3">💡 Design Philosophy</h3>
                     <p className="mb-3">ReactSpark follows a clean separation of concerns:</p>
                     <ul className="mb-3">
                       <li>UI logic lives entirely in the React frontend</li>
-                      <li>Data access, business rules, and caching are handled by the WebSpark API</li>
+                      <li>
+                        Data access, business rules, and caching are handled by the WebSpark API
+                      </li>
                       <li>Layout and navigation are declaratively defined and driven by data</li>
                     </ul>
-                    <p className="mb-0">It reflects the core philosophy of WebSpark: <strong>"Show, not just tell."</strong> ReactSpark is built to be dissected, forked, and extended for your own projects.</p>
+                    <p className="mb-0">
+                      It reflects the core philosophy of WebSpark:{" "}
+                      <strong>"Show, not just tell."</strong> ReactSpark is built to be dissected,
+                      forked, and extended for your own projects.
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          
+
           {/* Right Column */}
           <div className="col-lg-6">
             {/* Technical Highlights Section */}
@@ -151,7 +177,7 @@ const About: React.FC = () => {
                 <h3 className="h4 mb-4 d-flex align-items-center border-bottom pb-3">
                   <Gear className="text-primary me-2" /> Technical Highlights
                 </h3>
-                
+
                 <div className="card bg-theme-alt mb-4">
                   <div className="card-body">
                     <div className="row">
@@ -177,7 +203,7 @@ const About: React.FC = () => {
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="d-flex flex-wrap gap-2 mb-4">
                   <span className="badge bg-primary text-light d-flex align-items-center p-2">
                     <Braces className="me-1" /> React 18+
@@ -189,50 +215,56 @@ const About: React.FC = () => {
                     <LightningCharge className="me-1" /> Vite
                   </span>
                 </div>
-                
+
                 <div className="card bg-theme-alt mb-4">
                   <div className="card-body">
                     <h3 className="h5 mb-3">🎯 Use Cases</h3>
                     <p className="mb-0">ReactSpark is ideal for:</p>
                     <ul className="mb-0">
                       <li>Developers looking to see how to consume .NET APIs in a React app</li>
-                      <li>Teams modernizing legacy frontends with React while preserving .NET backends</li>
-                      <li>Students and professionals learning modern frontend integration patterns</li>
+                      <li>
+                        Teams modernizing legacy frontends with React while preserving .NET backends
+                      </li>
+                      <li>
+                        Students and professionals learning modern frontend integration patterns
+                      </li>
                     </ul>
                   </div>
                 </div>
-                
+
                 {/* ReactSpark Articles Section */}
                 <h3 className="h5 mb-3 border-top pt-4">Featured ReactSpark Articles</h3>
-                
+
                 {loading && (
                   <div className="d-flex justify-content-center my-4">
                     <Spinner animation="border" role="status" size="sm" className="me-2" />
                     <span>Loading articles...</span>
                   </div>
                 )}
-                
+
                 {error && (
                   <Alert variant="warning" className="d-flex align-items-center">
                     <InfoCircle className="me-2 flex-shrink-0" />
                     <div className="small">Couldn't load articles: {error}</div>
                   </Alert>
                 )}
-                
+
                 {!loading && !error && reactSparkArticles.length === 0 && (
                   <Alert variant="info" className="d-flex align-items-center">
                     <InfoCircle className="me-2 flex-shrink-0" />
-                    <div className="small">No ReactSpark articles found. Check back soon for updates!</div>
+                    <div className="small">
+                      No ReactSpark articles found. Check back soon for updates!
+                    </div>
                   </Alert>
                 )}
-                
+
                 {!loading && !error && reactSparkArticles.length > 0 && (
                   <div className="list-group list-group-flush">
                     {reactSparkArticles.map((article, index) => (
-                      <a 
-                        key={index} 
-                        href={article.link} 
-                        target="_blank" 
+                      <a
+                        key={index}
+                        href={article.link}
+                        target="_blank"
                         rel="noopener noreferrer"
                         className="list-group-item list-group-item-action d-flex justify-content-between align-items-center border-0 px-0 py-2"
                         title={article.title}

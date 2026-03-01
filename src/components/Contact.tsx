@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 interface FormState {
   name: string;
@@ -7,7 +7,7 @@ interface FormState {
 }
 
 const Contact: React.FC = () => {
-  const [form, setForm] = useState<FormState>({ name: '', email: '', message: '' });
+  const [form, setForm] = useState<FormState>({ name: "", email: "", message: "" });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;

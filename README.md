@@ -24,7 +24,7 @@
 ### ✨ Key Highlights
 
 - 🎨 **Modern UI/UX** - Bootstrap 5 + custom SCSS with dark/light theme switching
-- ⚡ **Performance First** - Vite + lazy loading + code splitting for optimal UX  
+- ⚡ **Performance First** - Vite + lazy loading + code splitting for optimal UX
 - 🔒 **Type Safety** - Full TypeScript implementation with strict mode
 - 🌐 **Multi-Platform** - Dual deployment (Azure Static Web Apps + GitHub Pages)
 - 🔄 **Real-time Features** - SignalR chat, live weather, dynamic content
@@ -39,8 +39,9 @@
 **🛑 Before modifying security headers, READ THIS: [CSP_README.md](CSP_README.md)**
 
 This site uses a frontend-only architecture that pulls all content from external sources (markhazleton.com). The CSP configuration is **intentionally permissive** and required for the site to function. Tightening the CSP will break:
+
 - Image loading from markhazleton.com
-- Service worker functionality  
+- Service worker functionality
 - Development hot reload
 - External API integrations
 
@@ -70,12 +71,12 @@ graph TD
 ### 🎨 User Experience
 
 - **🌓 Dark/Light Mode** - Persistent theme switching with smooth transitions
-- **📱 Responsive Design** - Mobile-first approach with Bootstrap 5 components  
+- **📱 Responsive Design** - Mobile-first approach with Bootstrap 5 components
 - **⚡ Fast Loading** - Optimized bundle size with lazy-loaded components
 - **🔍 SEO Optimized** - Meta tags, Open Graph, JSON-LD structured data
 - **♿ Accessible** - WCAG 2.1 AA compliant with keyboard navigation
 
-### 💻 Technical Features  
+### 💻 Technical Features
 
 - **🔄 Real-time Chat** - SignalR integration with multiple AI personalities
 - **🌤️ Weather Widget** - Live weather data with interactive maps (Leaflet)
@@ -87,7 +88,7 @@ graph TD
 ### 🛠️ Developer Experience
 
 - **🔧 Admin Interface** - Live project management with image browser
-- **📝 TypeScript** - Strict type safety and IntelliSense support  
+- **📝 TypeScript** - Strict type safety and IntelliSense support
 - **🧪 Modern Tooling** - ESLint, Prettier, SCSS compilation
 - **📚 Documentation** - Comprehensive guides in `/documentation`
 - **🔄 Hot Reload** - Instant development feedback with Vite
@@ -100,7 +101,7 @@ graph TD
 <summary><strong>🎯 Frontend Core</strong></summary>
 
 - **React 19.1** - Latest React with concurrent features
-- **TypeScript 5.9** - Type safety and modern JavaScript features  
+- **TypeScript 5.9** - Type safety and modern JavaScript features
 - **Vite 7.0** - Lightning-fast build tool and development server
 - **React Router 7.7** - Client-side routing and navigation
 
@@ -121,7 +122,7 @@ graph TD
 <summary><strong>🔧 State & Data</strong></summary>
 
 - **React Context API** - Global state management
-- **Axios 1.11** - HTTP client for API requests  
+- **Axios 1.11** - HTTP client for API requests
 - **date-fns 4.1** - Modern date utility library
 - **xml2js 0.6** - XML parsing for RSS feeds
 
@@ -141,7 +142,7 @@ graph TD
 <summary><strong>☁️ Cloud & Deployment</strong></summary>
 
 - **Azure Static Web Apps** - Serverless hosting with CDN
-- **Azure Functions** - Serverless API endpoints  
+- **Azure Functions** - Serverless API endpoints
 - **GitHub Pages** - Alternative static hosting
 - **GitHub Actions** - CI/CD automation
 
@@ -152,7 +153,7 @@ graph TD
 
 - **ESLint 9.32** - Code linting and quality
 - **TypeScript ESLint** - TypeScript-specific linting
-- **Concurrently** - Run multiple npm scripts  
+- **Concurrently** - Run multiple npm scripts
 - **rimraf** - Cross-platform file removal
 - **ts-node** - TypeScript execution for scripts
 
@@ -167,7 +168,7 @@ ReactSparkPortfolio/
 ├── 📱 src/                          # Source code
 │   ├── 🧩 components/               # React components
 │   │   ├── About.tsx               # About section with tech stack
-│   │   ├── Articles.tsx            # RSS blog integration  
+│   │   ├── Articles.tsx            # RSS blog integration
 │   │   ├── Chat.tsx                # SignalR real-time chat
 │   │   ├── Header.tsx              # Navigation with theme toggle
 │   │   ├── Hero.tsx                # Landing page hero section
@@ -176,7 +177,7 @@ ReactSparkPortfolio/
 │   │   └── ...                     # Additional components
 │   ├── 🎨 scss/                    # SCSS styling
 │   │   ├── components/             # Component-specific styles
-│   │   ├── utilities/              # Custom utility classes  
+│   │   ├── utilities/              # Custom utility classes
 │   │   ├── variables/              # SCSS variables and mixins
 │   │   └── styles.scss             # Main stylesheet entry
 │   ├── 🔧 contexts/                # React context providers
@@ -187,7 +188,7 @@ ReactSparkPortfolio/
 ├── ☁️ api/                          # Azure Functions
 │   └── proxy-rss/                  # RSS proxy function
 ├── 🎛️ admin/                       # Project management interface
-├── 📖 documentation/               # Project documentation  
+├── 📖 documentation/               # Project documentation
 ├── 🏗️ docs/                        # Production build output
 ├── ⚙️ .github/                     # GitHub workflows and templates
 └── 📋 Configuration files          # Various config files
@@ -221,16 +222,39 @@ npm run dev
 
 ### 🔧 Available Scripts
 
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | 🚀 Start development server with hot reload |
-| `npm run build` | 📦 Build production bundle |
-| `npm run preview` | 👀 Preview production build locally |
-| `npm run lint` | 🔍 Lint codebase with ESLint |
-| `npm run clean` | 🧹 Remove build artifacts and cache |
-| `npm run build-css` | 🎨 Compile SCSS to CSS |
-| `npm run watch-css` | 👁️ Watch and compile SCSS changes |
-| `npm run generate-seo-files` | 📄 Generate sitemap.xml and robots.txt |
+| Command                      | Description                                 |
+| ---------------------------- | ------------------------------------------- |
+| `npm run dev`                | 🚀 Start development server with hot reload |
+| `npm run build`              | 📦 Build production bundle                  |
+| `npm run preview`            | 👀 Preview production build locally         |
+| `npm run lint`               | 🔍 Lint codebase with ESLint                |
+| `npm run type-check`         | ✅ Run TypeScript compiler check            |
+| `npm test`                   | 🧪 Run unit tests with Vitest               |
+| `npm run test:ui`            | 🎨 Run tests with interactive UI            |
+| `npm run test:coverage`      | 📊 Run tests with coverage reports          |
+| `npm run format`             | ✨ Format code with Prettier                |
+| `npm run format:check`       | 🔎 Check code formatting without changes    |
+| `npm run clean`              | 🧹 Remove build artifacts and cache         |
+| `npm run build-css`          | 🎨 Compile SCSS to CSS                      |
+| `npm run watch-css`          | 👁️ Watch and compile SCSS changes           |
+| `npm run generate-seo-files` | 📄 Generate sitemap.xml and robots.txt      |
+
+### 🔒 Code Quality
+
+This project uses automated code quality gates to ensure consistency:
+
+- **Pre-commit Hooks** - Husky runs linting and formatting before commits
+- **Prettier** - Automatic code formatting across all file types
+- **ESLint** - TypeScript and React best practices enforcement
+- **Vitest** - Unit testing with 80%+ coverage targets
+- **TypeScript Strict Mode** - Full type safety across the codebase
+
+**Commit Workflow:**
+
+1. Stage your changes with `git add`
+2. Commit triggers automatic formatting and linting on staged files
+3. If any issues are found, the commit is blocked until fixed
+4. Tests run automatically in CI/CD pipeline
 
 ---
 
@@ -241,7 +265,7 @@ npm run dev
 The project is configured for automatic deployment to Azure Static Web Apps:
 
 1. **Automatic CI/CD** - Triggered on push to `main` branch
-2. **Serverless API** - Azure Functions for backend services  
+2. **Serverless API** - Azure Functions for backend services
 3. **Global CDN** - Worldwide content delivery
 4. **Custom Domains** - SSL certificates included
 5. **Preview Deployments** - Automatic PR previews
@@ -308,7 +332,7 @@ npm run lint
 # Type checking
 npx tsc --noEmit
 
-# Check for outdated dependencies  
+# Check for outdated dependencies
 npm outdated
 ```
 
@@ -394,7 +418,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 ## 🙏 Acknowledgments
 
 - **React Team** - For the amazing framework
-- **Microsoft Azure** - For excellent cloud services  
+- **Microsoft Azure** - For excellent cloud services
 - **Bootstrap Team** - For the responsive framework
 - **Vite Team** - For the lightning-fast build tool
 - **Open Source Community** - For countless contributions
@@ -490,18 +514,18 @@ npm install
 
 ### Scripts
 
-| Script                | Description                                      |
-|----------------------|--------------------------------------------------|
-| `npm run dev`         | Start dev server with HMR and SCSS watcher       |
-| `npm run build`       | Build production bundle (outputs to `docs/`)     |
-| `npm run preview`     | Preview local production build                   |
-| `npm run lint`        | Lint codebase with ESLint                        |
-| `npm run clean`       | Remove build artifacts and cache                 |
-| `npm run build-css`   | Compile SCSS to CSS                             |
-| `npm run watch-css`   | Watch and auto-compile SCSS                     |
-| `npm run generate-sitemap` | Generate sitemap.xml                        |
-| `npm run generate-robots`  | Generate robots.txt                         |
-| `npm run generate-seo-files` | Generate all SEO files                   |
+| Script                       | Description                                  |
+| ---------------------------- | -------------------------------------------- |
+| `npm run dev`                | Start dev server with HMR and SCSS watcher   |
+| `npm run build`              | Build production bundle (outputs to `docs/`) |
+| `npm run preview`            | Preview local production build               |
+| `npm run lint`               | Lint codebase with ESLint                    |
+| `npm run clean`              | Remove build artifacts and cache             |
+| `npm run build-css`          | Compile SCSS to CSS                          |
+| `npm run watch-css`          | Watch and auto-compile SCSS                  |
+| `npm run generate-sitemap`   | Generate sitemap.xml                         |
+| `npm run generate-robots`    | Generate robots.txt                          |
+| `npm run generate-seo-files` | Generate all SEO files                       |
 
 ### Development
 
@@ -546,7 +570,6 @@ npm run preview # (optional, to preview build)
    - `staticwebapp.config.json`, `swa-cli.config.json`, `.github/workflows/azure-static-web-apps-gentle-smoke-063be0b10.yml`
 
 2. **CI/CD Workflow**: Automated publishing is handled by a GitHub Actions workflow:
-
    - **Trigger:** Runs on push and pull requests to the `main` branch.
    - **Jobs:**
      - `build_and_deploy_job`: Builds and deploys the app and API unless the PR is closed.

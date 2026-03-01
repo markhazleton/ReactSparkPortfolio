@@ -12278,10 +12278,12 @@ html {
 }
 
 @media (min-width: 768px) {
-  h1, .h1 {
+  h1,
+  .h1 {
     font-size: 2.5rem;
   }
-  h2, .h2 {
+  h2,
+  .h2 {
     font-size: 2rem;
   }
   .lead {
@@ -13065,7 +13067,17 @@ body {
     padding-top: 0;
   }
 }
-h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
+h1, .h1,
+h2,
+.h2,
+h3,
+.h3,
+h4,
+.h4,
+h5,
+.h5,
+h6,
+.h6 {
   text-transform: capitalize;
 }
 
@@ -13567,7 +13579,9 @@ ul.dev-icons li a {
 [data-bs-theme=dark] {
   /* Improve card and container borders in dark mode */
 }
-[data-bs-theme=dark] .card, [data-bs-theme=dark] .container, [data-bs-theme=dark] .list-group-item {
+[data-bs-theme=dark] .card,
+[data-bs-theme=dark] .container,
+[data-bs-theme=dark] .list-group-item {
   border-color: var(--color-border);
 }
 [data-bs-theme=dark] {
@@ -13585,7 +13599,8 @@ ul.dev-icons li a {
 [data-bs-theme=dark] {
   /* Adjust header styles for dark mode */
 }
-[data-bs-theme=dark] .navbar-brand, [data-bs-theme=dark] .nav-link {
+[data-bs-theme=dark] .navbar-brand,
+[data-bs-theme=dark] .nav-link {
   color: var(--color-foreground) !important;
 }
 [data-bs-theme=dark] .nav-link.active {
@@ -13632,7 +13647,8 @@ ul.dev-icons li a {
 [data-bs-theme=light] {
   /* Adjust header styles for light mode */
 }
-[data-bs-theme=light] .navbar-brand, [data-bs-theme=light] .nav-link {
+[data-bs-theme=light] .navbar-brand,
+[data-bs-theme=light] .nav-link {
   color: var(--color-foreground) !important;
 }
 [data-bs-theme=light] .nav-link.active {
@@ -13669,7 +13685,9 @@ ul.dev-icons li a {
 }
 
 /* Theme toggle button transitions */
-.btn-outline-primary, .btn-outline-dark, .btn-outline-light {
+.btn-outline-primary,
+.btn-outline-dark,
+.btn-outline-light {
   transition: all 0.3s ease;
 }
 
@@ -13706,14 +13724,16 @@ footer {
 }
 
 /* Form control styling for both themes */
-.form-control, .form-select {
+.form-control,
+.form-select {
   background-color: var(--color-background);
   color: var(--color-foreground);
   border-color: var(--color-border);
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
-.form-control:focus, .form-select:focus {
+.form-control:focus,
+.form-select:focus {
   background-color: var(--color-background);
   color: var(--color-foreground);
   border-color: var(--bs-primary);
@@ -13754,18 +13774,37 @@ table {
 }
 
 /* Enhance accessibility with high contrast focus indicators */
-a:focus, button:focus, input:focus, select:focus, textarea:focus {
+a:focus,
+button:focus,
+input:focus,
+select:focus,
+textarea:focus {
   outline: 2px solid var(--bs-primary);
   outline-offset: 2px;
 }
 
 /* Add smooth transitions for interactive elements */
-a, button, .btn {
+a,
+button,
+.btn {
   transition: all 0.2s ease-in-out;
 }
 
 /* Improve text readability in both themes */
-p, li, h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
+p,
+li,
+h1,
+.h1,
+h2,
+.h2,
+h3,
+.h3,
+h4,
+.h4,
+h5,
+.h5,
+h6,
+.h6 {
   color: var(--color-foreground);
 }
 

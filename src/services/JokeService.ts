@@ -1,24 +1,46 @@
 import axios, { AxiosError } from "axios";
+import { z } from "zod";
 
-export interface Joke {
-  error: boolean;
-  type: "single" | "twopart";
-  joke?: string;
-  setup?: string;
-  delivery?: string;
-  category: string;
-  flags?: {
-    nsfw: boolean;
-    religious: boolean;
-    political: boolean;
-    racist: boolean;
-    sexist: boolean;
-    explicit: boolean;
-  };
-  id: number;
-  safe?: boolean;
-  lang?: string;
-}
+// Zod schemas for runtime validation
+
+const FlagsSchema = z
+  .object({
+    nsfw: z.boolean(),
+    religious: z.boolean(),
+    political: z.boolean(),
+    racist: z.boolean(),
+    sexist: z.boolean(),
+    explicit: z.boolean(),
+  })
+  .optional();
+
+const SingleJokeSchema = z.object({
+  error: z.boolean(),
+  type: z.literal("single"),
+  joke: z.string(),
+  category: z.string(),
+  flags: FlagsSchema,
+  id: z.number(),
+  safe: z.boolean().optional(),
+  lang: z.string().optional(),
+});
+
+const TwoPartJokeSchema = z.object({
+  error: z.boolean(),
+  type: z.literal("twopart"),
+  setup: z.string(),
+  delivery: z.string(),
+  category: z.string(),
+  flags: FlagsSchema,
+  id: z.number(),
+  safe: z.boolean().optional(),
+  lang: z.string().optional(),
+});
+
+const JokeAPIResponseSchema = z.discriminatedUnion("type", [SingleJokeSchema, TwoPartJokeSchema]);
+
+// Inferred TypeScript type
+export type Joke = z.infer<typeof JokeAPIResponseSchema>;
 
 class JokeService {
   private static instance: JokeService;
@@ -56,20 +78,14 @@ class JokeService {
   /**
    * Get cache key for the request
    */
-  private getCacheKey(
-    category: string = "Any",
-    safeMode: boolean = true
-  ): string {
+  private getCacheKey(category: string = "Any", safeMode: boolean = true): string {
     return `${category}-${safeMode}`;
   }
 
   /**
    * Fetch a random joke
    */
-  public async fetchJoke(
-    category: string = "Any",
-    safeMode: boolean = true
-  ): Promise<Joke> {
+  public async fetchJoke(category: string = "Any", safeMode: boolean = true): Promise<Joke> {
     // Don't use cache for jokes - we want fresh jokes each time
     // But we could implement a short cache to prevent spam requests
 
@@ -108,17 +124,18 @@ class JokeService {
       }
 
       if (response.data.error) {
-        throw new Error(
-          `Joke API error: ${response.data.message || "Unknown error"}`
-        );
+        throw new Error(`Joke API error: ${response.data.message || "Unknown error"}`);
       }
 
-      const joke: Joke = response.data;
-      console.log(
-        `Successfully fetched joke: ${joke.type} joke in ${joke.category} category`
-      );
-
-      return joke;
+      // Validate response with Zod schema
+      try {
+        const joke = JokeAPIResponseSchema.parse(response.data);
+        console.log(`Successfully fetched joke: ${joke.type} joke in ${joke.category} category`);
+        return joke;
+      } catch (zodError) {
+        console.error("Joke API response validation failed:", zodError);
+        throw new Error("Invalid joke data format from API", { cause: zodError });
+      }
     } catch (error) {
       console.error("Error fetching joke:", error);
 
@@ -145,9 +162,7 @@ class JokeService {
         if (error.code === "ECONNABORTED") {
           console.log("Joke request timed out, using fallback");
         } else if (error.response?.status) {
-          console.log(
-            `Joke API responded with status ${error.response.status}, using fallback`
-          );
+          console.log(`Joke API responded with status ${error.response.status}, using fallback`);
         } else {
           console.log("Network error fetching joke, using fallback");
         }
@@ -161,15 +176,7 @@ class JokeService {
    * Get available joke categories
    */
   public getCategories(): string[] {
-    return [
-      "Any",
-      "Programming",
-      "Miscellaneous",
-      "Dark",
-      "Pun",
-      "Spooky",
-      "Christmas",
-    ];
+    return ["Any", "Programming", "Miscellaneous", "Dark", "Pun", "Spooky", "Christmas"];
   }
 
   /**

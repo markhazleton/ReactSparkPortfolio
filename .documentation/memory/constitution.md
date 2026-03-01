@@ -1,38 +1,41 @@
 <!--
   SYNC IMPACT REPORT
   ==================
-  Version Change: Template → 1.0.0 (MAJOR - Initial formal constitution)
+  Version Change: 1.0.0 → 1.1.0 (MINOR - Expanded documentation governance)
   
   Modified Principles:
-  - Created 10 core principles from discovered patterns
-  - Added Testing as NON-NEGOTIABLE mandatory requirement
-  - Formalized Type Safety, Code Quality, Documentation requirements
-  - Added Error Handling, Logging, Security, Styling, Quality Gates principles
+  - IV. Documentation: Expanded with strict file organization rules
+  - Added "Less Is More" philosophy for documentation
+  - Added FORBIDDEN rules for TODO/FIXME comments in code
+  - Added documentation lifecycle and cleanup requirements
+  - Added file location rules and archival workflow
   
-  Added Sections:
-  - Additional Standards (Performance, SEO, Deployment)
-  - Comprehensive Governance section with enforcement rules
+  Modified Sections:
+  - Governance → Enforcement: Added documentation-specific enforcement rules
+  - Added quarterly audit requirement for stale docs
+  - Added PR rejection criteria for misplaced/outdated docs
   
   Templates Status:
-  ✅ plan-template.md - Constitution Check section validated
-  ✅ spec-template.md - User story prioritization aligns with testing requirement
-  ✅ tasks-template.md - Task organization supports principle enforcement
+  ✅ plan-template.md - No changes required
+  ✅ spec-template.md - No changes required
+  ✅ tasks-template.md - No changes required
   
   Follow-up Actions:
-  - Add testing infrastructure (Vitest + React Testing Library)
-  - Configure Prettier for code formatting
-  - Add pre-commit hooks (Husky + lint-staged)
-  - Implement React Error Boundaries
-  - Add Zod for runtime validation
-  - Update README.md to reference constitution
+  - Archive root-level working docs to .documentation/copilot/archive/
+  - Create .documentation/copilot/archive/ directory
+  - Clean up TODO.md, DEPENDABOT_*.md, CSP_*.md from root
+  - Archive /specs/ folder to .documentation/copilot/archive/
+  - Scan codebase for TODO/FIXME comments, convert to GitHub Issues
+  - Update copilot-instructions.md with documentation rules (DONE)
   
   Suggested Commit Message:
-  docs: establish ReactSparkPortfolio constitution v1.0.0
+  docs: enforce aggressive documentation cleanup policy (v1.1.0)
   
-  - Formalize 10 core development principles from codebase analysis
-  - Add mandatory testing requirements with coverage thresholds
-  - Define type safety, security, and quality standards
-  - Establish governance and enforcement procedures
+  - Expand Documentation principle with file organization standards
+  - Add "Less Is More" philosophy and archival workflow
+  - Forbid TODO/FIXME comments in production code
+  - Add quarterly cleanup audits and PR enforcement rules
+  - Update copilot-instructions.md with detailed location rules
 -->
 
 # ReactSparkPortfolio Constitution
@@ -85,15 +88,40 @@
 
 ### IV. Documentation (MANDATORY)
 
-**All exported code must be documented with JSDoc comments.**
+**All exported code must be documented with JSDoc comments. All documentation must match current code state.**
 
+**Code Documentation:**
 - All exported functions MUST have JSDoc comments explaining purpose, parameters, and return values
 - All exported components MUST have JSDoc comments describing props and behavior
 - All exported types/interfaces SHOULD have documentation
-- Complex logic SHOULD have inline comments explaining rationale
-- README and other documentation MUST be kept up-to-date
+- Complex logic SHOULD have inline comments explaining rationale (why, not what)
 
-**Rationale**: Good documentation enables team collaboration and future maintenance. ProjectService demonstrates excellent JSDoc examples that should be the standard across all exports.
+**Markdown Documentation Standards:**
+- Documentation that is out of sync with code is worse than no documentation ("less is more")
+- ALL documentation MUST reflect the CURRENT state of the codebase
+- Documentation referencing future features, TODOs, or completed specs MUST be removed/archived
+- When code changes, update or delete affected documentation in the SAME commit
+
+**Forbidden in Production Code:**
+- NO `// TODO:` comments in code (use GitHub Issues instead)
+- NO `// FIXME:` comments (fix it or create an issue)
+- NO `// SPEC:` or planning comments in code files
+- NO implementation strategy comments (belongs in specs during development, deleted after merge)
+
+**File Organization:**
+- Root-level .md files: ONLY `README.md` is allowed
+- Permanent docs: `/.documentation/*.md` (keep updated with code)
+- Working/audit docs: `.documentation/copilot/archive/YYYY-MM-DD_*.md` (delete after completion)
+- Active specs: `.documentation/specs/NNN-feature/*.md` (archive to copilot/archive after merge)
+- Configuration: `.github/prompts/*.prompt.md`, `.github/agents/*.agent.md` (permanent)
+
+**Documentation Lifecycle:**
+1. Working docs created in `.documentation/copilot/archive/` with date prefix
+2. Keep ONLY while actively relevant (days, not weeks)
+3. On completion: extract insights to permanent docs, then DELETE working doc
+4. Quarterly audits MUST purge stale documentation
+
+**Rationale**: Good documentation enables collaboration, but outdated documentation misleads developers and creates technical debt. Less Is More—prefer self-documenting code over excessive markdown. TODO comments in code become invisible technical debt; GitHub Issues provide transparency and tracking. ProjectService demonstrates excellent JSDoc examples for code documentation standards.
 
 ---
 
@@ -266,6 +294,13 @@
 - Manual review enforces principles that cannot be automated
 - `/speckit.pr-review` command performs constitution-aware PR reviews
 
+**Documentation Enforcement:**
+- PRs with root-level .md files (other than README.md) MUST be rejected
+- PRs with out-of-sync documentation MUST be rejected
+- Code with TODO/FIXME comments MUST be rejected (create GitHub Issue instead)
+- Quarterly documentation audits MUST purge stale working docs from `.documentation/copilot/archive/`
+- Spec folders in `.documentation/specs/` MUST be archived after feature merge
+
 ---
 
-**Version**: 1.0.0 | **Ratified**: 2026-03-01 | **Last Amended**: 2026-03-01
+**Version**: 1.1.0 | **Ratified**: 2026-03-01 | **Last Amended**: 2026-03-01

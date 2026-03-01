@@ -11,7 +11,7 @@
 
 **🚀 A modern, high-performance React portfolio showcasing enterprise-grade web development**
 
-[🌐 Live Demo](https://reactspark.markhazleton.com/) • [📖 Documentation](./documentation/) • [🔧 Admin Panel](./admin/) • [📋 Report Bug](https://github.com/markhazleton/ReactSparkPortfolio/issues)
+[🌐 Live Demo](https://reactspark.markhazleton.com/) • [📖 Documentation](./.documentation/) • [🔧 Admin Panel](./admin/) • [📋 Report Bug](https://github.com/markhazleton/ReactSparkPortfolio/issues)
 
 </div>
 
@@ -357,7 +357,7 @@ npm audit fix
 
 ## 🤝 Contributing
 
-We welcome contributions! Please see our [Contributing Guide](./documentation/CONTRIBUTING.md) for details.
+We welcome contributions! Please see our [Contributing Guide](./.documentation/CONTRIBUTING.md) for details.
 
 ### 🔄 Development Process
 
@@ -376,10 +376,10 @@ We welcome contributions! Please see our [Contributing Guide](./documentation/CO
 
 ## 📚 Documentation
 
-- 📖 **[Complete Documentation](./documentation/)** - Comprehensive guides
+- 📖 **[Complete Documentation](./.documentation/)** - Comprehensive guides
 - 🎛️ **[Admin Guide](./admin/README.md)** - Admin panel usage
-- 🏗️ **[Architecture Guide](./documentation/ARCHITECTURE.md)** - System design
-- 🚀 **[Deployment Guide](./documentation/DEPLOYMENT.md)** - Deployment options
+- 🏗️ **[Architecture Guide](./.documentation/ARCHITECTURE.md)** - System design
+- 🚀 **[Deployment Guide](./.documentation/DEPLOYMENT.md)** - Deployment options
 
 ---
 

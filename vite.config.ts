@@ -7,7 +7,6 @@ import strip from "@rollup/plugin-strip";
 // Get the current date-time during the build
 const buildDate = new Date().toISOString();
 
-console.log("VITE_BASE_URL:", process.env.VITE_BASE_URL); // Add this to debug
 
 // Function to create .nojekyll file
 const createNoJekyllFile = () => {

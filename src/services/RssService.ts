@@ -108,7 +108,8 @@ export const fetchRssFeed = async (): Promise<RssArticle[]> => {
           const localResponse = await fetch(localRssPath);
           if (!localResponse.ok) {
             throw new Error(
-              `Local RSS file fetch failed: ${localResponse.status}`
+              `Local RSS file fetch failed: ${localResponse.status}`,
+              { cause: directError }
             );
           }
           rssData = await localResponse.text();
@@ -117,7 +118,8 @@ export const fetchRssFeed = async (): Promise<RssArticle[]> => {
         } catch (localError) {
           console.error("Local file fetch also failed:", localError);
           throw new Error(
-            "Unable to fetch RSS data from any source (remote, cache, or local file)"
+            "Unable to fetch RSS data from any source (remote, cache, or local file)",
+            { cause: localError }
           );
         }
       }
@@ -145,7 +147,8 @@ export const fetchRssFeed = async (): Promise<RssArticle[]> => {
     throw new Error(
       `Unable to load articles: ${
         error instanceof Error ? error.message : "Unknown error"
-      }`
+      }`,
+      { cause: error }
     );
   }
 };

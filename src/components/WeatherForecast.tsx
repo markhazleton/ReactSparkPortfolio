@@ -50,20 +50,13 @@ const WeatherForecast: React.FC = () => {
   const [initialWeatherData, setInitialWeatherData] = useState<WeatherResults>({});
   const [initialLoading, setInitialLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>('');
-  const [recentSearches, setRecentSearches] = useState<string[]>([]);
-
-  // Load recent searches from localStorage on component mount
-  useEffect(() => {
-    const savedSearches = localStorage.getItem('weatherSearches');
-    if (savedSearches) {
-      setRecentSearches(JSON.parse(savedSearches));
-    } else {
-      // Set default cities if no recent searches exist
-      const defaultCities = ['Dallas', 'Wichita'];
-      setRecentSearches(defaultCities);
-      localStorage.setItem('weatherSearches', JSON.stringify(defaultCities));
-    }
-  }, []);
+  const [recentSearches, setRecentSearches] = useState<string[]>(() => {
+    const saved = localStorage.getItem('weatherSearches');
+    if (saved) return JSON.parse(saved) as string[];
+    const defaults = ['Dallas', 'Wichita'];
+    localStorage.setItem('weatherSearches', JSON.stringify(defaults));
+    return defaults;
+  });
 
   // Load default city weather on initial render
   useEffect(() => {

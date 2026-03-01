@@ -5,10 +5,17 @@
       "/images/*",
       "/css/*",
       "/assets/*",
-      "/*.{ico,png,jpg,gif,svg,js,css,woff,woff2}"
+      "/*.{ico,png,jpg,gif,svg,js,css,woff,woff2,xml,txt}"
     ]
   },
   "routes": [
+    {
+      "route": "/rss.xml",
+      "headers": {
+        "Content-Type": "application/xml",
+        "cache-control": "public, max-age=3600"
+      }
+    },
     {
       "route": "/api/*",
       "methods": ["GET", "POST", "PUT", "DELETE"],
@@ -43,6 +50,7 @@
   },
   "mimeTypes": {
     ".json": "text/json",
+    ".xml": "application/xml",
     ".svg": "image/svg+xml",
     ".js": "application/javascript",
     ".css": "text/css"

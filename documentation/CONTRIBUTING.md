@@ -103,24 +103,29 @@ npm run build
 
 ```markdown
 ## Description
+
 Brief description of changes
 
 ## Type of Change
+
 - [ ] Bug fix
 - [ ] New feature
 - [ ] Documentation update
 - [ ] Code refactoring
 
 ## Testing
+
 - [ ] Tested locally
 - [ ] Tested on different browsers
 - [ ] Tested responsive design
 - [ ] Accessibility verified
 
 ## Screenshots
+
 (if applicable)
 
 ## Checklist
+
 - [ ] Code follows project style guidelines
 - [ ] Self-review completed
 - [ ] Documentation updated

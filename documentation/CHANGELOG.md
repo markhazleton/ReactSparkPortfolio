@@ -48,7 +48,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Components
 
 - Hero section with animated content
-- About section with technology showcase  
+- About section with technology showcase
 - Projects gallery with search and filtering
 - Articles feed from RSS sources
 - Weather forecast with geolocation

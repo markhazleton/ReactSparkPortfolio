@@ -96,7 +96,7 @@ curl -X GET "https://webspark.markhazleton.com/api/asyncspark/openweatherapi/wea
 ```javascript
 // SignalR connection (not curl-able)
 const connection = new signalR.HubConnectionBuilder()
-  .withUrl('https://webspark.markhazleton.com/chatHub')
+  .withUrl("https://webspark.markhazleton.com/chatHub")
   .build();
 ```
 
@@ -314,5 +314,5 @@ Consider implementing health check endpoints for:
 
 ---
 
-*Last Updated: September 2, 2025*
-*Document Version: 1.0*
+_Last Updated: September 2, 2025_
+_Document Version: 1.0_

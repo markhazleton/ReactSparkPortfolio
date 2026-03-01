@@ -15,8 +15,7 @@ export const AppConfig = {
   /**
    * Default site description
    */
-  siteDescription:
-    "A portfolio website built with React, TypeScript, and Bootstrap",
+  siteDescription: "A portfolio website built with React, TypeScript, and Bootstrap",
 
   /**
    * Site owner information

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 interface UpdateNotificationProps {
   show: boolean;
@@ -9,7 +9,7 @@ interface UpdateNotificationProps {
 export const UpdateNotification: React.FC<UpdateNotificationProps> = ({
   show,
   onUpdate,
-  onDismiss
+  onDismiss,
 }) => {
   if (!show) return null;
 
@@ -20,17 +20,13 @@ export const UpdateNotification: React.FC<UpdateNotificationProps> = ({
         <div className="flex-grow-1">
           <strong>Update Available!</strong> A new version is ready.
         </div>
-        <button 
-          type="button" 
-          className="btn btn-sm btn-outline-primary me-2"
-          onClick={onUpdate}
-        >
+        <button type="button" className="btn btn-sm btn-outline-primary me-2" onClick={onUpdate}>
           <i className="bi bi-arrow-clockwise me-1"></i>
           Update Now
         </button>
-        <button 
-          type="button" 
-          className="btn-close" 
+        <button
+          type="button"
+          className="btn-close"
           aria-label="Dismiss"
           onClick={onDismiss}
         ></button>

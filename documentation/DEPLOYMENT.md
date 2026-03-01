@@ -136,33 +136,33 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18'
-        cache: 'npm'
-    
-    - name: Install dependencies
-      run: npm ci
-    
-    - name: Build
-      run: npm run build
-    
-    - name: Deploy
-      run: |
-        git config --global user.name 'GitHub Actions'
-        git config --global user.email 'actions@github.com'
-        git add docs/
-        git commit -m "Deploy to GitHub Pages" || exit 0
-        git push
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Deploy
+        run: |
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'actions@github.com'
+          git add docs/
+          git commit -m "Deploy to GitHub Pages" || exit 0
+          git push
 ```
 
 #### Limitations
@@ -336,13 +336,13 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
-        assetFileNames: 'assets/[name].[hash][extname]',
-        chunkFileNames: 'assets/[name].[hash].js',
-        entryFileNames: 'assets/[name].[hash].js'
-      }
-    }
-  }
-})
+        assetFileNames: "assets/[name].[hash][extname]",
+        chunkFileNames: "assets/[name].[hash].js",
+        entryFileNames: "assets/[name].[hash].js",
+      },
+    },
+  },
+});
 ```
 
 ## Monitoring and Analytics
@@ -352,8 +352,15 @@ export default defineConfig({
 ```html
 <!-- Add to index.html -->
 <script>
-  !function(T,l,y){/* Application Insights snippet */}
-  (window,document,"script","https://js.monitor.azure.com/scripts/b/ai.2.min.js","appInsights");
+  !(function (T, l, y) {
+    /* Application Insights snippet */
+  })(
+    window,
+    document,
+    "script",
+    "https://js.monitor.azure.com/scripts/b/ai.2.min.js",
+    "appInsights"
+  );
 </script>
 ```
 
@@ -364,9 +371,11 @@ export default defineConfig({
 <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'GA_MEASUREMENT_ID');
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
+  gtag("config", "GA_MEASUREMENT_ID");
 </script>
 ```
 
@@ -376,14 +385,17 @@ export default defineConfig({
 
 ```html
 <!-- Add to index.html -->
-<meta http-equiv="Content-Security-Policy" content="
+<meta
+  http-equiv="Content-Security-Policy"
+  content="
   default-src 'self';
   script-src 'self' 'unsafe-inline' https://js.monitor.azure.com;
   style-src 'self' 'unsafe-inline';
   img-src 'self' data: https:;
   font-src 'self' https:;
   connect-src 'self' https:;
-">
+"
+/>
 ```
 
 ### Environment Security

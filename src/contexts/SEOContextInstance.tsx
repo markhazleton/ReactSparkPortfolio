@@ -1,4 +1,4 @@
-import { createContext } from 'react';
+import { createContext } from "react";
 
 interface SEOContextProps {
   setTitle: (title: string) => void;

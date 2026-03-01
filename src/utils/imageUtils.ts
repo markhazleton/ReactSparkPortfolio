@@ -7,9 +7,7 @@ const isDevelopment = import.meta.env.DEV;
 
 // Get build date for production cache busting
 declare const __BUILD_DATE__: string;
-const APP_VERSION = typeof __BUILD_DATE__ !== "undefined" 
-  ? __BUILD_DATE__ 
-  : Date.now().toString();
+const APP_VERSION = typeof __BUILD_DATE__ !== "undefined" ? __BUILD_DATE__ : Date.now().toString();
 
 /**
  * Adds cache busting parameters to image URLs
@@ -96,10 +94,7 @@ export const clearAllCaches = (): void => {
 
 // Make cache clearing available globally in development
 if (isDevelopment) {
-  (
-    globalThis as typeof globalThis & { clearAllCaches: () => void }
-  ).clearAllCaches = clearAllCaches;
-  console.log(
-    "Development mode: Use clearAllCaches() in console to clear all caches"
-  );
+  (globalThis as typeof globalThis & { clearAllCaches: () => void }).clearAllCaches =
+    clearAllCaches;
+  console.log("Development mode: Use clearAllCaches() in console to clear all caches");
 }

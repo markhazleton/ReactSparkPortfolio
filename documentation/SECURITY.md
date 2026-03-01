@@ -9,6 +9,7 @@ This document outlines the security measures, policies, and best practices imple
 **This is a FRONTEND-ONLY portfolio that pulls ALL content from external sources.**
 
 Unlike traditional web apps, this site doesn't have its own backend. It's a static React app that:
+
 - Fetches **images** from `https://markhazleton.com/img/`
 - Fetches **JSON data** from `https://markhazleton.com/projects.json` and `rss.xml`
 - Connects to **real-time chat** via `wss://webspark.markhazleton.com/chatHub`
@@ -18,14 +19,14 @@ Unlike traditional web apps, this site doesn't have its own backend. It's a stat
 
 ## ❌ Common Mistakes That WILL BREAK The Site
 
-| "Security Improvement" | What Breaks | Why It's Wrong |
-|------------------------|-------------|----------------|
+| "Security Improvement"              | What Breaks                          | Why It's Wrong                                   |
+| ----------------------------------- | ------------------------------------ | ------------------------------------------------ |
 | Remove `https://*.markhazleton.com` | ❌ Service worker can't fetch images | Images are hosted on markhazleton.com subdomains |
-| Remove `https:` from img-src | ❌ Project screenshots don't load | External images use various HTTPS hosts |
-| Remove `'unsafe-inline'` | ❌ React app won't start | Vite injects inline scripts during dev |
-| Remove `'unsafe-eval'` | ❌ Hot module reload breaks | Vite uses eval for HMR |
-| Remove `blob:` from worker-src | ❌ Service worker fails | SW uses blob URLs for initialization |
-| Whitelist specific img domains | ❌ New images break constantly | Content comes from user-controlled backend |
+| Remove `https:` from img-src        | ❌ Project screenshots don't load    | External images use various HTTPS hosts          |
+| Remove `'unsafe-inline'`            | ❌ React app won't start             | Vite injects inline scripts during dev           |
+| Remove `'unsafe-eval'`              | ❌ Hot module reload breaks          | Vite uses eval for HMR                           |
+| Remove `blob:` from worker-src      | ❌ Service worker fails              | SW uses blob URLs for initialization             |
+| Whitelist specific img domains      | ❌ New images break constantly       | Content comes from user-controlled backend       |
 
 ## 🛡️ Security Features
 
@@ -47,21 +48,23 @@ Content-Security-Policy:
 ```
 
 **Key Points**:
+
 - `connect-src` includes wildcard for markhazleton.com subdomains to support service worker fetches
 - `img-src`, `font-src`, `media-src` use protocol-level wildcards for flexibility with external resources
 - Service workers (`worker-src`) can load from same origin and blob URLs
 
 **⚠️ Known CSP "Issues" That Are Actually Required:**
 
-| Directive | Standard Recommendation | This Site's Requirement | Rationale |
-|-----------|------------------------|-------------------------|-----------|
-| `script-src` | Remove 'unsafe-inline' | ✅ MUST keep 'unsafe-inline' | Vite injects inline scripts. Use nonces in prod if needed. |
-| `script-src` | Remove 'unsafe-eval' | ✅ MUST keep 'unsafe-eval' | Required for Vite HMR in development. |
-| `img-src` | Whitelist specific domains | ✅ MUST use `https:` wildcard | Images come from user-managed markhazleton.com - domains change. |
-| `connect-src` | Avoid wildcards | ✅ MUST use `*.markhazleton.com` | Service worker needs to fetch from any subdomain. |
-| `worker-src` | Only 'self' | ✅ MUST include `blob:` | Service worker initialization requires blob URLs. |
+| Directive     | Standard Recommendation    | This Site's Requirement          | Rationale                                                        |
+| ------------- | -------------------------- | -------------------------------- | ---------------------------------------------------------------- |
+| `script-src`  | Remove 'unsafe-inline'     | ✅ MUST keep 'unsafe-inline'     | Vite injects inline scripts. Use nonces in prod if needed.       |
+| `script-src`  | Remove 'unsafe-eval'       | ✅ MUST keep 'unsafe-eval'       | Required for Vite HMR in development.                            |
+| `img-src`     | Whitelist specific domains | ✅ MUST use `https:` wildcard    | Images come from user-managed markhazleton.com - domains change. |
+| `connect-src` | Avoid wildcards            | ✅ MUST use `*.markhazleton.com` | Service worker needs to fetch from any subdomain.                |
+| `worker-src`  | Only 'self'                | ✅ MUST include `blob:`          | Service worker initialization requires blob URLs.                |
 
 **Why This CSP Is Secure Enough:**
+
 - 🔒 **No user-generated content** - All content is managed by site owner
 - 🔒 **External APIs are read-only** - No data is sent to third parties
 - 🔒 **frame-src 'none'** - Prevents clickjacking attacks
@@ -69,10 +72,13 @@ Content-Security-Policy:
 - 🔒 **'self' default** - All unlisted resources must come from same origin
 
 **CSP Testing Checklist (Run BEFORE deploying CSP changes):**
+
 ```bash
 npm run dev
 ```
+
 Then verify in browser:
+
 - [ ] Home page loads without errors
 - [ ] Projects page shows images from markhazleton.com
 - [ ] Articles page loads RSS feed
@@ -88,27 +94,29 @@ Then verify in browser:
 API endpoints use a whitelist-based CORS policy instead of wildcard (`*`):
 
 **Allowed Origins:**
+
 - `https://reactspark.markhazleton.com` (Production)
 - `https://markhazleton.github.io` (GitHub Pages)
 - `http://localhost:3000` (Local Development)
 - `http://127.0.0.1:3000` (Local Development)
 
 **Implementation** (Azure Functions):
+
 ```javascript
 const ALLOWED_ORIGINS = [
-    'https://reactspark.markhazleton.com',
-    'https://markhazleton.github.io',
-    'http://localhost:3000',
-    'http://127.0.0.1:3000'
+  "https://reactspark.markhazleton.com",
+  "https://markhazleton.github.io",
+  "http://localhost:3000",
+  "http://127.0.0.1:3000",
 ];
 
 const origin = req.headers.origin || req.headers.referer;
 const allowedOrigin = ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
 
 context.res.headers = {
-    'Access-Control-Allow-Origin': allowedOrigin,
-    'Access-Control-Allow-Methods': 'GET, OPTIONS',
-    'Access-Control-Allow-Credentials': 'false'
+  "Access-Control-Allow-Origin": allowedOrigin,
+  "Access-Control-Allow-Methods": "GET, OPTIONS",
+  "Access-Control-Allow-Credentials": "false",
 };
 ```
 
@@ -126,9 +134,9 @@ The RSS proxy function prevents Server-Side Request Forgery by whitelisting allo
 
 ```javascript
 const ALLOWED_RSS_SOURCES = [
-    'https://markhazleton.com/rss.xml',
-    'https://markhazleton.com/feed',
-    'https://frogsfolly.com/rss.xml'
+  "https://markhazleton.com/rss.xml",
+  "https://markhazleton.com/feed",
+  "https://frogsfolly.com/rss.xml",
 ];
 ```
 
@@ -169,6 +177,7 @@ Enhanced TypeScript strictness prevents many common vulnerabilities:
 Sensitive configuration is externalized via environment variables. See [.env.example](.env.example) for available options.
 
 **Never commit:**
+
 - `.env` files
 - API keys or secrets
 - Credentials or tokens
@@ -210,11 +219,11 @@ We aim to respond within 48 hours and provide a fix within 7 days for critical i
 
 ## 📅 Security Update History
 
-| Date | Version | Changes |
-|------|---------|---------|
-| 2026-01-30 | 1.1.0 | Implemented CORS whitelist, input validation, SSRF protection |
-| 2026-01-30 | 1.0.1 | Enhanced TypeScript strictness |
-| 2025-12-01 | 1.0.0 | Initial security implementation |
+| Date       | Version | Changes                                                       |
+| ---------- | ------- | ------------------------------------------------------------- |
+| 2026-01-30 | 1.1.0   | Implemented CORS whitelist, input validation, SSRF protection |
+| 2026-01-30 | 1.0.1   | Enhanced TypeScript strictness                                |
+| 2025-12-01 | 1.0.0   | Initial security implementation                               |
 
 ## 🔄 Regular Security Tasks
 

@@ -549,6 +549,51 @@ npm run preview # (optional, to preview build)
 
 - Output is in `docs/` (for GitHub Pages & Azure SWA)
 
+---
+
+## 🔐 Dependency Management & Security
+
+This project uses **Dependabot** for automated dependency updates and security vulnerability detection.
+
+### 📚 Dependabot Documentation
+
+When Dependabot PRs appear, use these resources for organized remediation:
+
+- **[DEPENDABOT_QUICKSTART.md](DEPENDABOT_QUICKSTART.md)** - ⚡ Start here! Quick 5-minute guide
+- **[DEPENDABOT_REMEDIATION_PLAN.md](DEPENDABOT_REMEDIATION_PLAN.md)** - 📋 Comprehensive execution plan
+- **[DEPENDABOT_CHECKLIST.md](DEPENDABOT_CHECKLIST.md)** - ✅ Step-by-step checklist
+- **[scripts/manage-dependabot.ps1](scripts/manage-dependabot.ps1)** - 🤖 PowerShell automation helper
+
+### 🚀 Quick Start for Dependabot PRs
+
+```powershell
+# See all open Dependabot PRs organized by priority
+.\scripts\manage-dependabot.ps1 -Action list
+
+# Run tests before merging
+.\scripts\manage-dependabot.ps1 -Action test-all
+
+# Get guided merge workflow
+.\scripts\manage-dependabot.ps1 -Action merge-critical
+```
+
+### 🔍 Security Monitoring
+
+```bash
+# Check for vulnerabilities
+npm audit
+
+# View detailed security report
+npm audit --json
+
+# Check GitHub Security tab
+# https://github.com/markhazleton/ReactSparkPortfolio/security
+```
+
+**Note**: All scripts and documentation prioritize security fixes and provide clear guidance for safe dependency updates.
+
+---
+
 ## 🧪 Testing
 
 - _No automated tests included yet._

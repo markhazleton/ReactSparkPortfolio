@@ -17,6 +17,32 @@ interface ChatProps {
   isInModal?: boolean; // Flag to indicate if chat is in a modal
 }
 
+/**
+ * Chat component provides real-time AI chat functionality via SignalR WebSocket connection.
+ * 
+ * Features:
+ * - Real-time bidirectional communication with SignalR hub
+ * - Markdown rendering for bot responses
+ * - Message streaming with typing indicators
+ * - Automatic reconnection on connection loss
+ * - User name persistence via localStorage
+ * - Modal and embedded display modes
+ * - Sanitized input to prevent XSS attacks
+ * 
+ * @component
+ * @example
+ * ```tsx
+ * <Chat variantName="ReactSpark" />
+ * <Chat variantName="Helper" initialMessage="Help me" isInModal={true} />
+ * ```
+ * 
+ * @param {ChatProps} props - Component properties
+ * @param {string} props.variantName - Name of the chat variant/persona
+ * @param {string} [props.initialMessage=""] - Optional initial message to send on mount
+ * @param {boolean} [props.isInModal=false] - Whether chat is displayed in a modal
+ * 
+ * @returns {JSX.Element} The rendered Chat interface with message history and input
+ */
 const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = "", isInModal = false }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   // Initialize userName from localStorage

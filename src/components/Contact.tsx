@@ -6,6 +6,24 @@ interface FormState {
   message: string;
 }
 
+/**
+ * Contact component provides a simple contact form for user inquiries.
+ * 
+ * Features:
+ * - Name, email, and message input fields
+ * - Form state management with React hooks
+ * - Form submission handling (currently logs to console)
+ * 
+ * @component
+ * @example
+ * ```tsx
+ * <Contact />
+ * ```
+ * 
+ * @returns {JSX.Element} The rendered Contact form
+ * 
+ * @todo Integrate with backend API for form submission
+ */
 const Contact: React.FC = () => {
   const [form, setForm] = useState<FormState>({ name: "", email: "", message: "" });
 

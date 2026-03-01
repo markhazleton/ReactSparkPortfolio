@@ -15,6 +15,25 @@ import { fetchRssFeed, RssArticle } from "../services/RssService";
 
 type SortDirection = "newest" | "oldest";
 
+/**
+ * Articles component displays a searchable, filterable, and paginated list of RSS articles.
+ * 
+ * Features:
+ * - Fetches articles from RSS feed with caching
+ * - Search functionality across titles and content
+ * - Category filtering
+ * - Sorting by date (newest/oldest)
+ * - Pagination with configurable items per page
+ * - Data source and cache status indicators
+ * 
+ * @component
+ * @example
+ * ```tsx
+ * <Articles />
+ * ```
+ * 
+ * @returns {JSX.Element} The rendered Articles page with search, filter, and pagination controls
+ */
 const Articles: React.FC = () => {
   const [articles, setArticles] = useState<RssArticle[]>([]);
   const [loading, setLoading] = useState<boolean>(true);

@@ -29,6 +29,27 @@ import {
 import Chat from "./Chat";
 import JokeService, { Joke as JokeType } from "../services/JokeService";
 
+/**
+ * Joke component provides an interactive joke viewer with social features.
+ * 
+ * Features:
+ * - Fetches random jokes from JokeAPI
+ * - Like/unlike functionality with localStorage persistence
+ * - Bookmark/save jokes for later viewing
+ * - Share jokes via Web Share API
+ * - Copy joke text to clipboard
+ * - History of fetched jokes (last 10)
+ * - Integrated chat modal for AI assistance
+ * - Toast notifications for user actions
+ * 
+ * @component
+ * @example
+ * ```tsx
+ * <Joke />
+ * ```
+ * 
+ * @returns {JSX.Element} The rendered Joke page with interactive controls
+ */
 const Joke: React.FC = () => {
   const [joke, setJoke] = useState<JokeType | null>(null);
   const [loading, setLoading] = useState<boolean>(false);

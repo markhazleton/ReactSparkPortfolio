@@ -15,6 +15,27 @@ import {
 import MapComponent from "./MapComponent";
 import { useTheme } from "../contexts/ThemeContext";
 
+/**
+ * WeatherForecast component displays current weather conditions for searched cities.
+ * 
+ * Features:
+ * - Search weather by city name
+ * - Display current temperature, feels-like, humidity, wind speed
+ * - Visual indicators with weather icons
+ * - Interactive map showing city locations
+ * - Multi-city comparison view
+ * - Refresh capability for updated data
+ * - Theme-aware styling
+ * 
+ * @component
+ * @example
+ * ```tsx
+ * <WeatherForecast />
+ * ```
+ * 
+ * @returns {JSX.Element} The rendered Weather Forecast page with search and display
+ */
+
 // Define a type for weather data to avoid using 'any'
 interface WeatherData {
   success: boolean;

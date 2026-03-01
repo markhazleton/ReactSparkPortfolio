@@ -1,6 +1,24 @@
 import React from "react";
 import { Github, Calendar3, Linkedin, Clock } from "react-bootstrap-icons";
 
+/**
+ * Footer component displays application footer with build information and social links.
+ * 
+ * Features:
+ * - Displays formatted build date/time in Central Standard Time
+ * - Links to GitHub and LinkedIn profiles
+ * - Shows current year for copyright
+ * - Graceful error handling for date formatting
+ * 
+ * @component
+ * @example
+ * ```tsx
+ * <Footer />
+ * ```
+ * 
+ * @returns {JSX.Element} The rendered footer with build info and social links
+ */
+
 // Using the injected build date constant
 const buildDate = __BUILD_DATE__;
 

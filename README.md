@@ -11,7 +11,7 @@
 
 **🚀 A modern, high-performance React portfolio showcasing enterprise-grade web development**
 
-[🌐 Live Demo](https://reactspark.markhazleton.com/) • [📖 Documentation](./.documentation/) • [🔧 Admin Panel](./admin/) • [📋 Report Bug](https://github.com/markhazleton/ReactSparkPortfolio/issues)
+[🌐 Live Demo](https://reactspark.markhazleton.com/) • [📖 Documentation](./.documentation/) • [ Report Bug](https://github.com/markhazleton/ReactSparkPortfolio/issues)
 
 </div>
 
@@ -82,12 +82,11 @@ graph TD
 - **🌤️ Weather Widget** - Live weather data with interactive maps (Leaflet)
 - **📰 RSS Integration** - Dynamic blog post feeds with XML parsing
 - **🃏 Fun Elements** - Random jokes API integration
-- **📊 Project Showcase** - Searchable, sortable portfolio with admin panel
+- **📊 Project Showcase** - Searchable, sortable portfolio from markhazleton.com
 - **🗺️ Interactive Maps** - Location-based weather visualization
 
 ### 🛠️ Developer Experience
 
-- **🔧 Admin Interface** - Live project management with image browser
 - **📝 TypeScript** - Strict type safety and IntelliSense support
 - **🧪 Modern Tooling** - ESLint, Prettier, SCSS compilation
 - **📚 Documentation** - Comprehensive guides in `/documentation`
@@ -187,7 +186,6 @@ ReactSparkPortfolio/
 │   └── ⚙️ utils/                   # Utility functions
 ├── ☁️ api/                          # Azure Functions
 │   └── proxy-rss/                  # RSS proxy function
-├── 🎛️ admin/                       # Project management interface
 ├── 📖 documentation/               # Project documentation
 ├── 🏗️ docs/                        # Production build output
 ├── ⚙️ .github/                     # GitHub workflows and templates
@@ -292,35 +290,6 @@ git push origin main
 
 ---
 
-## 🎛️ Admin Panel
-
-The project includes a full-featured admin interface for managing portfolio content:
-
-### 🚀 Quick Start
-
-```bash
-# Navigate to admin directory
-cd admin
-
-# Install dependencies
-npm install
-
-# Start admin server
-npm run dev
-```
-
-### ✨ Features
-
-- 📝 **Project Management** - Add, edit, delete portfolio projects
-- 🖼️ **Image Browser** - Visual image selection with previews
-- 🔗 **URL Validation** - Real-time accessibility checking
-- 📱 **Responsive Interface** - Works on all devices
-- � **Data Persistence** - Projects saved to JSON file
-
-**Access:** [http://localhost:3001](http://localhost:3001) (when admin server is running)
-
----
-
 ## 🧪 Testing & Quality
 
 ### 🔍 Code Quality
@@ -377,8 +346,7 @@ We welcome contributions! Please see our [Contributing Guide](./.documentation/C
 ## 📚 Documentation
 
 - 📖 **[Complete Documentation](./.documentation/)** - Comprehensive guides
-- 🎛️ **[Admin Guide](./admin/README.md)** - Admin panel usage
-- 🏗️ **[Architecture Guide](./.documentation/ARCHITECTURE.md)** - System design
+- ️ **[Architecture Guide](./.documentation/ARCHITECTURE.md)** - System design
 - 🚀 **[Deployment Guide](./.documentation/DEPLOYMENT.md)** - Deployment options
 
 ---
@@ -562,19 +530,19 @@ When Dependabot PRs appear, use these resources for organized remediation:
 - **[DEPENDABOT_QUICKSTART.md](DEPENDABOT_QUICKSTART.md)** - ⚡ Start here! Quick 5-minute guide
 - **[DEPENDABOT_REMEDIATION_PLAN.md](DEPENDABOT_REMEDIATION_PLAN.md)** - 📋 Comprehensive execution plan
 - **[DEPENDABOT_CHECKLIST.md](DEPENDABOT_CHECKLIST.md)** - ✅ Step-by-step checklist
-- **[scripts/manage-dependabot.ps1](scripts/manage-dependabot.ps1)** - 🤖 PowerShell automation helper
+- **[.documentation/scripts/powershell/manage-dependabot.ps1](.documentation/scripts/powershell/manage-dependabot.ps1)** - 🤖 PowerShell automation helper
 
 ### 🚀 Quick Start for Dependabot PRs
 
 ```powershell
 # See all open Dependabot PRs organized by priority
-.\scripts\manage-dependabot.ps1 -Action list
+.\.documentation\scripts\powershell\manage-dependabot.ps1 -Action list
 
 # Run tests before merging
-.\scripts\manage-dependabot.ps1 -Action test-all
+.\.documentation\scripts\powershell\manage-dependabot.ps1 -Action test-all
 
 # Get guided merge workflow
-.\scripts\manage-dependabot.ps1 -Action merge-critical
+.\.documentation\scripts\powershell\manage-dependabot.ps1 -Action merge-critical
 ```
 
 ### 🔍 Security Monitoring

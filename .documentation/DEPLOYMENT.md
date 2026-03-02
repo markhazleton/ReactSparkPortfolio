@@ -258,44 +258,6 @@ Enterprise-grade hosting with AWS services.
        aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_ID }} --paths "/*"
    ```
 
-## Admin Panel Deployment
-
-The admin panel requires a separate deployment process since it's a Node.js application.
-
-### Option 1: Separate Hosting
-
-Deploy the admin panel to a platform that supports Node.js:
-
-```bash
-# For platforms like Railway, Render, or DigitalOcean App Platform
-cd admin
-npm install
-npm start
-```
-
-### Option 2: Azure Container Instances
-
-```dockerfile
-# admin/Dockerfile
-FROM node:18-alpine
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci --only=production
-COPY . .
-EXPOSE 3001
-CMD ["npm", "start"]
-```
-
-### Option 3: Local Development Only
-
-Keep the admin panel for local development only:
-
-```bash
-cd admin
-npm install
-npm run dev
-```
-
 ## Environment Configuration
 
 ### Development Environment

@@ -379,10 +379,6 @@ const Hero: React.FC<{ profileData?: Profile }> = ({ profileData }) => {
                             <strong>Theming and layout switching</strong> based on user preferences
                             stored in WebSpark APIs
                           </li>
-                          <li className="mb-2">
-                            <strong>Admin mode for live editing</strong> of content blocks with
-                            instant previews
-                          </li>
                         </ul>
                       </div>
 

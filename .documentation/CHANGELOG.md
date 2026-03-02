@@ -32,7 +32,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Weather Widget** - Live weather data with interactive maps (Leaflet)
 - **RSS Integration** - Dynamic blog post feeds from external sources
 - **Project Showcase** - Searchable, sortable portfolio with pagination
-- **Admin Interface** - Full CRUD operations for project management
 - **Dark/Light Theme** - Persistent theme switching with smooth transitions
 - **Dual Deployment** - Azure Static Web Apps and GitHub Pages support
 

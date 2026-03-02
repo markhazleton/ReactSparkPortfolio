@@ -165,12 +165,6 @@ Use the [feature request template](.github/ISSUE_TEMPLATE/feature_request.md) an
 - Service layers in `/src/services/`
 - API integrations
 
-### Admin Interface
-
-- Admin panel in `/admin/`
-- Project management features
-- Image handling
-
 ### Documentation
 
 - README updates

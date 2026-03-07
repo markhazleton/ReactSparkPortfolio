@@ -81,29 +81,158 @@ curl -X GET "https://webspark.markhazleton.com/api/asyncspark/openweatherapi/wea
 }
 ```
 
-### 3. SignalR Chat Hub
+### 3. SignalR Chat Hub (PromptSpark)
 
 - **Endpoint**: `https://webspark.markhazleton.com/chatHub`
-- **Purpose**: Real-time chat functionality with AI assistants
-- **Protocol**: WebSocket (SignalR)
-- **Authentication**: None (public hub)
+- **Purpose**: Real-time chat functionality with AI assistants (PromptSpark variants)
+- **Protocol**: WebSocket (SignalR) with fallback transports
+- **Authentication**: None (public hub, no access tokens)
 - **Used By**: `Chat.tsx`
 - **Methods**: `SendMessage`, `ReceiveMessage`
-- **Dependencies**: WebSpark SignalR infrastructure
+- **Dependencies**: WebSpark SignalR infrastructure, @microsoft/signalr client
 
-**Connection Example:**
+#### Connection Configuration
 
-```javascript
-// SignalR connection (not curl-able)
+**EXACT SignalR Setup:**
+
+```typescript
+import * as signalR from "@microsoft/signalr";
+
+// Hub URL (configurable via environment variable)
+const hubUrl = import.meta.env.VITE_SIGNALR_HUB_URL || "https://webspark.markhazleton.com/chatHub";
+
+// Build connection
 const connection = new signalR.HubConnectionBuilder()
-  .withUrl("https://webspark.markhazleton.com/chatHub")
+  .withUrl(hubUrl, {
+    skipNegotiation: false,              // Allow SignalR to negotiate transport
+    withCredentials: false,              // No cookies/credentials sent
+    timeout: 30000,                      // 30 second timeout
+    transport:
+      signalR.HttpTransportType.WebSockets |
+      signalR.HttpTransportType.ServerSentEvents |
+      signalR.HttpTransportType.LongPolling,  // All transports enabled
+  })
+  .withAutomaticReconnect([0, 2000, 10000, 30000])  // Retry at 0ms, 2s, 10s, 30s
+  .configureLogging(signalR.LogLevel.Information)
   .build();
 ```
 
+**Key Configuration Details:**
+
+1. **URL**: `https://webspark.markhazleton.com/chatHub`
+   - Can be overridden with `VITE_SIGNALR_HUB_URL` environment variable
+   - No .env file exists in repo (uses hardcoded default)
+
+2. **Transport Types** (in order of preference):
+   - WebSockets (wss://)
+   - Server-Sent Events (SSE)
+   - Long Polling (HTTP fallback)
+
+3. **Authentication**: None
+   - No access token factory
+   - Public hub (no authorization required)
+   - No credentials sent (withCredentials: false)
+
+4. **Reconnection Strategy**:
+   - Automatic reconnect with exponential backoff: [0ms, 2s, 10s, 30s]
+   - Manual retry on failure with exponential backoff (max 3 retries)
+   - Timeout: 30 seconds per connection attempt
+
+5. **Cross-Origin Setup**:
+   - Direct cross-origin connection (no proxy)
+   - Connects from localhost:3000 (dev) or Azure Static Web App (prod) to webspark.markhazleton.com
+   - No Vite proxy configuration for SignalR
+   - No Next.js/Express middleware involved
+
 **Hub Methods:**
 
-- `SendMessage(user, message, conversationId, variantName)`
-- `ReceiveMessage(user, messageChunk)` (incoming)
+**Outgoing (client → server):**
+```typescript
+await connection.invoke(
+  "SendMessage",
+  userName: string,        // User's display name
+  message: string,         // User's message
+  conversationId: string,  // Unique conversation ID (timestamp-based)
+  variantName: string      // Chat variant/persona name (e.g., "ReactSpark", "Helper")
+);
+```
+
+**Incoming (server → client):**
+```typescript
+connection.on("ReceiveMessage", (user: string, messageChunk: string) => {
+  // Handles streaming message chunks from AI
+  // 'user' is the variant name (e.g., "ReactSpark")
+  // 'messageChunk' is a partial response (streamed in real-time)
+});
+```
+
+#### CSP & CORS Configuration
+
+**Content Security Policy** (allows cross-origin SignalR):
+
+```
+connect-src: 
+  'self' 
+  https://markhazleton.com 
+  https://*.markhazleton.com 
+  wss://webspark.markhazleton.com    ← WebSocket connection
+  ws://localhost:*                    ← Dev localhost WebSocket
+  http://localhost:*                  ← Dev localhost fallback
+```
+
+**CORS Headers** (in staticwebapp.config.json):
+
+```json
+{
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization, Accept, Origin, X-Requested-With"
+}
+```
+
+**Both configurations in sync:**
+- `staticwebapp.config.json` (production on Azure)
+- `vite.config.ts` (local development server)
+
+#### Connection Lifecycle
+
+1. **Initial Connection**:
+   - Component mounts → `setupSignalRConnection()` called
+   - HubConnectionBuilder creates connection
+   - `connection.start()` initiates WebSocket handshake
+   - On success: registers `ReceiveMessage` listener
+
+2. **Auto-Send Initial Message** (if provided):
+   - If `userName` in localStorage AND `initialMessage` prop exists
+   - Waits 500ms after connection
+   - Automatically invokes `SendMessage` with initial prompt
+
+3. **Reconnection Handling**:
+   - `onclose`: Manual retry with exponential backoff (max 3 attempts)
+   - `onreconnecting`: Sets "connecting" state
+   - `onreconnected`: Clears error state
+   - `withAutomaticReconnect`: SignalR's built-in retry logic
+
+4. **Cleanup**:
+   - Component unmount → `connection.off("ReceiveMessage")`
+   - `connection.stop()` closes WebSocket
+   - Clears streaming timeout
+
+#### Message Streaming
+
+**AI responses stream in chunks:**
+
+1. First chunk → Creates new message in UI
+2. Subsequent chunks → Appends to last message
+3. 1-second debounce → Marks streaming complete
+4. Sanitizes all input (strips HTML tags to prevent XSS)
+
+#### Fallback Behavior
+
+**When SignalR fails (modal mode only):**
+- Connection error + `isInModal` prop → Offline mode
+- Displays fallback message instead of throwing error
+- Used in `Joke.tsx` modal (joke explainer chat)
 
 ## External Third-Party APIs
 

@@ -1,41 +1,26 @@
 <!--
   SYNC IMPACT REPORT
   ==================
-  Version Change: 1.0.0 → 1.1.0 (MINOR - Expanded documentation governance)
-  
-  Modified Principles:
-  - IV. Documentation: Expanded with strict file organization rules
-  - Added "Less Is More" philosophy for documentation
-  - Added FORBIDDEN rules for TODO/FIXME comments in code
-  - Added documentation lifecycle and cleanup requirements
-  - Added file location rules and archival workflow
-  
+  Version Change: 1.1.1 → 1.1.2 (PATCH - Standardize on DevSpark branding)
+
   Modified Sections:
-  - Governance → Enforcement: Added documentation-specific enforcement rules
-  - Added quarterly audit requirement for stale docs
-  - Added PR rejection criteria for misplaced/outdated docs
-  
+  - Governance → Amendment Process: /speckit.evolve-constitution → /devspark.evolve-constitution
+  - Governance → Enforcement: /speckit.pr-review → /devspark.pr-review
+  - IV. Documentation → File Organization: copilot/archive/ → copilot/ and .archive/YYYY-MM-DD/
+  - IV. Documentation → Lifecycle: Updated archival workflow to use /devspark.archive
+  - Governance → Documentation Enforcement: Updated quarterly audit to use /devspark.archive
+
   Templates Status:
-  ✅ plan-template.md - No changes required
-  ✅ spec-template.md - No changes required
-  ✅ tasks-template.md - No changes required
-  
-  Follow-up Actions:
-  - Archive root-level working docs to .documentation/copilot/archive/
-  - Create .documentation/copilot/archive/ directory
-  - Clean up TODO.md, DEPENDABOT_*.md, CSP_*.md from root
-  - Archive /specs/ folder to .documentation/copilot/archive/
-  - Scan codebase for TODO/FIXME comments, convert to GitHub Issues
-  - Update copilot-instructions.md with documentation rules (DONE)
-  
-  Suggested Commit Message:
-  docs: enforce aggressive documentation cleanup policy (v1.1.0)
-  
-  - Expand Documentation principle with file organization standards
-  - Add "Less Is More" philosophy and archival workflow
-  - Forbid TODO/FIXME comments in production code
-  - Add quarterly cleanup audits and PR enforcement rules
-  - Update copilot-instructions.md with detailed location rules
+  ✅ plan-template.md - speckit → devspark references updated
+  ✅ tasks-template.md - speckit → devspark references updated
+  ✅ checklist-template.md - speckit → devspark references updated
+
+  Agent Shims Status:
+  ✅ .github/agents/ - renamed speckit.*.agent.md → devspark.*.agent.md
+  ✅ .github/prompts/ - renamed speckit.*.prompt.md → devspark.*.prompt.md
+  ✅ .documentation/scripts/powershell/ - speckit → devspark references updated
+
+  No follow-up actions required.
 -->
 
 # ReactSparkPortfolio Constitution
@@ -111,14 +96,14 @@
 **File Organization:**
 - Root-level .md files: ONLY `README.md` is allowed
 - Permanent docs: `/.documentation/*.md` (keep updated with code)
-- Working/audit docs: `.documentation/copilot/archive/YYYY-MM-DD_*.md` (delete after completion)
-- Active specs: `.documentation/specs/NNN-feature/*.md` (archive to copilot/archive after merge)
+- Working/session docs: `.documentation/copilot/` (delete or archive after completion)
+- Active specs: `.documentation/specs/NNN-feature/*.md` (archive after merge via `/devspark.archive`)
 - Configuration: `.github/prompts/*.prompt.md`, `.github/agents/*.agent.md` (permanent)
 
 **Documentation Lifecycle:**
-1. Working docs created in `.documentation/copilot/archive/` with date prefix
+1. Working docs created in `.documentation/copilot/` with date prefix
 2. Keep ONLY while actively relevant (days, not weeks)
-3. On completion: extract insights to permanent docs, then DELETE working doc
+3. On completion: extract insights to permanent docs, then archive via `/devspark.archive` to `.archive/YYYY-MM-DD/`
 4. Quarterly audits MUST purge stale documentation
 
 **Rationale**: Good documentation enables collaboration, but outdated documentation misleads developers and creates technical debt. Less Is More—prefer self-documenting code over excessive markdown. TODO comments in code become invisible technical debt; GitHub Issues provide transparency and tracking. ProjectService demonstrates excellent JSDoc examples for code documentation standards.
@@ -283,7 +268,7 @@
   3. Migration plan for existing code if applicable
   4. Version bump following semantic versioning
 - Constitution reviews SHOULD occur quarterly or after major features
-- Use `/speckit.evolve-constitution` to propose amendments based on findings
+- Use `/devspark.evolve-constitution` to propose amendments based on findings
 
 ### Versioning
 
@@ -298,15 +283,15 @@
 - Code that violates SHOULD principles REQUIRES justification in PR
 - Pre-commit hooks and CI pipelines enforce automated checks
 - Manual review enforces principles that cannot be automated
-- `/speckit.pr-review` command performs constitution-aware PR reviews
+- `/devspark.pr-review` command performs constitution-aware PR reviews
 
 **Documentation Enforcement:**
 - PRs with root-level .md files (other than README.md) MUST be rejected
 - PRs with out-of-sync documentation MUST be rejected
 - Code with TODO/FIXME comments MUST be rejected (create GitHub Issue instead)
-- Quarterly documentation audits MUST purge stale working docs from `.documentation/copilot/archive/`
+- Quarterly documentation audits MUST purge stale working docs via `/devspark.archive`
 - Spec folders in `.documentation/specs/` MUST be archived after feature merge
 
 ---
 
-**Version**: 1.1.1 | **Ratified**: 2026-03-01 | **Last Amended**: 2026-04-05
+**Version**: 1.1.2 | **Ratified**: 2026-03-01 | **Last Amended**: 2026-04-06

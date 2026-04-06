@@ -1,3 +1,3 @@
 ---
-agent: speckit.site-audit
+agent: devspark.site-audit
 ---

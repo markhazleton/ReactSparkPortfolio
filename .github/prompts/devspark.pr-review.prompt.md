@@ -1,3 +1,3 @@
 ---
-agent: speckit.pr-review
+agent: devspark.pr-review
 ---

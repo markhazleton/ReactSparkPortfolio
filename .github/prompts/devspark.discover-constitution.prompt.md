@@ -1,3 +1,3 @@
 ---
-agent: speckit.discover-constitution
+agent: devspark.discover-constitution
 ---

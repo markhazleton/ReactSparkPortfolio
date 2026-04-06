@@ -1,3 +1,3 @@
 ---
-agent: speckit.evolve-constitution
+agent: devspark.evolve-constitution
 ---

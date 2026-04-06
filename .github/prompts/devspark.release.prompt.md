@@ -1,3 +1,3 @@
 ---
-agent: speckit.release
+agent: devspark.release
 ---

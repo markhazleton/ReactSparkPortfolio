@@ -1,3 +1,3 @@
 ---
-agent: speckit.quickfix
+agent: devspark.quickfix
 ---

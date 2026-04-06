@@ -1,0 +1,76 @@
+# Documentation Guide
+
+This is the living orientation document for `.documentation/`. It reflects the **current** state of the project's documentation surface.
+
+---
+
+## Directory Map
+
+```
+.documentation/
+├── Guide.md                        ← This file — orientation and directory map
+├── ARCHITECTURE.md                 ← System architecture, component structure, data flow
+├── API_DEPENDENCIES.md             ← External API dependencies and contracts
+├── CACHE_BUSTING.md                ← Cache invalidation strategy (build-date, TTL, layers)
+├── CHANGELOG.md                    ← Versioned release history (v1.0.0, v2.0.0, …)
+├── CONTRIBUTING.md                 ← Contribution guidelines, testing strategy
+├── DEPLOYMENT.md                   ← Deployment guide (Azure Static Web Apps, GitHub Pages)
+├── PROMPTSPARK_CHAT.md             ← PromptSpark real-time chat feature documentation
+├── SECURITY.md                     ← CSP policy, security headers, allowlist rationale
+├── commands/                       ← Team-customized DevSpark command overrides
+├── copilot/                        ← AI-session working documents (see below)
+│   └── harvest-2026-04-06.md       ← Most recent harvest report
+├── decisions/                      ← Architecture Decision Records (ADRs)
+├── memory/
+│   └── constitution.md             ← Project constitution (non-negotiable principles)
+├── scripts/                        ← Team script overrides for DevSpark
+├── specs/                          ← Active feature specifications (archive after merge)
+└── templates/                      ← DevSpark document templates (operational, do not archive)
+```
+
+---
+
+## Key Files
+
+| File | Purpose |
+|---|---|
+| `memory/constitution.md` | Non-negotiable project principles. Read before making any changes. Version 1.1.1. |
+| `ARCHITECTURE.md` | System architecture, component structure, service data flow, styling approach |
+| `API_DEPENDENCIES.md` | External APIs used, their contracts, and fallback behaviour |
+| `CACHE_BUSTING.md` | Cache invalidation strategy: build-date-based in prod, timestamp-based in dev |
+| `CHANGELOG.md` | Release history following Keep a Changelog / SemVer |
+| `CONTRIBUTING.md` | How to contribute, testing strategy, PR requirements |
+| `DEPLOYMENT.md` | Dual-target deployment: Azure Static Web Apps + GitHub Pages via `/docs` |
+| `SECURITY.md` | CSP policy, justified allowlist, intentional permissiveness rationale |
+| `PROMPTSPARK_CHAT.md` | SignalR-based real-time chat with AI personalities |
+
+---
+
+## How to Use DevSpark Commands
+
+DevSpark commands are invoked via `/devspark.<command>` in Claude Code. Scripts live in `.devspark/scripts/bash/` (stock defaults) and `.documentation/scripts/` (team overrides). Command prompts live in `.devspark/defaults/commands/` (stock) and `.documentation/commands/` (team overrides).
+
+| Command | Purpose | Script |
+|---|---|---|
+| `/devspark.specify` | Define requirements and user stories | — |
+| `/devspark.plan` | Create implementation plan | `setup-plan.sh` |
+| `/devspark.tasks` | Break plan into actionable tasks | — |
+| `/devspark.implement` | Execute tasks | — |
+| `/devspark.harvest` | Extract knowledge from completed docs, archive stale artifacts | `harvest.sh` |
+| `/devspark.archive` | Move outdated docs to `.archive/`, update Guide.md and CHANGELOG.md | `archive-context.sh` |
+| `/devspark.pr-review` | Constitution-aware PR review | `get-pr-context.sh` |
+| `/devspark.quickfix` | Lightweight bug fix workflow | `quickfix-context.sh` |
+| `/devspark.site-audit` | Audit documentation quality | `site-audit.sh` |
+| `/devspark.release` | Review and prepare release artifacts | `release-context.sh` |
+
+---
+
+## Constitution Location
+
+**`/.documentation/memory/constitution.md`** — The project constitution defines non-negotiable principles covering type safety, code quality, testing, documentation standards, component architecture, error handling, logging, security, styling, and deployment. All code reviews must verify compliance.
+
+---
+
+## What Is in `.archive/`
+
+Completed and historical docs moved here by archive runs. **Do not read from here during normal operations.** Files are preserved for audit and traceability only. See `.archive/README.md` for the index of archive batches.

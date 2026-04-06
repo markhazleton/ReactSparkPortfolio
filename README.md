@@ -663,6 +663,11 @@ Contributions are welcome!
 - [Adding Weather to My Profile Application](https://markhazleton.com/articles/adding-weather-component-a-typescript-learning-journey.html)
 - [Using TypeScript with React: Lessons Learned](https://markhazleton.com/articles/using-typescript-with-react-lessons-learned.html)
 
+## 📖 Repo Story
+
+An evidence-based narrative of this repository's development history, contributor patterns, and architecture:
+[Repo Story (2026-04-05)](.documentation/repo-story/repo-story-2026-04-05.md)
+
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

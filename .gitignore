@@ -76,3 +76,9 @@ cypress/screenshots/
 # System Files
 Thumbs.db
 ehthumbs.db
+
+# DevSpark — personal overrides (never commit)
+.documentation/*/commands/
+
+# Claude Code memory (personal, machine-specific)
+.claude/

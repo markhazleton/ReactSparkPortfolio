@@ -1,0 +1,4 @@
+version: quickstart
+installed: 2026-04-05
+method: claude-code-quickstart
+migrated-from: fresh

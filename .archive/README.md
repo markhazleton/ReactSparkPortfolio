@@ -10,5 +10,6 @@ Files here are preserved for audit and traceability only.
 
 | Folder                         | Date       | Description                                                                                                                                                               |
 | ------------------------------ | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `2026-04-06/`                  | 2026-04-06 | Copilot archive README and harvest report — copilot/archive/ workflow retired                                                                                             |
 | `documentation/copilot/audit/` | 2026-04-06 | Completed TailwindSpark migration audit results (4 files, harvest run)                                                                                                    |
 | `2026-04-05/`                  | 2026-04-05 | Completed 2026-03-01 session docs: cache busting, CSP audit, Dependabot remediation, SASS migration, TailwindSpark spec, test coverage plan, constitution compliance spec |

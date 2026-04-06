@@ -18,8 +18,7 @@ This is the living orientation document for `.documentation/`. It reflects the *
 ├── PROMPTSPARK_CHAT.md             ← PromptSpark real-time chat feature documentation
 ├── SECURITY.md                     ← CSP policy, security headers, allowlist rationale
 ├── commands/                       ← Team-customized DevSpark command overrides
-├── copilot/                        ← AI-session working documents (see below)
-│   └── harvest-2026-04-06.md       ← Most recent harvest report
+├── copilot/                        ← AI-session working documents (currently empty)
 ├── decisions/                      ← Architecture Decision Records (ADRs)
 ├── memory/
 │   └── constitution.md             ← Project constitution (non-negotiable principles)

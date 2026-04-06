@@ -5,6 +5,19 @@ For versioned release history, see [.documentation/CHANGELOG.md](.documentation/
 
 ---
 
+## [2026-04-06] Archive Run
+
+### Archived
+
+- `.documentation/copilot/archive/README.md` — copilot archive README; directory emptied by prior archive runs, README described defunct workflow now superseded by top-level `.archive/` pattern
+- `.documentation/copilot/harvest-2026-04-06.md` — completed harvest report confirming no actionable items found; session artifact with no enduring value
+
+### Key decisions preserved
+
+- **Copilot archive cleanup**: The `.documentation/copilot/archive/` subdirectory pattern is fully retired. All working-doc archival now flows through `.archive/YYYY-MM-DD/` at the repo root.
+
+---
+
 ## [2026-04-05] Archive Run
 
 ### Archived

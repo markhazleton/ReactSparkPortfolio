@@ -253,11 +253,17 @@
 - Dual deployment strategy MUST be maintained:
   - Azure Static Web Apps (primary production)
   - GitHub Pages (secondary/fallback)
+- **Build output directory MUST be `/docs`** — this is the single publish folder for both targets:
+  - Vite `outDir: "docs"` produces all build artifacts there
+  - Azure SWA workflow uses `output_location: "docs"`
+  - GitHub Pages is served directly from the `/docs` folder on the `main` branch
+  - A `.nojekyll` file is written to `docs/` during build to disable Jekyll processing on GitHub Pages
+  - `npm run clean` removes `/docs` before each build — never commit build artifacts to `/docs` manually
 - CSP configuration MUST be synchronized across environments
 - Version tracking MUST be enabled via build date injection
 - Service worker MUST clear on version changes
 
-**Rationale**: Dual deployment provides redundancy. Version tracking via `__BUILD_DATE__` injection enables cache invalidation and troubleshooting.
+**Rationale**: Dual deployment provides redundancy. A single `/docs` output folder keeps both deployment targets in sync from one build. Version tracking via `__BUILD_DATE__` injection enables cache invalidation and troubleshooting.
 
 ---
 
@@ -303,4 +309,4 @@
 
 ---
 
-**Version**: 1.1.0 | **Ratified**: 2026-03-01 | **Last Amended**: 2026-03-01
+**Version**: 1.1.1 | **Ratified**: 2026-03-01 | **Last Amended**: 2026-04-05

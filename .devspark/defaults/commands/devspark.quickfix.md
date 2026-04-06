@@ -7,9 +7,6 @@ handoffs:
   - label: Upgrade to Full Spec
     agent: devspark.specify
     prompt: Create a full specification for this change
-scripts:
-  sh: .devspark/scripts/bash/quickfix-context.sh $ARGUMENTS --json
-  ps: .devspark/scripts/powershell/quickfix-context.ps1 $ARGUMENTS -Json
 ---
 
 ## User Input
@@ -53,7 +50,7 @@ Parse `$ARGUMENTS` for action type:
 
 ### 1. Initialize Quickfix Context
 
-Run `{SCRIPT}` to gather context and parse JSON output for:
+Run `.devspark/scripts/bash/quickfix-context.sh $ARGUMENTS --json` to gather context and parse JSON output for:
 
 - `REPO_ROOT`: Repository root path
 - `CONSTITUTION_PATH`: Path to constitution file

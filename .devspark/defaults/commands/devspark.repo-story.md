@@ -4,9 +4,6 @@ handoffs:
   - label: View Past Stories
     agent: devspark.repo-story
     prompt: Show me previous repo stories in .documentation/repo-story/
-scripts:
-  sh: .devspark/scripts/bash/repo-story-context.sh $ARGUMENTS --stdout
-  ps: .devspark/scripts/powershell/repo-story-context.ps1 $ARGUMENTS -Stdout
 ---
 
 ## User Input
@@ -50,7 +47,7 @@ If no scope specified, default to `--scope=full`.
 
 ### 1. Generate History Context
 
-Run `{SCRIPT}` to produce `history.json` and parse the JSON output for these top-level sections:
+Run `.devspark/scripts/bash/repo-story-context.sh $ARGUMENTS --stdout` to produce `history.json` and parse the JSON output for these top-level sections:
 
 - `audit_parameters` — time window, scope, anonymization settings
 - `repo` — repository name, remote URL, default branch

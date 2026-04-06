@@ -4,9 +4,6 @@ handoffs:
   - label: View Review History
     agent: devspark.pr-review
     prompt: Show me previous PR reviews in .documentation/specs/pr-review/
-scripts:
-  sh: .devspark/scripts/bash/get-pr-context.sh $ARGUMENTS --json
-  ps: .devspark/scripts/powershell/get-pr-context.ps1 $ARGUMENTS -Json
 ---
 
 ## User Input
@@ -34,7 +31,7 @@ This command reviews GitHub Pull Requests against the project constitution. It w
 
 ### 1. Initialize Review Context
 
-Run `{SCRIPT}` to extract PR context and parse JSON output for:
+Run `.devspark/scripts/bash/get-pr-context.sh $ARGUMENTS --json` to extract PR context and parse JSON output for:
 
 - `PR_CONTEXT`: PR metadata (number, title, branches, commit SHA, files, diff)
 - `CONSTITUTION_PATH`: Path to constitution file

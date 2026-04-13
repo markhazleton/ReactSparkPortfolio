@@ -113,7 +113,7 @@ class JokeService {
         timeout: 10000,
         headers: {
           Accept: "application/json",
-          "User-Agent": "ReactSparkPortfolio/1.0",
+          "User-Agent": "BootstrapSpark/1.0",
         },
       });
 

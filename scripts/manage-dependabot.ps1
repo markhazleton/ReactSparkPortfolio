@@ -110,7 +110,7 @@ function Merge-PRGroup {
         
         # Instructions for manual merge (GitHub CLI would go here)
         Write-Host "`n  To merge this PR:" -ForegroundColor Cyan
-        Write-Host "  1. Open: https://github.com/markhazleton/ReactSparkPortfolio/pull/$($pr.Number)" -ForegroundColor White
+        Write-Host "  1. Open: https://github.com/markhazleton/BootstrapSpark/pull/$($pr.Number)" -ForegroundColor White
         Write-Host "  2. Comment: @dependabot rebase" -ForegroundColor White
         Write-Host "  3. Wait for CI checks to pass" -ForegroundColor White
         Write-Host "  4. Click 'Approve and Merge'" -ForegroundColor White
@@ -132,16 +132,16 @@ function Validate-Merges {
     npm audit
     
     Write-Host "`n2️⃣ Checking for remaining Dependabot alerts..." -ForegroundColor Yellow
-    Write-Host "   Visit: https://github.com/markhazleton/ReactSparkPortfolio/security/dependabot" -ForegroundColor Cyan
+    Write-Host "   Visit: https://github.com/markhazleton/BootstrapSpark/security/dependabot" -ForegroundColor Cyan
     
     Write-Host "`n3️⃣ Running full test suite..." -ForegroundColor Yellow
     $testResult = Test-All
     
     Write-Host "`n4️⃣ API Endpoint Tests..." -ForegroundColor Yellow
     Write-Host "   Test these endpoints manually:" -ForegroundColor Cyan
-    Write-Host "   - https://reactspark.markhazleton.com/api/proxy-projects" -ForegroundColor White
-    Write-Host "   - https://reactspark.markhazleton.com/api/proxy-joke" -ForegroundColor White
-    Write-Host "   - https://reactspark.markhazleton.com/api/proxy-rss" -ForegroundColor White
+    Write-Host "   - https://bootstrapspark.markhazleton.com/api/proxy-projects" -ForegroundColor White
+    Write-Host "   - https://bootstrapspark.markhazleton.com/api/proxy-joke" -ForegroundColor White
+    Write-Host "   - https://bootstrapspark.markhazleton.com/api/proxy-rss" -ForegroundColor White
     
     if ($testResult) {
         Write-Host "`n✅ Validation complete - all automated tests passed!" -ForegroundColor Green
@@ -174,3 +174,5 @@ switch ($Action) {
 }
 
 Write-Host ""
+
+

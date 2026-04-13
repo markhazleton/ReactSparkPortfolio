@@ -5,7 +5,7 @@ const fetch = require("node-fetch");
 
 // Whitelisted origins for CORS
 const ALLOWED_ORIGINS = [
-  "https://reactspark.markhazleton.com",
+  "https://bootstrapspark.markhazleton.com",
   "https://markhazleton.github.io",
   "http://localhost:3000",
   "http://127.0.0.1:3000",
@@ -46,7 +46,7 @@ module.exports = async function (context, req) {
     const response = await fetch(sourceUrl, {
       headers: {
         Accept: "application/xml, text/xml, application/rss+xml, */*",
-        "User-Agent": "ReactSparkPortfolio/1.0 RSS-Proxy (Node.js)",
+        "User-Agent": "BootstrapSpark/1.0 RSS-Proxy (Node.js)",
         "Cache-Control": "no-cache",
       },
       timeout: 15000, // 15 second timeout

@@ -1,17 +1,17 @@
-# ReactSparkPortfolio
+# BootstrapSpark
 
 <div align="center">
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/markhazleton/ReactSparkPortfolio?tab=MIT-1-ov-file)
-[![GitHub stars](https://img.shields.io/github/stars/markhazleton/ReactSparkPortfolio)](https://github.com/markhazleton/ReactSparkPortfolio/stargazers)
-[![GitHub issues](https://img.shields.io/github/issues/markhazleton/ReactSparkPortfolio)](https://github.com/markhazleton/ReactSparkPortfolio/issues)
-[![Azure Static Web Apps CI/CD](https://github.com/markhazleton/ReactSparkPortfolio/workflows/Azure%20Static%20Web%20Apps%20CI/CD/badge.svg)](https://github.com/markhazleton/ReactSparkPortfolio/actions)
-[![GitHub forks](https://img.shields.io/github/forks/markhazleton/ReactSparkPortfolio)](https://github.com/markhazleton/ReactSparkPortfolio/network)
-[![Last Commit](https://img.shields.io/github/last-commit/markhazleton/ReactSparkPortfolio)](https://github.com/markhazleton/ReactSparkPortfolio/commits)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/markhazleton/BootstrapSpark?tab=MIT-1-ov-file)
+[![GitHub stars](https://img.shields.io/github/stars/markhazleton/BootstrapSpark)](https://github.com/markhazleton/BootstrapSpark/stargazers)
+[![GitHub issues](https://img.shields.io/github/issues/markhazleton/BootstrapSpark)](https://github.com/markhazleton/BootstrapSpark/issues)
+[![Azure Static Web Apps CI/CD](https://github.com/markhazleton/BootstrapSpark/workflows/Azure%20Static%20Web%20Apps%20CI/CD/badge.svg)](https://github.com/markhazleton/BootstrapSpark/actions)
+[![GitHub forks](https://img.shields.io/github/forks/markhazleton/BootstrapSpark)](https://github.com/markhazleton/BootstrapSpark/network)
+[![Last Commit](https://img.shields.io/github/last-commit/markhazleton/BootstrapSpark)](https://github.com/markhazleton/BootstrapSpark/commits)
 
 **🚀 A modern, high-performance React portfolio showcasing enterprise-grade web development**
 
-[🌐 Live Demo](https://reactspark.markhazleton.com/) • [📖 Documentation](./.documentation/) • [ Report Bug](https://github.com/markhazleton/ReactSparkPortfolio/issues)
+[🌐 Live Demo](https://bootstrapspark.markhazleton.com/) • [📖 Documentation](./.documentation/) • [ Report Bug](https://github.com/markhazleton/BootstrapSpark/issues)
 
 </div>
 
@@ -19,7 +19,7 @@
 
 ## 🎯 Overview
 
-**ReactSparkPortfolio** is a production-ready, enterprise-grade developer portfolio built with React 19, TypeScript, and Vite. It demonstrates modern frontend engineering best practices, serverless architecture, and cloud-native deployment patterns. The project serves as both a personal portfolio and a comprehensive reference implementation for scalable, maintainable web applications.
+**BootstrapSpark** is a production-ready, enterprise-grade developer portfolio built with React 19, TypeScript, and Vite. It demonstrates modern frontend engineering best practices, serverless architecture, and cloud-native deployment patterns. The project serves as both a personal portfolio and a comprehensive reference implementation for scalable, maintainable web applications.
 
 ### ✨ Key Highlights
 
@@ -163,7 +163,7 @@ graph TD
 ## 📁 Project Structure
 
 ```
-ReactSparkPortfolio/
+BootstrapSpark/
 ├── 📱 src/                          # Source code
 │   ├── 🧩 components/               # React components
 │   │   ├── About.tsx               # About section with tech stack
@@ -206,8 +206,8 @@ ReactSparkPortfolio/
 
 ```bash
 # Clone the repository
-git clone https://github.com/markhazleton/ReactSparkPortfolio.git
-cd ReactSparkPortfolio
+git clone https://github.com/markhazleton/BootstrapSpark.git
+cd BootstrapSpark
 
 # Install dependencies
 npm install
@@ -369,8 +369,8 @@ We welcome contributions! Please see our [Contributing Guide](./.documentation/C
 
 ## 🆘 Support
 
-- � **Issues:** [GitHub Issues](https://github.com/markhazleton/ReactSparkPortfolio/issues)
-- 💬 **Discussions:** [GitHub Discussions](https://github.com/markhazleton/ReactSparkPortfolio/discussions)
+- � **Issues:** [GitHub Issues](https://github.com/markhazleton/BootstrapSpark/issues)
+- 💬 **Discussions:** [GitHub Discussions](https://github.com/markhazleton/BootstrapSpark/discussions)
 - 🐛 **Bug Reports:** Use the bug report template
 - ✨ **Feature Requests:** Use the feature request template
 
@@ -399,7 +399,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 [![Follow on GitHub](https://img.shields.io/github/followers/markhazleton?style=social)](https://github.com/markhazleton)
 [![Twitter Follow](https://img.shields.io/twitter/follow/markhazleton?style=social)](https://twitter.com/markhazleton)
 
-[⭐ Star this repo](https://github.com/markhazleton/ReactSparkPortfolio) if you find it helpful!
+[⭐ Star this repo](https://github.com/markhazleton/BootstrapSpark) if you find it helpful!
 
 </div>
 
@@ -432,7 +432,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 ## 📁 Project Structure
 
 ```
-ReactSparkPortfolio/
+BootstrapSpark/
 ├── public/                  # Static assets
 ├── src/
 │   ├── assets/             # Images, SVGs
@@ -472,8 +472,8 @@ ReactSparkPortfolio/
 
 ```pwsh
 # Clone the repository
-git clone https://github.com/markhazleton/ReactSparkPortfolio.git
-cd ReactSparkPortfolio
+git clone https://github.com/markhazleton/BootstrapSpark.git
+cd BootstrapSpark
 
 # Install dependencies
 npm install
@@ -556,7 +556,7 @@ npm audit
 npm audit --json
 
 # Check GitHub Security tab
-# https://github.com/markhazleton/ReactSparkPortfolio/security
+# https://github.com/markhazleton/BootstrapSpark/security
 ```
 
 **Note**: All scripts and documentation prioritize security fixes and provide clear guidance for safe dependency updates.
@@ -637,7 +637,7 @@ npm audit --json
 
 Contributions are welcome!
 
-- **Issues**: Use [GitHub Issues](https://github.com/markhazleton/ReactSparkPortfolio/issues)
+- **Issues**: Use [GitHub Issues](https://github.com/markhazleton/BootstrapSpark/issues)
 - **Pull Requests**: Fork, branch, and submit PRs
 - **Code Style**: Follow existing TypeScript/React patterns and lint rules
 - **Templates**: See `.github/ISSUE_TEMPLATE/` for bug/feature templates
@@ -675,10 +675,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support & Contact
 
-- **Issues**: [GitHub Issues](https://github.com/markhazleton/ReactSparkPortfolio/issues)
+- **Issues**: [GitHub Issues](https://github.com/markhazleton/BootstrapSpark/issues)
 - **Pull Requests**: Welcome!
 - **General Questions**: Please use GitHub Issues for all support and contact
 
 ---
 
-Built with ❤️ by the ReactSparkPortfolio community. [Report an issue](https://github.com/markhazleton/ReactSparkPortfolio/issues/new)
+Built with ❤️ by the BootstrapSpark community. [Report an issue](https://github.com/markhazleton/BootstrapSpark/issues/new)

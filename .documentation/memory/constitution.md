@@ -23,7 +23,7 @@
   No follow-up actions required.
 -->
 
-# ReactSparkPortfolio Constitution
+# BootstrapSpark Constitution
 
 ## Core Principles
 

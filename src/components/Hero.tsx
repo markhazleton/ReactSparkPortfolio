@@ -79,11 +79,11 @@ const Hero: React.FC<{ profileData?: Profile }> = ({ profileData }) => {
                     {profile.ctaText} <ArrowRightCircle className="ms-2" />
                   </a>
                   <a
-                    href="https://github.com/markhazleton/ReactSparkPortfolio"
+                    href="https://github.com/markhazleton/BootstrapSpark"
                     className="btn btn-outline-light d-inline-flex align-items-center border-2"
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label="View ReactSpark on GitHub"
+                    aria-label="View BootstrapSpark on GitHub"
                   >
                     <Github className="me-2" /> View on GitHub
                   </a>
@@ -111,7 +111,7 @@ const Hero: React.FC<{ profileData?: Profile }> = ({ profileData }) => {
                   <CodeSquare className="text-primary me-2" /> Frontend Stack & Cloud Architecture
                 </h3>
                 <p className="text-theme-muted mb-3">
-                  ReactSpark is built with modern web technologies and deployed on Azure cloud
+                  BootstrapSpark is built with modern web technologies and deployed on Azure cloud
                   infrastructure:
                 </p>
 
@@ -238,7 +238,7 @@ const Hero: React.FC<{ profileData?: Profile }> = ({ profileData }) => {
                   </a>
 
                   <a
-                    href="https://github.com/markhazleton/ReactSparkPortfolio"
+                    href="https://github.com/markhazleton/BootstrapSpark"
                     className="btn btn-sm btn-outline-secondary d-inline-flex align-items-center"
                     target="_blank"
                     rel="noopener noreferrer"
@@ -261,10 +261,10 @@ const Hero: React.FC<{ profileData?: Profile }> = ({ profileData }) => {
                 </h3>
 
                 <p className="mb-4 text-theme">
-                  ReactSpark is a key component of the WebSpark suite—a collection of interconnected
-                  web applications that demonstrate different aspects of modern web development.
-                  Each app in the suite focuses on specific technologies while sharing data and
-                  services with other components.
+                  BootstrapSpark is a key component of the WebSpark suite-a collection of
+                  interconnected web applications that demonstrate different aspects of modern web
+                  development. Each app in the suite focuses on specific technologies while sharing
+                  data and services with other components.
                 </p>
 
                 <div className="row">
@@ -277,7 +277,7 @@ const Hero: React.FC<{ profileData?: Profile }> = ({ profileData }) => {
                         <div className="list-group list-group-flush">
                           <div className="list-group-item border-0 px-0 bg-transparent">
                             <h5 className="h6 mb-1 text-theme">
-                              ReactSpark <span className="badge bg-primary">Frontend</span>
+                              BootstrapSpark <span className="badge bg-primary">Frontend</span>
                             </h5>
                             <p className="small mb-0 text-theme-muted">
                               Dynamic React frontend powered by WebSpark APIs
@@ -353,7 +353,7 @@ const Hero: React.FC<{ profileData?: Profile }> = ({ profileData }) => {
                             <strong>Real-time Updates:</strong>
                             <p className="small mb-0 text-theme-muted">
                               SignalR connections provide push notifications from backend services
-                              to ReactSpark.
+                              to BootstrapSpark.
                             </p>
                           </li>
                         </ul>
@@ -413,12 +413,12 @@ const Hero: React.FC<{ profileData?: Profile }> = ({ profileData }) => {
                     <JournalText className="me-1" /> Learn About WebSpark
                   </a>
                   <a
-                    href="https://github.com/markhazleton/ReactSparkPortfolio"
+                    href="https://github.com/markhazleton/BootstrapSpark"
                     className="btn btn-outline-secondary d-inline-flex align-items-center"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <Github className="me-1" /> View ReactSpark Source
+                    <Github className="me-1" /> View BootstrapSpark Source
                   </a>
                 </div>
               </div>

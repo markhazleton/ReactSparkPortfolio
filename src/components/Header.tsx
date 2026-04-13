@@ -7,6 +7,12 @@ import {
   EmojiLaughing,
   Cloud,
   CpuFill,
+  Grid,
+  Table,
+  Window,
+  Kanban,
+  Bag,
+  Envelope,
   SunFill,
   MoonFill,
 } from "react-bootstrap-icons";
@@ -21,6 +27,23 @@ const Header: React.FC = () => {
     return location.pathname === path;
   };
 
+  const isShowcaseActive =
+    location.pathname === "/components" ||
+    location.pathname === "/advanced-components" ||
+    location.pathname === "/data-tables";
+
+  const isSiteDemosActive =
+    location.pathname === "/site-demos/saas-dashboard" ||
+    location.pathname === "/site-demos/team-collaboration" ||
+    location.pathname === "/site-demos/product-catalog";
+
+  const isAppsActive =
+    location.pathname === "/projects" ||
+    location.pathname === "/articles" ||
+    location.pathname === "/joke" ||
+    location.pathname === "/weather" ||
+    location.pathname === "/variant";
+
   // Updated path resolution for the logo to work both locally and on Azure
   const logoPath = "/PromptSpark.svg";
 
@@ -34,9 +57,9 @@ const Header: React.FC = () => {
       >
         <div className="container">
           <Link className="navbar-brand d-flex align-items-center" to="/">
-            <img src={logoPath} alt="ReactSpark Logo" width="24" height="24" className="me-2" />
+            <img src={logoPath} alt="BootstrapSpark Logo" width="24" height="24" className="me-2" />
             <div>
-              <span className="fw-bold">ReactSpark</span>
+              <span className="fw-bold">BootstrapSpark</span>
               <small className="d-block text-muted header-subtitle">by Mark Hazleton</small>
             </div>
           </Link>
@@ -73,49 +96,101 @@ const Header: React.FC = () => {
                   <Person className="me-1" /> About
                 </Link>
               </li>
-              <li className="nav-item">
-                <Link
-                  className={`nav-link ${isActive("/projects") ? "active fw-semibold" : ""}`}
-                  to="/projects"
-                  aria-label="Projects page"
+              <li className="nav-item dropdown">
+                <button
+                  className={`nav-link dropdown-toggle btn btn-link text-decoration-none ${isAppsActive ? "active fw-semibold" : ""}`}
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
                 >
-                  <Briefcase className="me-1" /> Projects
-                </Link>
+                  Apps
+                </button>
+                <ul className="dropdown-menu dropdown-menu-end">
+                  <li>
+                    <Link className="dropdown-item" to="/projects" aria-label="Projects page">
+                      <Briefcase className="me-2" /> Projects
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="dropdown-item" to="/articles" aria-label="Articles page">
+                      <JournalText className="me-2" /> Articles
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="dropdown-item" to="/joke" aria-label="Joke page">
+                      <EmojiLaughing className="me-2" /> Joke
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="dropdown-item" to="/weather" aria-label="Weather page">
+                      <Cloud className="me-2" /> Weather
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="dropdown-item" to="/variant" aria-label="PromptSpark page">
+                      <CpuFill className="me-2" /> PromptSpark
+                    </Link>
+                  </li>
+                </ul>
+              </li>
+              <li className="nav-item dropdown">
+                <button
+                  className={`nav-link dropdown-toggle btn btn-link text-decoration-none ${isShowcaseActive ? "active fw-semibold" : ""}`}
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <Grid className="me-1" /> Showcase
+                </button>
+                <ul className="dropdown-menu dropdown-menu-end">
+                  <li>
+                    <Link className="dropdown-item" to="/components">
+                      <Grid className="me-2" /> Components
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="dropdown-item" to="/advanced-components">
+                      <Grid className="me-2" /> Advanced Components
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="dropdown-item" to="/data-tables">
+                      <Table className="me-2" /> Data Tables
+                    </Link>
+                  </li>
+                </ul>
+              </li>
+              <li className="nav-item dropdown">
+                <button
+                  className={`nav-link dropdown-toggle btn btn-link text-decoration-none ${isSiteDemosActive ? "active fw-semibold" : ""}`}
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <Window className="me-1" /> Site Demos
+                </button>
+                <ul className="dropdown-menu dropdown-menu-end">
+                  <li>
+                    <Link className="dropdown-item" to="/site-demos/saas-dashboard">
+                      <Table className="me-2" /> SaaS Dashboard
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="dropdown-item" to="/site-demos/team-collaboration">
+                      <Kanban className="me-2" /> Team Collaboration
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="dropdown-item" to="/site-demos/product-catalog">
+                      <Bag className="me-2" /> Product Catalog
+                    </Link>
+                  </li>
+                </ul>
               </li>
               <li className="nav-item">
                 <Link
-                  className={`nav-link ${isActive("/articles") ? "active fw-semibold" : ""}`}
-                  to="/articles"
-                  aria-label="Articles page"
+                  className={`nav-link ${isActive("/community") || isActive("/contact") ? "active fw-semibold" : ""}`}
+                  to="/community"
+                  aria-label="Community page"
                 >
-                  <JournalText className="me-1" /> Articles
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link
-                  className={`nav-link ${isActive("/joke") ? "active fw-semibold" : ""}`}
-                  to="/joke"
-                  aria-label="Joke page"
-                >
-                  <EmojiLaughing className="me-1" /> Joke
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link
-                  className={`nav-link ${isActive("/weather") ? "active fw-semibold" : ""}`}
-                  to="/weather"
-                  aria-label="Weather page"
-                >
-                  <Cloud className="me-1" /> Weather
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link
-                  className={`nav-link ${isActive("/variant") ? "active fw-semibold" : ""}`}
-                  to="/variant"
-                  aria-label="PromptSpark page"
-                >
-                  <CpuFill className="me-1" /> PromptSpark
+                  <Envelope className="me-1" /> Community
                 </Link>
               </li>
               <li className="nav-item ms-2 d-flex align-items-center">

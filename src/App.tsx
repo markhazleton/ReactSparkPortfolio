@@ -23,6 +23,14 @@ const Articles = lazy(() => import("./components/Articles"));
 const Joke = lazy(() => import("./components/Joke"));
 const WeatherForecast = lazy(() => import("./components/WeatherForecast"));
 const VariantList = lazy(() => import("./components/VariantList"));
+const Components = lazy(() => import("./components/Components"));
+const AdvancedComponents = lazy(() => import("./components/AdvancedComponents"));
+const DataTables = lazy(() => import("./components/DataTables"));
+const SongDetail = lazy(() => import("./components/SongDetail"));
+const Contact = lazy(() => import("./components/Contact"));
+const SiteDemoSaasDashboard = lazy(() => import("./components/SiteDemoSaasDashboard"));
+const SiteDemoTeamCollaboration = lazy(() => import("./components/SiteDemoTeamCollaboration"));
+const SiteDemoProductCatalog = lazy(() => import("./components/SiteDemoProductCatalog"));
 const NotFound = lazy(() => import("./components/NotFound"));
 
 // Component to handle version checking
@@ -59,6 +67,18 @@ const AppWithVersionCheck: React.FC = () => {
                   <Route path="/articles" element={<Articles />} />
                   <Route path="/weather" element={<WeatherForecast />} />
                   <Route path="/variant" element={<VariantList />} />
+                  <Route path="/components" element={<Components />} />
+                  <Route path="/advanced-components" element={<AdvancedComponents />} />
+                  <Route path="/data-tables" element={<DataTables />} />
+                  <Route path="/song/:id" element={<SongDetail />} />
+                  <Route path="/community" element={<Contact />} />
+                  <Route path="/contact" element={<Contact />} />
+                  <Route path="/site-demos/saas-dashboard" element={<SiteDemoSaasDashboard />} />
+                  <Route
+                    path="/site-demos/team-collaboration"
+                    element={<SiteDemoTeamCollaboration />}
+                  />
+                  <Route path="/site-demos/product-catalog" element={<SiteDemoProductCatalog />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </Suspense>

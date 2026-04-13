@@ -276,14 +276,13 @@ The project is configured for automatic deployment to Azure Static Web Apps:
 
 ### 🟢 GitHub Pages
 
-Alternative deployment to GitHub Pages:
+Alternative deployment to GitHub Pages (requires committing build output):
 
 ```bash
-# Build and deploy to GitHub Pages
+# Build for GitHub Pages deployment
 npm run build
-git add docs/
-git commit -m "Deploy to GitHub Pages"
-git push origin main
+# Note: docs/ is gitignored. To deploy to GitHub Pages,
+# you would need to temporarily unignore or use a CI workflow.
 ```
 
 **Setup:** Enable GitHub Pages in repository settings, source: `/docs` folder.
@@ -515,7 +514,9 @@ npm run build
 npm run preview # (optional, to preview build)
 ```
 
-- Output is in `docs/` (for GitHub Pages & Azure SWA)
+- Output is in `docs/` (gitignored build artifact — not committed to the repository)
+- Azure SWA and CI/CD build from source automatically
+- Run `npm run build` before `npm run preview` to generate build output locally
 
 ---
 

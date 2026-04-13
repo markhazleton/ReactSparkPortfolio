@@ -29,5 +29,6 @@ Consolidates the JsBootSpark feature set into the React application and complete
 N/A
 
 ## Notes
-- Working tree is currently dirty at preflight time.
+- Working tree is clean at preflight time.
 - No existing PR detected for this branch.
+- Required gate metadata and historical gate acknowledgements contain timing inconsistencies for analyze/critic; reviewers should verify final gate artifact state before merge.

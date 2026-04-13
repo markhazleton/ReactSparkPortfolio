@@ -131,7 +131,7 @@ This removes `docs/` from the git index without deleting local files. After this
 git rm -r --cached coverage/
 ```
 
-The `coverage/` entry already exists in `.gitignore` but the directory is still tracked (it was committed before the ignore rule was added).
+The `coverage/` entry already exists in `.gitignore`. Note: `coverage/` was never actually tracked in git (the ignore rule was added before any coverage files were committed), so this step is a no-op.
 
 #### Step 4: Update README.md
 

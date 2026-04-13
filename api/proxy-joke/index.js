@@ -2,7 +2,7 @@ const axios = require("axios");
 
 // Whitelisted origins for CORS
 const ALLOWED_ORIGINS = [
-  "https://reactspark.markhazleton.com",
+  "https://bootstrapspark.markhazleton.com",
   "https://markhazleton.github.io",
   "http://localhost:3000",
   "http://127.0.0.1:3000",
@@ -67,7 +67,7 @@ module.exports = async function (context, req) {
     const response = await axios.get(jokeApiUrl, {
       timeout: 5000,
       headers: {
-        "User-Agent": "ReactSparkPortfolio/1.0",
+        "User-Agent": "BootstrapSpark/1.0",
       },
     });
 

@@ -1,11 +1,11 @@
 {
-  "name": "ReactSpark",
+  "name": "BootstrapSpark",
   "createdBy": "Mark Hazleton",
   "profession": "Dynamic React Frontend",
-  "introduction": "ReactSpark is the latest addition to the WebSpark suite—an elegant, high-performance single-page application (SPA) built with React that showcases how dynamic web frontends can be powered by robust APIs from the WebSpark ecosystem.",
+  "introduction": "BootstrapSpark is an elegant, high-performance single-page application (SPA) built with React and Bootstrap that showcases dynamic frontend patterns powered by robust APIs from the WebSpark ecosystem.",
   "ctaText": "Explore WebSpark",
   "ctaLink": "https://markhazleton.com",
-  "about": "This app is designed to serve as both a demonstration and a reference implementation of how modern React development practices can be used to build dynamic, maintainable, and extensible web applications. ReactSpark consumes data and services from the existing .NET-powered WebSpark APIs, offering a seamless integration between frontend and backend technologies. While WebSpark's previous apps (like PromptSpark and AsyncSpark) demonstrate server-side capabilities, ReactSpark focuses on demonstrating real-time data binding, dynamic routing, showcasing React + Vite for rapid frontend development, and utilizing modern React libraries (e.g., React Router, TailwindCSS, and context/state management).",
+  "about": "This app serves as both a demonstration and a reference implementation for modern React development practices. BootstrapSpark consumes data and services from existing APIs and showcases dynamic routing, client-side state management, and interactive Bootstrap-based UI patterns.",
   "skills": [
     "React 18+",
     "Vite",

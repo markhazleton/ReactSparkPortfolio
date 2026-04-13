@@ -3,19 +3,19 @@ import { Github, Calendar3, Linkedin, Clock } from "react-bootstrap-icons";
 
 /**
  * Footer component displays application footer with build information and social links.
- * 
+ *
  * Features:
  * - Displays formatted build date/time in Central Standard Time
  * - Links to GitHub and LinkedIn profiles
  * - Shows current year for copyright
  * - Graceful error handling for date formatting
- * 
+ *
  * @component
  * @example
  * ```tsx
  * <Footer />
  * ```
- * 
+ *
  * @returns {JSX.Element} The rendered footer with build info and social links
  */
 
@@ -56,7 +56,7 @@ const Footer: React.FC = () => {
             <p className="mb-0">
               © 2025{" "}
               <a href="https://markhazleton.com" className="text-decoration-none">
-                ReactSpark
+                BootstrapSpark
               </a>{" "}
               by Mark Hazleton
             </p>
@@ -96,7 +96,7 @@ const Footer: React.FC = () => {
         {/* GitHub Repo Link */}
         <div className="col-md-4 text-md-end text-center">
           <a
-            href="https://github.com/markhazleton/ReactSparkPortfolio"
+            href="https://github.com/markhazleton/BootstrapSpark"
             className="btn btn-sm btn-outline-secondary d-inline-flex align-items-center"
             target="_blank"
             rel="noopener noreferrer"

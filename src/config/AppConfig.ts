@@ -5,17 +5,18 @@ export const AppConfig = {
   /**
    * Main site URL used for SEO, sitemaps, and canonical links
    */
-  hostedUrl: "https://reactspark.markhazleton.com",
+  hostedUrl: "https://bootstrapspark.markhazleton.com",
 
   /**
    * Default site title
    */
-  siteTitle: "React Spark Portfolio",
+  siteTitle: "BootstrapSpark",
 
   /**
    * Default site description
    */
-  siteDescription: "A portfolio website built with React, TypeScript, and Bootstrap",
+  siteDescription:
+    "BootstrapSpark combines portfolio content with Bootstrap showcase demos and data tables",
 
   /**
    * Site owner information
@@ -25,7 +26,7 @@ export const AppConfig = {
   /**
    * Github repository URL
    */
-  githubRepo: "https://github.com/markhazleton/ReactSparkPortfolio",
+  githubRepo: "https://github.com/markhazleton/BootstrapSpark",
 };
 
 export default AppConfig;

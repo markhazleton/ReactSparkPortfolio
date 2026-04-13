@@ -49,6 +49,7 @@ local.settings.json
 /out
 coverage/
 /docs/
+*.tsbuildinfo
 
 # Sensitive Azure files
 .azure/

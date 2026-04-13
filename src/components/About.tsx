@@ -19,48 +19,49 @@ import { useSEO } from "../contexts/useSEO";
 import "../styles/About.css"; // Import the external CSS file
 
 /**
- * About component displays personal profile information and recent ReactSpark articles.
- * 
+ * About component displays personal profile information and recent BootstrapSpark articles.
+ *
  * Features:
  * - Displays profile information from JSON configuration
- * - Fetches and shows up to 3 most recent ReactSpark articles from RSS feed
+ * - Fetches and shows up to 3 most recent BootstrapSpark articles from RSS feed
  * - Handles loading and error states gracefully
  * - Responsive design with icon-based navigation
- * 
+ *
  * @component
  * @example
  * ```tsx
  * <About />
  * ```
- * 
+ *
  * @returns {JSX.Element} The rendered About page with profile and articles
  */
 const About: React.FC = () => {
-  const [reactSparkArticles, setReactSparkArticles] = useState<RssArticle[]>([]);
+  const [bootstrapSparkArticles, setBootstrapSparkArticles] = useState<RssArticle[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const { setTitle, setDescription } = useSEO();
 
   // Set page-specific SEO information
   useEffect(() => {
-    setTitle("About | React Spark Portfolio");
+    setTitle("About | BootstrapSpark");
     setDescription(
-      "Learn about ReactSpark - a modern, high-performance SPA built with React, TypeScript and Vite that showcases frontend development best practices."
+      "Learn about BootstrapSpark - a modern SPA built with React, TypeScript and Bootstrap showcase examples."
     );
   }, [setTitle, setDescription]);
 
   useEffect(() => {
-    const loadReactSparkArticles = async () => {
+    const loadBootstrapSparkArticles = async () => {
       try {
         setLoading(true);
 
         // Fetch all articles
         const articles = await fetchRssFeed();
 
-        // Filter for articles with ReactSpark category
+        // Filter for articles with BootstrapSpark category
         const filteredArticles = articles.filter(
           (article) =>
-            article.category?.toLowerCase() === "reactspark" ||
+            article.category?.toLowerCase() === "bootstrapspark" ||
+            article.title.toLowerCase().includes("bootstrapspark") ||
             article.title.toLowerCase().includes("reactspark")
         );
 
@@ -69,16 +70,16 @@ const About: React.FC = () => {
           .sort((a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime())
           .slice(0, 3);
 
-        setReactSparkArticles(sortedArticles);
+        setBootstrapSparkArticles(sortedArticles);
         setLoading(false);
       } catch (err) {
-        console.error("Error loading ReactSpark articles:", err);
+        console.error("Error loading BootstrapSpark articles:", err);
         setError(err instanceof Error ? err.message : "Unknown error loading articles");
         setLoading(false);
       }
     };
 
-    loadReactSparkArticles();
+    loadBootstrapSparkArticles();
   }, []);
 
   const formatDate = (dateString: string) => {
@@ -106,7 +107,7 @@ const About: React.FC = () => {
             <p className="lead mb-4 mx-auto">{profile.introduction}</p>
             <div className="d-flex justify-content-center gap-2 mb-4">
               <a
-                href="https://github.com/markhazleton/ReactSparkPortfolio"
+                href="https://github.com/markhazleton/BootstrapSpark"
                 className="btn btn-outline-primary d-inline-flex align-items-center"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -132,28 +133,28 @@ const About: React.FC = () => {
             <div className="card h-100 shadow-sm border-theme">
               <div className="card-body">
                 <h2 className="h4 mb-4 d-flex align-items-center border-bottom pb-3">
-                  <BookmarkStar className="text-primary me-2" /> About ReactSpark
+                  <BookmarkStar className="text-primary me-2" /> About BootstrapSpark
                 </h2>
                 <p className="lead mb-3">
-                  ReactSpark is the latest addition to the WebSpark suite—an elegant,
+                  BootstrapSpark is the latest addition to the WebSpark suite-an elegant,
                   high-performance single-page application (SPA) built with React that showcases how
                   dynamic web frontends can be powered by robust APIs.
                 </p>
 
                 <p className="mb-4">
                   This app demonstrates how modern React development practices can be used to build
-                  dynamic, maintainable, and extensible web applications. ReactSpark consumes data
-                  and services from the existing .NET-powered WebSpark APIs, offering a seamless
-                  integration between frontend and backend technologies.
+                  dynamic, maintainable, and extensible web applications. BootstrapSpark consumes
+                  data and services from the existing .NET-powered WebSpark APIs, offering a
+                  seamless integration between frontend and backend technologies.
                 </p>
 
                 <div className="card bg-theme-alt mb-4">
                   <div className="card-body">
                     <h3 className="h5 mb-3">🔍 Purpose</h3>
                     <p className="mb-2">
-                      ReactSpark bridges the gap between backend services and rich user experiences.
-                      While WebSpark's previous apps demonstrate server-side capabilities,
-                      ReactSpark focuses on:
+                      BootstrapSpark bridges the gap between backend services and rich user
+                      experiences. While WebSpark's previous apps demonstrate server-side
+                      capabilities, BootstrapSpark focuses on:
                     </p>
                     <ul className="mb-0">
                       <li>Demonstrating real-time data binding and dynamic routing</li>
@@ -167,7 +168,7 @@ const About: React.FC = () => {
                 <div className="card bg-theme-alt">
                   <div className="card-body">
                     <h3 className="h5 mb-3">💡 Design Philosophy</h3>
-                    <p className="mb-3">ReactSpark follows a clean separation of concerns:</p>
+                    <p className="mb-3">BootstrapSpark follows a clean separation of concerns:</p>
                     <ul className="mb-3">
                       <li>UI logic lives entirely in the React frontend</li>
                       <li>
@@ -177,8 +178,8 @@ const About: React.FC = () => {
                     </ul>
                     <p className="mb-0">
                       It reflects the core philosophy of WebSpark:{" "}
-                      <strong>"Show, not just tell."</strong> ReactSpark is built to be dissected,
-                      forked, and extended for your own projects.
+                      <strong>"Show, not just tell."</strong> BootstrapSpark is built to be
+                      dissected, forked, and extended for your own projects.
                     </p>
                   </div>
                 </div>
@@ -236,7 +237,7 @@ const About: React.FC = () => {
                 <div className="card bg-theme-alt mb-4">
                   <div className="card-body">
                     <h3 className="h5 mb-3">🎯 Use Cases</h3>
-                    <p className="mb-0">ReactSpark is ideal for:</p>
+                    <p className="mb-0">BootstrapSpark is ideal for:</p>
                     <ul className="mb-0">
                       <li>Developers looking to see how to consume .NET APIs in a React app</li>
                       <li>
@@ -249,8 +250,8 @@ const About: React.FC = () => {
                   </div>
                 </div>
 
-                {/* ReactSpark Articles Section */}
-                <h3 className="h5 mb-3 border-top pt-4">Featured ReactSpark Articles</h3>
+                {/* BootstrapSpark Articles Section */}
+                <h3 className="h5 mb-3 border-top pt-4">Featured BootstrapSpark Articles</h3>
 
                 {loading && (
                   <div className="d-flex justify-content-center my-4">
@@ -266,18 +267,18 @@ const About: React.FC = () => {
                   </Alert>
                 )}
 
-                {!loading && !error && reactSparkArticles.length === 0 && (
+                {!loading && !error && bootstrapSparkArticles.length === 0 && (
                   <Alert variant="info" className="d-flex align-items-center">
                     <InfoCircle className="me-2 flex-shrink-0" />
                     <div className="small">
-                      No ReactSpark articles found. Check back soon for updates!
+                      No BootstrapSpark articles found. Check back soon for updates!
                     </div>
                   </Alert>
                 )}
 
-                {!loading && !error && reactSparkArticles.length > 0 && (
+                {!loading && !error && bootstrapSparkArticles.length > 0 && (
                   <div className="list-group list-group-flush">
-                    {reactSparkArticles.map((article, index) => (
+                    {bootstrapSparkArticles.map((article, index) => (
                       <a
                         key={index}
                         href={article.link}

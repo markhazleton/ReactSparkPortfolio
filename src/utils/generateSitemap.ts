@@ -16,6 +16,13 @@ const routes = [
   { path: "/joke", priority: 0.6, changefreq: "daily" },
   { path: "/weather", priority: 0.6, changefreq: "daily" },
   { path: "/variant", priority: 0.5, changefreq: "monthly" },
+  { path: "/components", priority: 0.7, changefreq: "monthly" },
+  { path: "/advanced-components", priority: 0.7, changefreq: "monthly" },
+  { path: "/data-tables", priority: 0.7, changefreq: "weekly" },
+  { path: "/community", priority: 0.7, changefreq: "monthly" },
+  { path: "/site-demos/saas-dashboard", priority: 0.7, changefreq: "monthly" },
+  { path: "/site-demos/team-collaboration", priority: 0.7, changefreq: "monthly" },
+  { path: "/site-demos/product-catalog", priority: 0.7, changefreq: "monthly" },
 ];
 
 // Get domain from AppConfig

@@ -48,6 +48,7 @@ local.settings.json
 /.next
 /out
 coverage/
+/docs/
 
 # Sensitive Azure files
 .azure/

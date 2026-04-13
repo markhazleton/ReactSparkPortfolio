@@ -7,6 +7,9 @@ handoffs:
   - label: Run Final Audit
     agent: devspark.site-audit
     prompt: Run a final site audit before release
+scripts:
+  sh: .devspark/scripts/bash/release-context.sh $ARGUMENTS --json
+  ps: .devspark/scripts/powershell/release-context.ps1 $ARGUMENTS -Json
 ---
 
 ## User Input
@@ -46,9 +49,11 @@ Parse `$ARGUMENTS` for options:
 
 ## Outline
 
+**Multi-app support**: If this repository uses multi-app mode (`.documentation/devspark.json` exists with `mode: "multi-app"`), check for `--app <id>` in the user input to scope this workflow to a specific application. When app context is provided, resolve artifacts from `{app.path}/.documentation/` instead of the repository root `.documentation/`. Print the resolved scope (app name, doc root) at the start of output.
+
 ### 1. Initialize Release Context
 
-Run `.devspark/scripts/bash/release-context.sh $ARGUMENTS --json` to gather context and parse JSON output for:
+Run `{SCRIPT}` to gather context and parse JSON output for:
 
 - `REPO_ROOT`: Repository root path
 - `SPECS_DIR`: Path to specs directory
@@ -67,7 +72,7 @@ Run `.devspark/scripts/bash/release-context.sh $ARGUMENTS --json` to gather cont
 - `COMMITS_SINCE_RELEASE`: Commit count since last release
 - `CONTRIBUTORS`: List of contributors
 - `DRY_RUN`: Whether this is a preview run
-- `DEVSPARK_VERSION_PATH`: Path to `.documentation/DEVSPARK_VERSION`
+- `DEVSPARK_VERSION_PATH`: Path to `.devspark/VERSION`
 - `INSTALLED_VERSION`: Version recorded in the stamp file (blank if absent)
 
 ### 2. Version Confirmation
@@ -101,9 +106,12 @@ Confirm this version or provide explicit version:
 
 For each spec in COMPLETED_SPECS:
 
+- Verify the `**Status**:` field in `spec.md` is `Complete` (not `Draft` or `In Progress`)
 - Verify all tasks are checked in `tasks.md`
 - Confirm associated PR merged (if trackable)
-- Mark for archival
+- If spec status is NOT `Complete` but tasks are all checked, **flag as inconsistency** — update spec status to `Complete` before archiving
+- If spec status is `Draft` or `In Progress` and tasks are incomplete, move to Pending Specs (section B)
+- Mark for archival only when both status is `Complete` AND all tasks are checked
 
 #### B. Pending Specs (Keep Active)
 
@@ -357,11 +365,11 @@ version = "{NEXT_VERSION}"   # was {CURRENT_VERSION}
 
 Make this edit now if {NEXT_VERSION} differs from {CURRENT_VERSION}.
 
-#### B. Confirm `.documentation/DEVSPARK_VERSION` (consumer repos)
+#### B. Confirm `.devspark/VERSION` (consumer repos)
 
-`.documentation/DEVSPARK_VERSION` is **written automatically** by `devspark init` and
-`devspark upgrade` from the CLI version. Maintainers do not need to update it manually
-in the source repo — it is a per-consumer-project stamp.
+`.devspark/VERSION` is **written automatically** by quickstart, `devspark init`, and
+upgrade flows. Maintainers do not need to update it manually in the source repo — it is
+a per-consumer-project stamp. Legacy installs may still contain `.documentation/DEVSPARK_VERSION`.
 
 After bumping `pyproject.toml` and publishing the new release, consumer projects
 will receive the correct version stamp the next time they run `devspark upgrade`.
@@ -543,9 +551,12 @@ To execute this release:
 
 A spec is considered complete when:
 
+- The `**Status**:` field in `spec.md` is `Complete`
 - All tasks in `tasks.md` are checked (`[x]`)
 - At least one task exists (not an empty file)
 - `spec.md` exists in the directory
+
+If tasks are all checked but status is not `Complete`, this is a lifecycle inconsistency — update the status field to `Complete` before proceeding with archival.
 
 ### ADR Quality
 

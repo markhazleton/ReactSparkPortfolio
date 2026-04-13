@@ -9,6 +9,9 @@ handoffs:
     agent: devspark.implement
     prompt: Start the implementation in phases
     send: true
+scripts:
+  sh: .devspark/scripts/bash/check-prerequisites.sh --json
+  ps: .devspark/scripts/powershell/check-prerequisites.ps1 -Json
 ---
 
 ## User Input
@@ -21,12 +24,25 @@ You **MUST** consider the user input before proceeding (if not empty).
 
 ## Outline
 
-1. **Setup**: Run `.devspark/scripts/bash/check-prerequisites.sh --json` from repo root and parse FEATURE_DIR and AVAILABLE_DOCS list. All paths must be absolute. For single quotes in args like "I'm Groot", use escape syntax: e.g 'I'\''m Groot' (or double-quote if possible: "I'm Groot").
+**Multi-app support**: If this repository uses multi-app mode (`.documentation/devspark.json` exists with `mode: "multi-app"`), check for `--app <id>` in the user input to scope this workflow to a specific application. When app context is provided, resolve artifacts from `{app.path}/.documentation/` instead of the repository root `.documentation/`. Print the resolved scope (app name, doc root) at the start of output.
+
+1. **Setup**: Run `{SCRIPT}` from repo root and parse FEATURE_DIR and AVAILABLE_DOCS list. All paths must be absolute. For single quotes in args like "I'm Groot", use escape syntax: e.g 'I'\''m Groot' (or double-quote if possible: "I'm Groot").
 
 2. **Load design documents**: Read from FEATURE_DIR:
    - **Required**: plan.md (tech stack, libraries, structure), spec.md (user stories with priorities)
    - **Optional**: data-model.md (entities), contracts/ (interface contracts), research.md (decisions), quickstart.md (test scenarios)
    - Note: Not all projects have all documents. Generate tasks based on what's available.
+
+   Before generating tasks, read the YAML frontmatter in `spec.md` and treat it as authoritative for `classification`, `risk_level`, and `required_gates`. If the prose implies a heavier or lighter route than the metadata, flag that mismatch to the user instead of guessing.
+
+   Before generating tasks, inspect any existing gate artifacts under FEATURE_DIR:
+   - `checklists/*.md`
+   - `analyze.md`, `critic.md`
+   - `gates/*.md`
+
+   If required gates exist and contain unresolved blocking findings, or a checklist has incomplete items, summarize the findings and recommend the next action. Ask the user whether to fix first, review findings, or proceed anyway. Do not hard-block.
+
+   If the user chooses to proceed anyway, record the decision in `tasks.md` under a `## Gate Acknowledgements` section with the gate name, the unresolved concern, and the user's explicit choice.
 
 3. **Execute task generation workflow**:
    - Load plan.md and extract tech stack, libraries, project structure
@@ -39,7 +55,7 @@ You **MUST** consider the user input before proceeding (if not empty).
    - Create parallel execution examples per user story
    - Validate task completeness (each user story has all needed tasks, independently testable)
 
-4. **Generate tasks.md**: Use `.documentation/templates/tasks-template.md` as structure, fill with:
+4. **Generate tasks.md**: Use `/.devspark/templates/tasks-template.md` in installed repos, or `templates/tasks-template.md` in source repos, as the structure. Fill with:
    - Correct feature name from plan.md
    - Phase 1: Setup tasks (project initialization)
    - Phase 2: Foundational tasks (blocking prerequisites for all user stories)
@@ -51,6 +67,7 @@ You **MUST** consider the user input before proceeding (if not empty).
    - Dependencies section showing story completion order
    - Parallel execution examples per story
    - Implementation strategy section (MVP first, incremental delivery)
+   - `## Gate Acknowledgements` section when the user proceeds with unresolved findings
 
 5. **Report**: Output path to generated tasks.md and summary:
    - Total task count
@@ -60,11 +77,11 @@ You **MUST** consider the user input before proceeding (if not empty).
    - Suggested MVP scope (typically just User Story 1)
    - Format validation: Confirm ALL tasks follow the checklist format (checkbox, ID, labels, file paths)
 
-Context for task generation: $ARGUMENTS
+Context for task generation: {ARGS}
 
 The tasks.md should be immediately executable - each task must be specific enough that an LLM can complete it without additional context.
 
-## Task Generation Rules
+## Constraints
 
 **CRITICAL**: Tasks MUST be organized by user story to enable independent implementation and testing.
 

@@ -9,6 +9,9 @@ handoffs:
     agent: devspark.tasks
     prompt: Regenerate tasks with missing operational items
     send: true
+scripts:
+  sh: .devspark/scripts/bash/check-prerequisites.sh --json --require-tasks --include-tasks
+  ps: .devspark/scripts/powershell/check-prerequisites.ps1 -Json -RequireTasks -IncludeTasks
 ---
 
 ## User Input
@@ -19,7 +22,7 @@ $ARGUMENTS
 
 You **MUST** consider the user input before proceeding (if not empty).
 
-## Goal
+## Overview
 
 Act as a skeptical technical expert identifying risks, architectural flaws, implementation hazards, and failure scenarios that will prevent successful delivery. This command assumes `/devspark.tasks` has completed and focuses on **what will go wrong** rather than consistency checking.
 
@@ -30,17 +33,21 @@ Act as a skeptical technical expert identifying risks, architectural flaws, impl
 
 ## Operating Constraints
 
-**STRICTLY READ-ONLY**: Do **not** modify any files. Output a structured risk assessment with severity-ranked findings.
+The risk review itself is non-destructive. Do **not** edit `spec.md`, `plan.md`, `tasks.md`, or source files. The only file write allowed is refreshing the persisted gate artifact at `FEATURE_DIR/gates/critic.md` with the final report from this command.
+
+Read the YAML frontmatter in `spec.md` before evaluating risk. Treat `classification`, `risk_level`, and `required_gates` as authoritative metadata.
 
 **Critical Mindset**: Assume the team has **limited experience** with the proposed stack, **optimistic estimates**, and **incomplete understanding** of edge cases. Your job is to identify where the plan will fail in production.
 
 **Constitution Authority**: The project constitution (`/.documentation/memory/constitution.md`) is **non-negotiable**. Constitution violations are automatically SHOWSTOPPER severity.
 
-## Execution Steps
+## Outline
+
+**Multi-app support**: If this repository uses multi-app mode (`.documentation/devspark.json` exists with `mode: "multi-app"`), check for `--app <id>` in the user input to scope this workflow to a specific application. When app context is provided, resolve artifacts from `{app.path}/.documentation/` instead of the repository root `.documentation/`. Print the resolved scope (app name, doc root) at the start of output.
 
 ### 1. Initialize Analysis Context
 
-Run `.devspark/scripts/bash/check-prerequisites.sh --json --require-tasks --include-tasks` once from repo root and parse JSON for FEATURE_DIR and AVAILABLE_DOCS. Derive absolute paths:
+Run `{SCRIPT}` once from repo root and parse JSON for FEATURE_DIR and AVAILABLE_DOCS. Derive absolute paths:
 
 - SPEC = FEATURE_DIR/spec.md
 - PLAN = FEATURE_DIR/plan.md
@@ -128,6 +135,16 @@ Analyze across these critical dimensions, applying stack-specific knowledge:
 - Circular dependencies
 - Missing proper dependency injection for testability
 - Hard-coded configuration values
+
+#### F. Rationale & Traceability Risks
+
+**RATIONALE COMPLETENESS:**
+
+- Missing or incomplete Rationale Summary in spec.md → HIGH
+- Missing or incomplete Rationale Summary in plan.md → HIGH
+- Missing or incomplete Rationale Summary in tasks.md → HIGH
+- Rationale drift between spec and plan (Core Problem mismatch) → CRITICAL
+- Tradeoffs not documented for major architecture decisions → HIGH
 
 #### B. Security & Compliance Risks
 
@@ -226,6 +243,16 @@ Analyze across these critical dimensions, applying stack-specific knowledge:
 
 ### 5. Framework-Specific Risk Checklists
 
+Start the output with a gate result block:
+
+```yaml
+gate: critic
+status: pass | warn | fail
+blocking: true | false
+severity: info | warning | error | showstopper
+summary: "<concise outcome>"
+```
+
 Based on detected stack, apply relevant checklist:
 
 **Python + FastAPI/Django:**
@@ -314,6 +341,15 @@ Output Markdown report with this structure:
 | ID  | Category | Location | Risk Description | Likely Impact | Recommended Action |
 | --- | -------- | -------- | ---------------- | ------------- | ------------------ |
 
+### 8. Persist Gate Artifact
+
+After producing the report:
+
+- Ensure `FEATURE_DIR/gates/` exists
+- Save the report as `FEATURE_DIR/gates/critic.md`
+- Treat the YAML gate block as authoritative for downstream commands such as `/devspark.tasks`, `/devspark.implement`, `/devspark.create-pr`, and `/devspark.pr-review`
+- When rerun, replace the previous `critic.md` artifact instead of appending duplicate reports
+
 ### High-Priority Concerns
 
 | ID  | Category | Location | Issue | Impact | Suggestion |
@@ -389,7 +425,7 @@ End report with:
 - Revise plan to address: [architectural concerns]
 - Clarify spec requirements for: [ambiguous areas]
 
-## Operating Principles
+## Guidelines
 
 ### Adversarial Mindset
 
@@ -457,4 +493,4 @@ This command produces a **"pre-mortem"** analysis - imagining the project has fa
 
 ## Context
 
-$ARGUMENTS
+{ARGS}

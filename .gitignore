@@ -80,5 +80,6 @@ ehthumbs.db
 # DevSpark — personal overrides (never commit)
 .documentation/*/commands/
 
-# Claude Code memory (personal, machine-specific)
-.claude/
+# Claude Code — ignore personal settings, keep command shims
+.claude/*
+!.claude/commands/

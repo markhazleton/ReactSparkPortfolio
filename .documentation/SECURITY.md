@@ -37,19 +37,20 @@ The application implements CSP headers to prevent XSS attacks and unauthorized r
 ```
 Content-Security-Policy:
   default-src 'self';
-  connect-src 'self' https://markhazleton.com https://*.markhazleton.com https://cdnjs.cloudflare.com https://v2.jokeapi.dev https://api.openweathermap.org wss://webspark.markhazleton.com ws://localhost:* http://localhost:*;
-  script-src 'self' 'unsafe-inline' 'unsafe-eval';
+  connect-src 'self' https://markhazleton.com https://*.markhazleton.com https://cdnjs.cloudflare.com https://v2.jokeapi.dev https://api.openweathermap.org wss://webspark.markhazleton.com ws://localhost:* http://localhost:* https://cloudflareinsights.com https://stats.g.doubleclick.net https://www.google.com;
+  script-src 'self' 'unsafe-inline' 'unsafe-eval' https://static.cloudflareinsights.com;
   style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com;
   img-src 'self' data: https: http: blob:;
   font-src 'self' data: https:;
   media-src 'self' https: http:;
-  frame-src 'none';
+  frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com;
   worker-src 'self' blob:;
 ```
 
 **Key Points**:
 
 - `connect-src` includes wildcard for markhazleton.com subdomains to support service worker fetches
+- `connect-src` also allows the Google analytics endpoints used by Cloudflare Zaraz
 - `img-src`, `font-src`, `media-src` use protocol-level wildcards for flexibility with external resources
 - Service workers (`worker-src`) can load from same origin and blob URLs
 

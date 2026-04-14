@@ -36,6 +36,9 @@ interface ThemeContextType {
 }
 
 const defaultTheme = getDefaultTheme(SUPPORTED_THEME_CATALOG);
+const jsdomMetadataFetchStub = (async () => {
+  throw new Error("Remote Bootswatch metadata is disabled in jsdom tests.");
+}) as typeof fetch;
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
@@ -78,7 +81,10 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 
     const initializeTheme = async () => {
       try {
-        const nextCatalog = await loadThemeCatalog();
+        const nextCatalog = await loadThemeCatalog({
+          attemptRemoteMetadata: true,
+          fetchImpl: window.navigator.userAgent.includes("jsdom") ? jsdomMetadataFetchStub : fetch,
+        });
         if (isCancelled) {
           return;
         }

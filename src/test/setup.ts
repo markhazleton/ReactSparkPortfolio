@@ -2,6 +2,11 @@ import "@testing-library/jest-dom";
 import { cleanup } from "@testing-library/react";
 import { afterEach } from "vitest";
 
+Object.defineProperty(globalThis, "__BUILD_DATE__", {
+  value: new Date("2026-04-13T12:00:00.000Z").toISOString(),
+  writable: true,
+});
+
 // Cleanup after each test
 afterEach(() => {
   cleanup();

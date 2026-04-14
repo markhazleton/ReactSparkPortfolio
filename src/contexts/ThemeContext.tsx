@@ -1,46 +1,148 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
-
-type ThemeType = "light" | "dark";
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  ReactNode,
+} from "react";
+import {
+  DEFAULT_THEME_ID,
+  type ThemeCatalog,
+  type ThemeLoadStatus,
+  type ThemeOption,
+} from "../models/theme/themeCatalog";
+import { SUPPORTED_THEME_CATALOG } from "../data/theme-catalog/supportedThemes";
+import {
+  getDefaultTheme,
+  getThemeById,
+  loadThemeCatalog,
+  resolvePreferredTheme,
+} from "../services/theme/themeCatalogService";
+import { applyThemeStylesheet } from "../services/theme/themeStylesheetService";
+import { readStoredThemePreference, writeStoredThemePreference } from "../utils/themePreference";
 
 interface ThemeContextType {
-  theme: ThemeType;
-  toggleTheme: () => void;
+  activeTheme: ThemeOption;
+  catalog: ThemeCatalog;
+  currentColorMode: "light" | "dark";
+  theme: "light" | "dark";
+  status: ThemeLoadStatus;
+  errorMessage?: string;
+  selectTheme: (themeId: string) => Promise<void>;
+  isThemeActive: (themeId: string) => boolean;
 }
+
+const defaultTheme = getDefaultTheme(SUPPORTED_THEME_CATALOG);
+const jsdomMetadataFetchStub = (async () => {
+  throw new Error("Remote Bootswatch metadata is disabled in jsdom tests.");
+}) as typeof fetch;
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-// Get saved theme from localStorage or use system preference, defaulting to 'light'
-const getInitialTheme = (): ThemeType => {
-  const savedTheme = localStorage.getItem("theme") as ThemeType;
-  if (savedTheme && (savedTheme === "light" || savedTheme === "dark")) {
-    return savedTheme;
-  }
-
-  // Use system preference if available
-  if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
-    return "dark";
-  }
-
-  return "light";
-};
-
+/**
+ * Provides the catalog-backed runtime theme state for the application.
+ */
 export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [theme, setTheme] = useState<ThemeType>(getInitialTheme);
+  const [catalog, setCatalog] = useState<ThemeCatalog>(SUPPORTED_THEME_CATALOG);
+  const [activeTheme, setActiveTheme] = useState<ThemeOption>(defaultTheme);
+  const [status, setStatus] = useState<ThemeLoadStatus>("loading");
+  const [errorMessage, setErrorMessage] = useState<string>();
+  const catalogRef = useRef<ThemeCatalog>(SUPPORTED_THEME_CATALOG);
+  const latestThemeRequestRef = useRef(0);
 
-  // Apply theme class to the document body
   useEffect(() => {
-    document.documentElement.setAttribute("data-bs-theme", theme);
-    localStorage.setItem("theme", theme);
-  }, [theme]);
+    catalogRef.current = catalog;
+  }, [catalog]);
 
-  const toggleTheme = () => {
-    setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
-  };
+  const applyThemeById = useCallback(async (themeId: string, nextCatalog?: ThemeCatalog) => {
+    const resolvedCatalog = nextCatalog ?? catalogRef.current;
+    const fallbackTheme = getDefaultTheme(resolvedCatalog);
+    const requestedTheme = getThemeById(resolvedCatalog, themeId) ?? fallbackTheme;
+    const requestId = ++latestThemeRequestRef.current;
 
-  return <ThemeContext.Provider value={{ theme, toggleTheme }}>{children}</ThemeContext.Provider>;
+    setStatus("loading");
+    const applicationResult = await applyThemeStylesheet({
+      theme: requestedTheme,
+      fallbackTheme,
+    });
+
+    if (requestId !== latestThemeRequestRef.current) {
+      return;
+    }
+
+    const nextStatus: ThemeLoadStatus = applicationResult.rolledBack ? "fallback" : "ready";
+
+    setCatalog(resolvedCatalog);
+    setActiveTheme(applicationResult.activeTheme);
+    setErrorMessage(applicationResult.message);
+    setStatus(nextStatus);
+    writeStoredThemePreference(applicationResult.activeTheme.id, resolvedCatalog.version);
+  }, []);
+
+  useEffect(() => {
+    let isCancelled = false;
+
+    const initializeTheme = async () => {
+      try {
+        const nextCatalog = await loadThemeCatalog({
+          attemptRemoteMetadata: true,
+          fetchImpl: window.navigator.userAgent.includes("jsdom") ? jsdomMetadataFetchStub : fetch,
+        });
+        if (isCancelled) {
+          return;
+        }
+
+        const storedPreference = readStoredThemePreference();
+        const preferredTheme = resolvePreferredTheme(nextCatalog, storedPreference?.themeId);
+
+        await applyThemeById(preferredTheme.id, nextCatalog);
+      } catch (error) {
+        if (isCancelled) {
+          return;
+        }
+
+        setCatalog(SUPPORTED_THEME_CATALOG);
+        setActiveTheme(defaultTheme);
+        setErrorMessage(
+          error instanceof Error
+            ? error.message
+            : "BootstrapSpark could not load the selected theme."
+        );
+        setStatus("error");
+        writeStoredThemePreference(DEFAULT_THEME_ID, SUPPORTED_THEME_CATALOG.version);
+      }
+    };
+
+    void initializeTheme();
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [applyThemeById]);
+
+  const contextValue = useMemo<ThemeContextType>(
+    () => ({
+      activeTheme,
+      catalog,
+      currentColorMode: activeTheme.colorModeHint === "dark" ? "dark" : "light",
+      theme: activeTheme.colorModeHint === "dark" ? "dark" : "light",
+      status,
+      errorMessage,
+      selectTheme: async (themeId: string) => applyThemeById(themeId),
+      isThemeActive: (themeId: string) => activeTheme.id === themeId,
+    }),
+    [activeTheme, applyThemeById, catalog, errorMessage, status]
+  );
+
+  return <ThemeContext.Provider value={contextValue}>{children}</ThemeContext.Provider>;
 };
 
-// Hook to use the theme context
+/**
+ * Returns the active theme context for descendant components.
+ */
 // eslint-disable-next-line react-refresh/only-export-components
 export const useTheme = (): ThemeContextType => {
   const context = useContext(ThemeContext);

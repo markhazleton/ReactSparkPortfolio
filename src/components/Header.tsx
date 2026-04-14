@@ -13,14 +13,14 @@ import {
   Kanban,
   Bag,
   Envelope,
-  SunFill,
-  MoonFill,
+  PaletteFill,
+  ExclamationTriangleFill,
 } from "react-bootstrap-icons";
 import { useTheme } from "../contexts/ThemeContext";
 
 const Header: React.FC = () => {
   const location = useLocation();
-  const { theme, toggleTheme } = useTheme();
+  const { activeTheme, currentColorMode, status } = useTheme();
 
   // Function to check if route is active
   const isActive = (path: string) => {
@@ -44,6 +44,8 @@ const Header: React.FC = () => {
     location.pathname === "/weather" ||
     location.pathname === "/variant";
 
+  const isThemesActive = location.pathname === "/themes";
+
   // Updated path resolution for the logo to work both locally and on Azure
   const logoPath = "/PromptSpark.svg";
 
@@ -53,7 +55,8 @@ const Header: React.FC = () => {
         Skip to main content
       </a>
       <nav
-        className={`navbar navbar-expand-lg navbar-${theme} bg-${theme === "light" ? "light" : "dark"} border-bottom`}
+        className="navbar navbar-expand-lg border-bottom bg-body"
+        data-bs-theme={currentColorMode}
       >
         <div className="container">
           <Link className="navbar-brand d-flex align-items-center" to="/">
@@ -194,14 +197,20 @@ const Header: React.FC = () => {
                 </Link>
               </li>
               <li className="nav-item ms-2 d-flex align-items-center">
-                <button
-                  className={`btn btn-sm ${theme === "light" ? "btn-outline-dark" : "btn-outline-light"} rounded-circle d-flex align-items-center justify-content-center icon-circle`}
-                  onClick={toggleTheme}
-                  aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
-                  title={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
+                <Link
+                  className={`btn btn-sm btn-outline-secondary d-inline-flex align-items-center gap-2 ${isThemesActive ? "active" : ""}`}
+                  to="/themes"
+                  aria-label={`Open theme selector. Current theme ${activeTheme.name}`}
+                  title={`Current theme: ${activeTheme.name}`}
                 >
-                  {theme === "light" ? <MoonFill size={16} /> : <SunFill size={16} />}
-                </button>
+                  {status === "fallback" ? (
+                    <ExclamationTriangleFill size={16} />
+                  ) : (
+                    <PaletteFill size={16} />
+                  )}
+                  <span>Themes</span>
+                  <span className="badge text-bg-secondary">{activeTheme.name}</span>
+                </Link>
               </li>
             </ul>
           </div>

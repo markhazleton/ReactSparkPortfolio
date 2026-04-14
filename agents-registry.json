@@ -1,0 +1,9 @@
+{
+  "agents": [
+    {
+      "key": "copilot",
+      "name": "GitHub Copilot",
+      "context_file": ".github/agents/copilot-instructions.md"
+    }
+  ]
+}

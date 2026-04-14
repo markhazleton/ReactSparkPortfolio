@@ -71,6 +71,6 @@ export const applyThemeStylesheet = async (options: {
     activeTheme: fallbackTheme,
     latencyMs: performance.now() - startTime,
     rolledBack: true,
-    message: `${theme.name} could not be loaded. BootstrapSpark has been restored instead.`,
+    message: `${theme.name} could not be loaded. Restored to ${fallbackTheme.name} instead.`,
   };
 };

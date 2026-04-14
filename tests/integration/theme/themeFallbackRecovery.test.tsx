@@ -40,7 +40,7 @@ describe("theme fallback recovery", () => {
         activeTheme: defaultTheme,
         latencyMs: 8,
         rolledBack: true,
-        message: "Darkly could not be loaded. BootstrapSpark has been restored instead.",
+        message: "Darkly could not be loaded. Restored to BootstrapSpark instead.",
       });
 
     renderWithThemeProviders(<RecoveryHarness />);
@@ -50,7 +50,7 @@ describe("theme fallback recovery", () => {
     await user.click(screen.getByRole("button", { name: "Select Darkly" }));
 
     await waitFor(() => expect(screen.getByText("Status: fallback")).toBeInTheDocument());
-    expect(screen.getByText(/BootstrapSpark has been restored/i)).toBeInTheDocument();
+    expect(screen.getByText(/Restored to BootstrapSpark/i)).toBeInTheDocument();
     expect(
       JSON.parse(window.localStorage.getItem("bootstrapspark.themePreference") ?? "{}")
     ).toMatchObject({

@@ -28,9 +28,7 @@ const ThemeStatusNotice: React.FC<ThemeStatusNoticeProps> = ({
     return (
       <Alert variant="warning" className="d-flex align-items-center gap-2">
         <ExclamationTriangleFill />
-        <span>
-          {errorMessage ?? `BootstrapSpark restored ${activeThemeName} after a theme issue.`}
-        </span>
+        <span>{errorMessage ?? `Restored to ${activeThemeName} after a theme issue.`}</span>
       </Alert>
     );
   }

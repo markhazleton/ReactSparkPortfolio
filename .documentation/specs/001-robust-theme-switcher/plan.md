@@ -1,6 +1,6 @@
 # Implementation Plan: Robust Theme Switcher
 
-**Branch**: `[001-robust-theme-switcher]` | **Date**: 2026-04-13 | **Spec**: [.documentation/specs/001-robust-theme-switcher/spec.md](c:/GitHub/MarkHazleton/ReactSparkPortfolio/.documentation/specs/001-robust-theme-switcher/spec.md)
+**Branch**: `[001-robust-theme-switcher]` | **Date**: 2026-04-13 | **Spec**: [spec.md](./spec.md)
 **Input**: Feature specification from `/.documentation/specs/001-robust-theme-switcher/spec.md`
 
 ## Rationale Summary
@@ -21,10 +21,10 @@ The feature will expand theming from a binary mode toggle into a full Bootswatch
 
 ### Source Inputs
 
-- [.documentation/specs/001-robust-theme-switcher/spec.md](c:/GitHub/MarkHazleton/ReactSparkPortfolio/.documentation/specs/001-robust-theme-switcher/spec.md)
-- [.documentation/memory/constitution.md](c:/GitHub/MarkHazleton/ReactSparkPortfolio/.documentation/memory/constitution.md)
-- Existing theme entry points in [src/contexts/ThemeContext.tsx](c:/GitHub/MarkHazleton/ReactSparkPortfolio/src/contexts/ThemeContext.tsx) and [src/components/Header.tsx](c:/GitHub/MarkHazleton/ReactSparkPortfolio/src/components/Header.tsx)
-- Existing remote-data fallback and Zod validation patterns in [src/services/ProjectService.ts](c:/GitHub/MarkHazleton/ReactSparkPortfolio/src/services/ProjectService.ts)
+- [spec.md](./spec.md)
+- [constitution.md](../../memory/constitution.md)
+- Existing theme entry points in [src/contexts/ThemeContext.tsx](../../../src/contexts/ThemeContext.tsx) and [src/components/Header.tsx](../../../src/components/Header.tsx)
+- Existing remote-data fallback and Zod validation patterns in [src/services/ProjectService.ts](../../../src/services/ProjectService.ts)
 
 ### Tradeoffs Considered
 
@@ -72,7 +72,7 @@ Implement a full Bootswatch multi-theme system for the React/Vite SPA by extendi
 - **Component Architecture**: PASS. The design keeps theme state in `contexts`, metadata loading in `services`, entities in `models`, and selector UI in `components`.
 - **Error Handling & Resilience**: PASS WITH REQUIRED WORK. Fallback behavior is first-class, but implementation must explicitly verify both metadata-outage fallback and stylesheet rollback to the BootstrapSpark default theme.
 - **Logging & Observability**: PASS. No production-only debug logging is required by the design; temporary dev logging must still respect the strip plugin.
-- **Input Validation & Security**: PASS WITH CONSTRAINT. Any external metadata must be validated with Zod and must not require a CSP change unless both [vite.config.ts](c:/GitHub/MarkHazleton/ReactSparkPortfolio/vite.config.ts) and [staticwebapp.config.json](c:/GitHub/MarkHazleton/ReactSparkPortfolio/staticwebapp.config.json) are updated together.
+- **Input Validation & Security**: PASS WITH CONSTRAINT. Any external metadata must be validated with Zod and must not require a CSP change unless both [vite.config.ts](../../../vite.config.ts) and [staticwebapp.config.json](../../../staticwebapp.config.json) are updated together.
 - **Styling Standards**: PASS WITH REQUIRED WORK. Responsive selector validation must be captured explicitly for mobile and desktop layouts.
 - **Code Quality Gates**: PASS. Existing Husky/lint-staged, Vitest, and build scripts remain the enforcement path.
 
@@ -168,7 +168,7 @@ No constitution violations currently require justification.
 
 ## Planned Artifacts
 
-- [research.md](c:/GitHub/MarkHazleton/ReactSparkPortfolio/.documentation/specs/001-robust-theme-switcher/research.md)
-- [data-model.md](c:/GitHub/MarkHazleton/ReactSparkPortfolio/.documentation/specs/001-robust-theme-switcher/data-model.md)
-- [quickstart.md](c:/GitHub/MarkHazleton/ReactSparkPortfolio/.documentation/specs/001-robust-theme-switcher/quickstart.md)
-- [theme-catalog-contract.md](c:/GitHub/MarkHazleton/ReactSparkPortfolio/.documentation/specs/001-robust-theme-switcher/contracts/theme-catalog-contract.md)
+- [research.md](./research.md)
+- [data-model.md](./data-model.md)
+- [quickstart.md](./quickstart.md)
+- [theme-catalog-contract.md](./contracts/theme-catalog-contract.md)

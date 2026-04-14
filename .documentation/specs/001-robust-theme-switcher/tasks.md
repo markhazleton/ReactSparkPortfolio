@@ -31,7 +31,7 @@ Reviewers should focus on correctness of theme persistence, asset loading, catal
 
 - **[P]**: Can run in parallel (different files, no dependencies)
 - **[Story]**: Which user story this task belongs to (`[US1]`, `[US2]`, `[US3]`)
-- Include exact file paths in descriptions
+- Include repo-relative file paths in descriptions
 
 ## Path Conventions
 
@@ -42,9 +42,9 @@ Reviewers should focus on correctness of theme persistence, asset loading, catal
 
 **Purpose**: Prepare the repository for BootstrapSpark plus full Bootswatch theme assets and theme-domain implementation work.
 
-- [X] T001 Add the Bootswatch package dependency and any required theme asset support scripts in c:\GitHub\MarkHazleton\ReactSparkPortfolio\package.json
-- [X] T002 [P] Configure static theme asset hosting and copy behavior in c:\GitHub\MarkHazleton\ReactSparkPortfolio\vite.config.ts
-- [X] T003 [P] Create the initial feature module files at c:\GitHub\MarkHazleton\ReactSparkPortfolio\src\models\theme\themeCatalog.ts, c:\GitHub\MarkHazleton\ReactSparkPortfolio\src\services\theme\themeCatalogService.ts, c:\GitHub\MarkHazleton\ReactSparkPortfolio\src\services\theme\themeStylesheetService.ts, c:\GitHub\MarkHazleton\ReactSparkPortfolio\src\data\theme-catalog\supportedThemes.ts, c:\GitHub\MarkHazleton\ReactSparkPortfolio\src\components\theme\ThemeSelectorPage.tsx, c:\GitHub\MarkHazleton\ReactSparkPortfolio\src\components\theme\ThemeSelectorCard.tsx, and c:\GitHub\MarkHazleton\ReactSparkPortfolio\src\components\theme\ThemeStatusNotice.tsx
+- [X] T001 Add the Bootswatch package dependency and any required theme asset support scripts in package.json
+- [X] T002 [P] Configure static theme asset hosting and copy behavior in vite.config.ts
+- [X] T003 [P] Create the initial feature module files at src/models/theme/themeCatalog.ts, src/services/theme/themeCatalogService.ts, src/services/theme/themeStylesheetService.ts, src/data/theme-catalog/supportedThemes.ts, src/components/theme/ThemeSelectorPage.tsx, src/components/theme/ThemeSelectorCard.tsx, and src/components/theme/ThemeStatusNotice.tsx
 
 ---
 
@@ -54,12 +54,12 @@ Reviewers should focus on correctness of theme persistence, asset loading, catal
 
 **⚠️ CRITICAL**: No user story work should begin until this phase is complete.
 
-- [X] T004 [P] Define `ThemeOption`, `ThemePreference`, `ThemeCatalog`, `ThemeLoadState`, and Zod validation schemas in c:\GitHub\MarkHazleton\ReactSparkPortfolio\src\models\theme\themeCatalog.ts
-- [X] T005 [P] Create the supported-theme catalog including the BootstrapSpark default theme plus every available Bootswatch theme in c:\GitHub\MarkHazleton\ReactSparkPortfolio\src\data\theme-catalog\supportedThemes.ts
-- [X] T006 [P] Add static stylesheet assets in c:\GitHub\MarkHazleton\ReactSparkPortfolio\public\themes\bootstrapspark.css and the Bootswatch theme folders under c:\GitHub\MarkHazleton\ReactSparkPortfolio\public\themes\
-- [X] T007 Implement local-catalog loading, optional Bootswatch metadata mapping, and fallback validation in c:\GitHub\MarkHazleton\ReactSparkPortfolio\src\services\theme\themeCatalogService.ts
-- [X] T008 Implement active stylesheet mounting, load-failure detection, and recovery-to-default behavior in c:\GitHub\MarkHazleton\ReactSparkPortfolio\src\services\theme\themeStylesheetService.ts
-- [X] T009 Add a dedicated theme stylesheet mount target and app bootstrap integration in c:\GitHub\MarkHazleton\ReactSparkPortfolio\src\App.tsx and c:\GitHub\MarkHazleton\ReactSparkPortfolio\src\main.tsx
+- [X] T004 [P] Define `ThemeOption`, `ThemePreference`, `ThemeCatalog`, `ThemeLoadState`, and Zod validation schemas in src/models/theme/themeCatalog.ts
+- [X] T005 [P] Create the supported-theme catalog including the BootstrapSpark default theme plus every available Bootswatch theme in src/data/theme-catalog/supportedThemes.ts
+- [X] T006 [P] Add static stylesheet assets in public/themes/bootstrapspark.css and the Bootswatch theme folders under public/themes/
+- [X] T007 Implement local-catalog loading, optional Bootswatch metadata mapping, and fallback validation in src/services/theme/themeCatalogService.ts
+- [X] T008 Implement active stylesheet mounting, load-failure detection, and recovery-to-default behavior in src/services/theme/themeStylesheetService.ts
+- [X] T009 Add a dedicated theme stylesheet mount target and app bootstrap integration in src/App.tsx and src/main.tsx
 
 **Checkpoint**: Foundation ready. User story implementation can now proceed.
 
@@ -73,16 +73,16 @@ Reviewers should focus on correctness of theme persistence, asset loading, catal
 
 ### Tests for User Story 1
 
-- [X] T010 [P] [US1] Add unit tests for preference validation, invalid saved theme fallback, and catalog resolution in c:\GitHub\MarkHazleton\ReactSparkPortfolio\tests\unit\theme\themeCatalogService.test.ts
-- [X] T011 [P] [US1] Add integration tests for immediate apply-and-persist behavior in c:\GitHub\MarkHazleton\ReactSparkPortfolio\tests\integration\theme\themePersistenceFlow.test.tsx
-- [X] T012 [P] [US1] Add automated failure-path tests for Bootswatch metadata outage, local-catalog-only fallback, and stylesheet rollback in c:\GitHub\MarkHazleton\ReactSparkPortfolio\tests\integration\theme\themeFallbackRecovery.test.tsx
+- [X] T010 [P] [US1] Add unit tests for preference validation, invalid saved theme fallback, and catalog resolution in tests/unit/theme/themeCatalogService.test.ts
+- [X] T011 [P] [US1] Add integration tests for immediate apply-and-persist behavior in tests/integration/theme/themePersistenceFlow.test.tsx
+- [X] T012 [P] [US1] Add automated failure-path tests for Bootswatch metadata outage, local-catalog-only fallback, and stylesheet rollback in tests/integration/theme/themeFallbackRecovery.test.tsx
 
 ### Implementation for User Story 1
 
-- [X] T013 [US1] Replace the binary theme state with a catalog-backed provider and apply-and-persist action in c:\GitHub\MarkHazleton\ReactSparkPortfolio\src\contexts\ThemeContext.tsx
-- [X] T014 [P] [US1] Add theme preference parsing and storage helpers in c:\GitHub\MarkHazleton\ReactSparkPortfolio\src\utils\themePreference.ts
-- [X] T015 [US1] Wire provider initialization and active theme bootstrap behavior in c:\GitHub\MarkHazleton\ReactSparkPortfolio\src\App.tsx
-- [X] T016 [US1] Update the existing global theme affordance to reflect active catalog state in c:\GitHub\MarkHazleton\ReactSparkPortfolio\src\components\Header.tsx
+- [X] T013 [US1] Replace the binary theme state with a catalog-backed provider and apply-and-persist action in src/contexts/ThemeContext.tsx
+- [X] T014 [P] [US1] Add theme preference parsing and storage helpers in src/utils/themePreference.ts
+- [X] T015 [US1] Wire provider initialization and active theme bootstrap behavior in src/App.tsx
+- [X] T016 [US1] Update the existing global theme affordance to reflect active catalog state in src/components/Header.tsx
 
 **Checkpoint**: User Story 1 should be independently functional and testable as the MVP.
 
@@ -96,17 +96,17 @@ Reviewers should focus on correctness of theme persistence, asset loading, catal
 
 ### Tests for User Story 2
 
-- [X] T017 [P] [US2] Add component and interaction tests for the selector page, active-theme states, and keyboard navigation in c:\GitHub\MarkHazleton\ReactSparkPortfolio\tests\integration\theme\themeSelectorPage.test.tsx
-- [X] T018 [P] [US2] Add contract tests for catalog-to-selector view-model mapping in c:\GitHub\MarkHazleton\ReactSparkPortfolio\tests\contract\theme\themeCatalog.contract.test.ts
-- [X] T019 [P] [US2] Add responsive viewport validation for mobile and desktop selector behavior in c:\GitHub\MarkHazleton\ReactSparkPortfolio\tests\integration\theme\themeSelectorResponsive.test.tsx
+- [X] T017 [P] [US2] Add component and interaction tests for the selector page, active-theme states, and keyboard navigation in tests/integration/theme/themeSelectorPage.test.tsx
+- [X] T018 [P] [US2] Add contract tests for catalog-to-selector view-model mapping in tests/contract/theme/themeCatalog.contract.test.ts
+- [X] T019 [P] [US2] Add responsive viewport validation for mobile and desktop selector behavior in tests/integration/theme/themeSelectorResponsive.test.tsx
 
 ### Implementation for User Story 2
 
-- [X] T020 [P] [US2] Build the selector page and theme card presentation in c:\GitHub\MarkHazleton\ReactSparkPortfolio\src\components\theme\ThemeSelectorPage.tsx and c:\GitHub\MarkHazleton\ReactSparkPortfolio\src\components\theme\ThemeSelectorCard.tsx
-- [X] T021 [P] [US2] Add selector-specific styles and theme card layout rules in c:\GitHub\MarkHazleton\ReactSparkPortfolio\src\scss\components\theme-selector.scss and c:\GitHub\MarkHazleton\ReactSparkPortfolio\src\scss\styles.scss
-- [X] T022 [US2] Register the dedicated theme selector route in c:\GitHub\MarkHazleton\ReactSparkPortfolio\src\App.tsx
-- [X] T023 [US2] Add the selector entry point to global navigation in c:\GitHub\MarkHazleton\ReactSparkPortfolio\src\components\Header.tsx
-- [X] T024 [US2] Surface selector loading, fallback, asset-recovery, and active-theme status messaging in c:\GitHub\MarkHazleton\ReactSparkPortfolio\src\components\theme\ThemeStatusNotice.tsx and c:\GitHub\MarkHazleton\ReactSparkPortfolio\src\components\theme\ThemeSelectorPage.tsx
+- [X] T020 [P] [US2] Build the selector page and theme card presentation in src/components/theme/ThemeSelectorPage.tsx and src/components/theme/ThemeSelectorCard.tsx
+- [X] T021 [P] [US2] Add selector-specific styles and theme card layout rules in src/scss/components/theme-selector.scss and src/scss/styles.scss
+- [X] T022 [US2] Register the dedicated theme selector route in src/App.tsx
+- [X] T023 [US2] Add the selector entry point to global navigation in src/components/Header.tsx
+- [X] T024 [US2] Surface selector loading, fallback, asset-recovery, and active-theme status messaging in src/components/theme/ThemeStatusNotice.tsx and src/components/theme/ThemeSelectorPage.tsx
 
 **Checkpoint**: User Stories 1 and 2 should both work independently.
 
@@ -120,16 +120,16 @@ Reviewers should focus on correctness of theme persistence, asset loading, catal
 
 ### Tests for User Story 3
 
-- [X] T025 [P] [US3] Add shell-level regression coverage for theme-sensitive shared UI in c:\GitHub\MarkHazleton\ReactSparkPortfolio\tests\integration\theme\themeShellRegression.test.tsx
-- [X] T026 [P] [US3] Add route-level regression coverage for showcase and site-demo surfaces in c:\GitHub\MarkHazleton\ReactSparkPortfolio\tests\integration\theme\themeRouteCoverage.test.tsx
-- [X] T027 [P] [US3] Add measurable switch-latency validation and reporting for the under-1-second target in c:\GitHub\MarkHazleton\ReactSparkPortfolio\tests\integration\theme\themePerformanceValidation.test.tsx
+- [X] T025 [P] [US3] Add shell-level regression coverage for theme-sensitive shared UI in tests/integration/theme/themeShellRegression.test.tsx
+- [X] T026 [P] [US3] Add route-level regression coverage for showcase and site-demo surfaces in tests/integration/theme/themeRouteCoverage.test.tsx
+- [X] T027 [P] [US3] Add measurable switch-latency validation and reporting for the under-1-second target in tests/integration/theme/themePerformanceValidation.test.tsx
 
 ### Implementation for User Story 3
 
-- [X] T028 [US3] Audit and remediate shared shell theme compatibility in c:\GitHub\MarkHazleton\ReactSparkPortfolio\src\components\Header.tsx, c:\GitHub\MarkHazleton\ReactSparkPortfolio\src\components\Footer.tsx, and c:\GitHub\MarkHazleton\ReactSparkPortfolio\src\scss\components\theme.scss
-- [X] T029 [US3] Audit and remediate primary route surfaces in c:\GitHub\MarkHazleton\ReactSparkPortfolio\src\components\Hero.tsx, c:\GitHub\MarkHazleton\ReactSparkPortfolio\src\components\About.tsx, c:\GitHub\MarkHazleton\ReactSparkPortfolio\src\components\Projects.tsx, c:\GitHub\MarkHazleton\ReactSparkPortfolio\src\components\Articles.tsx, c:\GitHub\MarkHazleton\ReactSparkPortfolio\src\components\Joke.tsx, c:\GitHub\MarkHazleton\ReactSparkPortfolio\src\components\WeatherForecast.tsx, and c:\GitHub\MarkHazleton\ReactSparkPortfolio\src\components\Contact.tsx
-- [X] T030 [US3] Audit and remediate showcase and site-demo surfaces in c:\GitHub\MarkHazleton\ReactSparkPortfolio\src\components\Components.tsx, c:\GitHub\MarkHazleton\ReactSparkPortfolio\src\components\AdvancedComponents.tsx, c:\GitHub\MarkHazleton\ReactSparkPortfolio\src\components\DataTables.tsx, c:\GitHub\MarkHazleton\ReactSparkPortfolio\src\components\SiteDemoSaasDashboard.tsx, c:\GitHub\MarkHazleton\ReactSparkPortfolio\src\components\SiteDemoTeamCollaboration.tsx, and c:\GitHub\MarkHazleton\ReactSparkPortfolio\src\components\SiteDemoProductCatalog.tsx
-- [X] T031 [US3] Record supported-theme review coverage, responsive validation, and switch-latency outcomes in c:\GitHub\MarkHazleton\ReactSparkPortfolio\.documentation\specs\001-robust-theme-switcher\quickstart.md
+- [X] T028 [US3] Audit and remediate shared shell theme compatibility in src/components/Header.tsx, src/components/Footer.tsx, and src/scss/components/theme.scss
+- [X] T029 [US3] Audit and remediate primary route surfaces in src/components/Hero.tsx, src/components/About.tsx, src/components/Projects.tsx, src/components/Articles.tsx, src/components/Joke.tsx, src/components/WeatherForecast.tsx, and src/components/Contact.tsx
+- [X] T030 [US3] Audit and remediate showcase and site-demo surfaces in src/components/Components.tsx, src/components/AdvancedComponents.tsx, src/components/DataTables.tsx, src/components/SiteDemoSaasDashboard.tsx, src/components/SiteDemoTeamCollaboration.tsx, and src/components/SiteDemoProductCatalog.tsx
+- [X] T031 [US3] Record supported-theme review coverage, responsive validation, and switch-latency outcomes in .documentation/specs/001-robust-theme-switcher/quickstart.md
 
 **Checkpoint**: All user stories should now be independently functional.
 
@@ -139,10 +139,10 @@ Reviewers should focus on correctness of theme persistence, asset loading, catal
 
 **Purpose**: Finish documentation, validation, and cross-story cleanup.
 
-- [X] T032 [P] Add JSDoc for exported theme models and services in c:\GitHub\MarkHazleton\ReactSparkPortfolio\src\models\theme\themeCatalog.ts, c:\GitHub\MarkHazleton\ReactSparkPortfolio\src\services\theme\themeCatalogService.ts, and c:\GitHub\MarkHazleton\ReactSparkPortfolio\src\services\theme\themeStylesheetService.ts
-- [X] T033 [P] Add unit coverage for any shared helpers introduced during implementation in c:\GitHub\MarkHazleton\ReactSparkPortfolio\tests\unit\theme\themePreference.test.ts
-- [X] T034 [P] Validate packaged theme assets in the built docs output in c:\GitHub\MarkHazleton\ReactSparkPortfolio\tests\integration\theme\themeAssetPackaging.test.ts
-- [X] T035 Run final validation commands and update execution notes in c:\GitHub\MarkHazleton\ReactSparkPortfolio\.documentation\specs\001-robust-theme-switcher\quickstart.md
+- [X] T032 [P] Add JSDoc for exported theme models and services in src/models/theme/themeCatalog.ts, src/services/theme/themeCatalogService.ts, and src/services/theme/themeStylesheetService.ts
+- [X] T033 [P] Add unit coverage for any shared helpers introduced during implementation in tests/unit/theme/themePreference.test.ts
+- [X] T034 [P] Validate packaged theme assets in the built docs output in tests/integration/theme/themeAssetPackaging.test.ts
+- [X] T035 Run final validation commands and update execution notes in .documentation/specs/001-robust-theme-switcher/quickstart.md
 
 ---
 

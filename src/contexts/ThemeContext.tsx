@@ -51,6 +51,7 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   const [status, setStatus] = useState<ThemeLoadStatus>("loading");
   const [errorMessage, setErrorMessage] = useState<string>();
   const catalogRef = useRef<ThemeCatalog>(SUPPORTED_THEME_CATALOG);
+  const latestThemeRequestRef = useRef(0);
 
   useEffect(() => {
     catalogRef.current = catalog;
@@ -60,12 +61,17 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     const resolvedCatalog = nextCatalog ?? catalogRef.current;
     const fallbackTheme = getDefaultTheme(resolvedCatalog);
     const requestedTheme = getThemeById(resolvedCatalog, themeId) ?? fallbackTheme;
+    const requestId = ++latestThemeRequestRef.current;
 
     setStatus("loading");
     const applicationResult = await applyThemeStylesheet({
       theme: requestedTheme,
       fallbackTheme,
     });
+
+    if (requestId !== latestThemeRequestRef.current) {
+      return;
+    }
 
     const nextStatus: ThemeLoadStatus = applicationResult.rolledBack ? "fallback" : "ready";
 

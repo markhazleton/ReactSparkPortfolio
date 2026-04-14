@@ -28,6 +28,7 @@ const AdvancedComponents = lazy(() => import("./components/AdvancedComponents"))
 const DataTables = lazy(() => import("./components/DataTables"));
 const SongDetail = lazy(() => import("./components/SongDetail"));
 const Contact = lazy(() => import("./components/Contact"));
+const ThemeSelectorPage = lazy(() => import("./components/theme/ThemeSelectorPage"));
 const SiteDemoSaasDashboard = lazy(() => import("./components/SiteDemoSaasDashboard"));
 const SiteDemoTeamCollaboration = lazy(() => import("./components/SiteDemoTeamCollaboration"));
 const SiteDemoProductCatalog = lazy(() => import("./components/SiteDemoProductCatalog"));
@@ -67,6 +68,7 @@ const AppWithVersionCheck: React.FC = () => {
                   <Route path="/articles" element={<Articles />} />
                   <Route path="/weather" element={<WeatherForecast />} />
                   <Route path="/variant" element={<VariantList />} />
+                  <Route path="/themes" element={<ThemeSelectorPage />} />
                   <Route path="/components" element={<Components />} />
                   <Route path="/advanced-components" element={<AdvancedComponents />} />
                   <Route path="/data-tables" element={<DataTables />} />

@@ -1,0 +1,31 @@
+{
+  "version": "0.1.0",
+  "releaseDate": "2026-04-16",
+  "release": {
+    "from": "project-start",
+    "to": "2026-04-16"
+  },
+  "previousVersion": "",
+  "features": {
+    "completed": 3,
+    "deferred": 0
+  },
+  "quickfixes": 0,
+  "pullRequests": {
+    "merged": 7,
+    "numbers": [16, 29, 38, 39, 40, 41, 42],
+    "filesChanged": 0,
+    "testsAdded": 0,
+    "breakingChanges": 0,
+    "resolvedHighFindings": 0
+  },
+  "adrs": 3,
+  "commits": 152,
+  "contributors": 1,
+  "specs": [
+    "001-build-artifact-separation",
+    "001-merge-jsbootspark",
+    "001-robust-theme-switcher"
+  ],
+  "timestamp": "2026-04-16T00:00:00Z"
+}

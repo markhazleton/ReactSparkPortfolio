@@ -88,7 +88,7 @@ As a visitor exploring BootstrapSpark, I want a dedicated theme-switching experi
 
 **Why this priority**: The dedicated selector is the differentiator that turns theme choice into a discoverable product feature rather than a buried control.
 
-**Independent Test**: A user can open the dedicated theme-switcher experience, review available themes with descriptive cues, preview how the site responds, and choose a final theme without leaving the workflow confused.
+**Independent Test**: A user can open the dedicated theme-switching experience, review available themes with descriptive cues, preview how the site responds, and choose a final theme without leaving the workflow confused.
 
 **Acceptance Scenarios**:
 

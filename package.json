@@ -1,7 +1,7 @@
 {
   "name": "bootstrapspark",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
     "start": "npm run clean && npm run build-css && concurrently \"vite\" \"npm run watch-css\"",

@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to ReactSparkPortfolio will be documented in this file.
+All notable changes to BootstrapSpark will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
@@ -9,18 +9,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Tag-driven GitHub Release automation that packages the built site together with DevSpark release docs
-- World-class README.md with comprehensive documentation
-- Complete documentation suite in `/documentation` folder
-- Contributing guidelines and project governance
-- Architecture documentation with diagrams
-- Comprehensive deployment guide for multiple platforms
+### Changed
+
+## [0.1.0] - 2026-04-16
+
+### Added
+
+- **BootstrapSpark consolidation** - Merged the JsBootSpark feature surface into the React-based BootstrapSpark application and standardized the project identity.
+- **Robust theme switcher** - Expanded theming toward a richer Bootswatch-backed selector model with local catalog ownership and fallback behavior.
+- **Release automation path** - Added tag-driven GitHub Release packaging that ships generated release notes with a built site bundle.
 
 ### Changed
 
-- `/devspark.release` now relies on the upgraded release context contract in `.documentation/scripts/powershell/release-context.ps1`
-- Improved project organization with centralized documentation
-- Enhanced copilot instructions for better AI assistance
+- **Build artifact handling** - Stopped treating generated deploy output and coverage reports as source-controlled artifacts, leaving CI responsible for production builds.
+- **Release workflow** - `/devspark.release` now relies on the upgraded release context contract in `.documentation/scripts/powershell/release-context.ps1`.
+
+### Architectural Decisions
+
+- **ADR-001**: Build artifacts are generated in CI, not stored in git.
+- **ADR-002**: Consolidate BootstrapSpark as a single React SPA.
+- **ADR-003**: Use a local theme catalog and precompiled theme assets.
+
+### Contributors
+
+- Mark Hazleton
 
 ## [2.0.0] - 2025-01-05
 

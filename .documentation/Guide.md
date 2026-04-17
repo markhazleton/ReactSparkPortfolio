@@ -60,7 +60,12 @@ DevSpark commands are invoked via `/devspark.<command>` in Claude Code. Scripts 
 | `/devspark.pr-review` | Constitution-aware PR review | `get-pr-context.sh` |
 | `/devspark.quickfix` | Lightweight bug fix workflow | `quickfix-context.sh` |
 | `/devspark.site-audit` | Audit documentation quality | `site-audit.sh` |
-| `/devspark.release` | Review and prepare release artifacts | `release-context.sh` |
+| `/devspark.release` | Review and prepare release artifacts, then pair with a pushed `vX.Y.Z` tag to publish a GitHub Release package | `release-context.sh` |
+
+### Release Automation
+
+`/devspark.release` is expected to produce the versioned release docs under `.documentation/releases/vX.Y.Z/`.
+When that release commit is tagged and the tag is pushed, `.github/workflows/github-release.yml` builds the site and publishes a GitHub Release using those generated release notes and docs.
 
 ---
 

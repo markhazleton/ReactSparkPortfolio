@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Tag-driven GitHub Release automation that packages the built site together with DevSpark release docs
 - World-class README.md with comprehensive documentation
 - Complete documentation suite in `/documentation` folder
 - Contributing guidelines and project governance
@@ -17,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- `/devspark.release` now relies on the upgraded release context contract in `.documentation/scripts/powershell/release-context.ps1`
 - Improved project organization with centralized documentation
 - Enhanced copilot instructions for better AI assistance
 

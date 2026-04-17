@@ -237,6 +237,17 @@ npm run dev
 | `npm run watch-css`          | 👁️ Watch and compile SCSS changes           |
 | `npm run generate-seo-files` | 📄 Generate sitemap.xml and robots.txt      |
 
+### 📦 Release Flow
+
+Release documentation and GitHub Releases are intentionally connected.
+
+1. Run `/devspark.release` to generate `.documentation/releases/vX.Y.Z/` and the associated changelog updates.
+2. Commit the generated release artifacts.
+3. Push the release commit to `main`.
+4. Create and push the matching tag, for example `v2.1.0`.
+
+When the tag is pushed, GitHub Actions publishes a GitHub Release whose body comes from `.documentation/releases/vX.Y.Z/release-notes.md` and uploads a packaged build artifact plus checksum.
+
 ### 🔒 Code Quality
 
 This project uses automated code quality gates to ensure consistency:

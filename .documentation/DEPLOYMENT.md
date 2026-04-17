@@ -171,6 +171,35 @@ jobs:
 - ❌ No server-side features
 - ❌ Limited custom domain features
 
+### 2.1 GitHub Releases From DevSpark
+
+The repository now supports a tag-driven GitHub Release flow that complements `/devspark.release`.
+
+Release contract:
+
+1. Run `/devspark.release` and commit the generated release documentation.
+2. Create a semantic version tag that matches the release folder name, for example `v2.1.0`.
+3. Push both the commit and the tag.
+4. GitHub Actions builds the site, packages the built `docs/` output together with `.documentation/releases/vX.Y.Z/`, and publishes a GitHub Release automatically.
+
+Example:
+
+```bash
+git add -A
+git commit -m "docs: release v2.1.0"
+git push origin main
+git tag v2.1.0
+git push origin v2.1.0
+```
+
+The resulting GitHub Release includes:
+
+- A release body sourced from `.documentation/releases/vX.Y.Z/release-notes.md`
+- A zip bundle containing the production site and release documentation
+- A SHA-256 checksum for the bundle
+
+The workflow will fail if the pushed tag does not have matching release documentation committed in `.documentation/releases/vX.Y.Z/`.
+
 ### 3. Netlify
 
 Popular alternative with excellent developer experience.

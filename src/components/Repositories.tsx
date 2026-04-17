@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type ReactElement } from "react";
 import {
   ArrowClockwise,
   ArrowUpRightSquare,
@@ -107,7 +107,7 @@ const Repositories: React.FC = () => {
     }
 
     const pageNumbers = Array.from({ length: totalPages }, (_, index) => index + 1);
-    const items: JSX.Element[] = [];
+    const items: ReactElement[] = [];
 
     items.push(
       <li key="prev" className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>

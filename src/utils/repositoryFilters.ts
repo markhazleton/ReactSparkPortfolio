@@ -1,5 +1,6 @@
 import { RepositoryCardViewModel } from "../models/Repository";
 
+/** Sort options supported by the repository discovery controls. */
 export type RepositorySortOption =
   | "featured"
   | "activity"
@@ -11,6 +12,14 @@ export type RepositorySortOption =
 const hasTag = (repo: RepositoryCardViewModel, tag: string): boolean =>
   repo.statusTags.some((value) => value.toLowerCase() === tag.toLowerCase());
 
+/**
+ * Filters repository cards by search text, language, and status tag.
+ * @param repositories Repository cards to filter.
+ * @param searchTerm Free-text search term.
+ * @param languageFilter Selected language filter.
+ * @param statusFilter Selected status filter.
+ * @returns Repository cards matching the active filters.
+ */
 export const filterRepositories = (
   repositories: RepositoryCardViewModel[],
   searchTerm: string,
@@ -33,6 +42,12 @@ export const filterRepositories = (
   });
 };
 
+/**
+ * Sorts repository cards according to the selected repository sort option.
+ * @param repositories Repository cards to sort.
+ * @param sortOption Active sort option.
+ * @returns A sorted copy of the repository cards.
+ */
 export const sortRepositories = (
   repositories: RepositoryCardViewModel[],
   sortOption: RepositorySortOption
@@ -56,6 +71,13 @@ export const sortRepositories = (
   }
 };
 
+/**
+ * Returns the current page slice for repository cards.
+ * @param repositories Repository cards to paginate.
+ * @param currentPage Current one-based page index.
+ * @param pageSize Maximum number of items per page.
+ * @returns Repository cards visible on the requested page.
+ */
 export const paginateRepositories = (
   repositories: RepositoryCardViewModel[],
   currentPage: number,

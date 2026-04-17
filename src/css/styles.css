@@ -13897,6 +13897,78 @@ img {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+.repository-kicker {
+  color: var(--color-accent);
+  display: inline-block;
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  margin-bottom: 0.6rem;
+}
+
+.repository-hero {
+  background: radial-gradient(circle at top right, rgba(224, 164, 88, 0.18), transparent 34%), linear-gradient(135deg, rgba(79, 109, 122, 0.08), transparent 56%), var(--color-card-bg);
+  border: 1px solid var(--color-border);
+}
+
+.repository-stat-card,
+.repository-activity-card,
+.repository-card,
+.repository-controls {
+  background-color: var(--color-card-bg);
+  border: 1px solid var(--color-border);
+}
+
+.repository-stat-card,
+.repository-activity-card,
+.repository-card {
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+}
+
+.repository-stat-card:hover,
+.repository-activity-card:hover,
+.repository-card:hover {
+  border-color: rgba(var(--bs-primary-rgb), 0.35);
+  box-shadow: 0 0.8rem 2rem rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+.featured-repository {
+  position: relative;
+  overflow: hidden;
+}
+
+.featured-repository::after {
+  background: linear-gradient(180deg, rgba(224, 164, 88, 0.14), transparent);
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+}
+
+.repository-controls .input-group-text {
+  background-color: rgba(var(--bs-primary-rgb), 0.08);
+}
+
+.repository-card .badge,
+.featured-repository .badge {
+  font-weight: 600;
+}
+
+.repository-card .btn,
+.featured-repository .btn {
+  align-items: center;
+  display: inline-flex;
+  justify-content: center;
+}
+
+@media (max-width: 767.98px) {
+  .repository-hero {
+    padding: 1.5rem !important;
+  }
+  .repository-controls .row > * {
+    width: 100%;
+  }
+}
 .header-subtitle {
   font-size: 0.7rem;
 }

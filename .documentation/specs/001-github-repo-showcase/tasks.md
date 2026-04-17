@@ -79,14 +79,14 @@ description: "Executable task list for the GitHub Repository Showcase feature"
 
 ### Tests for User Story 2
 
-- [ ] T020 [P] [US2] Add integration coverage for search, filter, sort, and zero-state behavior in `tests/integration/repositories/RepositoriesPage.test.tsx`
+- [X] T020 [P] [US2] Add integration coverage for search, filter, sort, and zero-state behavior in `tests/integration/repositories/RepositoriesPage.test.tsx`
 
 ### Implementation for User Story 2
 
-- [ ] T021 [P] [US2] Create repository discovery helpers for filtering, sorting, and derived filter catalogs in `src/utils/repositoryFilters.ts`
-- [ ] T022 [US2] Add searchable and sortable repository view state to `src/components/Repositories.tsx`
-- [ ] T023 [US2] Implement filter controls, result counts, and zero-match recovery messaging in `src/components/Repositories.tsx`
-- [ ] T024 [US2] Add responsive list management for larger result sets, including paging or grouped presentation, in `src/components/Repositories.tsx`
+- [X] T021 [P] [US2] Create repository discovery helpers for filtering, sorting, and derived filter catalogs in `src/utils/repositoryFilters.ts`
+- [X] T022 [US2] Add searchable and sortable repository view state to `src/components/Repositories.tsx`
+- [X] T023 [US2] Implement filter controls, result counts, and zero-match recovery messaging in `src/components/Repositories.tsx`
+- [X] T024 [US2] Add responsive list management for larger result sets, including paging or grouped presentation, in `src/components/Repositories.tsx`
 
 **Checkpoint**: User Stories 1 and 2 both work independently, with discovery controls usable on phone and desktop layouts.
 
@@ -100,12 +100,12 @@ description: "Executable task list for the GitHub Repository Showcase feature"
 
 ### Tests for User Story 3
 
-- [ ] T025 [P] [US3] Add integration coverage for repository CTA links, badges, and featured/fallback distinction in `tests/integration/repositories/RepositoriesPage.test.tsx`
+- [X] T025 [P] [US3] Add integration coverage for repository CTA links, badges, and featured/fallback distinction in `tests/integration/repositories/RepositoriesPage.test.tsx`
 
 ### Implementation for User Story 3
 
-- [ ] T026 [US3] Enrich repository cards with summary text, activity badges, and status tags in `src/components/Repositories.tsx`
-- [ ] T027 [US3] Add outbound GitHub and live-site call-to-action handling with accessible labels in `src/components/Repositories.tsx`
+- [X] T026 [US3] Enrich repository cards with summary text, activity badges, and status tags in `src/components/Repositories.tsx`
+- [X] T027 [US3] Add outbound GitHub and live-site call-to-action handling with accessible labels in `src/components/Repositories.tsx`
 
 **Checkpoint**: All user stories are independently functional, and repository entries provide clear decision support before outbound navigation.
 
@@ -115,10 +115,10 @@ description: "Executable task list for the GitHub Repository Showcase feature"
 
 **Purpose**: Finish theme fit, resilience, and full verification across the feature.
 
-- [ ] T029 [P] Refine Bootstrap styling, theme compatibility, and responsive polish for the repository showcase in `src/components/Repositories.tsx` and `src/css/styles.css`
-- [ ] T030 [P] Add any missing accessibility, error-state, and retry-affordance assertions to `tests/integration/repositories/RepositoriesPage.test.tsx`
-- [ ] T031 Run full quality verification with `npm run lint`, `npm run type-check`, `npm run test:coverage`, and `npm run build`
-- [ ] T032 Run the quickstart validation scenarios from `.documentation/specs/001-github-repo-showcase/quickstart.md` and update feature docs if behavior drift is discovered
+- [X] T029 [P] Refine Bootstrap styling, theme compatibility, and responsive polish for the repository showcase in `src/components/Repositories.tsx` and `src/css/styles.css`
+- [X] T030 [P] Add any missing accessibility, error-state, and retry-affordance assertions to `tests/integration/repositories/RepositoriesPage.test.tsx`
+- [X] T031 Run full quality verification with `npm run lint`, `npm run type-check`, `npm run test:coverage`, and `npm run build`
+- [X] T032 Run the quickstart validation scenarios from `.documentation/specs/001-github-repo-showcase/quickstart.md` and update feature docs if behavior drift is discovered
 
 ---
 

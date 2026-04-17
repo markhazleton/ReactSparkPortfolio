@@ -9,12 +9,14 @@ const optionalUrlSchema = z.preprocess((value) => {
   return trimmed.length === 0 ? null : trimmed;
 }, z.string().url().nullable().optional());
 
+/** Validation schema for metadata included with the repository feed payload. */
 export const FeedMetadataSchema = z.object({
   generated_at: z.string().min(1, { message: "metadata.generated_at is required" }),
   schema_version: z.string().min(1, { message: "metadata.schema_version is required" }),
   source: z.string().min(1).optional(),
 });
 
+/** Validation schema for weekly repository activity summary rows. */
 export const WeeklyActivitySchema = z.object({
   week: z.string().min(1),
   label: z.string().min(1),
@@ -22,6 +24,7 @@ export const WeeklyActivitySchema = z.object({
   active_repos: z.number().int().nonnegative(),
 });
 
+/** Validation schema for the top-level repository profile summary. */
 export const ProfileSummarySchema = z.object({
   username: z.string().min(1),
   total_repositories: z.number().int().nonnegative(),
@@ -32,6 +35,7 @@ export const ProfileSummarySchema = z.object({
   weekly_activity: z.array(WeeklyActivitySchema).optional(),
 });
 
+/** Validation schema for descriptive repository summary content. */
 export const RepositorySummarySchema = z.object({
   text: z.string().min(1),
   ai_generated: z.boolean().optional(),
@@ -39,6 +43,7 @@ export const RepositorySummarySchema = z.object({
   confidence_score: z.number().nullable().optional(),
 });
 
+/** Validation schema for commit history metrics attached to a repository record. */
 export const CommitHistorySummarySchema = z.object({
   total_commits: z.number().int().nonnegative().optional(),
   recent_90d: z.number().int().nonnegative().optional(),
@@ -47,6 +52,7 @@ export const CommitHistorySummarySchema = z.object({
   days_since_last_commit: z.number().int().nonnegative().optional(),
 });
 
+/** Validation schema for an individual repository record from the showcase feed. */
 export const RepositoryRecordSchema = z.object({
   name: z.string().min(1),
   description: z.string().nullable().optional(),
@@ -82,22 +88,32 @@ export const RepositoryRecordSchema = z.object({
   is_featured: z.boolean().optional(),
 });
 
+/** Validation schema for the complete repository showcase feed. */
 export const RepositoryFeedSchema = z.object({
   profile: ProfileSummarySchema,
   repositories: z.array(RepositoryRecordSchema),
   metadata: FeedMetadataSchema,
 });
 
+/** Type alias for validated feed metadata. */
 export type FeedMetadata = z.infer<typeof FeedMetadataSchema>;
+/** Type alias for a validated weekly activity summary row. */
 export type WeeklyActivity = z.infer<typeof WeeklyActivitySchema>;
+/** Type alias for a validated profile summary record. */
 export type ProfileSummary = z.infer<typeof ProfileSummarySchema>;
+/** Type alias for a validated repository summary payload. */
 export type RepositorySummary = z.infer<typeof RepositorySummarySchema>;
+/** Type alias for a validated commit history summary payload. */
 export type CommitHistorySummary = z.infer<typeof CommitHistorySummarySchema>;
+/** Type alias for a validated repository record. */
 export type RepositoryRecord = z.infer<typeof RepositoryRecordSchema>;
+/** Type alias for a validated repository showcase feed. */
 export type RepositoryFeed = z.infer<typeof RepositoryFeedSchema>;
 
+/** Enumerates the supported repository data sources surfaced to the UI. */
 export type RepositorySource = "remote" | "cache" | "local";
 
+/** UI-facing status metadata describing the active repository data source. */
 export interface SourceStatus {
   source: RepositorySource;
   lastUpdated: string | null;
@@ -105,6 +121,7 @@ export interface SourceStatus {
   message: string;
 }
 
+/** Repository card shape consumed by the showcase page. */
 export interface RepositoryCardViewModel {
   name: string;
   description: string;
@@ -124,11 +141,13 @@ export interface RepositoryCardViewModel {
   };
 }
 
+/** Available filter values derived from the repository collection. */
 export interface RepositoryFilterCatalog {
   languages: string[];
   statusTags: string[];
 }
 
+/** View model used by the repository showcase page. */
 export interface RepositoryShowcaseViewModel {
   profile: ProfileSummary;
   featured: RepositoryCardViewModel[];
@@ -164,6 +183,12 @@ const getRepositoryScore = (repo: RepositoryRecord): number => {
   );
 };
 
+/**
+ * Maps a repository record to the card view model rendered by the showcase page.
+ * @param repo Validated repository record from the feed.
+ * @param featuredSource Source marker used by featured repository badges.
+ * @returns Repository card data ready for UI rendering.
+ */
 export const createRepositoryCardViewModel = (
   repo: RepositoryRecord,
   featuredSource: "curated" | "automatic" | "none" = "none"
@@ -193,6 +218,12 @@ export const createRepositoryCardViewModel = (
   };
 };
 
+/**
+ * Selects the featured repository cards, preferring curated entries and falling back to score-based ranking.
+ * @param repositories Source repository records.
+ * @param maxItems Maximum number of featured cards to return.
+ * @returns Featured repository cards for the showcase hero section.
+ */
 export const selectFeaturedRepositories = (
   repositories: RepositoryRecord[],
   maxItems = 3
@@ -209,6 +240,11 @@ export const selectFeaturedRepositories = (
   return selected;
 };
 
+/**
+ * Derives the available language and status filters from the repository cards.
+ * @param repositories Repository cards already prepared for display.
+ * @returns Sorted filter values for the UI controls.
+ */
 export const deriveFilterCatalog = (
   repositories: RepositoryCardViewModel[]
 ): RepositoryFilterCatalog => {
@@ -230,6 +266,11 @@ export const deriveFilterCatalog = (
   };
 };
 
+/**
+ * Creates a human-readable data source message for the repository showcase.
+ * @param source Active repository data source.
+ * @returns User-facing source status copy.
+ */
 export const createSourceStatusMessage = (source: RepositorySource): string => {
   switch (source) {
     case "remote":
@@ -243,6 +284,13 @@ export const createSourceStatusMessage = (source: RepositorySource): string => {
   }
 };
 
+/**
+ * Builds the full repository showcase view model from a validated feed payload.
+ * @param feed Validated repository feed data.
+ * @param source Active source used to build the view model.
+ * @param lastUpdated Timestamp associated with the active source.
+ * @returns Repository showcase data ready for rendering.
+ */
 export const buildShowcaseViewModel = (
   feed: RepositoryFeed,
   source: RepositorySource,

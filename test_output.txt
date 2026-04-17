@@ -1,0 +1,463 @@
+
+[1m[30m[46m RUN [49m[39m[22m [36mv4.1.4 [39m[90mC:/GitHub/MarkHazleton/BootstrapSpark[39m
+
+ [32mΓ£ô[39m tests/contract/repositories/repositoryFeed.contract.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 11[2mms[22m[39m
+ [32mΓ£ô[39m tests/unit/models/Repository.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 14[2mms[22m[39m
+ [32mΓ£ô[39m tests/unit/services/RepositoryService.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 29[2mms[22m[39m
+ [31mΓ¥»[39m tests/integration/repositories/RepositoriesPage.test.tsx [2m([22m[2m7 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[33m 2388[2mms[22m[39m
+     [32mΓ£ô[39m renders hero metrics, featured section, and activity context[32m 243[2mms[22m[39m
+     [33m[2mΓ£ô[22m[39m supports search and zero-state recovery [33m 480[2mms[22m[39m
+[31m     [31m├ù[31m filters repositories by language and status[39m[33m 1185[2mms[22m[39m
+     [32mΓ£ô[39m updates ordering when sort option changes[32m 196[2mms[22m[39m
+     [32mΓ£ô[39m falls back to embedded data when the remote request fails[32m 62[2mms[22m[39m
+[31m     [31m├ù[31m renders badges, featured fallback labels, and outbound repository actions[39m[32m 112[2mms[22m[39m
+     [32mΓ£ô[39m refetches repository data when refresh is activated[32m 107[2mms[22m[39m
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ» Failed Tests 2 ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»
+
+ FAIL  tests/integration/repositories/RepositoriesPage.test.tsx > Repositories page integration > filters repositories by language and status
+AssertionError: expected [ <h4 class="h5 mb-0"></h4> ] to have a length of +0 but got 1
+
+Ignored nodes: comments, script, style
+<html
+  data-active-theme="bootstrapspark"
+  data-bs-theme="light"
+>
+  <head>
+    <link
+      href="/themes/bootstrapspark.css"
+      id="bootstrapspark-runtime-theme"
+      rel="stylesheet"
+      type="text/css"
+    />
+  </head>
+  <body>
+    <div>
+      <section
+        class="py-5 bg-theme"
+        id="repositories-section"
+      >
+        <div
+          class="container"
+        >
+          <header
+            class="mb-4 repository-hero p-4 rounded-4 border-theme shadow-sm"
+          >
+            <div
+              class="d-flex justify-content-between align-items-start flex-wrap gap-3"
+            >
+              <div>
+                <span
+                  class="repository-kicker text-uppercase fw-semibold"
+                >
+                  Open source portfolio
+                </span>
+                <h2
+                  class="mb-2"
+                >
+                  GitHub Repository Showcase
+                </h2>
+                <p
+                  class="lead mb-1"
+                >
+                  Curated repositories and live activity from Mark Hazleton's public portfolio.
+                </p>
+                <p
+                  class="text-theme-muted mb-0"
+                >
+                  Showing the latest repository feed from the remote source.
+                </p>
+              </div>
+              <div
+                class="d-flex align-items-center gap-2"
+              >
+                <small
+                  class="text-theme-muted"
+                >
+                  Last updated: 
+                  4/17/2026, 1:47:42 PM
+                   (
+                  remote
+                  )
+                </small>
+                <button
+                  class="btn btn-sm btn-outline-primary"
+                >
+                  <svg
+                    class="bi bi-arrow-clockwise me-1"
+                    fill="currentColor"
+                    height="1em"
+                    viewBox="0 0 16 16"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"
+                      fill-rule="evenodd"
+                    />
+                    <path
+                      d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"
+                    />
+                  </svg>
+                   Refresh
+                </button>
+              </div>
+            </div>
+            <div
+              class="row g-3 mt-1"
+            >
+              <div
+                class="col-6 col-md-3"
+              >
+                <div
+                  class="card h-100 repository-stat-card shadow-sm"
+                >
+                  <div
+                    class="card-body"
+                  >
+                    <h3
+                      class="h6 text-theme-muted mb-1"
+                    >
+                      Repositories
+                    </h3>
+                    <p
+                      class="h2 mb-0"
+                    >
+                      33
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="col-6 col-md-3"
+              >
+                <div
+                  class="card h-100 repository-stat-card shadow-sm"
+                >
+                  <div
+                    class="card-body"
+                  >
+                    <h3
+                      class="h6 text-theme-muted mb-1"
+                    >
+                      Stars
+                    </h3>
+                    <p
+                      class="h2 mb-0"
+                    >
+                      19
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="col-6 col-md-3"
+              >
+                <div
+                  class="card h-100 repository-stat-card shadow-sm"
+                >
+                  <div
+                    class="card-body"
+                  >
+                    <h3
+                      class="h6 text-theme-muted mb-1"
+                    >
+                      Forks
+                    </h3>
+                    <p
+                      class="h2 mb-0"
+                    >
+                      7
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="col-6 col-md-3"
+              >
+                <div
+                  class="card h-100 repository-stat-card shadow-sm"
+                >
+                  <div
+                    class="card-body"
+                  >
+                    <h3
+                      class="h6 text-theme-muted mb-1"
+                    >
+                      Commits
+                    </h3>
+ ...
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ Γ¥» tests/integration/repositories/RepositoriesPage.test.tsx:110:50
+    108|     await waitFor(() => {
+    109|       expect(screen.getAllByText("alpha-repo").length).toBeGreaterThanΓÇª
+    110|       expect(screen.queryAllByText("beta-repo")).toHaveLength(0);
+       |                                                  ^
+    111|     });
+    112|   });
+ Γ¥» runWithExpensiveErrorDiagnosticsDisabled node_modules/@testing-library/dom/dist/config.js:47:12
+ Γ¥» checkCallback node_modules/@testing-library/dom/dist/wait-for.js:124:77
+ Γ¥» Timeout.checkRealTimersCallback node_modules/@testing-library/dom/dist/wait-for.js:118:16
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[1/2]ΓÄ»
+
+ FAIL  tests/integration/repositories/RepositoriesPage.test.tsx > Repositories page integration > renders badges, featured fallback labels, and outbound repository actions
+TestingLibraryElementError: Found multiple elements with the role "link" and name `/Open featured-1 live site/i`
+
+Here are the matching elements:
+
+Ignored nodes: comments, script, style
+<a
+  aria-label="Open featured-1 live site"
+  class="btn btn-sm btn-outline-secondary"
+  href="https://example.com/live-site"
+  rel="noopener noreferrer"
+  target="_blank"
+>
+  Live Site 
+  <svg
+    class="bi bi-arrow-up-right-square ms-1"
+    fill="currentColor"
+    height="1em"
+    viewBox="0 0 16 16"
+    width="1em"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm5.854 8.803a.5.5 0 1 1-.708-.707L9.243 6H6.475a.5.5 0 1 1 0-1h3.975a.5.5 0 0 1 .5.5v3.975a.5.5 0 1 1-1 0V6.707z"
+      fill-rule="evenodd"
+    />
+  </svg>
+</a>
+
+Ignored nodes: comments, script, style
+<a
+  aria-label="Open featured-1 live site"
+  class="btn btn-sm btn-outline-secondary"
+  href="https://example.com/live-site"
+  rel="noopener noreferrer"
+  target="_blank"
+>
+  Live Site 
+  <svg
+    class="bi bi-arrow-up-right-square ms-1"
+    fill="currentColor"
+    height="1em"
+    viewBox="0 0 16 16"
+    width="1em"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm5.854 8.803a.5.5 0 1 1-.708-.707L9.243 6H6.475a.5.5 0 1 1 0-1h3.975a.5.5 0 0 1 .5.5v3.975a.5.5 0 1 1-1 0V6.707z"
+      fill-rule="evenodd"
+    />
+  </svg>
+</a>
+
+(If this is intentional, then use the `*AllBy*` variant of the query (like `queryAllByText`, `getAllByText`, or `findAllByText`)).
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <section
+      class="py-5 bg-theme"
+      id="repositories-section"
+    >
+      <div
+        class="container"
+      >
+        <header
+          class="mb-4 repository-hero p-4 rounded-4 border-theme shadow-sm"
+        >
+          <div
+            class="d-flex justify-content-between align-items-start flex-wrap gap-3"
+          >
+            <div>
+              <span
+                class="repository-kicker text-uppercase fw-semibold"
+              >
+                Open source portfolio
+              </span>
+              <h2
+                class="mb-2"
+              >
+                GitHub Repository Showcase
+              </h2>
+              <p
+                class="lead mb-1"
+              >
+                Curated repositories and live activity from Mark Hazleton's public portfolio.
+              </p>
+              <p
+                class="text-theme-muted mb-0"
+              >
+                Showing the latest repository feed from the remote source.
+              </p>
+            </div>
+            <div
+              class="d-flex align-items-center gap-2"
+            >
+              <small
+                class="text-theme-muted"
+              >
+                Last updated: 
+                4/17/2026, 1:47:43 PM
+                 (
+                remote
+                )
+              </small>
+              <button
+                class="btn btn-sm btn-outline-primary"
+              >
+                <svg
+                  class="bi bi-arrow-clockwise me-1"
+                  fill="currentColor"
+                  height="1em"
+                  viewBox="0 0 16 16"
+                  width="1em"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"
+                    fill-rule="evenodd"
+                  />
+                  <path
+                    d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"
+                  />
+                </svg>
+                 Refresh
+              </button>
+            </div>
+          </div>
+          <div
+            class="row g-3 mt-1"
+          >
+            <div
+              class="col-6 col-md-3"
+            >
+              <div
+                class="card h-100 repository-stat-card shadow-sm"
+              >
+                <div
+                  class="card-body"
+                >
+                  <h3
+                    class="h6 text-theme-muted mb-1"
+                  >
+                    Repositories
+                  </h3>
+                  <p
+                    class="h2 mb-0"
+                  >
+                    33
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div
+              class="col-6 col-md-3"
+            >
+              <div
+                class="card h-100 repository-stat-card shadow-sm"
+              >
+                <div
+                  class="card-body"
+                >
+                  <h3
+                    class="h6 text-theme-muted mb-1"
+                  >
+                    Stars
+                  </h3>
+                  <p
+                    class="h2 mb-0"
+                  >
+                    19
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div
+              class="col-6 col-md-3"
+            >
+              <div
+                class="card h-100 repository-stat-card shadow-sm"
+              >
+                <div
+                  class="card-body"
+                >
+                  <h3
+                    class="h6 text-theme-muted mb-1"
+                  >
+                    Forks
+                  </h3>
+                  <p
+                    class="h2 mb-0"
+                  >
+                    7
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div
+              class="col-6 col-md-3"
+            >
+              <div
+                class="card h-100 repository-stat-card shadow-sm"
+              >
+                <div
+                  class="card-body"
+                >
+                  <h3
+                    class="h6 text-theme-muted mb-1"
+                  >
+                    Commits
+                  </h3>
+                  <p
+                    class="h2 mb-0"
+                  >
+                    4459
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="mt-4"
+          >
+            <h3
+              class="h5 mb-2"
+            >
+              Recent Activity
+            </h3>
+            <div
+              class="row g-2"
+            >
+              <div
+                class[39...
+ Γ¥» Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ Γ¥» getElementError node_modules/@testing-library/dom/dist/query-helpers.js:20:35
+ Γ¥» getMultipleElementsFoundError node_modules/@testing-library/dom/dist/query-helpers.js:23:10
+ Γ¥» node_modules/@testing-library/dom/dist/query-helpers.js:55:13
+ Γ¥» node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ Γ¥» tests/integration/repositories/RepositoriesPage.test.tsx:176:19
+    174|     expect(screen.getAllByText("tests").length).toBeGreaterThan(0);
+    175|     expect(screen.getAllByText("docs").length).toBeGreaterThan(0);
+    176|     expect(screen.getByRole("link", { name: /Open featured-1 live siteΓÇª
+       |                   ^
+    177|   });
+    178|
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[2/2]ΓÄ»
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m3 passed[39m[22m[90m (4)[39m
+[2m      Tests [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m20 passed[39m[22m[90m (22)[39m
+[2m   Start at [22m 13:47:40
+[2m   Duration [22m 3.86s[2m (transform 278ms, setup 740ms, import 567ms, tests 2.44s, environment 3.37s)[22m
+

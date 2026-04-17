@@ -109,6 +109,11 @@ const getFallbackFeed = (): RepositoryFeed => {
   return parseFeed(fallbackRepositories);
 };
 
+/**
+ * Loads repository showcase data using remote, cache, build-artifact, and embedded fallbacks.
+ * @param forceRefresh When true, bypasses the current cache and refetches remote data.
+ * @returns Repository showcase data ready for rendering.
+ */
 export const fetchRepositoryShowcaseData = async (
   forceRefresh = false
 ): Promise<RepositoryShowcaseViewModel> => {
@@ -153,6 +158,7 @@ export const fetchRepositoryShowcaseData = async (
   }
 };
 
+/** Clears all cached repository showcase values from local storage. */
 export const clearRepositoriesCache = (): void => {
   localStorage.removeItem(CACHE_KEYS.data);
   localStorage.removeItem(CACHE_KEYS.lastUpdated);
@@ -161,6 +167,10 @@ export const clearRepositoriesCache = (): void => {
   localStorage.removeItem(CACHE_KEYS.version);
 };
 
+/**
+ * Returns cache metadata for the repository showcase.
+ * @returns Cache presence, timestamp, item count, and source label.
+ */
 export const getRepositoriesCacheInfo = () => {
   const lastUpdated = localStorage.getItem(CACHE_KEYS.lastUpdated);
   const count = localStorage.getItem(CACHE_KEYS.count);

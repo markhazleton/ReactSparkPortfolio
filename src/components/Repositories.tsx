@@ -24,6 +24,7 @@ import {
 
 const repositoriesPerPage = 6;
 
+/** Repository showcase page with featured highlights, discovery controls, and resilient data loading. */
 const Repositories: React.FC = () => {
   const { theme } = useTheme();
   const { setTitle, setDescription } = useSEO();
@@ -206,9 +207,12 @@ const Repositories: React.FC = () => {
   return (
     <section className="py-5 bg-theme" id="repositories-section">
       <div className="container">
-        <header className="mb-4 repository-hero p-4 rounded-4 border-theme">
+        <header className="mb-4 repository-hero p-4 rounded-4 border-theme shadow-sm">
           <div className="d-flex justify-content-between align-items-start flex-wrap gap-3">
             <div>
+              <span className="repository-kicker text-uppercase fw-semibold">
+                Open source portfolio
+              </span>
               <h2 className="mb-2">GitHub Repository Showcase</h2>
               <p className="lead mb-1">
                 Curated repositories and live activity from Mark Hazleton's public portfolio.
@@ -232,7 +236,7 @@ const Repositories: React.FC = () => {
 
           <div className="row g-3 mt-1">
             <div className="col-6 col-md-3">
-              <div className="card h-100 repository-stat-card">
+              <div className="card h-100 repository-stat-card shadow-sm">
                 <div className="card-body">
                   <h3 className="h6 text-theme-muted mb-1">Repositories</h3>
                   <p className="h2 mb-0">{data.profile.total_repositories}</p>
@@ -240,7 +244,7 @@ const Repositories: React.FC = () => {
               </div>
             </div>
             <div className="col-6 col-md-3">
-              <div className="card h-100 repository-stat-card">
+              <div className="card h-100 repository-stat-card shadow-sm">
                 <div className="card-body">
                   <h3 className="h6 text-theme-muted mb-1">Stars</h3>
                   <p className="h2 mb-0">{data.profile.total_stars}</p>
@@ -248,7 +252,7 @@ const Repositories: React.FC = () => {
               </div>
             </div>
             <div className="col-6 col-md-3">
-              <div className="card h-100 repository-stat-card">
+              <div className="card h-100 repository-stat-card shadow-sm">
                 <div className="card-body">
                   <h3 className="h6 text-theme-muted mb-1">Forks</h3>
                   <p className="h2 mb-0">{data.profile.total_forks}</p>
@@ -256,7 +260,7 @@ const Repositories: React.FC = () => {
               </div>
             </div>
             <div className="col-6 col-md-3">
-              <div className="card h-100 repository-stat-card">
+              <div className="card h-100 repository-stat-card shadow-sm">
                 <div className="card-body">
                   <h3 className="h6 text-theme-muted mb-1">Commits</h3>
                   <p className="h2 mb-0">{data.profile.total_commits}</p>
@@ -271,7 +275,7 @@ const Repositories: React.FC = () => {
               <div className="row g-2">
                 {weeklyActivity.slice(0, 4).map((week) => (
                   <div key={week.week} className="col-sm-6 col-lg-3">
-                    <div className="card h-100 repository-activity-card">
+                    <div className="card h-100 repository-activity-card shadow-sm">
                       <div className="card-body">
                         <p className="small text-theme-muted mb-1">{week.label}</p>
                         <p className="mb-1 fw-semibold">{week.commits} commits</p>
@@ -295,7 +299,7 @@ const Repositories: React.FC = () => {
           <div className="row g-3">
             {data.featured.map((repo) => (
               <div className="col-md-6 col-lg-4" key={`featured-${repo.name}`}>
-                <article className="card h-100 repository-card featured-repository border-warning-subtle">
+                <article className="card h-100 repository-card featured-repository border-warning-subtle shadow-sm">
                   <div className="card-body d-flex flex-column">
                     <div className="d-flex justify-content-between align-items-start mb-2">
                       <h4 className="h5 mb-0">{repo.name}</h4>
@@ -341,7 +345,10 @@ const Repositories: React.FC = () => {
           </div>
         </section>
 
-        <section className="card p-3 mb-4" aria-label="Repository discovery controls">
+        <section
+          className="card p-3 mb-4 repository-controls shadow-sm"
+          aria-label="Repository discovery controls"
+        >
           <div className="row g-3">
             <div className="col-lg-5">
               <label htmlFor="repository-search" className="form-label">
@@ -349,7 +356,7 @@ const Repositories: React.FC = () => {
               </label>
               <div className="input-group">
                 <span className="input-group-text">
-                  <Search />
+                  <Search aria-hidden="true" />
                 </span>
                 <input
                   id="repository-search"
@@ -468,7 +475,7 @@ const Repositories: React.FC = () => {
             <div className="row g-3">
               {currentRepositories.map((repo) => (
                 <div className="col-md-6 col-xl-4" key={repo.name}>
-                  <article className="card h-100 repository-card">
+                  <article className="card h-100 repository-card shadow-sm">
                     <div className="card-body d-flex flex-column">
                       <h4 className="h5 mb-2">{repo.name}</h4>
                       <p className="text-theme-muted mb-3">{repo.description}</p>

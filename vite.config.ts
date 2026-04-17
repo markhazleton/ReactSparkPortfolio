@@ -76,6 +76,10 @@ export default defineConfig({
           src: "src/data/rss.xml",
           dest: "src/data", // Copy RSS file to the build output
         },
+        {
+          src: ".build/data/repositories.json",
+          dest: "data", // Build-time repository fallback artifact
+        },
       ],
     }),
     strip({
@@ -148,6 +152,27 @@ export default defineConfig({
           proxy.on("proxyRes", (proxyRes, req) => {
             console.log(
               "Received Projects Response from the Target:",
+              proxyRes.statusCode,
+              req.url
+            );
+          });
+        },
+      },
+      "/api/repositories": {
+        target: "https://markhazleton.com",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/repositories/, "/repositories.json"),
+        secure: true,
+        configure: (proxy) => {
+          proxy.on("error", (err) => {
+            console.log("repositories proxy error", err);
+          });
+          proxy.on("proxyReq", (proxyReq, req) => {
+            console.log("Sending Repositories Request to the Target:", req.method, req.url);
+          });
+          proxy.on("proxyRes", (proxyRes, req) => {
+            console.log(
+              "Received Repositories Response from the Target:",
               proxyRes.statusCode,
               req.url
             );

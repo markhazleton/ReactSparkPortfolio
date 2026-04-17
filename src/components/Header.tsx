@@ -3,6 +3,7 @@ import {
   House,
   Person,
   Briefcase,
+  Github,
   JournalText,
   EmojiLaughing,
   Cloud,
@@ -39,6 +40,7 @@ const Header: React.FC = () => {
 
   const isAppsActive =
     location.pathname === "/projects" ||
+    location.pathname === "/repositories" ||
     location.pathname === "/articles" ||
     location.pathname === "/joke" ||
     location.pathname === "/weather" ||
@@ -111,6 +113,15 @@ const Header: React.FC = () => {
                   <li>
                     <Link className="dropdown-item" to="/projects" aria-label="Projects page">
                       <Briefcase className="me-2" /> Projects
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      className="dropdown-item"
+                      to="/repositories"
+                      aria-label="Repositories page"
+                    >
+                      <Github className="me-2" /> Repositories
                     </Link>
                   </li>
                   <li>

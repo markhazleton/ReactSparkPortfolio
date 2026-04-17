@@ -19,6 +19,7 @@ import "./utils/imageUtils";
 const Hero = lazy(() => import("./components/Hero"));
 const About = lazy(() => import("./components/About"));
 const Projects = lazy(() => import("./components/Projects"));
+const Repositories = lazy(() => import("./components/Repositories"));
 const Articles = lazy(() => import("./components/Articles"));
 const Joke = lazy(() => import("./components/Joke"));
 const WeatherForecast = lazy(() => import("./components/WeatherForecast"));
@@ -64,6 +65,7 @@ const AppWithVersionCheck: React.FC = () => {
                   <Route path="/" element={<Hero />} />
                   <Route path="/about" element={<About />} />
                   <Route path="/projects" element={<Projects />} />
+                  <Route path="/repositories" element={<Repositories />} />
                   <Route path="/joke" element={<Joke />} />
                   <Route path="/articles" element={<Articles />} />
                   <Route path="/weather" element={<WeatherForecast />} />

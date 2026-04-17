@@ -12,6 +12,7 @@ const routes = [
   { path: "/", priority: 1.0, changefreq: "weekly" },
   { path: "/about", priority: 0.8, changefreq: "monthly" },
   { path: "/projects", priority: 0.8, changefreq: "monthly" },
+  { path: "/repositories", priority: 0.8, changefreq: "weekly" },
   { path: "/articles", priority: 0.8, changefreq: "weekly" },
   { path: "/joke", priority: 0.6, changefreq: "daily" },
   { path: "/weather", priority: 0.6, changefreq: "daily" },

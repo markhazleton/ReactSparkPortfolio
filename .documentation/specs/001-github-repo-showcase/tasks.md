@@ -22,10 +22,10 @@ description: "Executable task list for the GitHub Repository Showcase feature"
 
 **Purpose**: Prepare the repository showcase file structure and feature-specific test surfaces.
 
-- [ ] T001 Create repository model and service scaffolds in `src/models/Repository.ts` and `src/services/RepositoryService.ts`
-- [ ] T002 [P] Create repository page and route test scaffolds in `src/components/Repositories.tsx` and `tests/integration/repositories/RepositoriesPage.test.tsx`
-- [ ] T003 [P] Create repository proxy scaffolds in `api/proxy-repositories/function.json`, `api/proxy-repositories/index.js`, and `api/proxy-repositories/package.json`
-- [ ] T004 [P] Create repository data and test scaffolds in `src/data/repositories.json`, `tests/unit/models/Repository.test.ts`, `tests/unit/services/RepositoryService.test.ts`, and `tests/contract/repositories/repositoryFeed.contract.test.ts`
+- [X] T001 Create repository model and service scaffolds in `src/models/Repository.ts` and `src/services/RepositoryService.ts`
+- [X] T002 [P] Create repository page and route test scaffolds in `src/components/Repositories.tsx` and `tests/integration/repositories/RepositoriesPage.test.tsx`
+- [X] T003 [P] Create repository proxy scaffolds in `api/proxy-repositories/function.json`, `api/proxy-repositories/index.js`, and `api/proxy-repositories/package.json`
+- [X] T004 [P] Create repository data and test scaffolds in `src/data/repositories.json`, `tests/unit/models/Repository.test.ts`, `tests/unit/services/RepositoryService.test.ts`, and `tests/contract/repositories/repositoryFeed.contract.test.ts`
 
 ---
 
@@ -35,16 +35,15 @@ description: "Executable task list for the GitHub Repository Showcase feature"
 
 **⚠️ CRITICAL**: No user story work should start until this phase is complete.
 
-- [ ] T005 Implement Zod schemas and typed repository feed exports in `src/models/Repository.ts`
-- [ ] T005 Implement Zod schemas and typed repository feed exports, including explicit `FeedMetadata` fields for freshness and schema compatibility, in `src/models/Repository.ts`
-- [ ] T006 [P] Add the embedded repository fallback snapshot in `src/data/repositories.json`
-- [ ] T007 Implement repository fetch, validation, cache metadata, private-repository exclusion, curated-first featured selection with automatic fallback ranking, and fallback mapping in `src/services/RepositoryService.ts`
-- [ ] T008 [P] Add the development proxy route for `/api/repositories` in `vite.config.ts`
-- [ ] T009 Implement the production repository proxy in `api/proxy-repositories/index.js`
-- [ ] T010 [P] Configure the repository proxy function metadata and dependencies in `api/proxy-repositories/function.json` and `api/proxy-repositories/package.json`
-- [ ] T011 Add contract coverage for the feed shape, explicit metadata fields, and minimum required repository fields in `tests/contract/repositories/repositoryFeed.contract.test.ts`
-- [ ] T012 Add unit coverage for schema parsing, view-model derivation, and invalid feed rejection in `tests/unit/models/Repository.test.ts`
-- [ ] T013 Add unit coverage for remote, cache, and local fallback behavior, private-repository exclusion, and retry-ready failure handling in `tests/unit/services/RepositoryService.test.ts`
+- [X] T005 Implement Zod schemas and typed repository feed exports, including explicit `FeedMetadata` fields for freshness and schema compatibility, in `src/models/Repository.ts`
+- [X] T006 [P] Add the embedded repository fallback snapshot in `src/data/repositories.json`
+- [X] T007 Implement repository fetch, validation, cache metadata, private-repository exclusion, curated-first featured selection with automatic fallback ranking, and fallback mapping in `src/services/RepositoryService.ts`
+- [X] T008 [P] Add the development proxy route for `/api/repositories` in `vite.config.ts`
+- [X] T009 Implement the production repository proxy in `api/proxy-repositories/index.js`
+- [X] T010 [P] Configure the repository proxy function metadata and dependencies in `api/proxy-repositories/function.json` and `api/proxy-repositories/package.json`
+- [X] T011 Add contract coverage for the feed shape, explicit metadata fields, and minimum required repository fields in `tests/contract/repositories/repositoryFeed.contract.test.ts`
+- [X] T012 Add unit coverage for schema parsing, view-model derivation, and invalid feed rejection in `tests/unit/models/Repository.test.ts`
+- [X] T013 Add unit coverage for remote, cache, and local fallback behavior, private-repository exclusion, and retry-ready failure handling in `tests/unit/services/RepositoryService.test.ts`
 
 **Checkpoint**: Repository data can be loaded, validated, cached, and served through both development and production integration paths.
 
@@ -58,15 +57,15 @@ description: "Executable task list for the GitHub Repository Showcase feature"
 
 ### Tests for User Story 1
 
-- [ ] T014 [P] [US1] Add route and first-render integration coverage for hero metrics, recent activity context, and featured spotlight rendering in `tests/integration/repositories/RepositoriesPage.test.tsx`
+- [X] T014 [P] [US1] Add route and first-render integration coverage for hero metrics, recent activity context, and featured spotlight rendering in `tests/integration/repositories/RepositoriesPage.test.tsx`
 
 ### Implementation for User Story 1
 
-- [ ] T015 [US1] Register the lazy-loaded repository route in `src/App.tsx`
-- [ ] T016 [US1] Add the repository showcase entry to the Apps navigation and generated sitemap route list in `src/components/Header.tsx` and `src/utils/generateSitemap.ts`
-- [ ] T017 [US1] Implement the repository page shell, hero metrics, recent activity summary, source-status messaging, retry-capable error state, and featured spotlight section in `src/components/Repositories.tsx`
-- [ ] T018 [US1] Connect the repository page to `RepositoryService` and render the base repository collection in `src/components/Repositories.tsx`
-- [ ] T019 [US1] Add page-level SEO copy and accessible section structure in `src/components/Repositories.tsx`
+- [X] T015 [US1] Register the lazy-loaded repository route in `src/App.tsx`
+- [X] T016 [US1] Add the repository showcase entry to the Apps navigation and generated sitemap route list in `src/components/Header.tsx` and `src/utils/generateSitemap.ts`
+- [X] T017 [US1] Implement the repository page shell, hero metrics, recent activity summary, source-status messaging, retry-capable error state, and featured spotlight section in `src/components/Repositories.tsx`
+- [X] T018 [US1] Connect the repository page to `RepositoryService` and render the base repository collection in `src/components/Repositories.tsx`
+- [X] T019 [US1] Add page-level SEO copy and accessible section structure in `src/components/Repositories.tsx`
 
 **Checkpoint**: User Story 1 is independently functional and demoable as the MVP.
 
@@ -204,6 +203,10 @@ Task: "T026 [US3] Enrich repository cards with summary text, activity badges, an
 - The feature metadata requires `checklist`, `analyze`, and `critic` gates.
 - The requirements checklist exists and is complete.
 - No existing `analyze.md`, `critic.md`, or other gate findings were present when tasks were generated.
+
+## Gate Acknowledgements
+
+- 2026-04-17: User approved proceeding with implementation despite unresolved `analyze` and `critic` gate artifacts.
 
 ---
 

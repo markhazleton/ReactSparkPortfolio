@@ -380,4 +380,4 @@ If user says "done" before any questions:
 
 ## Context
 
-$ARGUMENTS
+{ARGS}

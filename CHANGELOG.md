@@ -5,6 +5,21 @@ For versioned release history, see [.documentation/CHANGELOG.md](.documentation/
 
 ---
 
+## [2026-04-19] Harvest Run
+
+### Archived
+
+- `.documentation/specs/001-github-repo-showcase/` — completed spec (31/31 tasks done); knowledge harvested into `.documentation/CHANGELOG.md`
+- `.documentation/specs/pr-review/pr-39.md`, `pr-41.md`, `pr-44.md` — merged PR reviews; retention policy: archive after merge
+- `docs/assets/` (182 files) — stale compiled build artifacts from prior GitHub Pages deployment; ADR-001 applies: build outputs are not stored in git
+
+### Key decisions preserved
+
+- **GitHub Repository Showcase pattern**: New showcase route follows Projects/Articles precedent — Zod-validated model, multi-layer service fallback (remote → localStorage cache → embedded JSON), Azure Function proxy, Bootstrap-first UI, layered test coverage (contract + unit + integration).
+- **Legacy `docs/` cleanup**: The `docs/assets/` folder was a leftover from an older GitHub Pages deployment workflow. ADR-001 mandates CI-generated builds; source-controlled build artifacts are an anti-pattern and should not recur.
+
+---
+
 ## [2026-04-06] Archive Run
 
 ### Archived

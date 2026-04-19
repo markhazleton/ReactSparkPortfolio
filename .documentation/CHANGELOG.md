@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **GitHub Repository Showcase** — Added a dedicated `/repositories` route presenting Mark Hazleton's public GitHub portfolio. Includes a Zod-validated `Repository` model, a resilient `RepositoryService` with remote fetch → localStorage cache → embedded fallback chain, an Azure Function production proxy (`api/proxy-repositories/`), and a Bootstrap-styled showcase UI with featured highlights, client-side filtering/sorting, and recent activity context. Covered by contract, unit, and integration tests.
+
 ### Changed
 
 ## [0.1.0] - 2026-04-16

@@ -1,4 +1,4 @@
-## Prompt Resolution
+﻿## Prompt Resolution
 
 Determine the current git user by running `git config user.name`.
 Normalize to a folder-safe slug: lowercase, replace spaces with hyphens, strip non-alphanumeric/hyphen chars.

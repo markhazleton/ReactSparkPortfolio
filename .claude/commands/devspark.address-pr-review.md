@@ -5,9 +5,9 @@ Normalize to a folder-safe slug: lowercase, replace spaces with hyphens, strip n
 
 Read and execute the instructions from the **first file that exists**:
 
-1. `.documentation/{git-user}/commands/devspark.tasks.md` (personalized override)
-2. `.documentation/commands/devspark.tasks.md` (team customization)
-3. `.devspark/defaults/commands/devspark.tasks.md` (stock default)
+1. `.documentation/{git-user}/commands/devspark.address-pr-review.md` (personalized override)
+2. `.documentation/commands/devspark.address-pr-review.md` (team customization)
+3. `.devspark/defaults/commands/devspark.address-pr-review.md` (stock default)
 
 ## User Input
 

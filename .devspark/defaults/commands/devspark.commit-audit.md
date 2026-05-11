@@ -1,4 +1,4 @@
----
+﻿---
 description: Analyze git commit history patterns for contributor velocity, commit hygiene, DORA metrics, AI adoption level, and architecture maturity
 handoffs:
   - label: Run Site Audit

@@ -22,7 +22,9 @@ const VariantList: React.FC = () => {
     variants: rawVariants,
     loading,
     error,
-  } = useFetchVariants("https://webspark.markhazleton.com/api/PromptSpark/Variant");
+  } = useFetchVariants(
+    `${import.meta.env.DEV ? "" : "https://webspark.markhazleton.com"}/api/PromptSpark/Variant`
+  );
 
   const [selectedVariant, setSelectedVariant] = useState<EnhancedVariant | null>(null);
   const [searchTerm, setSearchTerm] = useState("");

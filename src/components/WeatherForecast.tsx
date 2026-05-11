@@ -17,7 +17,7 @@ import { useTheme } from "../contexts/ThemeContext";
 
 /**
  * WeatherForecast component displays current weather conditions for searched cities.
- * 
+ *
  * Features:
  * - Search weather by city name
  * - Display current temperature, feels-like, humidity, wind speed
@@ -26,13 +26,13 @@ import { useTheme } from "../contexts/ThemeContext";
  * - Multi-city comparison view
  * - Refresh capability for updated data
  * - Theme-aware styling
- * 
+ *
  * @component
  * @example
  * ```tsx
  * <WeatherForecast />
  * ```
- * 
+ *
  * @returns {JSX.Element} The rendered Weather Forecast page with search and display
  */
 
@@ -60,6 +60,8 @@ interface WeatherData {
 interface WeatherResults {
   [city: string]: WeatherData;
 }
+
+const WEATHER_API = `${import.meta.env.DEV ? "" : "https://webspark.markhazleton.com"}/api/asyncspark/openweatherapi/weather`;
 
 const WeatherForecast: React.FC = () => {
   const { theme } = useTheme();
@@ -93,9 +95,7 @@ const WeatherForecast: React.FC = () => {
         await Promise.all(
           defaultCities.map(async (defaultCity) => {
             try {
-              const response = await fetch(
-                `https://webspark.markhazleton.com/api/asyncspark/openweatherapi/weather?location=${defaultCity}`
-              );
+              const response = await fetch(`${WEATHER_API}?location=${defaultCity}`);
 
               if (!response.ok) {
                 throw new Error(`Error fetching ${defaultCity} weather: ${response.status}`);
@@ -139,9 +139,7 @@ const WeatherForecast: React.FC = () => {
     setWeatherData(null);
 
     try {
-      const response = await fetch(
-        `https://webspark.markhazleton.com/api/asyncspark/openweatherapi/weather?location=${searchCity}`
-      );
+      const response = await fetch(`${WEATHER_API}?location=${searchCity}`);
 
       if (response.status === 429) {
         throw new Error("429");

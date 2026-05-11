@@ -1,4 +1,4 @@
-# Repository Story: ReactSparkPortfolio
+﻿# Repository Story: ReactSparkPortfolio
 
 > Generated 2026-04-05 | Window: 18 months | Scope: full
 
@@ -192,7 +192,7 @@ Constitution v1.1.1 (ratified 2026-03-01, last amended 2026-04-05) defines 10 ma
 
 ### What does this project do?
 
-ReactSparkPortfolio is a personal developer portfolio and technical reference implementation for Mark Hazleton. It showcases real-time features (SignalR chat with AI personalities), live weather data with interactive maps, a dynamic blog feed from RSS sources, and a searchable projects showcase — all served as a static SPA deployed to both Azure Static Web Apps (`reactspark.markhazleton.com`) and GitHub Pages.
+ReactSparkPortfolio is a personal developer portfolio and technical reference implementation for Mark Hazleton. It showcases real-time features (SignalR chat with AI personalities), live weather data with interactive maps, a dynamic blog feed from RSS sources, and a searchable projects showcase — all served as a static SPA deployed to both Azure Static Web Apps (`reactspark.makeboldspark.com`) and GitHub Pages.
 
 ### What tech stack does it use?
 

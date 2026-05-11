@@ -1,4 +1,4 @@
-// Azure Function to proxy RSS feed requests
+﻿// Azure Function to proxy RSS feed requests
 // This avoids CORS issues by having the server fetch the RSS feed instead of the browser
 
 const fetch = require("node-fetch");
@@ -6,7 +6,7 @@ const fetch = require("node-fetch");
 // Whitelisted origins for CORS
 const ALLOWED_ORIGINS = [
   "https://Bootstrap.makeboldspark.com",
-  "https://bootstrapspark.markhazleton.com",
+  "https://bootstrapspark.makeboldspark.com",
   "https://markhazleton.github.io",
   "http://localhost:3000",
   "http://127.0.0.1:3000",

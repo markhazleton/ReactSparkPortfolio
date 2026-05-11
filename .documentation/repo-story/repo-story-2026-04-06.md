@@ -1,4 +1,4 @@
-# Repository Story: ReactSparkPortfolio
+﻿# Repository Story: ReactSparkPortfolio
 
 > Generated 2026-04-06 | Window: 12 months | Scope: full
 
@@ -107,7 +107,7 @@ The 23% conventional commit adoption is growing but inconsistent. The March 2026
 
 **Merge commit percentage**: 1 tracked merge commit in the visible history — effectively a direct-to-main workflow for the majority of development. This is consistent with solo development, where feature branches are short-lived or non-existent.
 
-**Tag discipline**: **0 release tags**. The absence of version tags is the single most significant governance gap. With no milestones in git history, there is no external evidence of when features shipped or what constitutes a "release." The project is functionally deployed and running in production (`reactspark.markhazleton.com`) but lacks any semver trail.
+**Tag discipline**: **0 release tags**. The absence of version tags is the single most significant governance gap. With no milestones in git history, there is no external evidence of when features shipped or what constitutes a "release." The project is functionally deployed and running in production (`reactspark.makeboldspark.com`) but lacks any semver trail.
 
 **Branch strategy**: Minimal. One documented feature branch merge is visible (`feat/dependabot-documentation → main`), plus one PR merge (`feat: Constitution Compliance Implementation (#29)`). The `#29` PR reference indicates GitHub pull request workflow is used selectively — likely for major features rather than routine commits.
 
@@ -230,7 +230,7 @@ The constitution (v1.1.1) defines 10 mandatory principles. This section maps obs
 
 ### What does this project do?
 
-ReactSparkPortfolio is a personal developer portfolio and reference implementation that showcases enterprise React engineering patterns. It displays Mark Hazleton's projects (pulled from markhazleton.com), a real-time SignalR chat widget, live weather data with Leaflet maps, dynamic RSS blog feeds, and a random jokes integration. It deploys simultaneously to Azure Static Web Apps (`reactspark.markhazleton.com`) and GitHub Pages from the same `/docs` build folder.
+ReactSparkPortfolio is a personal developer portfolio and reference implementation that showcases enterprise React engineering patterns. It displays Mark Hazleton's projects (pulled from markhazleton.com), a real-time SignalR chat widget, live weather data with Leaflet maps, dynamic RSS blog feeds, and a random jokes integration. It deploys simultaneously to Azure Static Web Apps (`reactspark.makeboldspark.com`) and GitHub Pages from the same `/docs` build folder.
 
 ### What tech stack does it use?
 
@@ -287,7 +287,7 @@ Yes — and they are formally documented. Read [.documentation/memory/constituti
 
 ### What version is currently released?
 
-There are no semantic version tags in this repository. The most recent commit is `2026-04-05: docs: harvest, archive, and repo story for 2026-04-05`. The production deployment at `reactspark.markhazleton.com` reflects whatever was last pushed to `main`. Build version tracking is handled via `__BUILD_DATE__` injection in `vite.config.ts` rather than semver tags.
+There are no semantic version tags in this repository. The most recent commit is `2026-04-05: docs: harvest, archive, and repo story for 2026-04-05`. The production deployment at `reactspark.makeboldspark.com` reflects whatever was last pushed to `main`. Build version tracking is handled via `__BUILD_DATE__` injection in `vite.config.ts` rather than semver tags.
 
 ---
 

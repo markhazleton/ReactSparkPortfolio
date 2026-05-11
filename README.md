@@ -1,4 +1,4 @@
-# BootstrapSpark
+﻿# BootstrapSpark
 
 <div align="center">
 
@@ -375,7 +375,7 @@ We welcome contributions! Please see our [Contributing Guide](./.documentation/C
 ## 🔗 Related Projects
 
 - **[WebSpark](https://markhazleton.com)** - Backend API ecosystem
-- **[PromptSpark](https://promptspark.markhazleton.com)** - AI prompt engineering
+- **[PromptSpark](https://promptspark.makeboldspark.com)** - AI prompt engineering
 
 ---
 

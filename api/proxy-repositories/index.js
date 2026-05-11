@@ -1,8 +1,8 @@
-const axios = require("axios");
+﻿const axios = require("axios");
 
 const ALLOWED_ORIGINS = [
   "https://Bootstrap.makeboldspark.com",
-  "https://bootstrapspark.markhazleton.com",
+  "https://bootstrapspark.makeboldspark.com",
   "https://markhazleton.github.io",
   "http://localhost:3000",
   "http://127.0.0.1:3000",

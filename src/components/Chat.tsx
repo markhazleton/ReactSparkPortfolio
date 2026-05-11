@@ -43,6 +43,9 @@ interface ChatProps {
  *
  * @returns {JSX.Element} The rendered Chat interface with message history and input
  */
+const SIGNALR_HUB_URL =
+  import.meta.env.VITE_SIGNALR_HUB_URL || "https://webspark.markhazleton.com/chatHub";
+
 const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = "", isInModal = false }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   // Initialize userName from localStorage
@@ -125,12 +128,8 @@ const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = "", isInModal
         setConnectionError(null);
         setIsRetrying(retryCount > 0);
 
-        // Get SignalR hub URL from environment or use default
-        const hubUrl =
-          import.meta.env.VITE_SIGNALR_HUB_URL || "https://webspark.markhazleton.com/chatHub";
-
         connection.current = new signalR.HubConnectionBuilder()
-          .withUrl(hubUrl, {
+          .withUrl(SIGNALR_HUB_URL, {
             skipNegotiation: false,
             withCredentials: false,
             timeout: 30000, // 30 second timeout
@@ -236,7 +235,7 @@ const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = "", isInModal
     const retryConnection = async () => {
       try {
         connection.current = new signalR.HubConnectionBuilder()
-          .withUrl("https://webspark.markhazleton.com/chatHub", {
+          .withUrl(SIGNALR_HUB_URL, {
             skipNegotiation: false,
             withCredentials: false,
             timeout: 30000,

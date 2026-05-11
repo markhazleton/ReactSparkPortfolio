@@ -55,10 +55,17 @@ const Footer: React.FC = () => {
           <div className="text-md-start text-center">
             <p className="mb-0">
               © 2025{" "}
-              <a href="https://markhazleton.com" className="text-decoration-none">
+              <a href="https://Bootstrap.makeboldspark.com" className="text-decoration-none">
                 BootstrapSpark
               </a>{" "}
-              by Mark Hazleton
+              — built by{" "}
+              <a href="https://markhazleton.com" className="text-decoration-none">
+                Mark Hazleton
+              </a>{" "}
+              ·{" "}
+              <a href="https://markboldsolutions.com" className="text-decoration-none">
+                MakeBoldSolutions
+              </a>
             </p>
             <small className="text-body-secondary d-flex align-items-center justify-content-md-start justify-content-center">
               <Calendar3 className="me-1" /> <Clock className="ms-2 me-1" /> Build:{" "}

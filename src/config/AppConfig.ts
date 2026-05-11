@@ -5,7 +5,7 @@ export const AppConfig = {
   /**
    * Main site URL used for SEO, sitemaps, and canonical links
    */
-  hostedUrl: "https://bootstrapspark.markhazleton.com",
+  hostedUrl: "https://Bootstrap.makeboldspark.com",
 
   /**
    * Default site title

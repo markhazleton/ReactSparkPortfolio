@@ -5,6 +5,7 @@ const fetch = require("node-fetch");
 
 // Whitelisted origins for CORS
 const ALLOWED_ORIGINS = [
+  "https://Bootstrap.makeboldspark.com",
   "https://bootstrapspark.markhazleton.com",
   "https://markhazleton.github.io",
   "http://localhost:3000",

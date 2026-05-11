@@ -15,7 +15,7 @@ const __dirname = dirname(__filename);
 function generateRobotsTxt() {
   // Hardcode the URL to avoid import issues
   // In production, this should be retrieved from a configuration service
-  const sitemapUrl = process.env.SITE_URL || "https://bootstrapspark.markhazleton.com";
+  const sitemapUrl = process.env.SITE_URL || "https://Bootstrap.makeboldspark.com";
 
   const robotsTxt = `User-agent: *
 Allow: /

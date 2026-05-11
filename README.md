@@ -2,6 +2,8 @@
 
 <div align="center">
 
+**Live Site**: [Bootstrap.makeboldspark.com](https://Bootstrap.makeboldspark.com)
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/markhazleton/BootstrapSpark?tab=MIT-1-ov-file)
 [![GitHub stars](https://img.shields.io/github/stars/markhazleton/BootstrapSpark)](https://github.com/markhazleton/BootstrapSpark/stargazers)
 [![GitHub issues](https://img.shields.io/github/issues/markhazleton/BootstrapSpark)](https://github.com/markhazleton/BootstrapSpark/issues)
@@ -11,9 +13,18 @@
 
 **🚀 A modern, high-performance React portfolio showcasing enterprise-grade web development**
 
-[🌐 Live Demo](https://bootstrapspark.markhazleton.com/) • [📖 Documentation](./.documentation/) • [ Report Bug](https://github.com/markhazleton/BootstrapSpark/issues)
+[🌐 Live Demo](https://Bootstrap.makeboldspark.com) • [📖 Documentation](./.documentation/) • [ Report Bug](https://github.com/markhazleton/BootstrapSpark/issues)
 
 </div>
+
+---
+
+## About
+
+**BootstrapSpark** demonstrates enterprise-grade React development with React 19, TypeScript, and Vite — live at [Bootstrap.makeboldspark.com](https://Bootstrap.makeboldspark.com).
+
+> Built by [Mark Hazleton](https://markhazleton.com) — Technical Solutions Architect
+> Part of the [MakeBoldSpark](https://makeboldspark.com) portfolio of technical demonstrations.
 
 ---
 
@@ -406,6 +417,8 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 <div align="center">
 
 **Built with ❤️ by [Mark Hazleton](https://markhazleton.com)**
+
+[Bootstrap.makeboldspark.com](https://Bootstrap.makeboldspark.com) · Part of the [MakeBoldSpark](https://makeboldspark.com) portfolio
 
 [![Follow on GitHub](https://img.shields.io/github/followers/markhazleton?style=social)](https://github.com/markhazleton)
 [![Twitter Follow](https://img.shields.io/twitter/follow/markhazleton?style=social)](https://twitter.com/markhazleton)

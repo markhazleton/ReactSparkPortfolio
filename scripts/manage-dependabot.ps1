@@ -139,9 +139,9 @@ function Validate-Merges {
     
     Write-Host "`n4️⃣ API Endpoint Tests..." -ForegroundColor Yellow
     Write-Host "   Test these endpoints manually:" -ForegroundColor Cyan
-    Write-Host "   - https://bootstrapspark.markhazleton.com/api/proxy-projects" -ForegroundColor White
-    Write-Host "   - https://bootstrapspark.markhazleton.com/api/proxy-joke" -ForegroundColor White
-    Write-Host "   - https://bootstrapspark.markhazleton.com/api/proxy-rss" -ForegroundColor White
+    Write-Host "   - https://Bootstrap.makeboldspark.com/api/proxy-projects" -ForegroundColor White
+    Write-Host "   - https://Bootstrap.makeboldspark.com/api/proxy-joke" -ForegroundColor White
+    Write-Host "   - https://Bootstrap.makeboldspark.com/api/proxy-rss" -ForegroundColor White
     
     if ($testResult) {
         Write-Host "`n✅ Validation complete - all automated tests passed!" -ForegroundColor Green

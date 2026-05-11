@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /assets/
 
-Sitemap: https://bootstrapspark.markhazleton.com/sitemap.xml
+Sitemap: https://Bootstrap.makeboldspark.com/sitemap.xml

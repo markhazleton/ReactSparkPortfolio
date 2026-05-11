@@ -61,7 +61,7 @@ interface WeatherResults {
   [city: string]: WeatherData;
 }
 
-const WEATHER_API = `${import.meta.env.DEV ? "" : "https://webspark.markhazleton.com"}/api/asyncspark/openweatherapi/weather`;
+const WEATHER_API = `${import.meta.env.DEV ? "" : "https://web.makeboldspark.com"}/api/asyncspark/openweatherapi/weather`;
 
 const WeatherForecast: React.FC = () => {
   const { theme } = useTheme();

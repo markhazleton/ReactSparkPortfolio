@@ -8,7 +8,7 @@ This document outlines all external API dependencies used by the ReactSparkPortf
 
 ### 1. PromptSpark Variants API
 
-- **Endpoint**: `https://webspark.markhazleton.com/api/PromptSpark/Variant`
+- **Endpoint**: `https://web.makeboldspark.com/api/PromptSpark/Variant`
 - **Purpose**: Fetches AI assistant variants/configurations for the PromptSpark page
 - **Method**: GET
 - **Authentication**: None (public endpoint)
@@ -19,7 +19,7 @@ This document outlines all external API dependencies used by the ReactSparkPortf
 **curl Example:**
 
 ```bash
-curl -X GET "https://webspark.markhazleton.com/api/PromptSpark/Variant" \
+curl -X GET "https://web.makeboldspark.com/api/PromptSpark/Variant" \
   -H "Accept: application/json" \
   -H "Content-Type: application/json"
 ```
@@ -42,7 +42,7 @@ curl -X GET "https://webspark.markhazleton.com/api/PromptSpark/Variant" \
 
 ### 2. Weather API (OpenWeather via AsyncSpark)
 
-- **Endpoint**: `https://webspark.markhazleton.com/api/asyncspark/openweatherapi/weather`
+- **Endpoint**: `https://web.makeboldspark.com/api/asyncspark/openweatherapi/weather`
 - **Purpose**: Provides weather data for various cities through WebSpark proxy
 - **Method**: GET
 - **Parameters**: `location` (city name)
@@ -55,11 +55,11 @@ curl -X GET "https://webspark.markhazleton.com/api/PromptSpark/Variant" \
 
 ```bash
 # Default cities
-curl -X GET "https://webspark.markhazleton.com/api/asyncspark/openweatherapi/weather?location=Dallas"
-curl -X GET "https://webspark.markhazleton.com/api/asyncspark/openweatherapi/weather?location=Austin"
+curl -X GET "https://web.makeboldspark.com/api/asyncspark/openweatherapi/weather?location=Dallas"
+curl -X GET "https://web.makeboldspark.com/api/asyncspark/openweatherapi/weather?location=Austin"
 
 # Custom search
-curl -X GET "https://webspark.markhazleton.com/api/asyncspark/openweatherapi/weather?location=New%20York"
+curl -X GET "https://web.makeboldspark.com/api/asyncspark/openweatherapi/weather?location=New%20York"
 ```
 
 **Response Structure:**
@@ -83,7 +83,7 @@ curl -X GET "https://webspark.markhazleton.com/api/asyncspark/openweatherapi/wea
 
 ### 3. SignalR Chat Hub (PromptSpark)
 
-- **Endpoint**: `https://webspark.markhazleton.com/chatHub`
+- **Endpoint**: `https://web.makeboldspark.com/chatHub`
 - **Purpose**: Real-time chat functionality with AI assistants (PromptSpark variants)
 - **Protocol**: WebSocket (SignalR) with fallback transports
 - **Authentication**: None (public hub, no access tokens)
@@ -99,7 +99,7 @@ curl -X GET "https://webspark.markhazleton.com/api/asyncspark/openweatherapi/wea
 import * as signalR from "@microsoft/signalr";
 
 // Hub URL (configurable via environment variable)
-const hubUrl = import.meta.env.VITE_SIGNALR_HUB_URL || "https://webspark.markhazleton.com/chatHub";
+const hubUrl = import.meta.env.VITE_SIGNALR_HUB_URL || "https://web.makeboldspark.com/chatHub";
 
 // Build connection
 const connection = new signalR.HubConnectionBuilder()
@@ -119,7 +119,7 @@ const connection = new signalR.HubConnectionBuilder()
 
 **Key Configuration Details:**
 
-1. **URL**: `https://webspark.markhazleton.com/chatHub`
+1. **URL**: `https://web.makeboldspark.com/chatHub`
    - Can be overridden with `VITE_SIGNALR_HUB_URL` environment variable
    - No .env file exists in repo (uses hardcoded default)
 
@@ -140,7 +140,7 @@ const connection = new signalR.HubConnectionBuilder()
 
 5. **Cross-Origin Setup**:
    - Direct cross-origin connection (no proxy)
-   - Connects from localhost:3000 (dev) or Azure Static Web App (prod) to webspark.markhazleton.com
+   - Connects from localhost:3000 (dev) or Azure Static Web App (prod) to web.makeboldspark.com
    - No Vite proxy configuration for SignalR
    - No Next.js/Express middleware involved
 
@@ -175,7 +175,7 @@ connect-src:
   'self' 
   https://markhazleton.com 
   https://*.markhazleton.com 
-  wss://webspark.markhazleton.com    ← WebSocket connection
+  wss://web.makeboldspark.com    ← WebSocket connection
   ws://localhost:*                    ← Dev localhost WebSocket
   http://localhost:*                  ← Dev localhost fallback
 ```
@@ -282,7 +282,7 @@ curl -X GET "https://v2.jokeapi.dev/joke/Any?safe-mode" \
 ### 5. Mark Hazleton's Blog RSS
 
 - **Primary Endpoint**: `https://markhazleton.com/rss.xml`
-- **Fallback Endpoint**: `https://reactspark.markhazleton.com/rss.xml`
+- **Fallback Endpoint**: `https://Bootstrap.makeboldspark.com/rss.xml`
 - **Purpose**: Fetches blog articles for Articles and About pages
 - **Method**: GET
 - **Authentication**: None (public RSS feed)
@@ -308,7 +308,7 @@ curl -X GET "https://markhazleton.com/rss.xml" \
 
 ### 6. RSS Proxy Function
 
-- **Endpoint**: `https://reactspark.markhazleton.com/api/proxy-rss`
+- **Endpoint**: `https://Bootstrap.makeboldspark.com/api/proxy-rss`
 - **Purpose**: CORS-enabled RSS proxy to avoid browser CORS issues
 - **Method**: GET
 - **Headers**: `X-RSS-Source` (optional, defaults to Mark's blog)
@@ -320,7 +320,7 @@ curl -X GET "https://markhazleton.com/rss.xml" \
 **curl Example:**
 
 ```bash
-curl -X GET "https://reactspark.markhazleton.com/api/proxy-rss" \
+curl -X GET "https://Bootstrap.makeboldspark.com/api/proxy-rss" \
   -H "Accept: application/xml" \
   -H "X-RSS-Source: https://markhazleton.com/rss.xml"
 ```
@@ -365,7 +365,7 @@ Located in `src/config/AppConfig.ts`:
 
 ```typescript
 export const AppConfig = {
-  hostedUrl: "https://reactspark.markhazleton.com",
+  hostedUrl: "https://Bootstrap.makeboldspark.com",
   siteTitle: "React Spark Portfolio",
   owner: "Mark Hazleton",
   githubRepo: "https://github.com/markhazleton/ReactSparkPortfolio",

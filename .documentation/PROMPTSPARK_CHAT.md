@@ -29,7 +29,7 @@ The PromptSpark Chat component provides real-time AI chat functionality via Sign
 import * as signalR from "@microsoft/signalr";
 
 // Hub URL from environment or hardcoded default
-const hubUrl = import.meta.env.VITE_SIGNALR_HUB_URL || "https://webspark.markhazleton.com/chatHub";
+const hubUrl = import.meta.env.VITE_SIGNALR_HUB_URL || "https://web.makeboldspark.com/chatHub";
 
 // Build the SignalR connection
 connection.current = new signalR.HubConnectionBuilder()
@@ -53,21 +53,21 @@ connection.current = new signalR.HubConnectionBuilder()
 
 ### 1. URL (`withUrl()`)
 
-**Exact URL**: `https://webspark.markhazleton.com/chatHub`
+**Exact URL**: `https://web.makeboldspark.com/chatHub`
 
 - **Protocol**: HTTPS (upgrades to WSS for WebSocket)
-- **Domain**: `webspark.markhazleton.com`
+- **Domain**: `web.makeboldspark.com`
 - **Path**: `/chatHub`
-- **WebSocket URL**: `wss://webspark.markhazleton.com/chatHub` (after upgrade)
+- **WebSocket URL**: `wss://web.makeboldspark.com/chatHub` (after upgrade)
 
 **Environment Variable Override**:
 ```typescript
-const hubUrl = import.meta.env.VITE_SIGNALR_HUB_URL || "https://webspark.markhazleton.com/chatHub";
+const hubUrl = import.meta.env.VITE_SIGNALR_HUB_URL || "https://web.makeboldspark.com/chatHub";
 ```
 
 - Variable name: `VITE_SIGNALR_HUB_URL`
 - **Current state**: No `.env` file exists in the repository
-- **Production**: Uses hardcoded default (`https://webspark.markhazleton.com/chatHub`)
+- **Production**: Uses hardcoded default (`https://web.makeboldspark.com/chatHub`)
 - **Development**: Uses hardcoded default (no override)
 
 ### 2. Options Object
@@ -85,8 +85,8 @@ SignalR attempts transports in this order:
 
 1. **WebSockets** (`signalR.HttpTransportType.WebSockets`)
    - Preferred (bidirectional, low latency)
-   - Protocol: `wss://webspark.markhazleton.com/chatHub`
-   - Requires CSP: `connect-src wss://webspark.markhazleton.com`
+   - Protocol: `wss://web.makeboldspark.com/chatHub`
+   - Requires CSP: `connect-src wss://web.makeboldspark.com`
 
 2. **Server-Sent Events** (`signalR.HttpTransportType.ServerSentEvents`)
    - Fallback if WebSockets fail
@@ -149,7 +149,7 @@ SignalR attempts transports in this order:
 
 ### Direct Cross-Origin Connection
 
-**Answer**: ❌ **NO PROXY** is used. The application connects DIRECTLY to `webspark.markhazleton.com` from the browser.
+**Answer**: ❌ **NO PROXY** is used. The application connects DIRECTLY to `web.makeboldspark.com` from the browser.
 
 **Architecture**:
 
@@ -161,7 +161,7 @@ SignalR attempts transports in this order:
 │  (Azure Static App) │      │
 └─────────────────────┘      │
                              │ Direct WebSocket Connection
-                             │ wss://webspark.markhazleton.com/chatHub
+                             │ wss://web.makeboldspark.com/chatHub
                              │
                              ▼
                     ┌─────────────────────┐
@@ -215,7 +215,7 @@ The site runs on a **different origin** from the SignalR hub, requiring explicit
 
 **Production Origin**: `https://[your-azure-static-app].azurestaticapps.net` or custom domain  
 **Development Origin**: `http://localhost:3000`  
-**SignalR Origin**: `https://webspark.markhazleton.com` (CROSS-ORIGIN)
+**SignalR Origin**: `https://web.makeboldspark.com` (CROSS-ORIGIN)
 
 #### CSP Configuration
 
@@ -230,8 +230,8 @@ Content-Security-Policy:
   connect-src 
     'self' 
     https://markhazleton.com 
-    https://*.markhazleton.com           ← Covers webspark.markhazleton.com
-    wss://webspark.markhazleton.com      ← WebSocket connection
+    https://*.markhazleton.com           ← Covers web.makeboldspark.com
+    wss://web.makeboldspark.com      ← WebSocket connection
     ws://localhost:*                      ← Local dev WebSocket
     http://localhost:*                    ← Local dev HTTP fallback
     https://v2.jokeapi.dev
@@ -247,12 +247,12 @@ Content-Security-Policy:
 
 | Directive | Value | Purpose |
 |-----------|-------|---------|
-| `connect-src` | `wss://webspark.markhazleton.com` | Allow WebSocket connection |
+| `connect-src` | `wss://web.makeboldspark.com` | Allow WebSocket connection |
 | `connect-src` | `https://*.markhazleton.com` | Allow HTTPS fallback transports (SSE, Long Polling) |
 | `connect-src` | `ws://localhost:*` | Allow local dev WebSocket |
 | `connect-src` | `http://localhost:*` | Allow local dev HTTP fallback |
 
-**⚠️ WARNING**: Do NOT remove `wss://webspark.markhazleton.com` or SignalR will fail with CSP errors.
+**⚠️ WARNING**: Do NOT remove `wss://web.makeboldspark.com` or SignalR will fail with CSP errors.
 
 ### CORS Headers
 
@@ -411,7 +411,7 @@ connection.current.onreconnected(() => {
 
 **Usage**:
 ```typescript
-const hubUrl = import.meta.env.VITE_SIGNALR_HUB_URL || "https://webspark.markhazleton.com/chatHub";
+const hubUrl = import.meta.env.VITE_SIGNALR_HUB_URL || "https://web.makeboldspark.com/chatHub";
 ```
 
 **Current State**: ❌ No `.env` file exists in the repository
@@ -435,11 +435,11 @@ VITE_SIGNALR_HUB_URL=https://your-custom-hub.com/chatHub
 
 **Symptom**:
 ```
-Refused to connect to 'wss://webspark.markhazleton.com/chatHub' 
+Refused to connect to 'wss://web.makeboldspark.com/chatHub' 
 because it violates the following Content Security Policy directive: "connect-src 'self'"
 ```
 
-**Solution**: Verify CSP includes `wss://webspark.markhazleton.com` in `connect-src`
+**Solution**: Verify CSP includes `wss://web.makeboldspark.com` in `connect-src`
 
 **Files to Check**:
 - [staticwebapp.config.json](../staticwebapp.config.json#L63)
@@ -458,7 +458,7 @@ Error: Failed to start the connection: Error: Server timeout elapsed without rec
 - Firewall blocking WebSockets
 
 **Solution**:
-- Check server status at `https://webspark.markhazleton.com`
+- Check server status at `https://web.makeboldspark.com`
 - Verify network allows WebSocket connections
 - Check browser DevTools Network tab for failed WebSocket upgrade
 
@@ -480,7 +480,7 @@ Information: ServerSentEvents failed; trying Long Polling...
 
 **Symptom**:
 ```
-Access to XMLHttpRequest at 'https://webspark.markhazleton.com/chatHub/negotiate' 
+Access to XMLHttpRequest at 'https://web.makeboldspark.com/chatHub/negotiate' 
 from origin 'http://localhost:3000' has been blocked by CORS policy
 ```
 
@@ -519,7 +519,7 @@ Access-Control-Allow-Headers: Content-Type, X-Requested-With
                           │
                           ▼
 ┌─────────────────────────────────────────────────────────┐
-│           webspark.markhazleton.com Server              │
+│           web.makeboldspark.com Server              │
 │  ┌─────────────────────────────────────────────────┐   │
 │  │  SignalR Hub (/chatHub)                         │   │
 │  │  - Receives: SendMessage(user, msg, convId, v)  │   │
@@ -549,14 +549,14 @@ Access-Control-Allow-Headers: Content-Type, X-Requested-With
 ## Summary
 
 **Exact SignalR Setup**:
-- **URL**: `https://webspark.markhazleton.com/chatHub` (hardcoded, no .env override in use)
+- **URL**: `https://web.makeboldspark.com/chatHub` (hardcoded, no .env override in use)
 - **Transports**: WebSockets → SSE → Long Polling (all enabled)
 - **Authentication**: None (public hub, no access token)
 - **Credentials**: Not sent (`withCredentials: false`)
 - **Timeout**: 30 seconds
 - **Reconnection**: Automatic (0ms, 2s, 10s, 30s) + Manual (1s, 2s, 4s) + User-triggered
 - **Proxy**: None (direct cross-origin connection)
-- **CSP**: Explicitly allows `wss://webspark.markhazleton.com` and `https://*.markhazleton.com`
+- **CSP**: Explicitly allows `wss://web.makeboldspark.com` and `https://*.markhazleton.com`
 - **CORS**: Server allows all origins (`Access-Control-Allow-Origin: *`)
 
 **No proxying, no middleware, no reverse proxy — just a direct browser → WebSpark WebSocket connection.**

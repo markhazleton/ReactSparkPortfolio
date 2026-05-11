@@ -106,7 +106,7 @@
   This portfolio site is a FRONTEND that pulls ALL content from markhazleton.com backend services:
   - Project images: https://markhazleton.com/img/*.png
   - JSON data feeds: https://markhazleton.com/projects.json, rss.xml
-  - Real-time websockets: wss://webspark.markhazleton.com/chatHub
+  - Real-time websockets: wss://web.makeboldspark.com/chatHub
   - Weather API: https://api.openweathermap.org
   - Joke API: https://v2.jokeapi.dev
   
@@ -120,7 +120,7 @@
   ```
   connect-src: 'self' https://markhazleton.com https://*.markhazleton.com 
                https://api.openweathermap.org https://v2.jokeapi.dev 
-               wss://webspark.markhazleton.com ws://localhost:* http://localhost:*
+               wss://web.makeboldspark.com ws://localhost:* http://localhost:*
   
   img-src: 'self' data: https: http: blob:
   font-src: 'self' data: https:

@@ -26,10 +26,7 @@ const PromptSparkInfo: React.FC = () => (
         brainstorming, summarization, data analysis, or other specialized functions. Each variant
         acts as a starting point for focused and efficient interactions with the model.
       </Card.Text>
-      <Card.Link
-        href="https://webspark.markhazleton.com/PromptSpark/home/learnmore"
-        target="_blank"
-      >
+      <Card.Link href="https://web.makeboldspark.com/PromptSpark/home/learnmore" target="_blank">
         Learn more about PromptSpark
       </Card.Link>
       <div className="ratio ratio-16x9">

@@ -53,7 +53,7 @@
     "image": "https://markhazleton.com/assets/img/asyncwebsamplecontrolorigins.png",
     "p": "Net 7 Async Demo",
     "d": "A demonstration of Asyc methods for Api and Web pages. Includes integration with Open Weather. Source is on Github github.com/markhazleton/webspark ",
-    "h": "https://webspark.markhazleton.com/asyncspark"
+    "h": "https://web.makeboldspark.com/asyncspark"
   },
   {
     "id": 9,
@@ -67,6 +67,6 @@
     "image": "https://markhazleton.com/assets/img/promptspark.png",
     "p": "PromptSpark",
     "d": "A LLM prompt management and comparison tool. Prompt Spark helps developers and businesses optimize the use of LLM models by managing, tracking, and comparing system prompts efficiently. ",
-    "h": "https://webspark.markhazleton.com/promptspark"
+    "h": "https://web.makeboldspark.com/promptspark"
   }
 ]

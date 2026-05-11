@@ -44,7 +44,7 @@ interface ChatProps {
  * @returns {JSX.Element} The rendered Chat interface with message history and input
  */
 const SIGNALR_HUB_URL =
-  import.meta.env.VITE_SIGNALR_HUB_URL || "https://webspark.markhazleton.com/chatHub";
+  import.meta.env.VITE_SIGNALR_HUB_URL || "https://web.makeboldspark.com/chatHub";
 
 const Chat: React.FC<ChatProps> = ({ variantName, initialMessage = "", isInModal = false }) => {
   const [messages, setMessages] = useState<Message[]>([]);

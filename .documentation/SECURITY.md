@@ -12,7 +12,7 @@ Unlike traditional web apps, this site doesn't have its own backend. It's a stat
 
 - Fetches **images** from `https://markhazleton.com/img/`
 - Fetches **JSON data** from `https://markhazleton.com/projects.json` and `rss.xml`
-- Connects to **real-time chat** via `wss://webspark.markhazleton.com/chatHub`
+- Connects to **real-time chat** via `wss://web.makeboldspark.com/chatHub`
 - Calls **external APIs** for jokes and weather
 
 **This architectural choice requires a more permissive CSP than typical security guidelines recommend.**
@@ -37,7 +37,7 @@ The application implements CSP headers to prevent XSS attacks and unauthorized r
 ```
 Content-Security-Policy:
   default-src 'self';
-  connect-src 'self' https://markhazleton.com https://*.markhazleton.com https://cdnjs.cloudflare.com https://v2.jokeapi.dev https://api.openweathermap.org wss://webspark.markhazleton.com ws://localhost:* http://localhost:* https://cloudflareinsights.com https://stats.g.doubleclick.net https://www.google.com;
+  connect-src 'self' https://markhazleton.com https://*.markhazleton.com https://cdnjs.cloudflare.com https://v2.jokeapi.dev https://api.openweathermap.org wss://web.makeboldspark.com ws://localhost:* http://localhost:* https://cloudflareinsights.com https://stats.g.doubleclick.net https://www.google.com;
   script-src 'self' 'unsafe-inline' 'unsafe-eval' https://static.cloudflareinsights.com;
   style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com;
   img-src 'self' data: https: http: blob:;
@@ -96,7 +96,7 @@ API endpoints use a whitelist-based CORS policy instead of wildcard (`*`):
 
 **Allowed Origins:**
 
-- `https://reactspark.markhazleton.com` (Production)
+- `https://Bootstrap.makeboldspark.com` (Production)
 - `https://markhazleton.github.io` (GitHub Pages)
 - `http://localhost:3000` (Local Development)
 - `http://127.0.0.1:3000` (Local Development)
@@ -105,7 +105,7 @@ API endpoints use a whitelist-based CORS policy instead of wildcard (`*`):
 
 ```javascript
 const ALLOWED_ORIGINS = [
-  "https://reactspark.markhazleton.com",
+  "https://Bootstrap.makeboldspark.com",
   "https://markhazleton.github.io",
   "http://localhost:3000",
   "http://127.0.0.1:3000",

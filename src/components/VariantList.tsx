@@ -23,7 +23,7 @@ const VariantList: React.FC = () => {
     loading,
     error,
   } = useFetchVariants(
-    `${import.meta.env.DEV ? "" : "https://webspark.markhazleton.com"}/api/PromptSpark/Variant`
+    `${import.meta.env.DEV ? "" : "https://web.makeboldspark.com"}/api/PromptSpark/Variant`
   );
 
   const [selectedVariant, setSelectedVariant] = useState<EnhancedVariant | null>(null);

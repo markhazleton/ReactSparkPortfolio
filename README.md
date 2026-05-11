@@ -376,7 +376,6 @@ We welcome contributions! Please see our [Contributing Guide](./.documentation/C
 
 - **[WebSpark](https://markhazleton.com)** - Backend API ecosystem
 - **[PromptSpark](https://promptspark.markhazleton.com)** - AI prompt engineering
-- **[DataSpark](https://dataspark.markhazleton.com)** - Data visualization platform
 
 ---
 
@@ -392,7 +391,6 @@ We welcome contributions! Please see our [Contributing Guide](./.documentation/C
 ## 🆘 Support
 
 - � **Issues:** [GitHub Issues](https://github.com/markhazleton/BootstrapSpark/issues)
-- 💬 **Discussions:** [GitHub Discussions](https://github.com/markhazleton/BootstrapSpark/discussions)
 - 🐛 **Bug Reports:** Use the bug report template
 - ✨ **Feature Requests:** Use the feature request template
 
